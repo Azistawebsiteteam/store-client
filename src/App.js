@@ -20,10 +20,12 @@ import UpdateDeliveryAddress from './Pages/UserDashboard/UserAddress/UpdateDeliv
 import CollectionsDetails from './Pages/Components/CollectionsDetails';
 import ProductItem from './Pages/Components/ProductItem'
 import AllProductsPage from './Pages/Components/AllProductsPage';
+import NotFound from './Pages/Components/NotFound'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import Cart from './Pages/Components/Cart';
+import WishList from './Pages/Components/WishList';
 
 function App() {
 
@@ -49,6 +51,8 @@ function App() {
         <Route path='/productitem/:id' element={<ProductItem />} />
         <Route path='/search/products' element={<AllProductsPage />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path="/wishList" element={<WishList />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

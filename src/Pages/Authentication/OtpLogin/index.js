@@ -1,8 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './index.css'
+
 
 const OtpLogin = () => {
     const [userInput, setUserInput] = useState({
@@ -83,6 +84,7 @@ const OtpLogin = () => {
             <h1>OTP Login</h1>
             <div>{enterNumberInput()}</div>
             {userInput.userEntered && <div>{enterOtp()}</div>}
+            <p>You dont have an account? <Link to="/registration">Register</Link></p>
         </div>
     )
 }

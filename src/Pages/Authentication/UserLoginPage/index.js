@@ -22,7 +22,7 @@ const UserLoginPage = () => {
     useEffect(() => {
         const jwt = Cookies.get(jwt_token)
         if (jwt) {
-            navigate('/home')
+            navigate('/')
         }
     })
 

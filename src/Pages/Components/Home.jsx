@@ -59,9 +59,7 @@ const Home = () => {
             </div>
             <div className="brands">
                 <h4 className="text-center">Brands</h4>
-                <ul className="brandsList">
-                    {brandsItems.map(eachBrand => (<BrandsTab key={eachBrand.azst_brands_id} name={eachBrand.azst_brand_name} brandLogo={eachBrand.azst_brand_logo} />))}
-                </ul>
+                <BrandsTab brandsItems={brandsItems} />
             </div>
         </div>
     )

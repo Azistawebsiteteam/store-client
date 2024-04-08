@@ -90,7 +90,7 @@ const UpdateDeliveryAddress = () => {
 
             const response = await axios.put(url, body, { headers })
             if (response.status === 200) {
-                navigate('/manageAddress')
+                navigate('/manage-address')
             }
         } catch (error) {
             console.log(error)

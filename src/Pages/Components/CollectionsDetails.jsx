@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import ErrorHandle from './ErrorHandler'
 import './Components.css'
 
 const CollectionsDetails = () => {
@@ -13,24 +15,27 @@ const CollectionsDetails = () => {
         const collections = async () => {
             try {
                 const url = `${baseUrl}/product/collection-products`
+                ErrorHandle.onLoading()
                 const response = await axios.post(url, { "collectionId": id })
                 setCollectionData(response.data.collection_data)
                 setProductsList(response.data.products)
+                Swal.close()
             } catch (error) {
-                console.log(error)
+                Swal.close()
+                ErrorHandle.onError(error)
             }
         };
         collections();
     }, [baseUrl, id])
-    console.log(productsList)
+
 
     return (
         <div className='userPage'>
             <div className='container'>
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><Link to="/">Home</Link></li>
-                        <li class="breadcrumb-item active" aria-current="page">Library</li>
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item active" aria-current="page">Library</li>
                     </ol>
                 </nav>
                 <div className='CollectionDetails'>
@@ -40,7 +45,7 @@ const CollectionsDetails = () => {
                 </div>
                 <div className='collectionProducts'>
                     {productsList.map(item => (
-                        <Link className="linkstyles" to={`/productitem/${item.product_url_title}`} >
+                        <Link key={item.product_url_title} className="linkstyles" to={`/productitem/${item.product_url_title}`} >
                             <div className='product_cont'>
                                 <img src={item.image_src} alt={item.product_name} />
                                 <p className='productTitle'>{item.product_title}</p>

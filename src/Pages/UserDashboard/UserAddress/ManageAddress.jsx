@@ -40,7 +40,7 @@ const ManageAddress = () => {
                 <h3>Addresses</h3>
                 <div className='d-flex'>
                     <div className='addAddress'>
-                        <Link to="/newAddress">
+                        <Link to="/new-address">
                             <div className='border'>
                                 <CiLocationOn />
                                 <p>Add New Address</p>

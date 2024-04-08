@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import React, { useState } from 'react';
 import SideBar from "./SideBar";
 import './UserProfile.css'
+import swalHandle from "../../Components/ErrorHandler"
 
 const PasswordManager = () => {
     const [inputValues, setInputValues] = useState({
@@ -21,10 +22,13 @@ const PasswordManager = () => {
             const headers = {
                 Authorization: `Bearer ${jwtToken}`,
             }
+            swalHandle.onLoading()
             const response = await axios.post(url, inputValues, { headers })
-            console.log(response.data)
+            swalHandle.closeLoader()
+            swalHandle.onSuccess(response.data.message)
         } catch (error) {
-            console.log(error)
+            swalHandle.closeLoader()
+            swalHandle.onError(error)
         }
     }
 

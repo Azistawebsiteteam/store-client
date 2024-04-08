@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import './UserProfile.css'
+import swalHandle from "../../Components/ErrorHandler"
 
 const SideBar = () => {
     const [activeTab, setActiveTab] = useState('profile');
@@ -22,8 +23,11 @@ const SideBar = () => {
             const headers = {
                 Authorization: `Bearer ${jwtToken}`
             }
+            swalHandle.onLoading()
             const response = await axios.post(url, {}, { headers })
+
             if (response.status === 200) {
+                swalHandle.closeLoader()
                 Swal.fire({
                     title: "Visit Again!",
                     text: "Logout Successfull",
@@ -37,19 +41,14 @@ const SideBar = () => {
 
             }
         } catch (error) {
-            console.log(error)
-            Swal.fire({
-                title: "Error !",
-                text: error.response ? error.response?.data?.message : 'Oops Something Went Wrong !',
-                icon: "error"
-            });
+            swalHandle.closeLoader()
+            swalHandle.onError(error)
         }
     }
 
     const handleLogout = async () => {
         Swal.fire({
             title: "Are you sure?",
-            text: "",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

@@ -1,10 +1,17 @@
 import React from 'react'
 
 const BrandsTab = (props) => {
-    const { key, name, brandLogo } = props
+    const { brandsItems } = props
+
     return (
-        <li id={key}><img src={brandLogo} alt={name} />
-            <p>{name}</p></li>
+        <ul className="brandsList">
+            {brandsItems.map(eachBrand => (
+                <li key={eachBrand.azst_brands_id}><img src={eachBrand.azst_brand_logo} alt={eachBrand.azst_brand_name} />
+                    <p>{eachBrand.azst_brand_name}</p>
+                </li>
+            ))}
+
+        </ul>
     )
 }
 

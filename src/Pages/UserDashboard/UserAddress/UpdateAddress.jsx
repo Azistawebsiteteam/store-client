@@ -4,7 +4,9 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import SideBar from '../UserProfile/SideBar'
+import swalHandle from '../../Components/ErrorHandler'
 import './UserAddress.css'
+import Swal from 'sweetalert2'
 
 
 const UpdateAddress = () => {
@@ -41,11 +43,13 @@ const UpdateAddress = () => {
                 const headers = {
                     Authorization: `Bearer ${jwtToken} `,
                 }
+                swalHandle.onLoading()
                 const response = await axios.post(url, { "addressId": id }, { headers })
-                console.log(response)
+
                 if (response.status === 200) {
                     const address = response.data.address
-                    console.log(address)
+                    Swal.close()
+                    swalHandle.onSuccess(response.data.message)
                     setInputValue({
                         customerFirstName: address.address_first_name,
                         customerLastName: address.address_last_name,
@@ -68,7 +72,8 @@ const UpdateAddress = () => {
                     })
                 }
             } catch (error) {
-                console.log(error)
+                Swal.close()
+                swalHandle.onError(error)
             }
         };
         getAddress()
@@ -91,7 +96,7 @@ const UpdateAddress = () => {
 
             const response = await axios.put(url, body, { headers })
             if (response.status === 200) {
-                navigate('/manageAddress')
+                navigate('/manage-address')
             }
         } catch (error) {
             console.log(error)

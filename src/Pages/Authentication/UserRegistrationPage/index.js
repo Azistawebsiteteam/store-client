@@ -4,8 +4,10 @@ import axios from "axios"
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
 import './index.css'
+import { IoIosEyeOff, IoMdEye } from 'react-icons/io';
 
 const UserRegistrationPage = () => {
+    const [hidePassword, setHidePassword] = useState(true)
     const [inputValues, setInputValues] = useState({
         "customerFirstName": "",
         "customerLastName": "",
@@ -27,7 +29,7 @@ const UserRegistrationPage = () => {
 
     const onSubmitSuccess = (jwtToken) => {
         Cookies.set(jwt_token, jwtToken)
-        navigate('/home', { replace: true })
+        navigate('/', { replace: true })
     }
 
     const handleRegistration = async (e) => {
@@ -69,16 +71,17 @@ const UserRegistrationPage = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="customerPassword">Password</label>
-                    <input type="password" className="form-control" id="customerPassword" value={inputValues.customerPassword} onChange={handleOnChangeInput} placeholder='Password' />
+                    <input type={hidePassword ? "password" : "text"} className="form-control" id="customerPassword" value={inputValues.customerPassword} onChange={handleOnChangeInput} placeholder='Password' />
+                    <div className='hideIcon' onClick={e => setHidePassword(!hidePassword)}>{hidePassword ? <IoMdEye /> : <IoIosEyeOff />}</div>
                 </div>
                 <span className='d-block text-danger'>{error}</span>
                 <input className="mt-3" type="submit" />
             </form>
             <div style={{ display: 'flex' }}>
-                <p>register with otp </p><Link to='/otpRegistration'><p>Click to proceed</p></Link>
+                <p>register with otp </p><Link to='/otp-registration'><p>Click to proceed</p></Link>
             </div>
             <div style={{ display: 'flex' }}>
-                <p>Already Registered? </p><Link to='/userLoginPage'><p>Login</p></Link>
+                <p>Already Registered? </p><Link to='/login'><p>Login</p></Link>
             </div>
         </div>
     )

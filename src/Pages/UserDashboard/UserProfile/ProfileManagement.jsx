@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { MdModeEditOutline } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import SideBar from './SideBar';
+import swalHandle from '../../Components/ErrorHandler'
 import './UserProfile.css'
 
 const ProfileManagement = () => {
@@ -18,13 +19,16 @@ const ProfileManagement = () => {
                 const headers = {
                     Authorization: `Bearer ${jwtToken}`
                 }
+                swalHandle.onLoading()
                 const response = await axios.post(url, {}, { headers })
 
                 if (response.status === 200) {
+                    swalHandle.closeLoader()
                     setUserDetails(response.data.customerData)
                 }
             } catch (error) {
-                console.log(error)
+                swalHandle.closeLoader()
+                swalHandle.closeLoader(error)
             }
         };
         getProfileDetails()

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import SideBar from './SideBar'
 import './UserProfile.css'
+import SwalHandle from '../../Components/ErrorHandler'
 
 const EditProfile = () => {
     const location = useLocation()
@@ -43,13 +44,17 @@ const EditProfile = () => {
             const headers = {
                 Authorization: `Bearer ${jwtToken}`
             }
+            SwalHandle.onLoading()
             const response = await axios.post(url, profileDetails, { headers })
-            console.log(response)
             if (response.status === 200) {
+                SwalHandle.closeLoader()
+                SwalHandle.onSuccess(response.data.message)
                 Navigate('/profile-management')
             }
         } catch (error) {
-            console.log(error)
+            SwalHandle.closeLoader()
+            SwalHandle.onError(error)
+
         }
     }
 

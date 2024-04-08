@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState, } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { IoHeartSharp } from "react-icons/io5";
+
 
 
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import { TfiTruck } from "react-icons/tfi";
+// import { TfiTruck } from "react-icons/tfi";
 import { MdSearch } from "react-icons/md";
 import { searchResultContext } from '../../ReactContext/SearchResults';
 
@@ -19,7 +21,7 @@ const Navbar = () => {
     const [searchTextResult, setSearchTextResult] = useState([])
     const [collectionsItems, setCollectionsItems] = useState([])
 
-    const { setSearchResults } = useContext(searchResultContext)
+    const { setSearchResults, wishlistCount } = useContext(searchResultContext)
 
     const navigate = useNavigate()
     const jwtToken = process.env.REACT_APP_JWT_TOKEN
@@ -111,9 +113,11 @@ const Navbar = () => {
                         {searchFunctionality()}
                     </div>
                     <ul className="navbar-nav d-flex align-items-center">
-                        <li className="nav-item"><button className="nav-link"><TfiTruck className='userNav_social_icon' /> Track Your Order</button></li>
+                        {token ? <li className="nav-item"><Link to="/wishList" className="nav-link"><div className='wishListCount'><IoHeartSharp className='userNav_social_icon' /> Wishlist
+                            {wishlistCount && <span className='wishlistNumber'> {wishlistCount > 0 && wishlistCount}</span>}</div></Link></li> : null}
+                        {/* <li className="nav-item"><button className="nav-link"><TfiTruck className='userNav_social_icon' /> Track Your Order</button></li> */}
                         <li className="nav-item d-flex align-items-center"><FaUser className='userNav_social_icon' /><div>{token ? <Link style={{ textDecoration: 'none', color: 'black' }} to='/profile-management'>My Account</Link> : <Link style={{ textDecoration: 'none', color: 'black' }} to="/login">Login</Link>}</div></li>
-                        <li className="nav-item"><Link to="/cart" className="nav-link"><FaCartShopping className='userNav_social_icon' /></Link></li>
+                        <li className="nav-item"><Link to="/cart" className="nav-link"><FaCartShopping className='userNav_social_icon' /> Cart</Link></li>
                     </ul>
                 </div>
             </nav>

@@ -44,7 +44,7 @@ const NewAddress = ({ updateFormFilledStatus }) => {
             const response = await axios.post(url, { ...inputValues, avalableTime }, { headers })
             console.log(response)
             if (response.status === 201) {
-                navigate('/manageAddress')
+                navigate('/manage-address')
             }
         } catch (error) {
             console.log(error.response.data.message)
