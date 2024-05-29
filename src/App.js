@@ -26,6 +26,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import Cart from './Pages/Components/Cart';
 import WishList from './Pages/Components/WishList';
+import Popup from './Pages/Components/Popup';
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
         <Route path='/productitem/:id' element={<ProductItem />} />
         <Route path='/search/products' element={<AllProductsPage />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/popup' element={<Popup />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

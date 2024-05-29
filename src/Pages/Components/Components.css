@@ -142,6 +142,8 @@
 }
 .collectionProducts{
     display: flex; 
+    flex-wrap: wrap;
+    gap: 6px;
 }
 .priceCont{
     display: flex;
@@ -206,6 +208,10 @@
 
 /* cartPage */
 
+.cartImg{
+    width: 60px;
+}
+
 .cartPageTopSec{
     display: flex;
     justify-content: space-between;
@@ -231,6 +237,7 @@
     background-color: gainsboro; 
     border-radius: 8px;
     padding: 16px;
+    margin: 14px 0;
 }
 .QuantityDropdown{
     width: 100px;
@@ -353,3 +360,54 @@
     color: #363337;
     margin-bottom: 15px;
   }
+  .tabContent{
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .productInfo {
+    width: 100%;
+}
+  .custNavPills .custNavLink.active{
+    background-color: #f16f23 !important;
+    color: #fff !important;
+    }
+    .custNavPills .custNavLink {
+        font-weight: 500;
+        color: #000 !important;
+    }
+    .custNavPills {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /*Popup */
+
+
+    .popupCont{
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .popupImgCont{
+       position: absolute;
+    }
+    .popupImg{
+        width: 600px;
+        height: 400px;
+    }
+    .closeBtn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        font-size: 26px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .popupLink{
+        cursor: pointer;
+    }

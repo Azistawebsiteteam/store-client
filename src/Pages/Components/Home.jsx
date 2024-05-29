@@ -4,6 +4,7 @@ import './Components.css'
 import BrandsTab from "./BrandsTab";
 import { useMediaQuery } from '@mui/material'
 import { Link } from "react-router-dom";
+import Popup from './Popup';
 
 const Home = () => {
 
@@ -57,6 +58,7 @@ const Home = () => {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div>
+            <Popup />
             <div className="brands">
                 <h4 className="text-center">Brands</h4>
                 <BrandsTab brandsItems={brandsItems} />
