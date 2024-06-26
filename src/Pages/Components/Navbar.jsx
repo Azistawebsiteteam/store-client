@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-distracting-elements */
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -12,13 +13,15 @@ import { searchResultContext } from "../../ReactContext/SearchResults";
 
 import "./Components.css";
 import CollectionsTab from "./CollectionsTab";
+import Announcement from "./Announcement";
 
 const Navbar = () => {
   const [searchText, setSearchText] = useState("");
   const [searchTextResult, setSearchTextResult] = useState([]);
   const [collectionsItems, setCollectionsItems] = useState([]);
 
-  const { setSearchResults, wishlistCount } = useContext(searchResultContext);
+  const { setSearchResults, wishlistCount, cartTotal } =
+    useContext(searchResultContext);
   console.log(wishlistCount, "wishlistCount");
   const navigate = useNavigate();
   const jwtToken = process.env.REACT_APP_JWT_TOKEN;
@@ -109,71 +112,82 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-secondary fixed-top">
-        <div className="navbarInnerSection d-flex justify-content-around align-items-center">
-          <div className="navIcon">
-            <Link className="navbar-brand m-auto mr-md-auto" to="/">
-              <img className="navlogo" src="../../../azista.png" alt="img" />{" "}
-              Azista
-            </Link>
-          </div>
-          <div className="form input_group">
-            <input
-              onChange={onChangeSearchText}
-              value={searchText}
-              type="text"
-              placeholder="Search.."
-            />
-            <button type="submit">
-              <MdSearch />
-            </button>
-            {searchFunctionality()}
-          </div>
-          <ul className="navbar-nav d-flex align-items-center">
-            {token ? (
+      <header className="headerSec">
+        <div className="freeShippingBar bg-info text-light">
+          <marquee width="100%" direction="right">
+            {cartTotal > parseInt(150)
+              ? "You are eligible for free shipping"
+              : "Free shipping for orders over Rs. 150.00!"}
+          </marquee>
+        </div>
+        <Announcement />
+        <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
+          <div className="navbarInnerSection d-flex justify-content-around align-items-center">
+            <div className="navIcon">
+              <Link className="navbar-brand m-auto mr-md-auto" to="/">
+                <img className="navlogo" src="../../../azista.png" alt="img" />{" "}
+                Azista
+              </Link>
+            </div>
+            <div className="form input_group">
+              <input
+                onChange={onChangeSearchText}
+                value={searchText}
+                type="text"
+                placeholder="Search.."
+              />
+              <button type="submit">
+                <MdSearch />
+              </button>
+              {searchFunctionality()}
+            </div>
+            <ul className="navbar-nav d-flex align-items-center">
+              {token ? (
+                <li className="nav-item">
+                  <Link to="/wishList" className="nav-link">
+                    <div className="wishListCount">
+                      <IoHeartSharp className="userNav_social_icon" /> Wishlist
+                      {wishlistCount > 0 && (
+                        <span className="wishlistNumber">{wishlistCount}</span>
+                      )}
+                    </div>
+                  </Link>
+                </li>
+              ) : null}
+              {/* <li className="nav-item"><button className="nav-link"><TfiTruck className='userNav_social_icon' /> Track Your Order</button></li> */}
+              <li className="nav-item d-flex align-items-center">
+                <FaUser className="userNav_social_icon" />
+                <div>
+                  {token ? (
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to="/profile-management"
+                    >
+                      My Account
+                    </Link>
+                  ) : (
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to="/login"
+                    >
+                      Login
+                    </Link>
+                  )}
+                </div>
+              </li>
               <li className="nav-item">
-                <Link to="/wishList" className="nav-link">
-                  <div className="wishListCount">
-                    <IoHeartSharp className="userNav_social_icon" /> Wishlist
-                    {wishlistCount > 0 && (
-                      <span className="wishlistNumber">{wishlistCount}</span>
-                    )}
-                  </div>
+                <Link to="/cart" className="nav-link">
+                  <FaCartShopping className="userNav_social_icon" /> Cart
                 </Link>
               </li>
-            ) : null}
-            {/* <li className="nav-item"><button className="nav-link"><TfiTruck className='userNav_social_icon' /> Track Your Order</button></li> */}
-            <li className="nav-item d-flex align-items-center">
-              <FaUser className="userNav_social_icon" />
-              <div>
-                {token ? (
-                  <Link
-                    style={{ textDecoration: "none", color: "black" }}
-                    to="/profile-management"
-                  >
-                    My Account
-                  </Link>
-                ) : (
-                  <Link
-                    style={{ textDecoration: "none", color: "black" }}
-                    to="/login"
-                  >
-                    Login
-                  </Link>
-                )}
-              </div>
-            </li>
-            <li className="nav-item">
-              <Link to="/cart" className="nav-link">
-                <FaCartShopping className="userNav_social_icon" /> Cart
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <ul className="tabsList">
-        <CollectionsTab collectionsItems={collectionsItems} />
-      </ul>
+            </ul>
+          </div>
+        </nav>
+        <ul className="tabsList">
+          <CollectionsTab collectionsItems={collectionsItems} />
+        </ul>
+      </header>
+      <div style={{ marginTop: "10rem" }}></div>
     </>
   );
 };

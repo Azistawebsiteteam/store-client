@@ -10,6 +10,9 @@ import Cookies from "js-cookie";
 import swalHandle from "./ErrorHandler";
 import Swal from "sweetalert2";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import { getWishlist } from "../UserDashboard/UserProfile/GetUseDetails";
+import { FaLocationDot } from "react-icons/fa6";
+import { CreateReview, DisplayReview } from "./CustomerRating";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
@@ -25,6 +28,7 @@ const ProductItem = () => {
   const [contArray, setContArray] = useState();
   const [reqVariantId, setReqVariantId] = useState();
   const [output, setOutput] = useState();
+  const [review, setReview] = useState(false);
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -32,7 +36,7 @@ const ProductItem = () => {
   let { id } = useParams();
   const navigate = useNavigate();
 
-  const { setWishlistCount } = useContext(searchResultContext);
+  const { setWishlistCount, setWishlist } = useContext(searchResultContext);
 
   const localUrl = process.env.REACT_APP_LOCAL_URL;
 
@@ -226,10 +230,13 @@ const ProductItem = () => {
         compare_at_price: output?.compare_at_price,
         price: productDetails.price,
         product_compare_at_price: productDetails.compare_at_price,
+        variant_quantity: output?.variant_quantity,
+        chintal_quantity: productDetails.chintal_quantity,
+        corporate_office_quantity: productDetails.corporate_office_quantity,
       },
     ];
     console.log(productDetails.product_title, "cartProducts");
-
+    console.log(productDetails, "ppp");
     if (jwtToken) {
       addtoCartApi(cartProducts);
     } else {
@@ -253,22 +260,13 @@ const ProductItem = () => {
         },
         { headers }
       );
-      setWishlistCount((prev) => prev + 1);
+      getWishlist(jwtToken, setWishlist, setWishlistCount);
       Swal.close();
     } catch (error) {
       Swal.close();
       swalHandle.onError(error);
     }
   };
-
-  // const selectedOption = (i, mi, sv, v) => {
-  //     console.log({ mi: mi + 1, sv, v }, sv === v)
-  //     const variantIndex = variants.filter((each) => {
-  //         return each.values.filter((value, index) => index === i);
-  //     });
-  //     console.log('ddd', variantIndex)
-  //     if (variantIndex === i) { setSelectedVariant(true) } else { setSelectedVariant(false) }
-  // }
 
   const handleVariantOpt1 = (v) => {
     if (!selectedVariant1.includes(v)) {
@@ -295,10 +293,7 @@ const ProductItem = () => {
       }
     }
   };
-
-  console.log("output", output);
-  console.log("productDetails", productDetails);
-
+  console.log(productDetails, "oikoo");
   return (
     <div className="userPage">
       <div className="container">
@@ -431,10 +426,21 @@ const ProductItem = () => {
                     </div>
                   )}
                 </div>
+                <div className="delivaryStatus">
+                  <label htmlFor="checkDelivery">Delivery</label>
+                  <div className="checkPincodeCont">
+                    <FaLocationDot className="locationIcon" />
+                    <input
+                      className="checkPincode"
+                      id="checkDelivery"
+                      type="search"
+                    />
+                  </div>
+                  <input id="checkBtn" type="submit" value="check" />
+                </div>
               </div>
             </div>
           </div>
-
           <div className="col-md-12 d-flex justify-content-center m-4">
             <div className="productInfo">
               <ul
@@ -487,6 +493,36 @@ const ProductItem = () => {
               </div>
             </div>
           </div>
+
+          <div className="col-md-12 d-flex flex-column align-items-center mb-5">
+            <h4>Customer Reviews</h4>
+            <div className="d-flex flex-column align-items-center">
+              <button
+                value={review}
+                onClick={() => setReview(!review)}
+                className="reviewBtn"
+              >
+                {review ? "Cancel review" : "Write a review"}
+              </button>
+              {review && (
+                <>
+                  <CreateReview
+                    productId={productDetails.id}
+                    buttonText={"submit"}
+                  />
+                  <div className="mt-2">
+                    <button
+                      className="reviewBtn"
+                      onClick={() => setReview(!review)}
+                    >
+                      Cancel review
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <DisplayReview productId={productDetails.id} />
         </div>
       </div>
     </div>

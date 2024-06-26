@@ -1,0 +1,13 @@
+.ordersCont{
+    width: 80%;
+    margin: 0px 20px;
+    padding: 0 10px;
+}
+img.orderImg {
+    width: 100px;
+}
+.order{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 24px;
+    border-radius: 24px;
+}

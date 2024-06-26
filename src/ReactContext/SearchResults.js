@@ -1,8 +1,9 @@
-import React, { useEffect, createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
-import Swal from "sweetalert2";
-import swalHandle from "../Pages/Components/ErrorHandler";
+import {
+  getProfileDetails,
+  getWishlist,
+} from "../Pages/UserDashboard/UserProfile/GetUseDetails";
 
 export const searchResultContext = createContext();
 
@@ -11,31 +12,15 @@ const SearchResultsProvider = (props) => {
   const [searchResults, setSearchResults] = useState([]);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [wishList, setWishlist] = useState([]);
-
-  const baseUrl = process.env.REACT_APP_API_URL;
-  const token = process.env.REACT_APP_JWT_TOKEN;
-  const jwtToken = Cookies.get(token);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [userDetails, setUserDetails] = useState({});
+  const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   useEffect(() => {
-    const getWishlist = async () => {
-      if (!jwtToken) return;
-      try {
-        const url = `${baseUrl}/whish-list`;
-        const headers = {
-          Authorization: `Bearer ${jwtToken}`,
-        };
-        swalHandle.onLoading();
-        const response = await axios.post(url, {}, { headers });
-        setWishlist(response.data.whish_list);
-        setWishlistCount(response.data.whish_list.length);
-        Swal.close();
-      } catch (error) {
-        Swal.close();
-        swalHandle.onError(error);
-      }
-    };
-    getWishlist();
-  }, [baseUrl, jwtToken, wishlistCount]);
+    console.log(jwtToken);
+    getWishlist(jwtToken, setWishlist, setWishlistCount);
+    getProfileDetails(jwtToken, setUserDetails);
+  }, [jwtToken, setWishlist, setWishlistCount, setUserDetails]);
 
   return (
     <searchResultContext.Provider
@@ -46,6 +31,10 @@ const SearchResultsProvider = (props) => {
         setWishlistCount,
         wishList,
         setWishlist,
+        cartTotal,
+        setCartTotal,
+        userDetails,
+        setUserDetails,
       }}
     >
       {children}

@@ -1,9 +1,21 @@
 /* navbar */
+.headerSec{
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    width: 100%;
+}
+.bottomSec{
+    margin-top: 160px;
+}
+.freeShippingBar {
+    width: 100%;
+}
+
 .navbarInnerSection{
     width: 96%;
 }
-.btn{
-}
+
 .navlogo{
     width: 30%;
 }
@@ -41,7 +53,7 @@
     margin-right: 4px;
 }
 .userPage{
-    margin-top: 80px;
+    margin: 80px 0;
 }
 .input_group input[type=text] {
     padding: 10px;
@@ -84,6 +96,14 @@
     text-decoration: underline;
     cursor: pointer;
   }
+  .reviewBtn{
+    border: 1px solid #499dc8;
+    padding: 4px;
+    margin: 0px 6px;
+    border-radius: 4px;
+    background-color: #499dc8;
+    color: #fff;
+  }
 
 /* home */
 
@@ -92,8 +112,7 @@
     justify-content: space-around;
     padding: 10px 0;
     border-bottom: 1px solid gray;
-    margin-bottom: 0rem !important;
-    margin-top: 64px;
+    background-color: #fff;
 }
 
 /* CollectionsTab */ 
@@ -190,9 +209,7 @@
     color: #fff !important;
     margin-left: 10px;
 }
-.price{
-    color: red;
-}
+
 
 /* products */
 .product_cont{
@@ -275,6 +292,20 @@
 }
 .wishlistImg{
     width: 210px;
+}
+.delivaryStatus{
+    margin-top: 10px;
+}
+.checkPincodeCont{
+    display: inline-block;
+    position: relative;
+}
+.locationIcon{
+    position: absolute;
+}
+.checkPincode{
+    border: none;
+    border-bottom: 1px solid #000;
 }
 .discountTag{
     font-size: 16px;
@@ -392,6 +423,7 @@
         align-items: center;
         width: 100%;
         height: 100%;
+        z-index: 3;
     }
     .popupImgCont{
        position: absolute;
@@ -410,4 +442,143 @@
     }
     .popupLink{
         cursor: pointer;
+    }
+    /*registration Popup*/
+    .registrationFormPopup{
+        background-color: #fff;
+        border: 1px solid #000;
+        transform: translate(-50%,-50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 20px;
+        border-radius: 6px;
+    }
+    .popupCloseBtn{
+        position: absolute;
+        right: 14px;
+        border-style: none;
+        background-color: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .UserRegistrationPopup {
+        height: 100%;
+        width: 100%;
+        background:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 90%);
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+    }
+
+    /* checkout */
+
+    .accordion-item{
+        border-bottom: 2px solid rgb(74, 77, 78) !important;
+        padding: 6px;
+    }
+    .accTitle{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .accBtn{
+        cursor: pointer;
+        background-color: gray;
+        border-radius: 2px;
+    }
+    .accBtnArr{
+        font-size: 34px;
+    }
+    .accCont{
+        overflow: hidden;
+        max-height: 0;
+        transition: all 0.5sec cubic-bezier(0,1,0,1);
+    }
+    .accCont.show{
+        height: auto;
+        max-height: 9999px;
+        transition: all 0.5sec cubic-bezier(0,1,0,1);
+    }
+    .checkoutPage {
+        padding: 50px 0;
+    }
+    .addressCard{
+        display: flex;
+        align-items: flex-start;
+    }
+    .deliverHereBtn{
+        width: max-content;
+        padding: 10px 10px;
+        border-radius: 50px;
+        margin: 4px 0;
+    }
+    .uploadFiles{
+        margin-top: 30px;
+    }
+    .ratingSec{
+        margin: 4px 0;
+    }
+    .reviewCont{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .review{
+        width: 300px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        padding: 12px;
+        border-radius: 12px;
+    }
+    .reviewImgsCont{
+        display: flex;
+        overflow-x: auto;
+        width: 90%;
+    }
+    .reviewImg{
+        vertical-align: middle;
+        width: 50px;
+        margin: 4px;
+    }
+    .editSec {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* reviewEditPage */
+    .reviewImgsSection {
+        position: relative;
+    }
+    .selectImg {
+        position: relative;
+    }
+    /* .reviewImg:hover{
+        display: block;
+    } */
+    .selectImg:hover{
+        .hideImgInput{
+            display: block;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+    }
+    .selectImgInput{
+        position: absolute;
+        left: 8px;
+        top: 8px;
+    }
+    .hideImgInput{
+        display: none;
+    }
+    .dltReviewImgBtn {
+        position: absolute;
+        right: 0;
     }

@@ -1,28 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaCartShopping } from "react-icons/fa6";
 import { GiCancel } from "react-icons/gi";
 import axios from "axios";
 import Cookies from "js-cookie";
+import swalHandle from "./ErrorHandler";
+import { searchResultContext } from "../../ReactContext/SearchResults";
 
 const Cart = () => {
   const [cartList, setCartList] = useState([]);
 
   const baseUrl = process.env.REACT_APP_API_URL;
-  const localUrl = process.env.REACT_APP_LOCAL_URL;
-  const token = process.env.REACT_APP_JWT_TOKEN;
-  const jwtToken = Cookies.get(token);
+  // const localUrl = process.env.REACT_APP_LOCAL_URL;
+  const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+
+  const { setCartTotal } = useContext(searchResultContext);
+
+  // const onCheckout = async (Products) => {
+  //   try {
+  //     const url = `${baseUrl}/cart`;
+  //     const headers = {
+  //       Authorization: `Bearer ${jwtToken}`,
+  //     };
+  //     const cartProducts = Products.map((p) => ({
+  //       productId: p.productId,
+  //       variantId: p.variantId,
+  //       quantity: p.azst_quantity,
+  //     }));
+  //     const response = await axios.post(url, { cartProducts }, { headers });
+  //     if (response.status === 200) {
+  //       swalHandle.onSuccess("Product added to cart");
+  //       if (isClear === "ClearCart") {
+  //         localStorage.removeItem(process.env.REACT_APP_LOACL_CART);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const cartItems = async () => {
     try {
-      const url = `${localUrl}/cart/data`;
+      const url = `${baseUrl}/cart/data`;
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
+      swalHandle.onLoading();
       const response = await axios.get(url, { headers });
       const { cart_products } = response.data;
       console.log(cart_products, "api cart");
+      swalHandle.onLoadingClose();
       setCartList(
         cart_products.map((item) => ({
           ...item,
@@ -30,12 +58,12 @@ const Cart = () => {
         }))
       );
     } catch (error) {
+      swalHandle.onError(error);
       console.log(error);
     }
   };
 
   useEffect(() => {
-    console.log(jwtToken);
     if (jwtToken) {
       cartItems();
     } else {
@@ -45,7 +73,7 @@ const Cart = () => {
         setCartList(localCart);
       }
     }
-  }, [localUrl, jwtToken]);
+  }, [baseUrl, jwtToken]);
 
   const handleQuantityChange = (e, id) => {
     const newQuantity = e.target.value;
@@ -67,13 +95,36 @@ const Cart = () => {
     );
   };
 
-  const handleRemoveItem = (id) => {
-    setCartList((prevList) =>
-      prevList.filter((item) => item.azst_cart_id !== id)
-    );
+  setCartTotal(calculateTotal());
+
+  const handleRemoveItem = async (id) => {
+    if (jwtToken) {
+      let url = `${baseUrl}/cart/data`;
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+      const response = await axios.patch(
+        url,
+        { cartId: id }, // Directly passing the data object
+        { headers } // Separate the headers object
+      );
+      if (response.status === 200) {
+        setCartList((prevList) =>
+          prevList.filter((item) => item.azst_cart_id !== id)
+        );
+      }
+    } else {
+      const updatedCart = cartList.filter((p) => p.azst_cart_id !== id);
+      localStorage.setItem(
+        process.env.REACT_APP_LOACL_CART,
+        JSON.stringify(updatedCart)
+      );
+      setCartList(updatedCart);
+    }
   };
 
-  console.log(cartList);
+  console.log(cartList, "cart");
+
   return (
     <div className="container mt-5">
       <div className="cartPageTopSec">
@@ -84,7 +135,7 @@ const Cart = () => {
             <br />
             {calculateTotal().toFixed(2)}
           </span>
-          <Link className="checkOutBtn" to="">
+          <Link className="checkOutBtn" to="/checkout">
             <FaCartShopping /> Check out
           </Link>
         </div>
@@ -109,8 +160,8 @@ const Cart = () => {
               <div className="col-sm-6">
                 <div className="d-flex flex-column">
                   <span className="title">{each.product_title}</span>
-                  <span className="price">
-                    {each.offer_price ?? each.product_compare_at_price}/-
+                  <span className="comparedPrice">
+                    {each.compare_at_price ?? each.product_compare_at_price}/-
                   </span>
                 </div>
               </div>
@@ -121,9 +172,15 @@ const Cart = () => {
                   value={each.azst_quantity}
                   onChange={(e) => handleQuantityChange(e, each.azst_cart_id)}
                 >
-                  <option value="quantity">Quantity</option>
+                  variant_quantity: output?.variant_quantity,
                   {Array.from(
-                    { length: parseInt(each.azst_quantity) },
+                    {
+                      length:
+                        each.variant_quantity && each.variant_quantity !== null
+                          ? parseInt(each.variant_quantity)
+                          : parseInt(each.chintal_quantity) +
+                            parseInt(each.corporate_office_quantity),
+                    },
                     (_, i) => (
                       <option key={i + 1} value={i + 1}>
                         {i + 1}
@@ -146,6 +203,12 @@ const Cart = () => {
             </div>
           ))}
         </div>
+
+        {cartList && (
+          <div className="row">
+            <Link to="/">Continue shopping</Link>
+          </div>
+        )}
       </div>
     </div>
   );
