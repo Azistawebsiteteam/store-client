@@ -28,6 +28,10 @@ import Cart from "./Pages/Components/Cart";
 import WishList from "./Pages/Components/WishList";
 import Popup from "./Pages/Components/Popup";
 import SearchResultsProvider from "./ReactContext/SearchResults";
+import Footer from "./Pages/Components/Footer";
+import Copyright from "./Pages/Components/Copyright";
+import CreatePassword from "./Pages/Authentication/UserRegistrationPage/CreatePassword";
+import Blogs from "./Pages/Components/Blogs";
 
 function App() {
   return (
@@ -39,6 +43,7 @@ function App() {
         <Route path="/otp-registration" element={<OtpRegistration />} />
         <Route path="/otp-login" element={<OtpLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/create-password" element={<CreatePassword />} />
         <Route path="/googlesignin" element={<GoogleSignIn />} />
         <Route path="/" element={<Home />} />
         <Route
@@ -104,8 +109,11 @@ function App() {
         <Route path="/popup" element={<Popup />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
+      <Copyright />
     </SearchResultsProvider>
   );
 }

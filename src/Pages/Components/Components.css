@@ -5,20 +5,7 @@
     z-index: 2;
     width: 100%;
 }
-.bottomSec{
-    margin-top: 160px;
-}
-.freeShippingBar {
-    width: 100%;
-}
 
-.navbarInnerSection{
-    width: 96%;
-}
-
-.navlogo{
-    width: 30%;
-}
 .input_group{
     display: flex; 
     background-color: #fff;
@@ -91,11 +78,7 @@
     border-left: none;
     cursor: pointer;
   }
-  .linkBtn{
-    color: #2196F3;
-    text-decoration: underline;
-    cursor: pointer;
-  }
+
   .reviewBtn{
     border: 1px solid #499dc8;
     padding: 4px;
@@ -144,9 +127,6 @@
     list-style-type: none;  
     margin: 4px 10px;
     text-align: center;
-}
-.brandsList>li>img{
-    width: 200px;
 }
 
 /* collections */ 

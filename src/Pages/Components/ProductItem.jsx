@@ -38,8 +38,6 @@ const ProductItem = () => {
 
   const { setWishlistCount, setWishlist } = useContext(searchResultContext);
 
-  const localUrl = process.env.REACT_APP_LOCAL_URL;
-
   useEffect(() => {
     const productDetails = async () => {
       try {

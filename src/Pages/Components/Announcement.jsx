@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Marquee from "react-fast-marquee";
+import { TiArrowRight, TiArrowLeft } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import "./Customer.css";
 
 const Announcement = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -25,7 +26,7 @@ const Announcement = () => {
     <div className="announcements">
       <div
         id="marqueeCarousel"
-        className="carousel slide"
+        className="carousel slide customAnnouncementBar"
         data-bs-ride="carousel"
         data-bs-interval="13500"
       >
@@ -36,9 +37,8 @@ const Announcement = () => {
               id={i}
               key={i}
             >
-              <Marquee
-                speed={80}
-                className="marque"
+              <div
+                className="AnnouncementSlider"
                 style={{
                   backgroundColor: `${each.announcement_background_color}`,
                 }}
@@ -55,10 +55,36 @@ const Announcement = () => {
                     {each.announcement_web_text}
                   </span>
                 </Link>
-              </Marquee>
+              </div>
             </div>
           ))}
         </div>
+        {announcements.length > 1 && (
+          <div className="btnCont">
+            <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#marqueeCarousel"
+              data-bs-slide="prev"
+            >
+              <span className="carousel-control-prev-icon" aria-hidden="true">
+                <TiArrowLeft className="announcementArrow" />
+              </span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#marqueeCarousel"
+              data-bs-slide="next"
+            >
+              <span className="carousel-control-next-icon" aria-hidden="true">
+                <TiArrowRight className="announcementArrow" />
+              </span>
+              <span className="visually-hidden">Next</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
