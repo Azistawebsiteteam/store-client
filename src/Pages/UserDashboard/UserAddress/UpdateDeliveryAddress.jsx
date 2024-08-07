@@ -14,8 +14,6 @@ const UpdateDeliveryAddress = () => {
     customerMobileNum: "",
     customerEmail: "",
     housenumber: "",
-    area: "",
-    city: "",
     district: "",
     state: "",
     country: "",
@@ -25,6 +23,8 @@ const UpdateDeliveryAddress = () => {
     address1: "",
     address2: "",
     isDefault: false,
+    acceeptEmailMarketing: false,
+    marketingSmsAccept: false,
     availableFromTime: "",
     availableToTime: "",
   });
@@ -33,6 +33,7 @@ const UpdateDeliveryAddress = () => {
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
   const navigate = useNavigate();
+  const local = process.env.REACT_APP_LOCAL_URL;
 
   useEffect(() => {
     const getAddress = async () => {
@@ -53,8 +54,6 @@ const UpdateDeliveryAddress = () => {
             customerMobileNum: address.address_mobile,
             customerEmail: address.address_email,
             housenumber: address.address_house_no,
-            area: address.address_area,
-            city: address.address_city,
             district: address.address_district,
             state: address.address_state,
             country: address.address_country,
@@ -84,7 +83,7 @@ const UpdateDeliveryAddress = () => {
 
   const handleUpdate = async () => {
     try {
-      const url = `${baseUrl}/address/update/address`;
+      const url = `${local}/address/update/address`;
       const headers = {
         Authorization: `Bearer ${jwtToken} `,
       };
@@ -113,12 +112,19 @@ const UpdateDeliveryAddress = () => {
     <div className="UserAddressSec">
       <div className="d-flex">
         <SideBar />
-        <div className="w-75">
-          <AddressForm
-            inputValues={inputValues}
-            setInputValue={setInputValue}
-          />
-          <input type="button" value="Edit" onClick={handleUpdate} />
+        <div className="myAccUserAdd">
+          <div className="myAccUserInnerSec">
+            <AddressForm
+              inputValues={inputValues}
+              setInputValue={setInputValue}
+            />
+            <input
+              type="button"
+              className="commonBtn"
+              value="Save"
+              onClick={handleUpdate}
+            />
+          </div>
         </div>
       </div>
     </div>

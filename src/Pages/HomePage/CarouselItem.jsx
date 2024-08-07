@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
-import "./Customer.css";
 import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
+import "../Components/Customer.css";
 
 const CarouselItem = () => {
   const [banners, setBanners] = useState([]);

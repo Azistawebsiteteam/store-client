@@ -68,37 +68,48 @@ const AddressCard = (props) => {
   };
   return (
     <>
-      {" "}
       {addressList.map((address) => (
-        <div key={address.address_id} className="identityDetails">
-          <h6 className="name">{address.address_first_name}</h6>
-          <p>{address.address_mobile}</p>
-          <p>
+        <div key={address.address_id} className="identityDetails billingAdd">
+          <div className="topAddressSec d-flex justify-content-between align-items-center">
+            <p className="addHeadingTxt">{address.address_first_name}</p>
+            <div className="options">
+              <Link to={`/update-address/${address.address_id}`}>
+                {<MdModeEditOutline />}
+              </Link>
+              <button
+                className="addressDltBtn"
+                onClick={(e) => deleteAddress(address.address_id)}
+              >
+                {<MdDelete />}
+              </button>
+            </div>
+          </div>
+          <small>
             {address.address_house_no}
             {} {address.address_area}
-          </p>
-          <p>
+          </small>
+          <small className="d-block">
             {address.address_city}, {address.address_zipcode}
-          </p>
-          <p>{address.address_state}</p>
-          <p>{address.address_country}</p>
-          <div className="options">
-            <Link to={`/update-address/${address.address_id}`}>
-              {<MdModeEditOutline />}
-            </Link>
-            <button onClick={(e) => deleteAddress(address.address_id)}>
-              {<MdDelete />}
+          </small>
+          <small>{address.address_state}</small>
+          <small>{address.address_country}</small>
+          <p className="addHeadingTxt">Contact Number</p>
+          <small>{address.address_mobile}</small>
+          {address.address_defaultStatus === 1 ? (
+            <button
+              className="addressStatusBtn"
+              onClick={(event) => makeDefault(address.address_id)}
+            >
+              Default
             </button>
-            {address.address_defaultStatus === 1 ? (
-              <button onClick={(event) => makeDefault(address.address_id)}>
-                Default
-              </button>
-            ) : (
-              <button onClick={(event) => makeDefault(address.address_id)}>
-                Make As Default
-              </button>
-            )}
-          </div>
+          ) : (
+            <button
+              className="addressStatusBtn"
+              onClick={(event) => makeDefault(address.address_id)}
+            >
+              Make As Default
+            </button>
+          )}
         </div>
       ))}
     </>

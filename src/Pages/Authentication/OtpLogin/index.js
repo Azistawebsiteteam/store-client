@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./index.css";
-import "../UserLoginPage/index.css";
+import "../Authentication.css";
 import GoogleSignIn from "../GoogleSignIn";
 
 const OtpLogin = () => {

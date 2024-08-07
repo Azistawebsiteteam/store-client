@@ -1,3 +1,77 @@
-.userProfileSec{
-    padding: 110px 0;
+.userProfileSec {
+    padding: 12% 0;
+    background-color: #F9F9FC;
+}
+.custNav{
+    border: none !important;
+}
+.sideBar {
+    background-color: #fff;
+    padding: 3% 3%;
+    min-width: 26%;
+}
+.myAccount_right_sec {
+    padding: 4% 3%;
+    width: 70%;
+}
+.myAccInnerSec{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+    max-width: 84%;
+}
+small.details {
+    font-weight: 600;
+    padding-left: 30px;
+    font-size: 17px;
+}
+.icon-red {
+    color: red;
+  }
+  .commonBtn {
+    border: 1px #171717 solid;
+    color: #171717;
+    width: 14%;
+    border-radius: 25rem;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.commonBtn:hover{
+    transition: 0.4s;
+    border: 1px #008060 solid;
+    background-color: var(--hover-bg-color);
+    color: var(--bg-color);
+}
+
+.form-check .form-check-input {
+    margin-left: -1.0em !important;
+    margin-right: 0.8em;
+}
+.form-check-input {
+    width: 1.2em !important;
+    height: 1.2em !important;
+}
+.form-check-input:checked {
+    background-color: #171717 !important;
+    border-color: transparent !important;
+}
+.form-check-input:focus {
+    box-shadow: unset !important;
+}
+
+.billingAdd{
+    box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    padding: 1rem;
+    border-radius: 10px;
+}
+.activeBar{
+    color: var(--hover-bg-color) !important;
+    text-decoration: underline !important;
 }

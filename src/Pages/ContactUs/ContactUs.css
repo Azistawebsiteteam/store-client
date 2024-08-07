@@ -1,0 +1,44 @@
+.contactUsPage{
+    margin-top: 12rem;
+}
+.contactusPgleftSec{
+    background-color: #000;
+    border-radius: 30px;
+    padding: 4rem;
+}
+.contactusPgrightSec {
+    margin-left: 2rem;
+}
+.contactusPgleftSec h4{
+    color: #fff;
+}
+.contactusPgleftSec p,
+.contactusPgleftSec small,
+.contactusPgleftSec a {
+    color: #F9F9FC;
+    text-decoration: none;
+}
+.contactusPgleftSec h4{
+    margin-bottom: 2rem;
+}
+.contactusPgleftSec p{
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+}
+.contactusPgleftSec small{
+    margin-bottom: 1rem;
+    display: block;
+}
+.contactusForm input{
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    border-radius: 0 !important;
+}
+.label{
+    color: #000000 !important;
+    font-weight: 500;
+}
+.contactusForm{
+    padding-top: 1rem;
+}

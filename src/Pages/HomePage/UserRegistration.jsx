@@ -1,10 +1,10 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
-import swalHandle from "./ErrorHandler";
+import swalHandle from "../Components/ErrorHandler";
 import Cookies from "js-cookie";
 import { getProfileDetails } from "../UserDashboard/UserProfile/GetUseDetails";
 import { searchResultContext } from "../../ReactContext/SearchResults";
-import "./Components.css";
+import "../Components/Components.css";
 import axios from "axios";
 
 const UserRegistrationPopup = () => {

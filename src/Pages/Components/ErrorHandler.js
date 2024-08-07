@@ -18,8 +18,8 @@ const onSuccess = (message) => {
   return Swal.fire({
     position: "center",
     icon: "success",
-    title: "Your work has been saved",
-    text: message,
+    title: message,
+    text: "Your work has been saved",
     showConfirmButton: false,
     timer: 2000,
   });
@@ -29,7 +29,7 @@ const onError = (error) => {
   return Swal.fire({
     icon: "error",
     title: "Oops...",
-    text: error.response ? error.response.data.message : error,
+    text: error.response ? error.response.data.message : error.message,
   });
 };
 

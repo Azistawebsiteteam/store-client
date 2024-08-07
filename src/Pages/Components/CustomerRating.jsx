@@ -62,7 +62,6 @@ export const CreateReview = (props) => {
     });
     setCurrenVal(review_points);
   }, [reviewDetails]);
-  console.log(reviewImgFile, "reviewImgFile");
 
   const onSubmitReview = async (url, reviewId) => {
     try {
@@ -85,7 +84,6 @@ export const CreateReview = (props) => {
       reviewId && formdata.append("reviewId", reviewId);
 
       const response = await axios.post(url, formdata, { headers });
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -114,14 +112,13 @@ export const CreateReview = (props) => {
     let filteredReviewImgs = reviewData.reviewImg.filter(
       (img, i) => !reviewImgFile.includes(i)
     );
-    console.log(filteredReviewImgs, "filteredReviewImgs");
+
     setReviewData({
       ...reviewData,
       reviewImg: filteredReviewImgs,
     });
   };
 
-  console.log(reviewData, "reviewData");
   return (
     <div className="writeReview d-flex flex-column align-items-center">
       <div className="ratingSec d-flex flex-column">
@@ -224,73 +221,164 @@ export const CreateReview = (props) => {
   );
 };
 
+const productReviews = async (productId) => {
+  try {
+    const url = `${baseUrl}/product`;
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`,
+    };
+    const response = await axios.post(
+      url,
+      { productId: productId },
+      { headers }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAvgReview = (reviews) => {
+  if (reviews) {
+    const totalReview = reviews.reduce((acc, r) => acc + r.review_points, 0);
+    const avgReview = (totalReview / reviews.length).toFixed(1);
+    return avgReview;
+  }
+  return 0;
+};
+
 export const DisplayReview = ({ productId }) => {
-  const [showReviews, setShowReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const { userDetails } = useContext(searchResultContext);
-  console.log(showReviews, "cdcs");
-  const productReviews = async () => {
-    try {
-      const url = `${baseUrl}/product`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      const response = await axios.post(
-        url,
-        { productId: productId },
-        { headers }
-      );
-      setShowReviews(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  const [review, setReview] = useState(false);
+
   useEffect(() => {
-    productReviews();
+    const fetchReviews = async () => {
+      const reviews = await productReviews(productId);
+      setReviews(reviews);
+    };
+    fetchReviews();
   }, [productId]);
 
-  console.log(userDetails, "showReviews");
-
   return (
-    <>
-      {showReviews && (
-        <div className="reviewCont">
-          {showReviews.map((each, i) => (
-            <div key={i} className="review">
-              <div className="topSec">
-                <div className="editSec">
-                  <Rating
-                    name="read-only"
-                    value={each.review_points}
-                    precision={0.5}
-                    readOnly
-                  />
-                  {userDetails?.azst_customer_id ===
-                    parseInt(each.customer_id) && (
-                    <ThreeDotsDropdown
-                      productReviews={productReviews}
-                      reviewDetails={each}
-                      reviewId={showReviews.review_id}
-                    />
-                  )}
-                </div>
-                <span>{each.created_on}</span>
-              </div>
-              <p>
-                {each.azst_customer_fname} {each.azst_customer_lname}
-              </p>
-              <div className="botSec">
-                <h6>{each.review_title}</h6>
-                <p>{each.review_content}</p>
-              </div>
-              <div className="reviewImgsCont">
-                {each.review_images.map((img, i) => (
-                  <img className="reviewImg" src={img} alt="reviewImg" />
-                ))}
+    <div>
+      {reviews && (
+        <div className="reviewCont flex-column">
+          <div className="col-md-12 d-flex flex-row justify-content-between align-items-center mb-5">
+            <div className="">
+              <h6>Reviews</h6>
+              <div className="flex-row align-items-center">
+                {getAvgReview(reviews)}
+                <Rating
+                  name="read-only"
+                  value={parseFloat(getAvgReview(reviews))}
+                  precision={0.5}
+                  readOnly
+                  className="gold-stars individualRating me-1"
+                />
+                Based on <span> {reviews.length}</span> reviews
               </div>
             </div>
-          ))}
+            <div className="d-flex flex-column align-items-center">
+              <button
+                value={review}
+                onClick={() => setReview(!review)}
+                className="reviewBtn"
+              >
+                {review ? "Cancel review" : "Write a review"}
+              </button>
+              {review && (
+                <>
+                  <CreateReview productId={productId} buttonText={"submit"} />
+                  <div className="mt-2">
+                    <button
+                      className="reviewBtn"
+                      onClick={() => setReview(!review)}
+                    >
+                      Cancel review
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {reviews.map((each, i) => (
+              <div key={i} className="review m-3">
+                <div className="topSec">
+                  <div className="editSec">
+                    <Rating
+                      name="read-only"
+                      value={each.review_points}
+                      precision={0.5}
+                      readOnly
+                    />
+                    {userDetails?.azst_customer_id ===
+                      parseInt(each.customer_id) && (
+                      <ThreeDotsDropdown
+                        productReviews={productReviews}
+                        reviewDetails={each}
+                        reviewId={reviews.review_id}
+                      />
+                    )}
+                  </div>
+                  <span>{each.created_on}</span>
+                </div>
+                <div className="botSec">
+                  {/* <h6>{each.review_title}</h6> */}
+                  <p>{each.review_content}</p>
+                </div>
+                <div className="reviewImgsCont">
+                  {each.review_images.map((img, i) => (
+                    <img
+                      key={i}
+                      className="reviewImg"
+                      src={img}
+                      alt="reviewImg"
+                    />
+                  ))}
+                </div>
+                <p style={{ fontWeight: "500" }}>
+                  {each.azst_customer_fname} {each.azst_customer_lname}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
-    </>
+    </div>
+  );
+};
+
+export const ProductRating = ({ productId }) => {
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviews = await productReviews(productId);
+      setReviews(reviews);
+      const reviewCount = reviews ? reviews.length : 0;
+      setReviewsCount(reviewCount);
+    };
+    fetchReviews();
+  }, [productId]);
+
+  return (
+    <div className="d-flex align-items-center">
+      {reviewsCount > 0 ? (
+        <>
+          {" "}
+          <Rating
+            name="read-only"
+            value={parseFloat(getAvgReview(reviews))}
+            precision={0.5}
+            readOnly
+            className="gold-stars me-1"
+          />
+          <span> ({reviewsCount})</span>{" "}
+        </>
+      ) : null}
+    </div>
   );
 };

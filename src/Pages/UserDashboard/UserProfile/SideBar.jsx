@@ -13,8 +13,10 @@ const SideBar = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
-  const handleTabClick = (tab) => {
+
+  const handleTabClick = (tab, path) => {
     setActiveTab(tab);
+    navigate(path);
   };
 
   const logoutUser = async () => {
@@ -30,7 +32,7 @@ const SideBar = () => {
         swalHandle.onLoadingClose();
         Swal.fire({
           title: "Visit Again!",
-          text: "Logout Successfull",
+          text: "Logout Successful",
           icon: "success",
           timer: 2000,
         });
@@ -61,54 +63,163 @@ const SideBar = () => {
   };
 
   return (
-    <ul className="nav nav-tabs d-flex flex-column">
-      <li className="nav-item">
-        <Link
-          to="/profile-management"
-          className={`nav-link ${activeTab === "profile" ? "active" : ""}`}
-          onClick={() => handleTabClick("profile")}
-        >
-          Profile
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          to="/manage-orders"
-          className={`nav-link ${activeTab === "orders" ? "active" : ""}`}
-          onClick={() => handleTabClick("orders")}
-        >
-          Orders
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          to="/manage-address"
-          className={`nav-link ${activeTab === "addresses" ? "active" : ""}`}
-          onClick={() => handleTabClick("addresses")}
-        >
-          Addresses
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          to="/password-manager"
-          className={`nav-link ${
-            activeTab === "updatePassword" ? "active" : ""
-          }`}
-          onClick={() => handleTabClick("updatePassword")}
-        >
-          Password Manager
-        </Link>
-      </li>
-      <li className="nav-item">
-        <button
-          className={`nav-link ${activeTab === "logout" ? "active" : ""}`}
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </li>
-    </ul>
+    <div className="sideBar">
+      <h4>My Account</h4>
+      <ul className="custNav nav d-flex flex-column">
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "profile" ? "profileActive.svg" : "profile.svg"
+            }`}
+            alt="profile"
+          />
+          <Link
+            to="/profile-management"
+            className={`nav-link ${activeTab === "profile" ? "activeBar" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("profile", "/profile-management");
+            }}
+          >
+            Profile
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "wallet" ? "walletActive.svg" : "wallet.svg"
+            }`}
+            alt="wallet"
+          />
+          <Link
+            to="/manage-orders"
+            className={`nav-link ${activeTab === "wallet" ? "activeBar" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("wallet", "/manage-orders");
+            }}
+          >
+            Wallet
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "orders" ? "orders.svg" : "orders.svg"
+            }`}
+            alt="orders"
+          />
+          <Link
+            to="/manage-orders"
+            className={`nav-link ${activeTab === "orders" ? "activeBar" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("orders", "/manage-orders");
+            }}
+          >
+            Orders
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "wishlist" ? "wishlistActive.svg" : "wishlist.svg"
+            }`}
+            alt="wishlist"
+          />
+          <Link
+            to="/wishlist"
+            className={`nav-link ${
+              activeTab === "wishlist" ? "activeBar" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("wishlist", "/wishlist");
+            }}
+          >
+            Wishlist
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "reviewsAndRatings"
+                ? "reviewsActive.svg"
+                : "reviews.svg"
+            }`}
+            alt="reviews"
+          />
+          <Link
+            to="/reviews-ratings"
+            className={`nav-link ${
+              activeTab === "reviewsAndRatings" ? "activeBar" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("reviewsAndRatings", "/reviews-ratings");
+            }}
+          >
+            Reviews & Ratings
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "addresses" ? "locationActive.svg" : "location.svg"
+            }`}
+            alt="addresses"
+          />
+          <Link
+            to="/manage-address"
+            className={`nav-link ${
+              activeTab === "addresses" ? "activeBar" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("addresses", "/manage-address");
+            }}
+          >
+            Delivery Address Book
+          </Link>
+        </li>
+        <li className="nav-item">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${
+              activeTab === "logout" ? "rewardsActive.svg" : "rewards.svg"
+            }`}
+            alt="logout"
+          />
+          <button
+            className={`nav-link ${activeTab === "logout" ? "activeBar" : ""}`}
+            onClick={handleLogout}
+          >
+            Loyalty Rewards
+          </button>
+        </li>
+        <li className="nav-item">
+          <Link
+            to="/password-manager"
+            className={`nav-link ${
+              activeTab === "updatePassword" ? "activeBar" : ""
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              handleTabClick("updatePassword", "/password-manager");
+            }}
+          >
+            Password Manager
+          </Link>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "logout" ? "activeBar" : ""}`}
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </li>
+      </ul>
+    </div>
   );
 };
 

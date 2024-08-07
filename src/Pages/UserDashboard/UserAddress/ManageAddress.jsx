@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
-import { CiLocationOn } from "react-icons/ci";
 import AddressCard from "./AddressCard";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -41,29 +40,34 @@ const ManageAddress = () => {
 
   const addAddress = () => {
     return (
-      <div className="addressCont">
-        <h3>Addresses</h3>
-        <div className="d-flex">
-          <div className="addAddress">
-            <Link to="/new-address">
-              <div className="border">
-                <CiLocationOn />
-                <p>Add New Address</p>
-                <FaPlus />
-              </div>
-            </Link>
-          </div>
-          <AddressCard addressList={addressList} />
-        </div>
-      </div>
+      <>
+        <AddressCard addressList={addressList} />
+      </>
     );
   };
 
   return (
-    <div className="UserAddressSec">
-      <div className="container d-flex">
+    <div className="userProfileSec">
+      <div className="d-flex">
         <SideBar />
-        <div>{addAddress()}</div>
+        <div className="myAccount_right_sec">
+          <div className="d-flex justify-content-between">
+            <h5>Delivery Address Book</h5>
+            <Link
+              to="/new-address"
+              className="linkBtn"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#008060",
+              }}
+            >
+              <FaPlus fill="green" />
+              Add New Address
+            </Link>
+          </div>
+          <div className="addressCont">{addAddress()}</div>
+        </div>
       </div>
     </div>
   );

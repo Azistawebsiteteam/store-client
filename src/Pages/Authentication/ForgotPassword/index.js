@@ -2,6 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../Authentication.css";
 import "./index.css";
 
 const ForgotPassword = () => {

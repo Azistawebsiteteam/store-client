@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import GoogleSignIn from "../GoogleSignIn";
+import "../Authentication.css";
 
 const UserRegistrationPage = () => {
   const [inputValues, setInputValues] = useState({

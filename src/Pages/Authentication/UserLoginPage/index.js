@@ -7,6 +7,7 @@ import { IoMdEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
 import GoogleSignIn from "../GoogleSignIn";
 import "./index.css";
+import "../Authentication.css";
 
 const UserLoginPage = () => {
   const [hidePassword, setHidePassword] = useState(true);

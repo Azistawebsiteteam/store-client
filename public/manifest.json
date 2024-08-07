@@ -8,9 +8,9 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "http://localhost:3000/azista.png",
+      "sizes": "100x100",
+      "type": "image/png"
     },
     {
       "src": "logo512.png",

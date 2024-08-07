@@ -1,12 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-
 import UserRegistrationPage from "./Pages/Authentication/UserRegistrationPage";
 import UserLoginPage from "./Pages/Authentication/UserLoginPage";
 import OtpRegistration from "./Pages/Authentication/OtpRegistration";
 import OtpLogin from "./Pages/Authentication/OtpLogin";
 import ForgotPassword from "./Pages/Authentication/ForgotPassword";
 import ProtectedRoute from "./ProtectedRoute";
-import Home from "./Pages/Components/Home";
+import Home from "./Pages/HomePage/Home";
 import GoogleSignIn from "./Pages/Authentication/GoogleSignIn";
 import EditProfile from "./Pages/UserDashboard/UserProfile/EditProfile";
 import Navbar from "./Pages/Components/Navbar";
@@ -16,22 +15,32 @@ import ManageAddress from "./Pages/UserDashboard/UserAddress/ManageAddress";
 import PasswordManager from "./Pages/UserDashboard/UserProfile/PasswordManager";
 import NewAddress from "./Pages/UserDashboard/UserAddress/NewAddress";
 import UpdateDeliveryAddress from "./Pages/UserDashboard/UserAddress/UpdateDeliveryAddress";
-import CollectionsDetails from "./Pages/Components/CollectionsDetails";
+import CollectionsDetails from "./Pages/CollectionsPage/CollectionsDetails";
 import ProductItem from "./Pages/Components/ProductItem";
 import AllProductsPage from "./Pages/Components/AllProductsPage";
 import NotFound from "./Pages/Components/NotFound";
 import Checkout from "./Pages/Components/Checkout";
-
-import "bootstrap/dist/css/bootstrap.css";
-import "./App.css";
 import Cart from "./Pages/Components/Cart";
 import WishList from "./Pages/Components/WishList";
-import Popup from "./Pages/Components/Popup";
+import Popup from "./Pages/HomePage/Popup";
 import SearchResultsProvider from "./ReactContext/SearchResults";
 import Footer from "./Pages/Components/Footer";
 import Copyright from "./Pages/Components/Copyright";
 import CreatePassword from "./Pages/Authentication/UserRegistrationPage/CreatePassword";
-import Blogs from "./Pages/Components/Blogs";
+import Blogs from "./Pages/Blogs/Blogs";
+import ReturnsAndRefunds from "./Pages/Copyright/ReturnsAndRefunds";
+import TermsAndCondition from "./Pages/Copyright/TermsAndCondition";
+import SafteyAndSecurity from "./Pages/Copyright/SafteyAndSecurity";
+import ShippingPolicy from "./Pages/Copyright/ShippingPolicy";
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
+import FaqsPage from "./Pages/Components/FaqsPage";
+import AboutUs from "./Pages/AbouUs/AboutUs";
+import BlogsInnerPage from "./Pages/Blogs/BlogsInnerPage";
+import ReviewsAndRatings from "./Pages/Components/ReviewsAndRatings";
+import EditReview from "./Pages/Components/EditReview";
+import ContactUs from "./Pages/ContactUs/ContactUs";
+import RequestCb from "./Pages/RequestCallbackPage/RequestCb";
 
 function App() {
   return (
@@ -102,7 +111,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/collections/:id" element={<CollectionsDetails />} />
+        <Route path="/collection/:id" element={<CollectionsDetails />} />
         <Route path="/productitem/:id" element={<ProductItem />} />
         <Route path="/search/products" element={<AllProductsPage />} />
         <Route path="/cart" element={<Cart />} />
@@ -110,6 +119,17 @@ function App() {
         <Route path="/wishList" element={<WishList />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogsInner/:id" element={<BlogsInnerPage />} />
+        <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+        <Route path="/returns-and-refunds" element={<ReturnsAndRefunds />} />
+        <Route path="/safety-and-security" element={<SafteyAndSecurity />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/faqs" element={<FaqsPage />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/reviews-ratings" element={<ReviewsAndRatings />} />
+        <Route path="/edit-review" element={<EditReview />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/request-callback" element={<RequestCb />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

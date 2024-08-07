@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import "../Authentication.css";
 
 const OtpRegistration = () => {
   const [inputValue, setInputValue] = useState({

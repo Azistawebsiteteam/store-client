@@ -28,7 +28,7 @@ const ManageOrders = () => {
       <div className="d-flex">
         <SideBar />
         <div className="ordersCont">
-          <h3>Orders</h3>
+          <h5>Orders</h5>
           {orderDetails.map((order, i) => (
             <div className="mt-3 mb-3 order" key={i}>
               <div className="d-md-flex justify-content-md-between">

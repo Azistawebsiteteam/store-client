@@ -2,6 +2,8 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./Customer.css";
 import SocialIcons from "./SocialIcons";
+import { Link } from "react-router-dom";
+import { IoArrowForwardCircleSharp } from "react-icons/io5";
 
 const footerContent = [
   {
@@ -18,9 +20,9 @@ const footerContent = [
     id: uuidv4,
     title: "Company",
     text: [
-      { link: "About", text: "About Us" },
-      { link: "Blog", text: "Blog" },
-      { link: "FAQ", text: "FAQ's" },
+      { link: "about-us", text: "About Us" },
+      { link: "blogs", text: "Blog" },
+      { link: "faqs", text: "FAQ's" },
       { link: "Careers", text: "Careers" },
       { link: "Contact", text: "Contact Us" },
     ],
@@ -44,7 +46,7 @@ const Footer = () => {
   const imageUrl = process.env.PUBLIC_URL;
   return (
     <div className="footerSec">
-      <div class="bottomStrip"></div>
+      <div className="bottomStrip"></div>
       <div className="container">
         <div className="row">
           {footerContent.map((eachObj, i) => (
@@ -52,9 +54,13 @@ const Footer = () => {
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
-                  <a key={i} href={eachTxt.link} className="footerAnchorEl">
+                  <Link
+                    key={i}
+                    to={`/${eachTxt.link}`}
+                    className="footerAnchorEl"
+                  >
                     {eachTxt.text}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -76,6 +82,23 @@ const Footer = () => {
             <h4 className="footerEmailText">
               Stay in the loop with our weekly newsletter
             </h4>
+            <form className="subscribeBtnCont">
+              <input
+                type="email"
+                className="subscribeField"
+                placeholder="Enter Your Email Address"
+              />
+              <button type="submit" className="subscribeBtn">
+                <IoArrowForwardCircleSharp
+                  style={{
+                    fontSize: "3rem",
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                  }}
+                />
+              </button>
+            </form>
           </div>
         </div>
         <div className="row">

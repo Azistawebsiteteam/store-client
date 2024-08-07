@@ -13,14 +13,12 @@ const NewAddress = ({ updateFormFilledStatus }) => {
     customerMobileNum: "",
     customerEmail: "",
     housenumber: "",
-    area: "",
-    city: "",
     district: "",
     state: "",
     country: "",
     zipCode: "",
     landmark: "",
-    homeOrCompany: "",
+    homeOrCompany: "Home",
     address1: "",
     address2: "",
     isDefault: false,
@@ -29,6 +27,7 @@ const NewAddress = ({ updateFormFilledStatus }) => {
   });
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
+  const local = process.env.REACT_APP_LOCAL_URL;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
 
@@ -42,29 +41,43 @@ const NewAddress = ({ updateFormFilledStatus }) => {
       const avalableTime = `${inputValues.availableFromTime}-${inputValues.availableToTime} `;
       delete inputValues.availableFromTime;
       delete inputValues.availableToTime;
+      console.log(inputValues, "inputValues");
+
       swalErr.onLoading();
       const response = await axios.post(
         url,
         { ...inputValues, avalableTime },
         { headers }
       );
-      console.log(response);
       if (response.status === 201) {
         navigate("/manage-address");
       }
       swalErr.onLoadingClose();
       swalErr.onSuccess();
     } catch (error) {
+      console.log(error);
       swalErr.onLoadingClose();
       swalErr.onError(error);
     }
   };
   return (
-    <div className="d-flex">
-      <SideBar />
-      <div className="w-75">
-        <AddressForm inputValues={inputValues} setInputValue={setInputValue} />
-        <input type="button" value="submit" onClick={handleFormSubmit} />
+    <div className="UserAddressSec">
+      <div className="d-flex">
+        <SideBar />
+        <div className="myAccUserAdd">
+          <div className="myAccUserInnerSec">
+            <AddressForm
+              inputValues={inputValues}
+              setInputValue={setInputValue}
+            />
+            <input
+              type="button"
+              value="Submit"
+              className="commonBtn"
+              onClick={handleFormSubmit}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

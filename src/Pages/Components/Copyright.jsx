@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Customer.css";
 
 const Copyright = () => {
@@ -8,13 +9,21 @@ const Copyright = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-5">
-            <small>Shipping</small>
+            <Link className="linkBtn" to="/shipping-policy">
+              <small>Shipping</small>
+            </Link>
             <span className="itemDivider"></span>
-            <small>Terms & Conditions</small>
+            <Link className="linkBtn" to="/terms-and-conditions">
+              <small>Terms & Conditions</small>
+            </Link>
             <span className="itemDivider"></span>
-            <small>Returns & Refunds</small>
+            <Link className="linkBtn" to="/returns-and-refunds">
+              <small>Returns & Refunds</small>
+            </Link>
             <span className="itemDivider"></span>
-            <small>Safety & Security</small>
+            <Link className="linkBtn" to="/safety-and-security">
+              <small>Safety & Security</small>
+            </Link>
           </div>
           <div className="col-md-4">
             <div className="paymentOpt">

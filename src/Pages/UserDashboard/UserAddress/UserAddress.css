@@ -1,6 +1,66 @@
 .UserAddressSec{
-    padding: 110px 0;
+    padding: 12% 0;
+    background-color: #F9F9FC;
+}
+.myAccUserAdd{
+    padding: 4% 3%;
+    width: 70%;
+}
+.myAccUserInnerSec{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+    max-width: 84%;
 }
 .identityDetails {
-    margin: 0 10px;
+    margin: 1% 1%;
+    min-width: 30%;
+    max-width: 30%;
 }
+.addressCont{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1%;
+}
+.addressDltBtn{
+    background-color: transparent;
+    border: none;
+}
+.addressStatusBtn{
+    width: max-content;
+    border-radius: 25px;
+    padding: 0 4%;
+    display: block;
+    border: 1px solid grey;
+    font-size: 12px;
+    padding-top: 1%;
+}
+.addHeadingTxt{
+    margin-bottom: 0 !important;
+    font-weight: 600;
+}
+.commonBtn {
+    border: 1px #171717 solid;
+    color: #171717;
+    width: 14%;
+    border-radius: 25rem;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.commonBtn:hover{
+    transition: 0.4s;
+    border: 1px #008060 solid;
+    background-color: var(--hover-bg-color);
+    color: var(--bg-color);
+}
+/* .form-floating > .form-control, .form-floating > .form-control-plaintext, .form-floating > .form-select {
+    height: auto !important;
+    min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+} */

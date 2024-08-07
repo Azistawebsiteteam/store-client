@@ -1,22 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 } from "uuid";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
-import { IoMdHeart } from "react-icons/io";
 import Cookies from "js-cookie";
 import swalHandle from "./ErrorHandler";
 import Swal from "sweetalert2";
-import { searchResultContext } from "../../ReactContext/SearchResults";
-import { getWishlist } from "../UserDashboard/UserProfile/GetUseDetails";
-import { FaLocationDot } from "react-icons/fa6";
-import { CreateReview, DisplayReview } from "./CustomerRating";
+import { DisplayReview, ProductRating } from "./CustomerRating";
+import { getProductDiscount } from "../../Utils/DiscountPrcentage";
+import { PiHeart } from "react-icons/pi";
+import { IoIosArrowRoundForward } from "react-icons/io";
+import { HiOutlineMail } from "react-icons/hi";
+import { GrShareOption } from "react-icons/gr";
+import { RiArrowDropRightLine } from "react-icons/ri";
+import { RiArrowDropLeftLine } from "react-icons/ri";
+import Faqs from "./Faqs";
+import ScrollToTop from "../../Utils/ScrollToTop";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
-  const [mainImg, setMainImg] = useState();
   const [variants, setVariants] = useState([]);
   const [quantityCounter, setQuantityCounter] = useState(1);
   const [availableVariants, setAvailableVarients] = useState([]);
@@ -28,24 +32,63 @@ const ProductItem = () => {
   const [contArray, setContArray] = useState();
   const [reqVariantId, setReqVariantId] = useState();
   const [output, setOutput] = useState();
-  const [review, setReview] = useState(false);
+  const [chooseCondn, setChooseCondn] = useState("oilySkin");
 
+  const [productImagesArr, setProductImagesArr] = useState([]);
+  const [imgCount, setImgCount] = useState(0);
+  const [readMoreContent, setReadMoreContent] = useState(false);
+  const [contentHeight, setContentHeight] = useState("14rem");
+  const [isContentOverflowing, setIsContentOverflowing] = useState(false);
+  const [faqsList, setFaqsList] = useState([]);
+  const [pincode, setPincode] = useState("");
+  const [estimatedDelivery, setEstimatedDelivery] = useState({});
+  const [pincodeError, setPincodeError] = useState("");
+
+  const contentRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
+  //  const location = useLocation();
+
+  // const { productId = 0 } = location.state;
   const navigate = useNavigate();
 
-  const { setWishlistCount, setWishlist } = useContext(searchResultContext);
+  useEffect(() => {
+    if (contentRef.current) {
+      // Get the full height of the content
+      const fullHeight = contentRef.current.scrollHeight;
+      console.log(fullHeight, "full");
+      setContentHeight(`${fullHeight}px`);
+
+      // Check if content is overflowing the initial max-height
+      setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
+    }
+  }, []);
+
+  const getFaqs = useCallback(
+    async (productId) => {
+      const faqsUrl = `${baseUrl}/faqs/customer/product`;
+      const faqsResponse = await axios.post(faqsUrl, { productId });
+      setFaqsList(faqsResponse.data);
+    },
+    [baseUrl]
+  );
 
   useEffect(() => {
     const productDetails = async () => {
       try {
         const url = `${baseUrl}/product/details`;
-        const response = await axios.post(url, { productId: id });
-        setAvailableVarients(response.data.avalaibleVariants);
-        setProductDetails(response.data.productDetails);
-        setVariants(response.data.variants);
+
+        const productResponse = await axios.post(url, { productId: id });
+
+        const { avalaibleVariants, productDetails, variants } =
+          productResponse.data;
+        getFaqs(productDetails.id);
+        setAvailableVarients(avalaibleVariants);
+        setProductDetails(productDetails);
+        setProductImagesArr(productDetails.product_images);
+        setVariants(variants);
       } catch (error) {
         console.log(error);
       }
@@ -53,11 +96,7 @@ const ProductItem = () => {
     productDetails();
   }, [id, baseUrl]);
 
-  useEffect(() => {
-    if (Object.keys(productDetails).length > 0) {
-      setMainImg(productDetails.product_images[0]);
-    }
-  }, [productDetails, setMainImg]);
+  console.log(productDetails, "productDetails");
 
   const htmlString = productDetails.product_info;
 
@@ -77,7 +116,7 @@ const ProductItem = () => {
       headingsArray.push(element.innerHTML);
     });
 
-    // Loop through each element with class "content" and extract its HTML content
+    // Loop through each element with className "content" and extract its HTML content
     contentItems.forEach((element, index) => {
       contentArray.push(element.innerHTML);
     });
@@ -233,8 +272,7 @@ const ProductItem = () => {
         corporate_office_quantity: productDetails.corporate_office_quantity,
       },
     ];
-    console.log(productDetails.product_title, "cartProducts");
-    console.log(productDetails, "ppp");
+
     if (jwtToken) {
       addtoCartApi(cartProducts);
     } else {
@@ -258,7 +296,6 @@ const ProductItem = () => {
         },
         { headers }
       );
-      getWishlist(jwtToken, setWishlist, setWishlistCount);
       Swal.close();
     } catch (error) {
       Swal.close();
@@ -291,239 +328,533 @@ const ProductItem = () => {
       }
     }
   };
-  console.log(productDetails, "oikoo");
-  return (
-    <div className="userPage">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6">
-            <div className="productContImgSec">
-              <div className="subImagesCont">
-                {productDetails.product_images.map((imgUrl, i) => (
-                  <img
-                    src={imgUrl}
-                    key={i}
-                    className="subImages"
-                    alt="yyu"
-                    onMouseOver={() => setMainImg(imgUrl)}
-                  />
-                ))}
-              </div>
-              <div className="mainImage">
-                <img src={mainImg} className="mainImage" alt="mainImage" />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="rightSec">
-              <h3>
-                {productDetails.product_title}
-                {selectedVariant1 && `-${selectedVariant1}`}
-                {selectedVariant2 && `-${selectedVariant2}`}
-                {selectedVariant3 && `-${selectedVariant3}`}
-              </h3>
-              <div className="d-flex">
-                <p className="comparedPrice">
-                  Rs{" "}
-                  {variants.length > 0
-                    ? output?.compare_at_price
-                    : productDetails.compare_at_price}
-                </p>
-                <p className="price">
-                  Rs{" "}
-                  {variants.length > 0
-                    ? output?.offer_price
-                    : productDetails.price}
-                </p>
-              </div>
-              <div className="">
-                <div className="d-flex">
-                  <div className="quantityCont">
-                    <span onClick={decreaseQuantity}>
-                      <FaMinus />
-                    </span>
-                    <span className="quantityVal">{quantityCounter}</span>
-                    <span onClick={increaseQuantity}>
-                      <FaPlus />
-                    </span>
-                  </div>
-                  <button
-                    onClick={addToCart}
-                    className="btn addToCartBtn"
-                    type="button"
-                  >
-                    Add to cart
-                  </button>
-                </div>
-                <button
-                  onClick={handleWishlist}
-                  className="btn wishListBtn"
-                  type="button"
-                >
-                  <IoMdHeart style={{ color: "#f7ebb2" }} /> Add to Wishlist
-                </button>
-                <div className="variants">
-                  {variants.length > 0 && (
-                    <div key={variants[0].UOM}>
-                      <h5>{variants[0].UOM}</h5>
-                      <div className="variantsValues">
-                        {variants[0].values.map((eachValue, si) => (
-                          <button
-                            key={si}
-                            onClick={(e, i) => handleVariantOpt1(eachValue, i)}
-                            className={
-                              eachValue === selectedVariant1
-                                ? "selected"
-                                : `variantsValue`
-                            }
-                          >
-                            {eachValue}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {variants.length > 1 && (
-                    <div key={variants[1].UOM}>
-                      <h5>{variants[1].UOM}</h5>
-                      <div className="variantsValues">
-                        {variants[1].values.map((eachValue, si) => (
-                          <button
-                            key={si}
-                            onClick={(e, i) => handleVariantOpt2(eachValue, i)}
-                            className={
-                              eachValue === selectedVariant2
-                                ? "selected"
-                                : `variantsValue`
-                            }
-                          >
-                            {eachValue}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {variants.length > 2 && (
-                    <div key={variants[2].UOM}>
-                      <h5>{variants[2].UOM}</h5>
-                      <div className="variantsValues">
-                        {variants[2].values.map((eachValue, si) => (
-                          <button
-                            key={si}
-                            onClick={(e, i) => handleVariantOpt3(eachValue, i)}
-                            className={
-                              eachValue === selectedVariant3
-                                ? "selected"
-                                : `variantsValue`
-                            }
-                          >
-                            {eachValue}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="delivaryStatus">
-                  <label htmlFor="checkDelivery">Delivery</label>
-                  <div className="checkPincodeCont">
-                    <FaLocationDot className="locationIcon" />
-                    <input
-                      className="checkPincode"
-                      id="checkDelivery"
-                      type="search"
-                    />
-                  </div>
-                  <input id="checkBtn" type="submit" value="check" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-12 d-flex justify-content-center m-4">
-            <div className="productInfo">
-              <ul
-                className="nav nav-pills custNavPills mb-3"
-                id="pills-tab"
-                role="tablist"
-              >
-                {descriptionHeadings.map((tabHeading, id) => (
-                  <li
-                    key={id}
-                    className="nav-item custNavItem"
-                    role="presentation"
-                  >
-                    <button
-                      className={`nav-link custNavLink ${
-                        selectedTab === id && "active"
-                      }`}
-                      id={`tab-${id}`}
-                      onClick={() => handleTab(id)}
-                      data-bs-toggle="pill"
-                      data-bs-target={`#content-${id}`}
-                      type="button"
-                      role="tab"
-                      aria-controls={`content-${id}`}
-                      aria-selected={selectedTab === id ? "true" : "false"}
-                    >
-                      <div
-                        dangerouslySetInnerHTML={{ __html: `${tabHeading}` }}
-                      />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <div className="tab-content tabContent" id="pills-tabContent">
-                {contArray.map((tabContent, id) => (
-                  <div
-                    key={id}
-                    className={`tab-pane fade ${
-                      selectedTab === id && "show active"
-                    }`}
-                    id={`content-${id}`}
-                    role="tabpanel"
-                    aria-labelledby={`tab-${id}`}
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{ __html: `${tabContent}` }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+  const hanlePrevBtn = () => {
+    let newIndex = imgCount === 0 ? productImagesArr.length - 1 : imgCount - 1;
+    setImgCount(newIndex);
+  };
+  const hanleNextBtn = () => {
+    let newIndex = imgCount === productImagesArr.length - 1 ? 0 : imgCount + 1;
+    setImgCount(newIndex);
+  };
 
-          <div className="col-md-12 d-flex flex-column align-items-center mb-5">
-            <h4>Customer Reviews</h4>
-            <div className="d-flex flex-column align-items-center">
-              <button
-                value={review}
-                onClick={() => setReview(!review)}
-                className="reviewBtn"
-              >
-                {review ? "Cancel review" : "Write a review"}
-              </button>
-              {review && (
-                <>
-                  <CreateReview
-                    productId={productDetails.id}
-                    buttonText={"submit"}
-                  />
-                  <div className="mt-2">
-                    <button
-                      className="reviewBtn"
-                      onClick={() => setReview(!review)}
-                    >
-                      Cancel review
-                    </button>
+  let productMainImg = productImagesArr[imgCount];
+
+  const handleBodyCondn = (type) => {
+    setChooseCondn(type);
+  };
+
+  const onSubmitPincode = async (e) => {
+    e.preventDefault();
+    try {
+      const url = `${baseUrl}/orders/customer/estimate/date`;
+      const response = await axios.post(url, { pincode });
+      setEstimatedDelivery(response.data);
+      setPincodeError("");
+    } catch (error) {
+      const message = error.response
+        ? error.response.data.message
+        : error.message;
+      setPincodeError(message);
+      setEstimatedDelivery("");
+    }
+  };
+
+  const handleEstimateDate = (e) => {
+    setPincode(e.target.value);
+  };
+  console.log(productDetails, "productDetails");
+  return (
+    <>
+      <ScrollToTop />
+      <div className="productUserPage">
+        <div className="productInfoSec">
+          <div className="container">
+            <div className="row">
+              <nav aria-label="breadcrumb mb-4">
+                <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                    <Link className="breadcrumbCust-icon" to="/">
+                      Home
+                    </Link>
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    {productDetails.product_main_title}
+                  </li>
+                  <li className="breadcrumb-item active" aria-current="page">
+                    {productDetails.product_title}
+                  </li>
+                </ol>
+              </nav>
+              <div className="col-md-6">
+                <div className="productContImgSec">
+                  <div className="subImagesCont">
+                    {productDetails.product_images.map((imgUrl, i) => (
+                      <img
+                        src={imgUrl}
+                        key={i}
+                        className="subImages"
+                        alt="yyu"
+                      />
+                    ))}
                   </div>
-                </>
-              )}
+                  <div className="mainImageCont">
+                    <img
+                      src={productMainImg}
+                      className="mainImage"
+                      alt="mainImage"
+                    />
+                    <div className="navigatingBtns">
+                      <RiArrowDropLeftLine
+                        className="playIcon prevIcon"
+                        onClick={hanlePrevBtn}
+                      />
+                      <RiArrowDropRightLine
+                        className="playIcon nextIcon"
+                        onClick={hanleNextBtn}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="rightSec">
+                  <h5>
+                    {productDetails.product_title}
+                    {selectedVariant1 && `-${selectedVariant1}`}
+                    {selectedVariant2 && `-${selectedVariant2}`}
+                    {selectedVariant3 && `-${selectedVariant3}`}
+                  </h5>
+                  <ProductRating productId={productDetails.id} />
+
+                  <div className="product_properties">
+                    {productDetails.product_features?.map((feature, i) => (
+                      <div className="property" key={feature.feature_id}>
+                        <img
+                          src={feature.image}
+                          alt={feature.title}
+                          className="propertyImg"
+                        />
+                        <span>{feature.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="bodyType">
+                    <p>
+                      <strong>What is Your Skin type</strong>
+                    </p>
+                    <div className="bodyTypeCondn">
+                      <button
+                        className={`bodyTypeStyle ${
+                          chooseCondn === "oilySkin" ? "activeCondn" : ""
+                        }`}
+                        onClick={() => handleBodyCondn("oilySkin")}
+                      >
+                        Oily Skin
+                      </button>
+                      <button
+                        className={`bodyTypeStyle ${
+                          chooseCondn === "drySkin" ? "activeCondn" : ""
+                        }`}
+                        onClick={() => handleBodyCondn("drySkin")}
+                      >
+                        Dry Skin
+                      </button>
+                      <button
+                        className={`bodyTypeStyle ${
+                          chooseCondn === "normalSkin" ? "activeCondn" : ""
+                        }`}
+                        onClick={() => handleBodyCondn("normalSkin")}
+                      >
+                        Normal Skin
+                      </button>
+                      <button
+                        className={`bodyTypeStyle ${
+                          chooseCondn === "combination" ? "activeCondn" : ""
+                        }`}
+                        onClick={() => handleBodyCondn("combination")}
+                      >
+                        Combination
+                      </button>
+                      <button
+                        className={`bodyTypeStyle ${
+                          chooseCondn === "sensitive" ? "activeCondn" : ""
+                        }`}
+                        onClick={() => handleBodyCondn("sensitive")}
+                      >
+                        Sensitive
+                      </button>
+                    </div>
+                  </div>
+                  <div className="">
+                    <p>
+                      <strong>Availability</strong>
+                    </p>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="exampleRadios"
+                        id="exampleRadios1"
+                        value="option1"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios1"
+                      >
+                        Default radio
+                      </label>
+                    </div>
+                  </div>
+                  <div className="d-flex">
+                    <p className="comparedPrice">
+                      Rs{" "}
+                      {variants.length > 0
+                        ? output?.compare_at_price
+                        : productDetails.compare_at_price}
+                    </p>
+                    <p className="price">
+                      Rs{" "}
+                      {variants.length > 0
+                        ? output?.offer_price
+                        : productDetails.price}
+                    </p>
+                    <p className="discountPer">
+                      Save
+                      {getProductDiscount(
+                        productDetails.compare_at_price,
+                        productDetails.price
+                      )}
+                      %
+                    </p>
+                  </div>
+                  <div className="">
+                    <div className="d-flex justify-content-md-between">
+                      <div className="quantityCont">
+                        <span onClick={decreaseQuantity}>
+                          <FaMinus />
+                        </span>
+                        <span className="quantityVal">{quantityCounter}</span>
+                        <span onClick={increaseQuantity}>
+                          <FaPlus />
+                        </span>
+                      </div>
+                      <button
+                        onClick={addToCart}
+                        className="productPgBtn"
+                        type="button"
+                      >
+                        Add to cart
+                      </button>
+                      <PiHeart
+                        className="wishListBtn"
+                        onClick={handleWishlist}
+                      />
+                    </div>
+                    <button className="buyNowBtn">Buy it Now</button>
+
+                    <div className="variants">
+                      {variants.length > 0 && (
+                        <div key={variants[0].UOM}>
+                          <h5>{variants[0].UOM}</h5>
+                          <div className="variantsValues">
+                            {variants[0].values.map((eachValue, si) => (
+                              <button
+                                key={si}
+                                onClick={(e, i) =>
+                                  handleVariantOpt1(eachValue, i)
+                                }
+                                className={
+                                  eachValue === selectedVariant1
+                                    ? "selected"
+                                    : `variantsValue`
+                                }
+                              >
+                                {eachValue}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {variants.length > 1 && (
+                        <div key={variants[1].UOM}>
+                          <h5>{variants[1].UOM}</h5>
+                          <div className="variantsValues">
+                            {variants[1].values.map((eachValue, si) => (
+                              <button
+                                key={si}
+                                onClick={(e, i) =>
+                                  handleVariantOpt2(eachValue, i)
+                                }
+                                className={
+                                  eachValue === selectedVariant2
+                                    ? "selected"
+                                    : `variantsValue`
+                                }
+                              >
+                                {eachValue}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {variants.length > 2 && (
+                        <div key={variants[2].UOM}>
+                          <h5>{variants[2].UOM}</h5>
+                          <div className="variantsValues">
+                            {variants[2].values.map((eachValue, si) => (
+                              <button
+                                key={si}
+                                onClick={(e, i) =>
+                                  handleVariantOpt3(eachValue, i)
+                                }
+                                className={
+                                  eachValue === selectedVariant3
+                                    ? "selected"
+                                    : `variantsValue`
+                                }
+                              >
+                                {eachValue}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="d-md-flex justify-content-md-between align-items-end">
+                      <div className="delivaryStatus">
+                        <label
+                          htmlFor="checkDelivery"
+                          style={{ fontWeight: "500", marginBottom: "2px" }}
+                        >
+                          Delivery
+                        </label>
+                        <form
+                          className="searchAvailability"
+                          onSubmit={onSubmitPincode}
+                        >
+                          <input
+                            className="form-control mr-sm-2"
+                            type="search"
+                            placeholder="Enter Delivery Pincode"
+                            aria-label="Search"
+                            onChange={handleEstimateDate}
+                            value={pincode}
+                          />
+                          <button className="pinSearchBtn" type="submit">
+                            <IoIosArrowRoundForward className="pinSearchBtnArr" />
+                          </button>
+                        </form>
+                        {Object.keys(estimatedDelivery).length > 0 && (
+                          <small>
+                            Estimated between{" "}
+                            {estimatedDelivery.expectedDateFrom} &{" "}
+                            {estimatedDelivery.expectedDateto}
+                          </small>
+                        )}
+                        {pincodeError && <small>{pincodeError}</small>}
+                      </div>
+                      <div className="d-flex flex-column align-items-end">
+                        <a
+                          href="mailto:'ecommerce@azistaindustries.com'"
+                          style={{
+                            border: "none",
+                            backgroundColor: "transparent",
+                            textDecoration: "none",
+                            color: "black",
+                            fontWeight: "500",
+                          }}
+                        >
+                          <HiOutlineMail
+                            color="black"
+                            className="productPgIcon"
+                          />{" "}
+                          Ask a Question?
+                        </a>
+                        <a
+                          href="mailto:'ecommerce@azistaindustries.com'"
+                          style={{
+                            border: "none",
+                            backgroundColor: "transparent",
+                            textDecoration: "none",
+                            color: "black",
+                            fontWeight: "500",
+                          }}
+                        >
+                          <GrShareOption
+                            color="black"
+                            className="productPgIcon"
+                          />{" "}
+                          Share
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <DisplayReview productId={productDetails.id} />
         </div>
+        <div className="ingredientsCont">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <h4 className="text-center">Ingredients</h4>
+                <div className="ingredientsList">
+                  {productDetails.product_ingredients?.map((ingredient, i) => (
+                    <div
+                      className="ingredient d-flex flex-column align-items-center m-2"
+                      key={i}
+                    >
+                      <div className="ingredientCont">
+                        <img
+                          src={ingredient.image}
+                          alt={ingredient.title}
+                          className="ingredientImg"
+                          style={{ width: "8rem" }}
+                        />
+                        <p>
+                          <strong>{ingredient.title}</strong>
+                        </p>
+                      </div>
+                      <small className="ingredientHoverCont">
+                        {ingredient.description}
+                      </small>
+                    </div>
+                  ))}
+                  {/* <div className="ingredient d-flex flex-column align-items-center m-2">
+                  <div className="ingredientCont">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/ingredient2.png`}
+                      alt="ingredient"
+                      className="ingredientImg"
+                      style={{ width: "8rem" }}
+                    />
+                    <p>
+                      <strong>Fragrance</strong>
+                    </p>
+                  </div>
+                  <small className="ingredientHoverCont">
+                    Reduce the production of melanin and appearence of dark
+                    spots and hyperpigmentation
+                  </small>
+                </div>
+                <div className="ingredient d-flex flex-column align-items-center m-2">
+                  <div className="ingredientCont">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/ingredient3.png`}
+                      alt="ingredient"
+                      className="ingredientImg"
+                      style={{ width: "8rem" }}
+                    />
+                    <p>
+                      <strong>Glutathione</strong>
+                    </p>
+                  </div>
+                  <small className="ingredientHoverCont">
+                    Reduce the production of melanin and appearence of dark
+                    spots and hyperpigmentation
+                  </small>
+                </div> */}
+                </div>
+              </div>
+              <div className="col-md-12 d-flex justify-content-center m-4">
+                <div className="productInfo">
+                  <ul
+                    className="nav nav-pills custNavPills mb-3"
+                    id="pills-tab"
+                    role="tablist"
+                  >
+                    {descriptionHeadings.map((tabHeading, id) => (
+                      <li
+                        key={id}
+                        className="nav-item custNavItem"
+                        role="presentation"
+                      >
+                        <button
+                          className={`nav-link custNavLink ${
+                            selectedTab === id && "active"
+                          }`}
+                          id={`tab-${id}`}
+                          onClick={() => handleTab(id)}
+                          data-bs-toggle="pill"
+                          data-bs-target={`#content-${id}`}
+                          type="button"
+                          role="tab"
+                          aria-controls={`content-${id}`}
+                          aria-selected={selectedTab === id ? "true" : "false"}
+                        >
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: `${tabHeading}`,
+                            }}
+                          />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="tab-content tabContent" id="pills-tabContent">
+                    {contArray.map((tabContent, id) => (
+                      <div
+                        key={id}
+                        className={`tab-pane fade ${
+                          selectedTab === id && "show active"
+                        }`}
+                        id={`content-${id}`}
+                        role="tabpanel"
+                        aria-labelledby={`tab-${id}`}
+                      >
+                        <div
+                          ref={contentRef}
+                          className={`hideProductContentInfo ${
+                            readMoreContent ? "expanded" : ""
+                          }`}
+                          style={{
+                            maxHeight: readMoreContent
+                              ? contentHeight
+                              : "14rem",
+                          }}
+                          id="productContentInfo"
+                          dangerouslySetInnerHTML={{ __html: `${tabContent}` }}
+                        />
+                        {isContentOverflowing && (
+                          <btn
+                            className="btn btn-secondary displayBtn"
+                            onClick={() => setReadMoreContent(!readMoreContent)}
+                          >
+                            {readMoreContent ? "Read Less" : "Read More"}
+                          </btn>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="reviewsCont">
+          <div className="container">
+            <div className="row">
+              <DisplayReview productId={productDetails.id} />
+            </div>
+          </div>
+        </div>
+        {faqsList.length > 0 && (
+          <div className="faqsSec">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12 d-flex align-items-center flex-column m-4">
+                  <h3>Frequently Asked Questions</h3>
+                  <div className="accordianCont">
+                    <Faqs faqsList={faqsList} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

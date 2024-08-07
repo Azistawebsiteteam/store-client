@@ -90,15 +90,16 @@ const UpdateAddress = () => {
       const avalableTime = `${inputValues.availableFromTime}-${inputValues.availableToTime} `;
       delete inputValues.availableFromTime;
       delete inputValues.availableToTime;
+
       const body = {
         addressId: id,
         ...inputValues,
         avalableTime,
       };
-
+      console.log(body, "update");
       const response = await axios.put(url, body, { headers });
       if (response.status === 200) {
-        navigate("/manage-address");
+        navigate(-1);
       }
       swalHandle.onLoadingClose();
       swalHandle.onSuccess();
