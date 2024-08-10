@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { v4 } from "uuid";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
@@ -15,9 +21,13 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { HiOutlineMail } from "react-icons/hi";
 import { GrShareOption } from "react-icons/gr";
 import { RiArrowDropRightLine } from "react-icons/ri";
+import { RxCaretRight, RxCaretLeft } from "react-icons/rx";
+
 import { RiArrowDropLeftLine } from "react-icons/ri";
 import Faqs from "./Faqs";
 import ScrollToTop from "../../Utils/ScrollToTop";
+import { handleAddtoCart } from "../Cart/Functions";
+import { searchResultContext } from "../../ReactContext/SearchResults";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
@@ -49,6 +59,7 @@ const ProductItem = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
+  const { userDetails, updateCartData } = useContext(searchResultContext);
   //  const location = useLocation();
 
   // const { productId = 0 } = location.state;
@@ -87,6 +98,7 @@ const ProductItem = () => {
         getFaqs(productDetails.id);
         setAvailableVarients(avalaibleVariants);
         setProductDetails(productDetails);
+        setQuantityCounter(productDetails.min_cart_quantity);
         setProductImagesArr(productDetails.product_images);
         setVariants(variants);
       } catch (error) {
@@ -159,42 +171,13 @@ const ProductItem = () => {
         const url = `${baseUrl}/product/variants`;
         let response = await axios.post(url, { variantId: reqVariantId });
         setOutput(response.data.variant);
+        console.log(response, "balaji");
       } catch (error) {
         console.log(error);
       }
     };
     variantDetails();
   }, [baseUrl, reqVariantId]);
-
-  const addtoCartApi = async (Products, isClear = "no") => {
-    try {
-      const url = `${baseUrl}/cart`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      const cartProducts = Products.map((p) => ({
-        productId: p.productId,
-        variantId: p.variantId,
-        quantity: p.azst_quantity,
-      }));
-      const response = await axios.post(url, { cartProducts }, { headers });
-      if (response.status === 200) {
-        swalHandle.onSuccess("Product added to cart");
-        if (isClear === "ClearCart") {
-          localStorage.removeItem(process.env.REACT_APP_LOACL_CART);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    let localCart = localStorage.getItem(process.env.REACT_APP_LOACL_CART);
-    if (jwtToken && localCart) {
-      addtoCartApi(JSON.parse(localCart), "ClearCart");
-    }
-  }, [jwtToken]);
 
   if (Object.keys(productDetails).length === 0) {
     return null;
@@ -207,76 +190,12 @@ const ProductItem = () => {
   };
 
   const increaseQuantity = () => {
-    const maxQuantity = output
-      ? parseInt(output.variant_quantity)
-      : parseInt(productDetails.chintal_quantity) +
-        parseInt(productDetails.corporate_office_quantity);
-    if (quantityCounter < maxQuantity - 1) {
+    const maxQuantity = productDetails.max_cart_quantity;
+    // ? parseInt(output.variant_quantity)
+    // : parseInt(productDetails.chintal_quantity) +
+    //   parseInt(productDetails.corporate_office_quantity);
+    if (quantityCounter < maxQuantity) {
       setQuantityCounter((prevVal) => prevVal + 1);
-    }
-  };
-
-  const addtoLoaclSorage = (cartProducts) => {
-    try {
-      let localCart = localStorage.getItem(process.env.REACT_APP_LOACL_CART);
-      let updatedCart = [];
-      if (localCart) {
-        localCart = JSON.parse(localCart);
-        cartProducts.forEach((p) => {
-          const isProductTheir = localCart.find(
-            (cp) => cp.productId === p.productId
-          );
-
-          if (isProductTheir) {
-            updatedCart = localCart.map((cp) => {
-              if (cp.productId === p.productId) {
-                return { ...cp, quantity: cp.quantity + p.quantity };
-              } else {
-                return cp;
-              }
-            });
-          } else {
-            updatedCart = [...localCart, p];
-          }
-        });
-      } else {
-        updatedCart = cartProducts;
-      }
-
-      localStorage.setItem(
-        process.env.REACT_APP_LOACL_CART,
-        JSON.stringify(updatedCart)
-      );
-      swalHandle.onSuccess();
-    } catch (error) {
-      swalHandle.onError();
-    }
-  };
-
-  const addToCart = async () => {
-    const cartProducts = [
-      {
-        azst_cart_id: v4(),
-        productId: productDetails.id,
-        variantId: output?.id ?? 0,
-        azst_quantity: quantityCounter,
-        variant_image: output?.variant_image[1] || "",
-        image_src: productDetails.product_images[0],
-        product_title: productDetails.product_title,
-        offer_price: output?.offer_price || null,
-        compare_at_price: output?.compare_at_price,
-        price: productDetails.price,
-        product_compare_at_price: productDetails.compare_at_price,
-        variant_quantity: output?.variant_quantity,
-        chintal_quantity: productDetails.chintal_quantity,
-        corporate_office_quantity: productDetails.corporate_office_quantity,
-      },
-    ];
-
-    if (jwtToken) {
-      addtoCartApi(cartProducts);
-    } else {
-      addtoLoaclSorage(cartProducts);
     }
   };
 
@@ -362,6 +281,7 @@ const ProductItem = () => {
   const handleEstimateDate = (e) => {
     setPincode(e.target.value);
   };
+
   console.log(productDetails, "productDetails");
   return (
     <>
@@ -394,6 +314,7 @@ const ProductItem = () => {
                         key={i}
                         className="subImages"
                         alt="yyu"
+                        onMouseOver={() => setImgCount(i)}
                       />
                     ))}
                   </div>
@@ -404,11 +325,11 @@ const ProductItem = () => {
                       alt="mainImage"
                     />
                     <div className="navigatingBtns">
-                      <RiArrowDropLeftLine
+                      <RxCaretLeft
                         className="playIcon prevIcon"
                         onClick={hanlePrevBtn}
                       />
-                      <RiArrowDropRightLine
+                      <RxCaretRight
                         className="playIcon nextIcon"
                         onClick={hanleNextBtn}
                       />
@@ -485,7 +406,7 @@ const ProductItem = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="">
+                  {/* <div className="">
                     <p>
                       <strong>Availability</strong>
                     </p>
@@ -504,7 +425,7 @@ const ProductItem = () => {
                         Default radio
                       </label>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="d-flex">
                     <p className="comparedPrice">
                       Rs{" "}
@@ -520,10 +441,15 @@ const ProductItem = () => {
                     </p>
                     <p className="discountPer">
                       Save
-                      {getProductDiscount(
-                        productDetails.compare_at_price,
-                        productDetails.price
-                      )}
+                      {variants.length > 0
+                        ? getProductDiscount(
+                            output?.compare_at_price,
+                            output?.offer_price
+                          )
+                        : getProductDiscount(
+                            productDetails.compare_at_price,
+                            productDetails.price
+                          )}
                       %
                     </p>
                   </div>
@@ -539,9 +465,19 @@ const ProductItem = () => {
                         </span>
                       </div>
                       <button
-                        onClick={addToCart}
                         className="productPgBtn"
                         type="button"
+                        onClick={() =>
+                          handleAddtoCart(
+                            userDetails.azst_customer_id,
+                            {
+                              productId: productDetails.id,
+                              variantId: 0,
+                              quantity: quantityCounter,
+                            },
+                            updateCartData
+                          )
+                        }
                       >
                         Add to cart
                       </button>

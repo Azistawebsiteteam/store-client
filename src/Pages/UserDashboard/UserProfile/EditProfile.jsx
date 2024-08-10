@@ -37,7 +37,6 @@ const EditProfile = () => {
     gender: userDetails.azst_customer_gender,
   });
   const [states, setStates] = useState([]);
-  const local = process.env.REACT_APP_LOCAL_URL;
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 

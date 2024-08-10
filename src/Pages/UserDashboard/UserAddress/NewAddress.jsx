@@ -27,7 +27,6 @@ const NewAddress = ({ updateFormFilledStatus }) => {
   });
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
-  const local = process.env.REACT_APP_LOCAL_URL;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
 

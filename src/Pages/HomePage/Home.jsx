@@ -81,43 +81,6 @@ const Home = () => {
     apiCallMethod();
   }, [baseUrl]);
 
-  const fetchIPAddress = async () => {
-    try {
-      const response = await fetch("https://api.ipify.org?format=json");
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      console.error("Failed to fetch IP address:", error);
-      return null;
-    }
-  };
-
-  const generateRandomKey = () => {
-    return (
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15)
-    );
-  };
-
-  useEffect(() => {
-    const initialize = async () => {
-      // Check if the IP and key already exist in localStorage
-      let storedIP = localStorage.getItem("e_com_cart_ky");
-      if (!storedIP) {
-        // Fetch the IP address if not found in localStorage
-        storedIP = await fetchIPAddress();
-        if (storedIP) {
-          localStorage.setItem("e_com_cart_ky", storedIP);
-        } else {
-          const storedKey = generateRandomKey();
-          localStorage.setItem("e_com_cart_ky", storedKey);
-        }
-      }
-    };
-
-    initialize();
-  }, []);
-
   return (
     <>
       <ScrollToTop />

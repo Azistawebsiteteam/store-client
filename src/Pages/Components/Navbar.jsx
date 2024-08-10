@@ -4,23 +4,28 @@ import { searchResultContext } from "../../ReactContext/SearchResults";
 import Announcement from "./Announcement";
 import SocialIcons from "./SocialIcons";
 import SearchBar from "./SearchBar";
+import Cart from "./Cart";
 import "./Customer.css";
 
 const Navbar = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
-  const { cartTotal } = useContext(searchResultContext);
+  const { cartTotal, cartCount } = useContext(searchResultContext);
 
   const handleSearchBar = (boolean) => {
-    console.log(boolean, "boolean");
     setShowSearchBar(boolean);
   };
-  console.log(showSearchBar);
+
+  const handleCart = (boolean) => {
+    setShowCart(boolean);
+  };
 
   return (
     <>
       <header className="headerSec">
         {showSearchBar && <SearchBar handleSearchBar={handleSearchBar} />}
+        {showCart && <Cart handleCart={handleCart} />}
         <div className="freeShippingBar">
           <div className="socialIconsCont">
             <SocialIcons />
@@ -136,21 +141,34 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="rightSec">
-                <span onClick={() => handleSearchBar(true)}>
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleSearchBar(true)}
+                >
                   <img
                     src={`${process.env.PUBLIC_URL}/images/search.svg`}
                     alt="searchIcon"
                     className="social_icon"
                   />
                 </span>
-                <Link to={"sfs"}>
+                <span
+                  style={{
+                    cursor: "pointer",
+                    position: "relative",
+                    display: "inline-block",
+                  }}
+                  onClick={() => handleCart(true)}
+                >
                   <img
                     src={`${process.env.PUBLIC_URL}/images/shopping-cart.svg`}
                     alt="cartIcon"
                     className="cartIcon"
                   />
-                </Link>
-                <Link to={"/profile-management"}>
+                  {cartCount > 0 && (
+                    <span className="cartCountCont">{cartCount}</span>
+                  )}
+                </span>
+                <Link style={{ cursor: "pointer" }} to={"/profile-management"}>
                   <img
                     src={`${process.env.PUBLIC_URL}/images/user.svg`}
                     alt="userIcon"

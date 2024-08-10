@@ -52,13 +52,14 @@ a{
 .productPgBtn {
     border: 1px solid #A6A6A6;
     background-color: transparent;
-    width: max-content;
     border-radius: 4rem;
     font-size: 17px;
     font-weight: 500;
     color: var(--hover-bg-color);
     transition: 0.3s;
-    width: 60%;
+    width: 70%;
+    text-align: center;
+    padding: 0.4rem;
 }
 .buyNowBtn{
   background-color: transparent;

@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
 import "./Customer.css";
+import AddToCart from "../../Utils/AddToCart";
 
 const ProductCard = ({ items }) => {
+  console.log(items, "hdjhcdkhjjdnjdmdfd");
   return (
     <>
       {items.map((each, i) => (
@@ -62,12 +64,16 @@ const ProductCard = ({ items }) => {
               </div>
             </div>
             <div className="overlay_bg">
-              <Link to="" className="linkBtn beforeHover">
+              {/* <Link to="" className="linkBtn beforeHover">
                 Add to Cart
-              </Link>
+              </Link> */}
+              <AddToCart
+                productId={each.product_id}
+                variantId={each.variant_id}
+                quantity={each.min_cart_quantity}
+              />
               <Link
                 to={`/productitem/${each.product_url_title}`}
-                state={{ productId: each.product_id }}
                 className="linkBtn beforeHover"
               >
                 View Details

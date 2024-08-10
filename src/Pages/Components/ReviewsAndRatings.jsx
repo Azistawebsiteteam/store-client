@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import Rating from "@mui/material/Rating";
 import SideBar from "../UserDashboard/UserProfile/SideBar";
 import { Link } from "react-router-dom";
+import { searchResultContext } from "../../ReactContext/SearchResults";
 
 const ReviewsAndRatings = () => {
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = useState(2);
   const [reviewBtn, setReviewBtn] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const { userDetails } = useContext(searchResultContext);
   const onHandleReviewBtn = () => {
     setReviewBtn(!reviewBtn);
   };

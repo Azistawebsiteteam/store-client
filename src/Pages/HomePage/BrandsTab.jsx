@@ -9,10 +9,9 @@ const BrandsTab = (props) => {
     <div className="container">
       <div className="row">
         {brandsItems.map((eachBrand) => (
-          <div className="col-2">
+          <div className="col-2" key={eachBrand.azst_brands_id}>
             <Link
               to={`/collection/${eachBrand.azst_brand_name}`}
-              key={eachBrand.azst_brands_id}
               className="brandsListImg"
               state={{
                 brandId: eachBrand.azst_brands_id,

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { searchResultContext } from "../../../ReactContext/SearchResults";
 
 import SideBar from "./SideBar";
-import ManageAddress from "../UserAddress/ManageAddress";
+// import ManageAddress from "../UserAddress/ManageAddress";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 
 const ProfileManagement = () => {

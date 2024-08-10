@@ -20,7 +20,7 @@ const CollectionsDetails = () => {
     sortOrder: "DESC",
   });
 
-  const [starRating, setStarRating] = useState(1);
+  const [starRating, setStarRating] = useState(0);
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const location = useLocation();

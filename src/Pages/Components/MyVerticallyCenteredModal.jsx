@@ -14,15 +14,12 @@ const MyVerticallyCenteredModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          Edit Review
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <CreateReview buttonText={"Update"} reviewDetails={reviewDetails} />
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   );
 };

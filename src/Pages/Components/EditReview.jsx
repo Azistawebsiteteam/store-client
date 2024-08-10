@@ -4,6 +4,19 @@ import SideBar from "../UserDashboard/UserProfile/SideBar";
 
 const EditReview = () => {
   const [value, setValue] = React.useState(2);
+  // const handleReviewForm = (e) => {
+  //   const { id, value, files } = e.target;
+
+  //   if (files && files.length > 0) {
+  //     const newFiles = Array.from(files);
+  //     setReviewData({
+  //       ...reviewData,
+  //       reviewImg: [...reviewData.reviewImg, ...newFiles],
+  //     });
+  //   } else {
+  //     setReviewData({ ...reviewData, [id]: value });
+  //   }
+  // };
 
   return (
     <div className="bottomSec">
@@ -18,7 +31,7 @@ const EditReview = () => {
           <div className="d-flex align-items-center">
             <img
               src={`${process.env.PUBLIC_URL}/images/iscanBreast.png`}
-              className="reviewImg"
+              style={{ width: "20%" }}
               alt="isanBreast"
             />
             <small style={{ display: "inline-block" }}>
@@ -60,6 +73,56 @@ const EditReview = () => {
           <span style={{ color: "#787878", display: "block" }}>
             Photo or Video
           </span>
+          {/* <div className="uploadFiles d-flex flex-column mt-2">
+            <label htmlFor="reviewImg" class="custom-file-upload">
+              Upload image
+            </label>
+            <input
+              id="reviewImg"
+              multiple
+              type="file"
+              onChange={handleReviewForm}
+            />
+            <div className="reviewImgsCont mt-1 mb-2">
+              {Array.from(reviewData.reviewImg).map((img, i) =>
+                typeof img === "string" ? (
+                  <div className="selectImg" key={i}>
+                    <img className="reviewImg" src={img} alt="reviewImg" />
+                    <input
+                      type="checkbox"
+                      id="chooseRviewImg"
+                      className={
+                        reviewImgFile.length > 0
+                          ? "selectImgInput"
+                          : "hideImgInput"
+                      }
+                      checked={reviewImgFile.includes(i)}
+                      onClick={(e) => handleReviewImg(e, i)}
+                    />
+                  </div>
+                ) : (
+                  <div className="selectImg" key={i}>
+                    <img
+                      src={URL.createObjectURL(img)}
+                      alt="Banner"
+                      className="reviewImg"
+                      checked={reviewImgFile.includes(i)}
+                      onClick={(e) => handleReviewImg(e, i)}
+                    />
+                    <input
+                      type="checkbox"
+                      id="chooseRviewImg"
+                      className={
+                        reviewImgFile.length > 0
+                          ? "selectImgInput"
+                          : "hideImgInput"
+                      }
+                    />
+                  </div>
+                )
+              )}
+            </div>
+          </div> */}
           <button className="reviewBtn mt-3">Submit</button>
         </div>
       </div>

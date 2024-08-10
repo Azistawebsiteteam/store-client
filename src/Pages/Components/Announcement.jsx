@@ -62,7 +62,7 @@ const Announcement = () => {
         {announcements.length > 1 && (
           <div className="btnCont">
             <button
-              className="carousel-control-prev"
+              className="carousel-control-prev announcementSlideBtns"
               type="button"
               data-bs-target="#marqueeCarousel"
               data-bs-slide="prev"
@@ -73,7 +73,7 @@ const Announcement = () => {
               <span className="visually-hidden">Previous</span>
             </button>
             <button
-              className="carousel-control-next"
+              className="carousel-control-next announcementSlideBtns"
               type="button"
               data-bs-target="#marqueeCarousel"
               data-bs-slide="next"

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ProductCard from "../Components/ProductCard";
 import "../Components/Customer.css";
@@ -129,20 +129,20 @@ const Slider = ({ title, type, items }) => {
           {items.length > 4 && (
             <div className="sliderBtn-cont">
               <button
-                className="slider-btn prev-btn"
+                className="slider-btn"
                 onClick={() => {
                   boxRef.current.scrollLeft -= boxRef.current.clientWidth;
                 }}
               >
-                <BsArrowLeftCircle />
+                <BsArrowLeftShort fill="#7E7E7E" className="sliderBtn-icon" />
               </button>
               <button
-                className="slider-btn next-btn ms-3"
+                className="slider-btn ms-3"
                 onClick={() => {
                   boxRef.current.scrollLeft += boxRef.current.clientWidth;
                 }}
               >
-                <BsArrowRightCircle />
+                <BsArrowRightShort fill="#7E7E7E" className="sliderBtn-icon" />
               </button>
             </div>
           )}

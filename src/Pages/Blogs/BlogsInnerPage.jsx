@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BsArrowLeftCircle } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import ScrollToTop from "../../Utils/ScrollToTop";

@@ -131,11 +131,7 @@
     width: 60px;
 }
 
-.cartPageTopSec{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+
 .checkOutBtn{
     background-color: orangered;
     border-radius: 4px;
@@ -359,9 +355,6 @@
         border-radius: 50px;
         margin: 4px 0;
     }
-    .uploadFiles{
-        margin-top: 30px;
-    }
     .ratingSec{
         margin: 4px 0;
     }
@@ -385,9 +378,7 @@
     .reviewImgsSection {
         position: relative;
     }
-    .selectImg {
-        position: relative;
-    }
+
     /* .reviewImg:hover{
         display: block;
     } */

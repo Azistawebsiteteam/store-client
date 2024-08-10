@@ -14,28 +14,14 @@ const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
 export const CreateReview = (props) => {
   const { productId, buttonText, reviewDetails } = props;
-  const [currentVal, setCurrenVal] = useState(0);
-  const [hoverVal, setHoverVal] = useState(undefined);
+  // const [currentVal, setCurrenVal] = useState(0);
+  const [value, setValue] = useState(1);
   const [reviewData, setReviewData] = useState({
     reviewTitle: "",
     reviewContent: "",
     reviewImg: [],
   });
   const [reviewImgFile, setReviewImgFile] = useState([]);
-
-  let stars = Array(5).fill(0);
-
-  const handleStarClick = (value) => {
-    setCurrenVal(value);
-  };
-
-  const handleMouseHover = (value) => {
-    setHoverVal(value);
-  };
-
-  const handleMouseRemove = () => {
-    setHoverVal(undefined);
-  };
 
   const handleReviewForm = (e) => {
     const { id, value, files } = e.target;
@@ -60,7 +46,7 @@ export const CreateReview = (props) => {
       reviewContent: review_content,
       reviewImg: review_images,
     });
-    setCurrenVal(review_points);
+    setValue(review_points);
   }, [reviewDetails]);
 
   const onSubmitReview = async (url, reviewId) => {
@@ -80,10 +66,10 @@ export const CreateReview = (props) => {
       formdata.append("productId", productId);
       formdata.append("reviewTitle", reviewData.reviewTitle);
       formdata.append("reviewContent", reviewData.reviewContent);
-      formdata.append("reviewPoints", currentVal);
+      formdata.append("reviewPoints", value);
       reviewId && formdata.append("reviewId", reviewId);
 
-      const response = await axios.post(url, formdata, { headers });
+      await axios.post(url, formdata, { headers });
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +86,7 @@ export const CreateReview = (props) => {
   };
 
   const handleReviewImg = (e, id) => {
+    console.log(id, "sdsd");
     if (e.target.checked) {
       setReviewImgFile((prev) => [...prev, id]);
     } else {
@@ -107,7 +94,7 @@ export const CreateReview = (props) => {
       setReviewImgFile(selected);
     }
   };
-
+  console.log(reviewImgFile, "setReviewImgFile");
   const deleteReviewImg = () => {
     let filteredReviewImgs = reviewData.reviewImg.filter(
       (img, i) => !reviewImgFile.includes(i)
@@ -122,21 +109,18 @@ export const CreateReview = (props) => {
   return (
     <div className="writeReview d-flex flex-column align-items-center">
       <div className="ratingSec d-flex flex-column">
-        <h6>Rating</h6>
         <div className="starRating">
-          {stars.map((_, i) => (
-            <FaStar
-              key={i}
-              onClick={() => handleStarClick(i + 1)}
-              onMouseOver={() => handleMouseHover(i + 1)}
-              onMouseLeave={handleMouseRemove}
-              color={(hoverVal || currentVal) > i ? "gold" : "black"}
-              precision={0.5}
-            />
-          ))}
+          <Rating
+            name="simple-controlled"
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+            precision={0.5}
+          />
         </div>
         <div className="reviewTitle d-flex flex-column">
-          <label htmlFor="reviewTitle">Review Title</label>
+          <label htmlFor="reviewTitle">Title</label>
           <input
             id="reviewTitle"
             type="text"
@@ -144,7 +128,7 @@ export const CreateReview = (props) => {
             onChange={handleReviewForm}
           />
         </div>
-        <div className="reviewSec d-flex flex-column">
+        <div className="reviewSec d-flex flex-column mt-2">
           <label htmlFor="review">Review</label>
           <textarea
             id="reviewContent"
@@ -160,7 +144,18 @@ export const CreateReview = (props) => {
               <MdDelete onClick={deleteReviewImg} className="dltImgBtn" />
             )}
           </div>
-          <div className="reviewImgsCont">
+        </div>
+        <div className="uploadFiles d-flex flex-column mt-2">
+          <label htmlFor="reviewImg" class="custom-file-upload">
+            Upload image
+          </label>
+          <input
+            id="reviewImg"
+            multiple
+            type="file"
+            onChange={handleReviewForm}
+          />
+          <div className="reviewImgsCont mt-1 mb-2">
             {Array.from(reviewData.reviewImg).map((img, i) =>
               typeof img === "string" ? (
                 <div className="selectImg" key={i}>
@@ -199,16 +194,6 @@ export const CreateReview = (props) => {
               )
             )}
           </div>
-        </div>
-        <div className="uploadFiles d-flex flex-column align-items-center">
-          <h6>Picture</h6>
-          <input
-            className="m-auto"
-            id="reviewImg"
-            multiple
-            type="file"
-            onChange={handleReviewForm}
-          />
         </div>
         <button
           className="reviewBtn"
@@ -251,8 +236,6 @@ export const DisplayReview = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const { userDetails } = useContext(searchResultContext);
 
-  const [review, setReview] = useState(false);
-
   useEffect(() => {
     const fetchReviews = async () => {
       const reviews = await productReviews(productId);
@@ -268,39 +251,63 @@ export const DisplayReview = ({ productId }) => {
           <div className="col-md-12 d-flex flex-row justify-content-between align-items-center mb-5">
             <div className="">
               <h6>Reviews</h6>
-              <div className="flex-row align-items-center">
-                {getAvgReview(reviews)}
-                <Rating
-                  name="read-only"
-                  value={parseFloat(getAvgReview(reviews))}
-                  precision={0.5}
-                  readOnly
-                  className="gold-stars individualRating me-1"
-                />
-                Based on <span> {reviews.length}</span> reviews
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <span>{getAvgReview(reviews)}</span>
+                <span>
+                  <Rating
+                    name="read-only"
+                    value={parseFloat(getAvgReview(reviews))}
+                    precision={0.5}
+                    readOnly
+                    className="gold-stars individualRating me-1"
+                  />
+                </span>
+                <span>
+                  Based on <span>{reviews.length}</span> reviews
+                </span>
               </div>
             </div>
             <div className="d-flex flex-column align-items-center">
               <button
-                value={review}
-                onClick={() => setReview(!review)}
+                type="button"
                 className="reviewBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#createReview"
               >
-                {review ? "Cancel review" : "Write a review"}
+                Write a review
               </button>
-              {review && (
-                <>
-                  <CreateReview productId={productId} buttonText={"submit"} />
-                  <div className="mt-2">
-                    <button
-                      className="reviewBtn"
-                      onClick={() => setReview(!review)}
-                    >
-                      Cancel review
-                    </button>
+
+              <div
+                class="modal fade"
+                id="createReview"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Review the product
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <CreateReview
+                        productId={productId}
+                        buttonText={"Submit"}
+                      />
+                    </div>
                   </div>
-                </>
-              )}
+                </div>
+              </div>
             </div>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -314,26 +321,28 @@ export const DisplayReview = ({ productId }) => {
                       precision={0.5}
                       readOnly
                     />
-                    {userDetails?.azst_customer_id ===
-                      parseInt(each.customer_id) && (
-                      <ThreeDotsDropdown
-                        productReviews={productReviews}
-                        reviewDetails={each}
-                        reviewId={reviews.review_id}
-                      />
-                    )}
                   </div>
-                  <span>{each.created_on}</span>
+                  {userDetails?.azst_customer_id ===
+                    parseInt(each.customer_id) && (
+                    <ThreeDotsDropdown
+                      productReviews={productReviews}
+                      reviewDetails={each}
+                      reviewId={reviews.review_id}
+                    />
+                  )}
+                  {/* <span>{each.created_on}</span> */}
                 </div>
                 <div className="botSec">
                   {/* <h6>{each.review_title}</h6> */}
-                  <p>{each.review_content}</p>
+                  <p style={{ fontSize: "1rem", lineHeight: "1" }}>
+                    {each.review_content}
+                  </p>
                 </div>
-                <div className="reviewImgsCont">
+                <div className="displayIeviewImgsCont">
                   {each.review_images.map((img, i) => (
                     <img
                       key={i}
-                      className="reviewImg"
+                      className="displayIeviewImg"
                       src={img}
                       alt="reviewImg"
                     />

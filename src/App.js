@@ -20,7 +20,6 @@ import ProductItem from "./Pages/Components/ProductItem";
 import AllProductsPage from "./Pages/Components/AllProductsPage";
 import NotFound from "./Pages/Components/NotFound";
 import Checkout from "./Pages/Components/Checkout";
-import Cart from "./Pages/Components/Cart";
 import WishList from "./Pages/Components/WishList";
 import Popup from "./Pages/HomePage/Popup";
 import SearchResultsProvider from "./ReactContext/SearchResults";
@@ -114,7 +113,6 @@ function App() {
         <Route path="/collection/:id" element={<CollectionsDetails />} />
         <Route path="/productitem/:id" element={<ProductItem />} />
         <Route path="/search/products" element={<AllProductsPage />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/popup" element={<Popup />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/checkout" element={<Checkout />} />
