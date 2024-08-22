@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import "./UserProfile.css";
 import swalHandle from "../../Components/ErrorHandler";
+import { RiLogoutCircleFill } from "react-icons/ri";
 
 const SideBar = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -84,7 +85,7 @@ const SideBar = () => {
             Profile
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
               activeTab === "wallet" ? "walletActive.svg" : "wallet.svg"
@@ -101,11 +102,11 @@ const SideBar = () => {
           >
             Wallet
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "orders" ? "orders.svg" : "orders.svg"
+              activeTab === "orders" ? "ordersActive.svg" : "orders.svg"
             }`}
             alt="orders"
           />
@@ -182,7 +183,7 @@ const SideBar = () => {
             Delivery Address Book
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
               activeTab === "logout" ? "rewardsActive.svg" : "rewards.svg"
@@ -195,8 +196,8 @@ const SideBar = () => {
           >
             Loyalty Rewards
           </button>
-        </li>
-        <li className="nav-item">
+        </li> */}
+        {/* <li className="nav-item">
           <Link
             to="/password-manager"
             className={`nav-link ${
@@ -209,8 +210,9 @@ const SideBar = () => {
           >
             Password Manager
           </Link>
-        </li>
-        <li className="nav-item">
+        </li> */}
+        <li className="nav-item d-flex align-items-center">
+          <RiLogoutCircleFill style={{ fontSize: "1.6rem" }} />
           <button
             className={`nav-link ${activeTab === "logout" ? "activeBar" : ""}`}
             onClick={handleLogout}

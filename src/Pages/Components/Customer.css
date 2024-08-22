@@ -42,6 +42,38 @@ h6,.h6 {
 small, .small {
     font-size: 0.8em !important;
 }
+/* scrollBar */ 
+
+::-webkit-scrollbar {
+  width: 0.1rem;
+  padding-top: 2px;
+  position: absolute;
+  transition: background-color 0.2s linear, width 0.2s ease-in-out;
+  -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
+}
+ 
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border: none;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  width: 1rem;
+  cursor: pointer;
+}
+ 
+::-webkit-scrollbar-thumb:horizontal {
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+ 
+::-webkit-scrollbar:horizontal {
+  height: 0.3rem;
+  border: 1px solid #000;
+}
+ 
 
 /* headerSec */ 
 
@@ -784,18 +816,12 @@ img.satisfiedProductImg {
     flex-wrap: wrap;
 }
 .wishListBtn {
-    background-color: rgba(180, 180, 180, 0.26);
-    width: -moz-fit-content;
-    width: fit-content;
-    font-size: 3rem;
-    color: #1E0405 !important;
-    padding: 0.5rem;
-    border-radius: 2rem;
+    width: 3rem;
     cursor: pointer;
 }
 .wishlistItem{
     position: relative;
-    width: 17rem;
+    width: 16rem;
     margin: 10px;
     padding: 4px;
 }
@@ -973,7 +999,7 @@ svg.playIcon {
 }
 .ingredient:hover .ingredientHoverCont{
     height: auto;
-    top: 2rem;
+    top: 1rem;
     padding: 1rem;
 }
 .ingredient img{
@@ -1042,6 +1068,26 @@ p.ingredientTitle {
     margin-top: -10rem;
 }
 
+.variantsValue{
+    border: 1px solid #747474;
+    border-radius: 4px;
+    color: #747474;
+    margin: 0 0.4rem;
+}
+.selected {
+    border: 1px solid var(--hover-bg-color);
+    border-radius: 4px;
+    background-color: var(--hover-bg-color);
+    color: #fff;
+    margin: 0 0.4rem;
+}
+.variants {
+    margin: 1rem 0;
+}
+.variantsValues{
+    display: inline-flex;
+}
+
 /* blogsPage */
 .blogsPage {
     display: flex;
@@ -1049,7 +1095,7 @@ p.ingredientTitle {
     align-items: center;
 }
 
-/* searcBarPage */
+/* searchBarPage */
 .searchBarCont{
     position: absolute;
     top: 0;
@@ -1216,8 +1262,10 @@ img.displayIeviewImg {
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+.emptyCartPageSec{
     justify-content: center;
+    align-items: center;
 }
 .cartPageTopSec{
     display: flex;
@@ -1242,3 +1290,4 @@ img.cartProductImg {
     flex-direction: column;
     align-items: center;
 }
+

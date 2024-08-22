@@ -26,16 +26,14 @@ const Home = () => {
   const [productBanners, setProductBanners] = useState([]);
   const [value, setValue] = useState(3);
   const baseUrl = process.env.REACT_APP_API_URL;
-
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const { setWishlist, setWishlistCount, setUserDetails } =
-    useContext(searchResultContext);
+  const { userDetails, setUserDetails } = useContext(searchResultContext);
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   useEffect(() => {
     getProfileDetails(jwtToken, setUserDetails);
-  }, [jwtToken, setWishlist, setWishlistCount, setUserDetails]);
+  }, [jwtToken, setUserDetails]);
 
   useEffect(() => {
     const apiCallMethod = async () => {
@@ -56,7 +54,11 @@ const Home = () => {
           axios.get(categoriesUrl),
           axios.get(collectionsUrl),
           axios.get(productBannersUrl),
-          axios.post(bestSellersUrl),
+          axios.post(bestSellersUrl, {
+            customerId:
+              userDetails.azst_customer_id ??
+              localStorage.getItem(process.env.REACT_APP_CART_KEY),
+          }),
         ]);
 
         if (brandsResponse.status === 200) {
@@ -79,7 +81,7 @@ const Home = () => {
       }
     };
     apiCallMethod();
-  }, [baseUrl]);
+  }, [baseUrl, userDetails.azst_customer_id]);
 
   return (
     <>

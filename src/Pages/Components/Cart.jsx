@@ -1,47 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaCartShopping } from "react-icons/fa6";
 import { GiCancel } from "react-icons/gi";
-import axios from "axios";
 import Cookies from "js-cookie";
-import swalHandle from "./ErrorHandler";
+import axios from "axios";
 import { searchResultContext } from "../../ReactContext/SearchResults";
-import { MdCancel } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { GoPlus, GoMinus } from "react-icons/go";
-import { FiMinus } from "react-icons/fi";
+import { GoPlus } from "react-icons/go";
 import { HiMiniMinusSmall } from "react-icons/hi2";
 import { calculateTotal } from "../Cart/Functions";
+import QntyBtn from "../Cart/QntyBtn";
 
 const Cart = ({ handleCart }) => {
   const baseUrl = process.env.REACT_APP_API_URL;
-  const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
-  const { userDetails, updateCartData, cartList, setCartList, cartCount } =
+  const { userDetails, updateCartData, cartList, setCartList } =
     useContext(searchResultContext);
 
-  // const onCheckout = async (Products) => {
-  //   try {
-  //     const url = `${baseUrl}/cart`;
-  //     const headers = {
-  //       Authorization: `Bearer ${jwtToken}`,
-  //     };
-  //     const cartProducts = Products.map((p) => ({
-  //       productId: p.productId,
-  //       variantId: p.variantId,
-  //       quantity: p.azst_quantity,
-  //     }));
-  //     const response = await axios.post(url, { cartProducts }, { headers });
-  //     if (response.status === 200) {
-  //       swalHandle.onSuccess("Product added to cart");
-  //       if (isClear === "ClearCart") {
-  //         localStorage.removeItem(process.env.REACT_APP_LOACL_CART);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   const handleRemoveItem = async (id) => {
     console.log(id, "ididid");
@@ -76,71 +51,70 @@ const Cart = ({ handleCart }) => {
     );
   };
 
-  const updateQuantity = async (body) => {
-    try {
-      const url = `${baseUrl}/cart`;
-      body = { ...body, customerId: userDetails.azst_customer_id ?? 0 };
-      await axios.put(url, body);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const updateQuantity = async (body) => {
+  //   try {
+  //     const url = `${baseUrl}/cart`;
+  //     body = { ...body, customerId: userDetails.azst_customer_id ?? 0 };
+  //     await axios.put(url, body);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const increaseQuantityCounter = (cartId) => {
-    const product = cartList.find((c) => c.azst_cart_id === cartId);
-    let quantity = product.azst_cart_quantity ?? 1;
-    if (product) {
-      const updatedCart = cartList.map((eachProduct) => {
-        if (eachProduct.azst_cart_id === cartId) {
-          if (eachProduct.azst_cart_quantity < eachProduct.max_cart_quantity) {
-            quantity = eachProduct.azst_cart_quantity + 1;
-            return {
-              ...eachProduct,
-              azst_cart_quantity: quantity,
-            };
-          }
-          return eachProduct;
-        } else {
-          return eachProduct;
-        }
-      });
-      console.log(updatedCart, "updatedCart");
-      setCartList(updatedCart);
-      const body = { cartId, quantity };
-      updateQuantity(body);
-    }
-  };
+  // const increaseQuantityCounter = (cartId) => {
+  //   const product = cartList.find((c) => c.azst_cart_id === cartId);
+  //   let quantity = product.azst_cart_quantity ?? 1;
+  //   if (product) {
+  //     const updatedCart = cartList.map((eachProduct) => {
+  //       if (eachProduct.azst_cart_id === cartId) {
+  //         if (eachProduct.azst_cart_quantity < eachProduct.max_cart_quantity) {
+  //           quantity = eachProduct.azst_cart_quantity + 1;
+  //           return {
+  //             ...eachProduct,
+  //             azst_cart_quantity: quantity,
+  //           };
+  //         }
+  //         return eachProduct;
+  //       } else {
+  //         return eachProduct;
+  //       }
+  //     });
+  //     setCartList(updatedCart);
+  //     const body = { cartId, quantity };
+  //     updateQuantity(body);
+  //   }
+  // };
 
-  const decreaseQuantityCounter = (cartId) => {
-    const product = cartList.find((c) => c.azst_cart_id === cartId);
-    let quantity = 0;
-    if (product) {
-      const updatedCart = cartList.map((eachProduct) => {
-        if (eachProduct.azst_cart_id === cartId) {
-          if (eachProduct.azst_cart_quantity > eachProduct.min_cart_quantity) {
-            quantity = eachProduct.azst_cart_quantity - 1;
-            return {
-              ...eachProduct,
-              azst_cart_quantity: quantity,
-            };
-          }
-          return eachProduct;
-        } else {
-          return eachProduct;
-        }
-      });
-      setCartList(updatedCart);
-      const body = { cartId, quantity };
-      updateQuantity(body);
-    }
-  };
+  // const decreaseQuantityCounter = (cartId) => {
+  //   const product = cartList.find((c) => c.azst_cart_id === cartId);
+  //   let quantity = 0;
+  //   if (product) {
+  //     const updatedCart = cartList.map((eachProduct) => {
+  //       if (eachProduct.azst_cart_id === cartId) {
+  //         if (eachProduct.azst_cart_quantity > eachProduct.min_cart_quantity) {
+  //           quantity = eachProduct.azst_cart_quantity - 1;
+  //           return {
+  //             ...eachProduct,
+  //             azst_cart_quantity: quantity,
+  //           };
+  //         }
+  //         return eachProduct;
+  //       } else {
+  //         return eachProduct;
+  //       }
+  //     });
+  //     setCartList(updatedCart);
+  //     const body = { cartId, quantity };
+  //     updateQuantity(body);
+  //   }
+  // };
 
   console.log(cartList, "cartList");
 
   return (
     <div className="cartPageSec">
       <div className="cartPageLeftSec">
-        <span onClick={closeCart} style={{ color: "#fff" }}>
+        <span onClick={closeCart} style={{ color: "#fff", cursor: "pointer" }}>
           Continue Shopping
         </span>
       </div>
@@ -191,7 +165,7 @@ const Cart = ({ handleCart }) => {
                       ? each.variant_image
                       : each.image_src
                   }
-                  alt="sparkelImg"
+                  alt="productImg"
                   className="cartProductImg"
                 />
               </div>
@@ -227,7 +201,11 @@ const Cart = ({ handleCart }) => {
                   fill="rgb(180, 180, 180)"
                   onClick={() => handleRemoveItem(each.azst_cart_id)}
                 />
-                <div
+                <QntyBtn
+                  cartQuantity={each.azst_cart_quantity}
+                  cartId={each.azst_cart_id}
+                />
+                {/* <div
                   style={{
                     border: "1px solid #B4B4B4",
                     borderRadius: "6px",
@@ -245,7 +223,7 @@ const Cart = ({ handleCart }) => {
                       onClick={() => increaseQuantityCounter(each.azst_cart_id)}
                     />
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}
@@ -289,7 +267,11 @@ const Cart = ({ handleCart }) => {
             </small>
           </div>
           <div className="cartPgbotSec">
-            <Link className="linkBtn productPgBtn d-block">
+            <Link
+              to={jwtToken ? "/checkout" : "/login"}
+              className="linkBtn productPgBtn d-block"
+              onClick={closeCart}
+            >
               Check Out - Rs.{calculateTotal(cartList)}
             </Link>
             <small style={{ color: "#000", fontWeight: "600" }}>
@@ -368,7 +350,7 @@ const Cart = ({ handleCart }) => {
           </div> */}
         </div>
       ) : (
-        <div className="cartPageRightSec">
+        <div className="cartPageRightSec emptyCartPageSec">
           <img
             src={`${process.env.PUBLIC_URL}/images/emptyCart.gif`}
             alt="empty cart"

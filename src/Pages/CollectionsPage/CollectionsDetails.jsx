@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { searchResultContext } from "../../ReactContext/SearchResults";
 import ErrorHandle from "../Components/ErrorHandler";
 import "./index.css";
 import "../Components/Customer.css";
@@ -13,7 +14,7 @@ const CollectionsDetails = () => {
   const [productsList, setProductsList] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [collectionData, setCollectionData] = useState({});
-
+  const { userDetails } = useContext(searchResultContext);
   const [filteredValues, setFilteredValues] = useState({
     availability: "All",
     discount: "10",
@@ -49,8 +50,8 @@ const CollectionsDetails = () => {
           orderBy: sortOrder,
           reviewpoint: parseInt(starRating),
           productQty: availability,
+          customerId: userDetails.azst_customer_id,
         };
-        console.log(body, "body");
         ErrorHandle.onLoading();
         const response = await axios.post(url, body);
         const { collection_data, products } = response.data;

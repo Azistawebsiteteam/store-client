@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Components/Customer.css";
 
-const Categories = ({ categories, type }) => {
+const Categories = ({ categories, type, closeCategories }) => {
+  const handleSearchbarClose = () => {
+    if (closeCategories) {
+      closeCategories(false);
+    }
+  };
   return (
     <div className="categories">
       <div className="container">
@@ -36,6 +41,7 @@ const Categories = ({ categories, type }) => {
                       categoryId: eachCategory.azst_category_id,
                       collectionName: eachCategory.azst_category_name,
                     }}
+                    onClick={handleSearchbarClose}
                   >
                     View All
                   </Link>

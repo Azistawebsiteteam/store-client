@@ -40,7 +40,7 @@ const CarouselItem = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     centerMode: true,
-    centerPadding: "60px",
+    centerPadding: "40px",
     nextArrow: <HiArrowNarrowRight />,
     prevArrow: <HiArrowNarrowLeft />,
   };

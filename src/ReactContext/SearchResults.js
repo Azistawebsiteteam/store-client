@@ -1,19 +1,18 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+
 import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
 import { cartItems, calculateTotal } from "../Pages/Cart/Functions";
-
 export const searchResultContext = createContext();
 
 const SearchResultsProvider = (props) => {
   const { children } = props;
   const [searchResults, setSearchResults] = useState([]);
-  const [wishlistCount, setWishlistCount] = useState(0);
   const [cartList, setCartList] = useState([]);
-
   const [cartTotal, setCartTotal] = useState(0);
   const [userDetails, setUserDetails] = useState({});
   const [cartCount, setCartCount] = useState();
+
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   const fetchIPAddress = async () => {
@@ -35,7 +34,7 @@ const SearchResultsProvider = (props) => {
   };
 
   const updateCartData = useCallback(() => {
-    cartItems().then((data) => {
+    cartItems(userDetails.azst_customer_id).then((data) => {
       if (data) {
         setCartList(data);
         setCartCount(data.length);
@@ -49,7 +48,14 @@ const SearchResultsProvider = (props) => {
       // Fetch the IP address if not found in localStorage
       const storedIP = await fetchIPAddress();
       if (storedIP) {
-        localStorage.setItem(process.env.REACT_APP_CART_KEY, storedIP);
+        const storedKey = generateRandomKey();
+
+        const sub = storedKey.substring(1, 5);
+        console.log(sub);
+        localStorage.setItem(
+          process.env.REACT_APP_CART_KEY,
+          `${sub}-${storedIP}`
+        );
       } else {
         const storedKey = generateRandomKey();
         localStorage.setItem(process.env.REACT_APP_CART_KEY, storedKey);
@@ -77,8 +83,6 @@ const SearchResultsProvider = (props) => {
       value={{
         searchResults,
         setSearchResults,
-        wishlistCount,
-        setWishlistCount,
         cartTotal,
         setCartTotal,
         userDetails,

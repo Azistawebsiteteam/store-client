@@ -4,30 +4,25 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { v4 } from "uuid";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import Cookies from "js-cookie";
 import swalHandle from "./ErrorHandler";
-import Swal from "sweetalert2";
 import { DisplayReview, ProductRating } from "./CustomerRating";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
-import { PiHeart } from "react-icons/pi";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { HiOutlineMail } from "react-icons/hi";
 import { GrShareOption } from "react-icons/gr";
-import { RiArrowDropRightLine } from "react-icons/ri";
 import { RxCaretRight, RxCaretLeft } from "react-icons/rx";
-
-import { RiArrowDropLeftLine } from "react-icons/ri";
-import Faqs from "./Faqs";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import { handleAddtoCart } from "../Cart/Functions";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import Faqs from "./Faqs";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
@@ -40,7 +35,7 @@ const ProductItem = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [descriptionHeadings, setDescriptionHeadings] = useState([]);
   const [contArray, setContArray] = useState();
-  const [reqVariantId, setReqVariantId] = useState();
+  const [reqVariantId, setReqVariantId] = useState(0);
   const [output, setOutput] = useState();
   const [chooseCondn, setChooseCondn] = useState("oilySkin");
 
@@ -59,23 +54,12 @@ const ProductItem = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
-  const { userDetails, updateCartData } = useContext(searchResultContext);
+  const { userDetails, updateCartData, wishlist } =
+    useContext(searchResultContext);
   //  const location = useLocation();
-
+  console.log(wishlist, "inWishlist");
   // const { productId = 0 } = location.state;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (contentRef.current) {
-      // Get the full height of the content
-      const fullHeight = contentRef.current.scrollHeight;
-      console.log(fullHeight, "full");
-      setContentHeight(`${fullHeight}px`);
-
-      // Check if content is overflowing the initial max-height
-      setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
-    }
-  }, []);
 
   const getFaqs = useCallback(
     async (productId) => {
@@ -86,12 +70,17 @@ const ProductItem = () => {
     [baseUrl]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const productDetails = async () => {
       try {
         const url = `${baseUrl}/product/details`;
 
-        const productResponse = await axios.post(url, { productId: id });
+        const productResponse = await axios.post(url, {
+          productId: id,
+          customerId:
+            userDetails.azst_customer_id ??
+            localStorage.getItem(process.env.REACT_APP_CART_KEY),
+        });
 
         const { avalaibleVariants, productDetails, variants } =
           productResponse.data;
@@ -107,8 +96,6 @@ const ProductItem = () => {
     };
     productDetails();
   }, [id, baseUrl]);
-
-  console.log(productDetails, "productDetails");
 
   const htmlString = productDetails.product_info;
 
@@ -136,7 +123,20 @@ const ProductItem = () => {
     // Update state with the extracted data
     setDescriptionHeadings(headingsArray);
     setContArray(contentArray);
+    contentRef.current = contentArray;
   }, [htmlString]);
+
+  useEffect(() => {
+    console.log(contentRef.current, "contentRef.current");
+    if (contentRef.current) {
+      // Get the full height of the content
+      const fullHeight = contentRef.current.outerHtml;
+      console.log(fullHeight, "balaji");
+      setContentHeight(`${fullHeight}px`);
+      // Check if content is overflowing the initial max-height
+      setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
+    }
+  }, [contentRef]);
 
   useEffect(() => {
     if (variants.length > 0) {
@@ -158,6 +158,7 @@ const ProductItem = () => {
           each.option2 === selectedVariant2 &&
           each.option3 === selectedVariant3
       );
+
       if (matchingVariant) {
         setReqVariantId(matchingVariant.id);
       }
@@ -169,11 +170,13 @@ const ProductItem = () => {
     const variantDetails = async () => {
       try {
         const url = `${baseUrl}/product/variants`;
-        let response = await axios.post(url, { variantId: reqVariantId });
+        console.log(reqVariantId, "reqVariant");
+        const variantId = reqVariantId ? reqVariantId : 0;
+        let response = await axios.post(url, { variantId });
         setOutput(response.data.variant);
-        console.log(response, "balaji");
       } catch (error) {
-        console.log(error);
+        console.log(error, "variantId");
+        // ErrorHandler.onError(error);
       }
     };
     variantDetails();
@@ -207,7 +210,7 @@ const ProductItem = () => {
         Authorization: `Bearer ${jwtToken}`,
       };
       swalHandle.onLoading();
-      await axios.post(
+      const response = await axios.post(
         url,
         {
           productId: productDetails.id,
@@ -215,9 +218,15 @@ const ProductItem = () => {
         },
         { headers }
       );
-      Swal.close();
+      if (response.status === 200) {
+        setProductDetails({
+          ...productDetails,
+          in_wishlist: 1,
+        });
+      }
+      swalHandle.onLoadingClose();
     } catch (error) {
-      Swal.close();
+      swalHandle.onLoadingClose();
       swalHandle.onError(error);
     }
   };
@@ -282,7 +291,7 @@ const ProductItem = () => {
     setPincode(e.target.value);
   };
 
-  console.log(productDetails, "productDetails");
+  console.log(productDetails.in_wishlist, "wishlistContent");
   return (
     <>
       <ScrollToTop />
@@ -481,7 +490,13 @@ const ProductItem = () => {
                       >
                         Add to cart
                       </button>
-                      <PiHeart
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/${
+                          productDetails.in_wishlist === 1
+                            ? "redHeart.svg"
+                            : "darkHeart.svg"
+                        }`}
+                        alt="wishlist"
                         className="wishListBtn"
                         onClick={handleWishlist}
                       />
@@ -490,8 +505,13 @@ const ProductItem = () => {
 
                     <div className="variants">
                       {variants.length > 0 && (
-                        <div key={variants[0].UOM}>
-                          <h5>{variants[0].UOM}</h5>
+                        <div
+                          key={variants[0].UOM}
+                          style={{ padding: "0.4rem 0" }}
+                        >
+                          <small style={{ color: "#747474" }}>
+                            {variants[0].UOM} :
+                          </small>
                           <div className="variantsValues">
                             {variants[0].values.map((eachValue, si) => (
                               <button
@@ -504,6 +524,10 @@ const ProductItem = () => {
                                     ? "selected"
                                     : `variantsValue`
                                 }
+                                style={{
+                                  fontSize: "0.8rem",
+                                  padding: "0.4rem",
+                                }}
                               >
                                 {eachValue}
                               </button>
@@ -512,8 +536,13 @@ const ProductItem = () => {
                         </div>
                       )}
                       {variants.length > 1 && (
-                        <div key={variants[1].UOM}>
-                          <h5>{variants[1].UOM}</h5>
+                        <div
+                          key={variants[1].UOM}
+                          style={{ padding: "0.4rem 0" }}
+                        >
+                          <small style={{ color: "#747474" }}>
+                            {variants[1].UOM} :
+                          </small>
                           <div className="variantsValues">
                             {variants[1].values.map((eachValue, si) => (
                               <button
@@ -526,6 +555,10 @@ const ProductItem = () => {
                                     ? "selected"
                                     : `variantsValue`
                                 }
+                                style={{
+                                  fontSize: "0.8rem",
+                                  padding: "0.4rem",
+                                }}
                               >
                                 {eachValue}
                               </button>
@@ -534,8 +567,13 @@ const ProductItem = () => {
                         </div>
                       )}
                       {variants.length > 2 && (
-                        <div key={variants[2].UOM}>
-                          <h5>{variants[2].UOM}</h5>
+                        <div
+                          style={{ padding: "0.4rem 0" }}
+                          key={variants[2].UOM}
+                        >
+                          <small style={{ color: "#747474" }}>
+                            {variants[2].UOM} :
+                          </small>
                           <div className="variantsValues">
                             {variants[2].values.map((eachValue, si) => (
                               <button
@@ -548,6 +586,10 @@ const ProductItem = () => {
                                     ? "selected"
                                     : `variantsValue`
                                 }
+                                style={{
+                                  fontSize: "0.8rem",
+                                  padding: "0.4rem",
+                                }}
                               >
                                 {eachValue}
                               </button>
@@ -633,31 +675,34 @@ const ProductItem = () => {
         <div className="ingredientsCont">
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
-                <h4 className="text-center">Ingredients</h4>
-                <div className="ingredientsList">
-                  {productDetails.product_ingredients?.map((ingredient, i) => (
-                    <div
-                      className="ingredient d-flex flex-column align-items-center m-2"
-                      key={i}
-                    >
-                      <div className="ingredientCont">
-                        <img
-                          src={ingredient.image}
-                          alt={ingredient.title}
-                          className="ingredientImg"
-                          style={{ width: "8rem" }}
-                        />
-                        <p>
-                          <strong>{ingredient.title}</strong>
-                        </p>
-                      </div>
-                      <small className="ingredientHoverCont">
-                        {ingredient.description}
-                      </small>
-                    </div>
-                  ))}
-                  {/* <div className="ingredient d-flex flex-column align-items-center m-2">
+              {productDetails?.product_ingredients !== null && (
+                <div className="col-md-12">
+                  <h4 className="text-center">Ingredients</h4>
+                  <div className="ingredientsList">
+                    {productDetails.product_ingredients?.map(
+                      (ingredient, i) => (
+                        <div
+                          className="ingredient d-flex flex-column align-items-center m-2"
+                          key={i}
+                        >
+                          <div className="ingredientCont">
+                            <img
+                              src={ingredient.image}
+                              alt={ingredient.title}
+                              className="ingredientImg"
+                              style={{ width: "8rem" }}
+                            />
+                            <p>
+                              <strong>{ingredient.title}</strong>
+                            </p>
+                          </div>
+                          <small className="ingredientHoverCont">
+                            {ingredient.description}
+                          </small>
+                        </div>
+                      )
+                    )}
+                    {/* <div className="ingredient d-flex flex-column align-items-center m-2">
                   <div className="ingredientCont">
                     <img
                       src={`${process.env.PUBLIC_URL}/images/ingredient2.png`}
@@ -691,8 +736,9 @@ const ProductItem = () => {
                     spots and hyperpigmentation
                   </small>
                 </div> */}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="col-md-12 d-flex justify-content-center m-4">
                 <div className="productInfo">
                   <ul
@@ -750,7 +796,9 @@ const ProductItem = () => {
                               : "14rem",
                           }}
                           id="productContentInfo"
-                          dangerouslySetInnerHTML={{ __html: `${tabContent}` }}
+                          dangerouslySetInnerHTML={{
+                            __html: `${tabContent}`,
+                          }}
                         />
                         {isContentOverflowing && (
                           <btn

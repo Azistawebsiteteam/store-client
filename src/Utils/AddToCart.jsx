@@ -7,22 +7,20 @@ import { handleAddtoCart } from "../Pages/Cart/Functions";
 
 const AddToCart = (props) => {
   const { productId, variantId, quantity } = props;
-
   console.log(productId, variantId, quantity, "productId, variantId, quantity");
   const { userDetails, updateCartData } = useContext(searchResultContext);
   // const baseUrl = process.env.REACT_APP_API_URL;
-
   return (
     <>
-      <Link
-        to="#"
+      <button
         className="linkBtn beforeHover"
+        style={{ border: "none" }}
         onClick={() =>
           handleAddtoCart(userDetails.azst_customer_id, props, updateCartData)
         }
       >
         Add to Cart
-      </Link>
+      </button>
     </>
   );
 };

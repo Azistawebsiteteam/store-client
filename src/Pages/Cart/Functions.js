@@ -1,10 +1,10 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import swalHandle from "../Components/ErrorHandler";
-//const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+// const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export const handleAddtoCart = async (custId, product, updateCartData) => {
-  console.log(custId, product, updateCartData);
   const { productId, variantId, quantity } = product;
   try {
     const url = `${baseUrl}/cart`;
@@ -29,6 +29,7 @@ export const handleAddtoCart = async (custId, product, updateCartData) => {
 };
 
 export const cartItems = async (custId) => {
+  console.log(custId, "customer djndf");
   try {
     const url = `${baseUrl}/cart/data`;
     const body = {

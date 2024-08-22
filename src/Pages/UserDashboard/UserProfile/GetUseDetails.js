@@ -7,7 +7,6 @@ const baseUrl = process.env.REACT_APP_API_URL;
 export const getProfileDetails = async (jwtToken, setUserDetails) => {
   if (!jwtToken) return;
   try {
-    console.log("gettingUserDetails");
     const url = `${baseUrl}/profile/data`;
     const headers = {
       Authorization: `Bearer ${jwtToken}`,
@@ -17,7 +16,6 @@ export const getProfileDetails = async (jwtToken, setUserDetails) => {
 
     if (response.status === 200) {
       swalHandle.onLoadingClose();
-      console.log(response);
       setUserDetails(response.data);
     }
   } catch (error) {

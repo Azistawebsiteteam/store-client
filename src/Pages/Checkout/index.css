@@ -1,0 +1,61 @@
+ /* checkout */
+
+    .checkoutAcc{
+        border-bottom: 1px solid rgba(176, 176, 176, 1) !important;
+        padding: 1rem;
+    }
+    .accTitle{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .accBtn{
+        cursor: pointer;
+        background-color:rgba(0, 0, 0, 0.08);
+        border-radius: 6px;
+    }
+    .accBtnArr{
+        font-size: 2rem;
+    }
+    .accCont{
+        overflow: hidden;
+        max-height: 0;
+        transition: all 0.5sec cubic-bezier(0,1,0,1);
+    }
+    .accCont.show{
+        height: auto;
+        max-height: 9999px;
+        transition: all 0.5sec cubic-bezier(0,1,0,1);
+    }
+    .checkoutPage {
+        padding: 50px 0;
+    }
+    .addressCard{
+        display: flex;
+        align-items: baseline;
+        margin: 0.6rem 0;
+    }
+    .deliverHereBtn{
+        width: max-content;
+        padding: 10px 10px;
+        border-radius: 50px;
+        margin: 4px 0;
+    }
+    .ratingSec{
+        margin: 4px 0;
+    }
+    .reviewCont{
+        display: flex;
+        justify-content: space-evenly;
+    }
+   
+    .reviewImgsCont{
+        display: flex;
+        overflow-x: auto;
+        width: 90%;
+    }
+    .editSec {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }

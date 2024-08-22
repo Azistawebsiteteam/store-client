@@ -8,6 +8,7 @@ import "./Components.css";
 import ThreeDotsDropdown from "./ThreeDotsDropdown";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { MdDelete } from "react-icons/md";
+import ErrorHandler from "./ErrorHandler";
 
 const baseUrl = `${process.env.REACT_APP_API_URL}/reviews`;
 const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
@@ -15,6 +16,7 @@ const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 export const CreateReview = (props) => {
   const { productId, buttonText, reviewDetails } = props;
   // const [currentVal, setCurrenVal] = useState(0);
+  // console.log(reviewDetails, "reviewDetails");
   const [value, setValue] = useState(1);
   const [reviewData, setReviewData] = useState({
     reviewTitle: "",
@@ -68,25 +70,26 @@ export const CreateReview = (props) => {
       formdata.append("reviewContent", reviewData.reviewContent);
       formdata.append("reviewPoints", value);
       reviewId && formdata.append("reviewId", reviewId);
-
+      ErrorHandler.onLoading();
       await axios.post(url, formdata, { headers });
+      ErrorHandler.onSuccess();
     } catch (error) {
-      console.log(error);
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
     }
   };
 
   const onClickReview = async (buttonText) => {
-    if (buttonText === "submit") {
+    if (buttonText === "Submit") {
       const url = `${baseUrl}/create/review`;
       onSubmitReview(url);
     } else {
       const url = `${baseUrl}/update/review`;
-      onSubmitReview(url, reviewDetails.review_id);
+      onSubmitReview(url, reviewDetails?.review_id);
     }
   };
 
   const handleReviewImg = (e, id) => {
-    console.log(id, "sdsd");
     if (e.target.checked) {
       setReviewImgFile((prev) => [...prev, id]);
     } else {
@@ -94,7 +97,6 @@ export const CreateReview = (props) => {
       setReviewImgFile(selected);
     }
   };
-  console.log(reviewImgFile, "setReviewImgFile");
   const deleteReviewImg = () => {
     let filteredReviewImgs = reviewData.reviewImg.filter(
       (img, i) => !reviewImgFile.includes(i)
@@ -146,7 +148,7 @@ export const CreateReview = (props) => {
           </div>
         </div>
         <div className="uploadFiles d-flex flex-column mt-2">
-          <label htmlFor="reviewImg" class="custom-file-upload">
+          <label htmlFor="reviewImg" className="custom-file-upload">
             Upload image
           </label>
           <input
@@ -219,7 +221,7 @@ const productReviews = async (productId) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    ErrorHandler.onError(error);
   }
 };
 
@@ -246,7 +248,7 @@ export const DisplayReview = ({ productId }) => {
 
   return (
     <div>
-      {reviews && (
+      {reviews.length > 1 && (
         <div className="reviewCont flex-column">
           <div className="col-md-12 d-flex flex-row justify-content-between align-items-center mb-5">
             <div className="">
@@ -280,26 +282,26 @@ export const DisplayReview = ({ productId }) => {
               </button>
 
               <div
-                class="modal fade"
+                className="modal fade"
                 id="createReview"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
               >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="exampleModalLabel">
                         Review the product
                       </h5>
                       <button
                         type="button"
-                        class="btn-close"
+                        className="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                       <CreateReview
                         productId={productId}
                         buttonText={"Submit"}
@@ -313,7 +315,7 @@ export const DisplayReview = ({ productId }) => {
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {reviews.map((each, i) => (
               <div key={i} className="review m-3">
-                <div className="topSec">
+                <div className="d-flex justify-content-between">
                   <div className="editSec">
                     <Rating
                       name="read-only"

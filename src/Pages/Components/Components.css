@@ -39,27 +39,11 @@
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;
-    
     width: 100%;
     background: #f1f1f1;
   }
-.variantsValues{
-    display: flex;
-}
-.variantsValue{
-    border: 1px solid grey;
-    padding: 4px;
-    margin: 0px 6px;
-    border-radius: 4px;
-}
-.selected {
-    border: 1px solid #499dc8;
-    padding: 4px;
-    margin: 0px 6px;
-    border-radius: 4px;
-    background-color: #499dc8;
-    color: #fff;
-}
+
+
 .input_group button {
     
     width: 14%;
@@ -313,66 +297,7 @@
         z-index: 3;
     }
 
-    /* checkout */
-
-    /* .accordion-item{
-        border-bottom: 2px solid rgb(74, 77, 78) !important;
-        padding: 6px;
-    } */
-    .accTitle{
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
-    .accBtn{
-        cursor: pointer;
-        background-color: gray;
-        border-radius: 2px;
-    }
-    .accBtnArr{
-        font-size: 34px;
-    }
-    .accCont{
-        overflow: hidden;
-        max-height: 0;
-        transition: all 0.5sec cubic-bezier(0,1,0,1);
-    }
-    .accCont.show{
-        height: auto;
-        max-height: 9999px;
-        transition: all 0.5sec cubic-bezier(0,1,0,1);
-    }
-    .checkoutPage {
-        padding: 50px 0;
-    }
-    .addressCard{
-        display: flex;
-        align-items: flex-start;
-    }
-    .deliverHereBtn{
-        width: max-content;
-        padding: 10px 10px;
-        border-radius: 50px;
-        margin: 4px 0;
-    }
-    .ratingSec{
-        margin: 4px 0;
-    }
-    .reviewCont{
-        display: flex;
-        justify-content: space-evenly;
-    }
    
-    .reviewImgsCont{
-        display: flex;
-        overflow-x: auto;
-        width: 90%;
-    }
-    .editSec {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
     
     /* reviewEditPage */
     .reviewImgsSection {

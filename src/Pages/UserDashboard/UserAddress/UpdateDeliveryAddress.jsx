@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../UserProfile/SideBar";
 import swalHandle from "../../Components/ErrorHandler";
+import { FaArrowLeft } from "react-icons/fa6";
 import "./UserAddress.css";
 
 const UpdateDeliveryAddress = () => {
@@ -114,6 +115,17 @@ const UpdateDeliveryAddress = () => {
         <SideBar />
         <div className="myAccUserAdd">
           <div className="myAccUserInnerSec">
+            <div style={{ margin: "0 0 2% 0" }}>
+              <FaArrowLeft
+                onClick={() => navigate(-1)}
+                style={{ cursor: "pointer" }}
+              />
+              <h5 style={{ marginBottom: "0" }}>Delivery Address</h5>
+              <small>
+                Delivery Address Book &gt;{" "}
+                <strong style={{ fontWeight: "500" }}>Edit Address</strong>
+              </small>
+            </div>
             <AddressForm
               inputValues={inputValues}
               setInputValue={setInputValue}

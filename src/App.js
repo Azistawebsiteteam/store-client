@@ -10,7 +10,7 @@ import GoogleSignIn from "./Pages/Authentication/GoogleSignIn";
 import EditProfile from "./Pages/UserDashboard/UserProfile/EditProfile";
 import Navbar from "./Pages/Components/Navbar";
 import ProfileManagement from "./Pages/UserDashboard/UserProfile/ProfileManagement";
-import ManageOrders from "./Pages/UserDashboard/ManageOrders";
+import ManageOrders from "./Pages/UserDashboard/OrdersSection/ManageOrders";
 import ManageAddress from "./Pages/UserDashboard/UserAddress/ManageAddress";
 import PasswordManager from "./Pages/UserDashboard/UserProfile/PasswordManager";
 import NewAddress from "./Pages/UserDashboard/UserAddress/NewAddress";
@@ -19,7 +19,7 @@ import CollectionsDetails from "./Pages/CollectionsPage/CollectionsDetails";
 import ProductItem from "./Pages/Components/ProductItem";
 import AllProductsPage from "./Pages/Components/AllProductsPage";
 import NotFound from "./Pages/Components/NotFound";
-import Checkout from "./Pages/Components/Checkout";
+import Checkout from "./Pages/Checkout/Checkout";
 import WishList from "./Pages/Components/WishList";
 import Popup from "./Pages/HomePage/Popup";
 import SearchResultsProvider from "./ReactContext/SearchResults";
@@ -36,10 +36,13 @@ import "./App.css";
 import FaqsPage from "./Pages/Components/FaqsPage";
 import AboutUs from "./Pages/AbouUs/AboutUs";
 import BlogsInnerPage from "./Pages/Blogs/BlogsInnerPage";
-import ReviewsAndRatings from "./Pages/Components/ReviewsAndRatings";
-import EditReview from "./Pages/Components/EditReview";
+import ReviewsAndRatings from "./Pages/UserDashboard/ReviewsAndRatings";
+import EditReview from "./Pages/UserDashboard/EditReview";
 import ContactUs from "./Pages/ContactUs/ContactUs";
 import RequestCb from "./Pages/RequestCallbackPage/RequestCb";
+import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
+import Payments from "./Pages/Components/Payments";
+import OrderSummary from "./Pages/OrderSummary/OrderSummary";
 
 function App() {
   return (
@@ -75,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ManageOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-details"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
             </ProtectedRoute>
           }
         />
@@ -128,6 +139,8 @@ function App() {
         <Route path="/edit-review" element={<EditReview />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/request-callback" element={<RequestCb />} />
+        <Route path="/Payments" element={<Payments />} />
+        <Route path="/orderSummary" element={<OrderSummary />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

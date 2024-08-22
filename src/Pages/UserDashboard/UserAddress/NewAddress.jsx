@@ -5,6 +5,7 @@ import axios from "axios";
 import SideBar from "../UserProfile/SideBar";
 import { useNavigate } from "react-router-dom";
 import swalErr from "../../Components/ErrorHandler";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const NewAddress = ({ updateFormFilledStatus }) => {
   const [inputValues, setInputValue] = useState({
@@ -65,6 +66,17 @@ const NewAddress = ({ updateFormFilledStatus }) => {
         <SideBar />
         <div className="myAccUserAdd">
           <div className="myAccUserInnerSec">
+            <div style={{ margin: "0 0 2% 0" }}>
+              <FaArrowLeft
+                onClick={() => navigate(-1)}
+                style={{ cursor: "pointer" }}
+              />
+              <h5 style={{ marginBottom: "0" }}>Delivery Address</h5>
+              <small>
+                Delivery Address Book &gt;{" "}
+                <strong style={{ fontWeight: "500" }}>Create Address</strong>
+              </small>
+            </div>
             <AddressForm
               inputValues={inputValues}
               setInputValue={setInputValue}
@@ -72,7 +84,7 @@ const NewAddress = ({ updateFormFilledStatus }) => {
             <input
               type="button"
               value="Submit"
-              className="commonBtn"
+              className="commonBtn mt-3"
               onClick={handleFormSubmit}
             />
           </div>

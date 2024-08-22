@@ -28,8 +28,8 @@ const SearchBar = ({ handleSearchBar }) => {
     categories();
   }, [baseUrl]);
 
-  const closeSearchBar = () => {
-    handleSearchBar(false);
+  const closeSearchBar = (val) => {
+    handleSearchBar(val);
   };
 
   const getProducts = async (value) => {
@@ -70,6 +70,7 @@ const SearchBar = ({ handleSearchBar }) => {
               >
                 <div
                   className="searchProductCard"
+                  onClick={() => closeSearchBar(false)}
                   style={{ backgroundColor: "#F3F4F5" }}
                 >
                   <div className="productContent">
@@ -117,7 +118,7 @@ const SearchBar = ({ handleSearchBar }) => {
 
   return (
     <div className="searchBarCont">
-      <div className="searchBarLeftSec" onClick={closeSearchBar}>
+      <div className="searchBarLeftSec" onClick={() => closeSearchBar(false)}>
         Continue Shopping
       </div>
       <div className="searchBarPage">
@@ -134,13 +135,20 @@ const SearchBar = ({ handleSearchBar }) => {
           {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button> */}
-          <IoIosClose className="searchBarIcon" onClick={closeSearchBar} />
+          <IoIosClose
+            className="searchBarIcon"
+            onClick={() => closeSearchBar(false)}
+          />
         </div>
         {searchText.length > 0 ? (
           searchFunctionality()
         ) : (
           <div className="">
-            <Categories categories={categories} type="searchbarCont" />
+            <Categories
+              categories={categories}
+              type="searchbarCont"
+              closeCategories={closeSearchBar}
+            />
           </div>
         )}
       </div>
