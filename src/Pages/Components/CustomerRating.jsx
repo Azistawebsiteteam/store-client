@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
 import Cookies from "js-cookie";
 import Rating from "@mui/material/Rating";
 import axios from "axios";
@@ -15,8 +14,6 @@ const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
 export const CreateReview = (props) => {
   const { productId, buttonText, reviewDetails } = props;
-  // const [currentVal, setCurrenVal] = useState(0);
-  // console.log(reviewDetails, "reviewDetails");
   const [value, setValue] = useState(1);
   const [reviewData, setReviewData] = useState({
     reviewTitle: "",

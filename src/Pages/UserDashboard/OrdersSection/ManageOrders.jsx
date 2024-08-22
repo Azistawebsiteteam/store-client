@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import SideBar from "../UserProfile/SideBar";
 import axios from "axios";
-import moment from "moment";
 import { IoSearchOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import DropdownComponent from "../../Components/DropdownComponent";

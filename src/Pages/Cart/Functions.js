@@ -1,7 +1,6 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import swalHandle from "../Components/ErrorHandler";
-// const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 export const handleAddtoCart = async (custId, product, updateCartData) => {

@@ -41,7 +41,7 @@ const SearchResultsProvider = (props) => {
         setCartTotal(calculateTotal(data));
       }
     });
-  }, []);
+  }, [userDetails.azst_customer_id]);
 
   useEffect(() => {
     const initialize = async () => {
