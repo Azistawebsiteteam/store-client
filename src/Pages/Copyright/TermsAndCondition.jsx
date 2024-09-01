@@ -8,7 +8,7 @@ const TermsAndCondition = () => {
       <ScrollToTop />
       <div className="container">
         <div className="policyCont">
-          <h3>Terms and Conditions</h3>
+          <h3 className="policyContTxt">Terms and Conditions</h3>
           <p>
             These Azista Store Terms and Conditions apply to the website
             (www.azistastore.com) and all other online properties (the “Site”)
@@ -522,7 +522,7 @@ const TermsAndCondition = () => {
             <br />
             You are giving up your right to serve as a representative, as a
             private attorney general, or in any other representative capacity,
-            or to participate as a member of a class of claimants, in any
+            or to participate as a member of a className of claimants, in any
             lawsuit involving any such dispute.
             <br />
             You must file any claim within 1 month after such claim arose or it

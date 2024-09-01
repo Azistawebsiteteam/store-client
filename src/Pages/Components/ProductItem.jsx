@@ -42,14 +42,14 @@ const ProductItem = () => {
   const [productImagesArr, setProductImagesArr] = useState([]);
   const [imgCount, setImgCount] = useState(0);
   const [readMoreContent, setReadMoreContent] = useState(false);
-  const [contentHeight, setContentHeight] = useState("14rem");
-  const [isContentOverflowing, setIsContentOverflowing] = useState(false);
+  // const [contentHeight, setContentHeight] = useState("14rem");
+  // const [isContentOverflowing, setIsContentOverflowing] = useState(false);
   const [faqsList, setFaqsList] = useState([]);
   const [pincode, setPincode] = useState("");
   const [estimatedDelivery, setEstimatedDelivery] = useState({});
   const [pincodeError, setPincodeError] = useState("");
 
-  const contentRef = useRef(null);
+  // const contentRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
@@ -99,6 +99,17 @@ const ProductItem = () => {
 
   const htmlString = productDetails.product_info;
 
+  // const productContent = (contentInfo) => {
+  //   if (contentInfo) {
+  //     // Get the full height of the content
+  //     const fullHeight = contentInfo.current.offsetHeight;
+  //     console.log(fullHeight, "balaji");
+  //     setContentHeight(`${fullHeight}px`);
+  //     // Check if content is overflowing the initial max-height
+  //     setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
+  //   }
+  // };
+
   useEffect(() => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
@@ -123,20 +134,9 @@ const ProductItem = () => {
     // Update state with the extracted data
     setDescriptionHeadings(headingsArray);
     setContArray(contentArray);
-    contentRef.current = contentArray;
+    // contentRef.current = contentArray;
+    // productContent(contentRef.current);
   }, [htmlString]);
-
-  useEffect(() => {
-    console.log(contentRef.current, "contentRef.current");
-    if (contentRef.current) {
-      // Get the full height of the content
-      const fullHeight = contentRef.current.outerHtml;
-      console.log(fullHeight, "balaji");
-      setContentHeight(`${fullHeight}px`);
-      // Check if content is overflowing the initial max-height
-      setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
-    }
-  }, [contentRef]);
 
   useEffect(() => {
     if (variants.length > 0) {
@@ -291,7 +291,8 @@ const ProductItem = () => {
     setPincode(e.target.value);
   };
 
-  console.log(productDetails.in_wishlist, "wishlistContent");
+  console.log(output, "output");
+
   return (
     <>
       <ScrollToTop />
@@ -435,7 +436,7 @@ const ProductItem = () => {
                       </label>
                     </div>
                   </div> */}
-                  <div className="d-flex">
+                  <div className="d-flex productPrice">
                     <p className="comparedPrice">
                       Rs{" "}
                       {variants.length > 0
@@ -462,8 +463,8 @@ const ProductItem = () => {
                       %
                     </p>
                   </div>
-                  <div className="">
-                    <div className="d-flex justify-content-md-between">
+                  <div className="clickableElements">
+                    <div className="d-flex justify-content-between">
                       <div className="quantityCont">
                         <span onClick={decreaseQuantity}>
                           <FaMinus />
@@ -481,7 +482,7 @@ const ProductItem = () => {
                             userDetails.azst_customer_id,
                             {
                               productId: productDetails.id,
-                              variantId: 0,
+                              variantId: output?.id ?? 0,
                               quantity: quantityCounter,
                             },
                             updateCartData
@@ -502,7 +503,6 @@ const ProductItem = () => {
                       />
                     </div>
                     <button className="buyNowBtn">Buy it Now</button>
-
                     <div className="variants">
                       {variants.length > 0 && (
                         <div
@@ -631,7 +631,7 @@ const ProductItem = () => {
                         )}
                         {pincodeError && <small>{pincodeError}</small>}
                       </div>
-                      <div className="d-flex flex-column align-items-end">
+                      <div className="d-flex flex-column align-items-start align-items-md-end">
                         <a
                           href="mailto:'ecommerce@azistaindustries.com'"
                           style={{
@@ -702,44 +702,10 @@ const ProductItem = () => {
                         </div>
                       )
                     )}
-                    {/* <div className="ingredient d-flex flex-column align-items-center m-2">
-                  <div className="ingredientCont">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/ingredient2.png`}
-                      alt="ingredient"
-                      className="ingredientImg"
-                      style={{ width: "8rem" }}
-                    />
-                    <p>
-                      <strong>Fragrance</strong>
-                    </p>
-                  </div>
-                  <small className="ingredientHoverCont">
-                    Reduce the production of melanin and appearence of dark
-                    spots and hyperpigmentation
-                  </small>
-                </div>
-                <div className="ingredient d-flex flex-column align-items-center m-2">
-                  <div className="ingredientCont">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/ingredient3.png`}
-                      alt="ingredient"
-                      className="ingredientImg"
-                      style={{ width: "8rem" }}
-                    />
-                    <p>
-                      <strong>Glutathione</strong>
-                    </p>
-                  </div>
-                  <small className="ingredientHoverCont">
-                    Reduce the production of melanin and appearence of dark
-                    spots and hyperpigmentation
-                  </small>
-                </div> */}
                   </div>
                 </div>
               )}
-              <div className="col-md-12 d-flex justify-content-center m-4">
+              <div className="col-md-12 d-flex justify-content-center">
                 <div className="productInfo">
                   <ul
                     className="nav nav-pills custNavPills mb-3"
@@ -786,28 +752,24 @@ const ProductItem = () => {
                         aria-labelledby={`tab-${id}`}
                       >
                         <div
-                          ref={contentRef}
+                          // ref={tabContent}
                           className={`hideProductContentInfo ${
-                            readMoreContent ? "expanded" : ""
+                            readMoreContent ? "expanded" : "hideContent"
                           }`}
-                          style={{
-                            maxHeight: readMoreContent
-                              ? contentHeight
-                              : "14rem",
-                          }}
                           id="productContentInfo"
                           dangerouslySetInnerHTML={{
-                            __html: `${tabContent}`,
+                            __html: tabContent,
                           }}
                         />
-                        {isContentOverflowing && (
-                          <btn
-                            className="btn btn-secondary displayBtn"
-                            onClick={() => setReadMoreContent(!readMoreContent)}
-                          >
-                            {readMoreContent ? "Read Less" : "Read More"}
-                          </btn>
-                        )}
+
+                        {/* {isContentOverflowing && ( */}
+                        <btn
+                          className="btn btn-secondary displayBtn mt-1"
+                          onClick={() => setReadMoreContent(!readMoreContent)}
+                        >
+                          {readMoreContent ? "Read Less" : "Read More"}
+                        </btn>
+                        {/* )} */}
                       </div>
                     ))}
                   </div>
@@ -827,8 +789,8 @@ const ProductItem = () => {
           <div className="faqsSec">
             <div className="container">
               <div className="row">
-                <div className="col-md-12 d-flex align-items-center flex-column m-4">
-                  <h3>Frequently Asked Questions</h3>
+                <div className="col-md-12 d-flex align-items-center flex-column">
+                  <h4>Frequently Asked Questions</h4>
                   <div className="accordianCont">
                     <Faqs faqsList={faqsList} />
                   </div>

@@ -224,44 +224,6 @@
     width: 16px;
     text-align: center;
 }
-
-/* notFoundPage */
-
-.not-found-card {
-    background-color: #a890cc;
-    width: 98vw;
-    height: 96vh;
-    display: flex;
-    align-items: center;
-  }
-  
-  .not-found-body {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-  }
-  
-  .heading-main {
-    color: #91bbd9;
-    font-size: 13rem;
-    font-weight: bold;
-    margin: 0px;
-  }
-  
-  .heading_sub {
-    font-family: 'Roboto', 'Helvetica Neue';
-    color: #363337;
-    margin-bottom: 15px;
-  }
-  
-  .productInfo {
-    width: 100%;
-}
-  
     /*registration Popup*/
     .registrationFormPopup{
         background-color: #fff;

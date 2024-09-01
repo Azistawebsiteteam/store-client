@@ -57,8 +57,8 @@ const AddShippingAddress = () => {
   return (
     <div>
       <form>
-        <div class="row">
-          <div class="col-md-6">
+        <div className="row">
+          <div className="col-md-6">
             <TextField
               id="firstName"
               label="First Name"
@@ -74,7 +74,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <TextField
               id="contactNum"
               label="Contact Number"
@@ -90,7 +90,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-sm-12">
+          <div className="col-sm-12">
             <TextField
               id="address"
               label="Address (Area & Street)"
@@ -106,7 +106,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <TextField
               id="pincode"
               label="Pincode"
@@ -122,7 +122,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <TextField
               id="Locality"
               label="Locality"
@@ -138,7 +138,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <TextField
               id="city"
               label="City/Town/District"
@@ -154,7 +154,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <FormControl
               variant="filled"
               sx={{
@@ -180,7 +180,7 @@ const AddShippingAddress = () => {
               </Select>
             </FormControl>
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <TextField
               id="landmark"
               label="Landmark (Optional)"
@@ -196,7 +196,7 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-md-6">
+          <div className="col-md-6">
             <FormControl
               variant="filled"
               sx={{
@@ -223,7 +223,7 @@ const AddShippingAddress = () => {
               </Select>
             </FormControl>
           </div>
-          <div class="col-sm-12">
+          <div className="col-sm-12">
             <TextField
               id="email"
               label="Email Address (Optional)"
@@ -239,20 +239,20 @@ const AddShippingAddress = () => {
               }}
             />
           </div>
-          <div class="col-sm-12">
-            <div class="form-check">
+          <div className="col-sm-12">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckChecked"
               />
-              <label class="form-check-label" for="flexCheckChecked">
+              <label className="form-check-label" for="flexCheckChecked">
                 Enroll me with news and offers
               </label>
             </div>
           </div>
-          <div class="col-sm-12">
+          <div className="col-sm-12">
             <button className="bg-success deliverHereBtn">Delivery here</button>
           </div>
         </div>

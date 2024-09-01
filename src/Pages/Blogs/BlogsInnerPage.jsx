@@ -40,8 +40,8 @@ const BlogsInnerPage = () => {
                 style={{ fontSize: "2rem", cursor: "pointer" }}
                 onClick={() => navigate(-1)}
               />
-              <h3 className="blogHeading">{blogData.azst_blg_title}</h3>
-              <p class="innerblogType">{blogData.azst_blg_product}</p>
+              <h4 className="blogHeading">{blogData.azst_blg_title}</h4>
+              <p className="innerblogType">{blogData.azst_blg_product}</p>
               <div className="">
                 <img
                   src={blogData.azst_blg_img}

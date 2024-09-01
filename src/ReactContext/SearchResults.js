@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
 import { cartItems, calculateTotal } from "../Pages/Cart/Functions";
+
 export const searchResultContext = createContext();
 
 const SearchResultsProvider = (props) => {

@@ -8,7 +8,7 @@ const ShippingPolicy = () => {
       <ScrollToTop />
       <div className="container">
         <div className="policyCont">
-          <h3>Shipping Policy</h3>
+          <h3 className="policyContTxt">Shipping Policy</h3>
           <p>
             <strong>Your order will arrive soon!</strong>
           </p>

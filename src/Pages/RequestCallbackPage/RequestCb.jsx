@@ -146,9 +146,9 @@ const RequestCb = () => {
                 </div>
               </div>
               <div className="col-md-4">
-                <div class="form-floating">
+                <div className="form-floating">
                   <select
-                    class="form-select"
+                    className="form-select"
                     id="purposeOfPurchase"
                     aria-label="Floating label select example"
                     onChange={handleRcbForm}
@@ -173,7 +173,7 @@ const RequestCb = () => {
               </div>
               {rcbForm.purposeOfPurchase === "other" && (
                 <div className="col-md-4">
-                  <div class="form-floating">
+                  <div className="form-floating">
                     <input
                       type="text"
                       className="form-control"

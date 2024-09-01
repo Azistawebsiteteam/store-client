@@ -168,9 +168,9 @@ const AddressForm = (props) => {
           Landmark
         </label>
       </div>
-      <div class="form-floating">
+      <div className="form-floating">
         <textarea
-          class="form-control"
+          className="form-control"
           placeholder="Primary Address"
           id="address1"
           value={inputValues.address1}
@@ -180,9 +180,9 @@ const AddressForm = (props) => {
         ></textarea>
         <label htmlFor="address1">Primary Address</label>
       </div>
-      <div class="form-floating">
+      <div className="form-floating">
         <textarea
-          class="form-control"
+          className="form-control"
           placeholder="Secondary Address"
           id="address2"
           rows="4"
@@ -234,7 +234,7 @@ const AddressForm = (props) => {
         </label>
       </div>
       <div className="row mt-3">
-        <div class="form-check col-md-6">
+        <div className="form-check col-md-6">
           <input
             className="form-check-input"
             type="checkbox"
@@ -242,7 +242,7 @@ const AddressForm = (props) => {
             value={inputValues.isDefault}
             onChange={onChangeDefault}
           />
-          <label class="form-check-label" htmlFor="isDefault">
+          <label className="form-check-label" htmlFor="isDefault">
             Default Address
           </label>
         </div>

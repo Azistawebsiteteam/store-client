@@ -92,6 +92,11 @@ li.addressTab {
 .ordersSecCard{
     margin: 0 1rem 0 0;
 }
+.orderedProducts {
+    overflow-y: scroll;
+    max-height: 10rem;
+    width: 50%;
+}
 .paymentDetails {
     margin-top: 1rem;
 }

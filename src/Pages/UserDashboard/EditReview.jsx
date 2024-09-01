@@ -1,22 +1,120 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import SideBar from "./UserProfile/SideBar";
+import Cookies from "js-cookie";
+import { useLocation } from "react-router-dom";
+import ErrorHandler from "../Components/ErrorHandler";
+import axios from "axios";
 
 const EditReview = () => {
-  const [value, setValue] = React.useState(2);
-  // const handleReviewForm = (e) => {
-  //   const { id, value, files } = e.target;
+  const [review, setReview] = useState({
+    rating: 0,
+    reviewTitle: "",
+    reviewContent: "",
+    reviewImgs: [],
+    createdOn: "",
+    productId: "",
+    productTitle: "",
+    productImage: "",
+    urlHandle: "",
+  });
 
-  //   if (files && files.length > 0) {
-  //     const newFiles = Array.from(files);
-  //     setReviewData({
-  //       ...reviewData,
-  //       reviewImg: [...reviewData.reviewImg, ...newFiles],
-  //     });
-  //   } else {
-  //     setReviewData({ ...reviewData, [id]: value });
-  //   }
-  // };
+  const [reviewImgFile, setReviewImgFile] = useState([]);
+
+  const location = useLocation();
+  const baseUrl = process.env.REACT_APP_API_URL;
+  const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+  const { id } = location.state || 0;
+  console.log(review);
+  useEffect(() => {
+    try {
+      const fetchReview = async () => {
+        const url = `${baseUrl}/reviews/review/${id}`;
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+        ErrorHandler.onLoading();
+        const response = await axios.get(url, { headers });
+
+        ErrorHandler.onLoadingClose();
+        const output = response.data;
+        setReview({
+          createdOn: output.created_on,
+          productId: output.product_id,
+          productImage: output.product_image,
+          productTitle: output.product_title,
+          reviewContent: output.review_content,
+          reviewImgs: output.review_images,
+          rating: output.review_points,
+          reviewTitle: output.review_title,
+          urlHandle: output.url_handle,
+        });
+      };
+      fetchReview();
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
+  }, [id, baseUrl, jwtToken]);
+
+  const handleReviewForm = (e) => {
+    const { id, value, files } = e.target;
+
+    if (files && files.length > 0) {
+      const newFiles = Array.from(files);
+      setReview({
+        ...review,
+        reviewImgs: [...review.reviewImgs, ...newFiles],
+      });
+    } else {
+      setReview({ ...review, [id]: value });
+    }
+  };
+
+  const handleReviewImg = (e, id) => {
+    if (e.target.checked) {
+      setReviewImgFile((prev) => [...prev, id]);
+    } else {
+      let selected = reviewImgFile.filter((each) => each !== id);
+      setReviewImgFile(selected);
+    }
+  };
+
+  const handleReviewFormChange = (e) => {
+    setReview({ ...review, [e.target.id]: e.target.value });
+  };
+
+  const setRating = (rating) => {
+    setReview({ ...review, rating: rating });
+  };
+
+  const onSubmitReview = async () => {
+    try {
+      const url = `${baseUrl}/reviews/update/review`;
+      const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+
+      const formdata = new FormData();
+
+      const objLen = review.reviewImgs.length;
+      for (let i = 0; i < objLen; i++) {
+        const img = review.reviewImgs[i];
+        formdata.append("reviewImages", img);
+      }
+
+      formdata.append("productId", review.productId);
+      formdata.append("reviewTitle", review.reviewTitle);
+      formdata.append("reviewContent", review.reviewContent);
+      formdata.append("reviewPoints", review.rating);
+      formdata.append("reviewId", id);
+      ErrorHandler.onLoading();
+      await axios.post(url, formdata, { headers });
+      ErrorHandler.onSuccess();
+    } catch (error) {
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
+    }
+  };
 
   return (
     <div className="bottomSec">
@@ -26,19 +124,17 @@ const EditReview = () => {
           <h5>Edit Review</h5>
           <small>
             Reviews & Ratings &gt;{" "}
-            <span style={{ fontWeight: "500" }}>11 Feb, 2024</span>
+            <span style={{ fontWeight: "500" }}>{review.createdOn}</span>
           </small>
           <div className="d-flex align-items-center">
             <img
-              src={`${process.env.PUBLIC_URL}/images/iscanBreast.png`}
+              src={review.productImage}
               style={{ width: "20%" }}
-              alt="isanBreast"
+              alt="productImage"
+              onChange={handleReviewFormChange}
             />
             <small style={{ display: "inline-block" }}>
-              <strong>
-                bbold Dissolvable Microneedle Acne Patch | Your Clear Skin
-                Savior | Pack of 1
-              </strong>
+              <strong>{review.productTitle}</strong>
             </small>
           </div>
           <span style={{ color: "#787878", display: "block" }}>
@@ -46,9 +142,9 @@ const EditReview = () => {
           </span>
           <Rating
             name="simple-controlled"
-            value={value}
+            value={review.rating}
             onChange={(event, newValue) => {
-              setValue(newValue);
+              setRating(newValue);
             }}
             precision={0.5}
           />
@@ -56,8 +152,10 @@ const EditReview = () => {
             <input
               type="text"
               className="form-control"
-              id="headlineInput"
+              id="reviewTitle"
               placeholder="headline"
+              value={review.reviewTitle}
+              onChange={handleReviewFormChange}
             />
             <label htmlFor="headlineInput">Headline</label>
           </div>
@@ -65,16 +163,18 @@ const EditReview = () => {
             <input
               type="text"
               className="form-control"
-              id="reviewTextInput"
+              id="reviewContent"
               placeholder="Write a Review"
+              value={review.reviewContent}
+              onChange={handleReviewFormChange}
             />
             <label htmlFor="reviewTextInput">Write a Review</label>
           </div>
           <span style={{ color: "#787878", display: "block" }}>
             Photo or Video
           </span>
-          {/* <div className="uploadFiles d-flex flex-column mt-2">
-            <label htmlFor="reviewImg" class="custom-file-upload">
+          <div className="uploadFiles d-flex flex-column mt-2">
+            <label htmlFor="reviewImg" className="custom-file-upload">
               Upload image
             </label>
             <input
@@ -84,7 +184,7 @@ const EditReview = () => {
               onChange={handleReviewForm}
             />
             <div className="reviewImgsCont mt-1 mb-2">
-              {Array.from(reviewData.reviewImg).map((img, i) =>
+              {review.reviewImgs.map((img, i) =>
                 typeof img === "string" ? (
                   <div className="selectImg" key={i}>
                     <img className="reviewImg" src={img} alt="reviewImg" />
@@ -122,8 +222,10 @@ const EditReview = () => {
                 )
               )}
             </div>
-          </div> */}
-          <button className="reviewBtn mt-3">Submit</button>
+          </div>
+          <button className="reviewBtn mt-3" onClick={onSubmitReview}>
+            Submit
+          </button>
         </div>
       </div>
     </div>

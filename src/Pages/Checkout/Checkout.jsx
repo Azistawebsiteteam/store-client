@@ -14,14 +14,56 @@ import { SiRazorpay } from "react-icons/si";
 import { PiHandCoinsDuotone } from "react-icons/pi";
 import "./index.css";
 import QntyBtn from "../Cart/QntyBtn";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const Checkout = () => {
   const [shippingAddress, setShippingAddress] = useState([]);
   const [selectedAccordian, setSelectedAccordian] = useState(null);
   const [addShippingAddress, setAddShippingAddress] = useState(false);
   const [selectedShippingAddress, setSelectedShippingAddress] = useState();
+  const [isBillingAdressSame, setIsBillingAdressSame] = useState(true);
+  const [shippingCharges, setShippingCharges] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("razorPayment");
+  const [discountCode, setDiscountCode] = useState("");
+  const [checkoutCount, setCheckoutCount] = useState(0);
+  console.log(checkoutCount, "count");
+  const { cartList, userDetails } = useContext(searchResultContext);
 
-  const { cartList } = useContext(searchResultContext);
+  const calculateShippingCharges = (cartList) => {
+    return 80.0;
+  };
+
+  useEffect(() => {
+    const shippingCharges =
+      calculateTotal(cartList) >= 150
+        ? 0.0
+        : calculateShippingCharges(cartList);
+    setShippingCharges(shippingCharges);
+  }, [cartList]);
+
+  const handlePaymentMethod = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handleDiscountChange = (e) => {
+    setDiscountCode(e.target.value);
+  };
+
+  const isDiscountApplied = () => {
+    if (discountCode.length > 5) {
+      ErrorHandler.onSuccess("Applied Successfully");
+    } else {
+      ErrorHandler.onError("Invalid discount code");
+    }
+  };
+
+  const {
+    azst_customer_id,
+    azst_customer_fname,
+    azst_customer_lname,
+    azst_customer_mobile,
+    azst_customer_email,
+  } = userDetails;
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -49,8 +91,6 @@ const Checkout = () => {
     };
     getAddressBook();
   }, [baseUrl, jwtToken]);
-
-  const { userDetails } = useContext(searchResultContext);
 
   const handleAccTab = (i) => {
     if (selectedAccordian === i) {
@@ -129,19 +169,21 @@ const Checkout = () => {
   };
 
   // Create Razorpay order
-  const createRazorPayOrder = async () => {
+  const createRazorPayOrder = async (e) => {
     try {
       const data = {
-        amount: calculateTotal(cartList) * 100, // Convert to paise
+        amount: calculateTotal(cartList), // Convert to paise
         currency: "INR",
+        receiptId: azst_customer_id,
       };
       const headers = {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
       };
-      const url = "http://192.168.214.253:5018/api/v1/orders/customer/payment";
+      const url = `${baseUrl}/orders/customer/creat-payment`;
 
       const response = await axios.post(url, data, { headers });
-      handleRazorPayScreen(response.data.amount);
+      handleRazorPayScreen(e, response.data);
     } catch (err) {
       console.error("Error creating order:", err);
       alert("Failed to create order. Please try again later.");
@@ -149,8 +191,8 @@ const Checkout = () => {
   };
 
   // Display Razorpay payment screen
-  const handleRazorPayScreen = async (amount) => {
-    console.log("loading screen");
+  const handleRazorPayScreen = async (e, data) => {
+    const { order_id, amount, currency } = data;
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -164,22 +206,107 @@ const Checkout = () => {
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY, // Ensure this is set in your .env file
-      amount: amount,
-      currency: "INR",
-      name: "Papaya Coders",
-      description: "Payment to Papaya Coders",
+      amount,
+      currency,
+      name: "Azista Industries",
+      description: "Azista E-commerce Services",
       image: `${process.env.PUBLIC_URL}/images/logo1.svg`,
-      prefill: {
-        name: "Rajendra",
-        email: "rajendraCheerneni@gmail.com",
+      order_id,
+      handler: async function (response) {
+        validatePaymentRequest(response, amount, currency);
       },
+      prefill: {
+        name: "Azsta Industries",
+        email: "azstaindustries@gmail.com",
+        contact: "6089879778",
+      },
+
       theme: {
-        color: "#FFE03F",
+        color: "#3399cc",
       },
     };
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+    const rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", (response) => {
+      alert(`Payment failed! Error: ${response.error.description}`);
+    });
+    rzp1.open();
+  };
+
+  const validatePaymentRequest = async (paymentData, amount, currency) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      paymentData;
+    const data = {
+      razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_signature,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwtToken}`,
+    };
+    const url = `${baseUrl}/orders/customer/validate-payment`;
+    const response = await axios.post(url, data, { headers });
+    if (response.status === 200) {
+      createPlaceOrder({ ...response.data, amount, currency });
+      alert("Payment Successful!");
+    } else {
+      alert("Payment failed! Please try again.");
+    }
+  };
+
+  const createPlaceOrder = async (response) => {
+    console.log(response);
+    try {
+      const url = `${baseUrl}/orders/customer/place-order`;
+      const { amount, currency, orderId, paymentId, notes, noteAttributes } =
+        response;
+
+      const body = {
+        paymentMethod,
+        paymentData: {
+          amount,
+          currency,
+          razorpay_order_id: orderId,
+          razorpay_payment_id: paymentId,
+          notes,
+          noteAttributes,
+        },
+        discountAmount: 0,
+        discountCode: discountCode,
+        orderSource: "website",
+        addressId: selectedShippingAddress,
+        isBillingAdsame: isBillingAdressSame,
+        shippingCharge: shippingCharges,
+        cartList: cartList,
+      };
+
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      };
+
+      console.log(body);
+
+      ErrorHandler.onLoading();
+      const order = await axios.post(url, body, { headers });
+      if (order.status === 200) {
+        ErrorHandler.onSuccess();
+        navigate("/order-summary");
+      }
+      ErrorHandler.onLoadingClose();
+    } catch (error) {
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
+    }
+  };
+
+  const handleCartStatus = (val) => {
+    setSelectedAccordian(val);
+    setCheckoutCount((prev) => prev + 1);
+    if (checkoutCount >= 4) {
+      setCheckoutCount(0);
+    }
   };
 
   return (
@@ -209,13 +336,13 @@ const Checkout = () => {
                       Name
                       <span
                         style={{ marginLeft: "4px", fontWeight: "600" }}
-                      >{`  ${userDetails.azst_customer_fname} ${userDetails.azst_customer_lname}`}</span>
+                      >{`  ${azst_customer_fname} ${azst_customer_lname}`}</span>
                     </small>
                     <small className="d-block">
                       Phone
                       <span
                         style={{ marginLeft: "4px", fontWeight: "600" }}
-                      >{`  ${userDetails.azst_customer_mobile}`}</span>
+                      >{`  ${azst_customer_mobile}`}</span>
                     </small>
                     <button
                       style={{
@@ -238,7 +365,7 @@ const Checkout = () => {
                     <button
                       className="buyNowBtn"
                       style={{ width: "max-content", padding: "0.6rem 1rem" }}
-                      onClick={() => setSelectedAccordian("2")}
+                      onClick={() => handleCartStatus("2")}
                     >
                       Continue Check Out
                     </button>
@@ -303,7 +430,7 @@ const Checkout = () => {
                                 width: "max-content",
                                 padding: "0.6rem 1rem",
                               }}
-                              onClick={() => setSelectedAccordian("3")}
+                              onClick={() => handleCartStatus("3")}
                             >
                               Deliver here
                             </button>
@@ -311,6 +438,7 @@ const Checkout = () => {
                         </div>
                       </div>
                     ))}
+
                     <button
                       style={{
                         border: "none",
@@ -332,6 +460,24 @@ const Checkout = () => {
                         : "Add New Address"}
                     </button>
                     {addShippingAddress && <AddShippingAddress />}
+                    <h6>Billing Address</h6>
+                    <div className="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        className="custom-control-input"
+                        id="isBillingAndShippingAddressSame"
+                        checked={isBillingAdressSame}
+                        onClick={() =>
+                          setIsBillingAdressSame(!isBillingAdressSame)
+                        }
+                      />
+                      <label
+                        className="custom-control-label"
+                        htmlFor="isBillingAndShippingAddressSame"
+                      >
+                        Same as shipping address
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div className="accordion-item checkoutAcc">
@@ -399,7 +545,6 @@ const Checkout = () => {
                                   each.offer_price,
                                   each.azst_cart_quantity
                                 )}
-                                .00
                               </strong>
                             </small>
                           </div>
@@ -410,7 +555,7 @@ const Checkout = () => {
                             width: "max-content",
                             padding: "0.6rem 1rem",
                           }}
-                          onClick={() => setSelectedAccordian("4")}
+                          onClick={() => handleCartStatus("4")}
                         >
                           Continue
                         </button>
@@ -435,23 +580,29 @@ const Checkout = () => {
                       selectedAccordian === "4" ? "accCont show" : "accCont"
                     }
                   >
-                    <div class="form-check">
+                    <div className="form-check">
                       <input
                         className="form-check-input"
                         type="radio"
                         name="payment"
+                        value="COD"
+                        onChange={handlePaymentMethod}
+                        checked={paymentMethod === "COD"}
                         id="cod"
                       />
-                      <label class="form-check-label" htmlFor="cod">
+                      <label className="form-check-label" htmlFor="cod">
                         Cash on Delivery <PiHandCoinsDuotone />
                       </label>
                     </div>
-                    <div class="form-check">
+                    <div className="form-check">
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="radio"
+                        onChange={handlePaymentMethod}
                         name="payment"
-                        id="onlinePayment"
+                        value="razorPayment"
+                        checked={paymentMethod === "razorPayment"}
+                        id="razorPayment"
                       />
                       <label
                         className="form-check-label"
@@ -466,7 +617,7 @@ const Checkout = () => {
                         width: "max-content",
                         padding: "0.6rem 1rem",
                       }}
-                      onClick={() => setSelectedAccordian("")}
+                      onClick={() => handleCartStatus("")}
                     >
                       Continue
                     </button>
@@ -487,6 +638,8 @@ const Checkout = () => {
                     className="form-control"
                     type="text"
                     placeholder="Discount Code or Coupon Code"
+                    onChange={handleDiscountChange}
+                    value={discountCode}
                     style={{
                       border: "1px solid rgba(176, 176, 176, 1)",
                       width: "70%",
@@ -499,6 +652,7 @@ const Checkout = () => {
                       color: "#008060",
                       fontWeight: "600",
                     }}
+                    onClick={isDiscountApplied}
                   >
                     Apply
                   </button>
@@ -519,7 +673,7 @@ const Checkout = () => {
                   </small>
                   <div className="d-flex flex-column align-items-end">
                     <small style={{ fontWeight: "500" }}>
-                      Rs.{calculateTotal(cartList)}.00
+                      Rs.{calculateTotal(cartList)}
                     </small>
                     <small>Inclusive of all taxes</small>
                   </div>
@@ -527,7 +681,9 @@ const Checkout = () => {
                 <div className="d-flex justify-content-between mt-1 mb-1">
                   <small style={{ fontWeight: "500" }}>Shipping Charges</small>
                   <div className="d-flex flex-column align-items-end">
-                    <small style={{ fontWeight: "500" }}>Rs.88.00 - Free</small>
+                    <small style={{ fontWeight: "500" }}>
+                      Rs.{shippingCharges}
+                    </small>
                     <small>Free shipping for orders over Rs. 150.00!</small>
                   </div>
                 </div>
@@ -545,16 +701,17 @@ const Checkout = () => {
                 }}
               >
                 <h6>Grand Total</h6>
-                <h6>Rs.{calculateTotal(cartList)}.00</h6>
+                <h6>Rs.{calculateTotal(cartList)}</h6>
               </div>
               <div className="d-flex justify-content-md-end">
                 <button
-                  className="buyNowBtn"
+                  className={checkoutCount >= 4 ? "buyNowBtn" : "disabledBtn"}
                   style={{
                     width: "max-content",
                     padding: "0.6rem 1rem",
                   }}
                   onClick={createRazorPayOrder}
+                  disabled={checkoutCount >= 4 ? false : true}
                 >
                   Proceed to Pay - Rs.{calculateTotal(cartList)}
                 </button>

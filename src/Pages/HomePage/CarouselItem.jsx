@@ -46,7 +46,7 @@ const CarouselItem = () => {
   };
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container ">
       <Slider {...settings}>
         {banners.map((each, i) => (
           <div key={i} className="carousel-slide carouselImgBg">

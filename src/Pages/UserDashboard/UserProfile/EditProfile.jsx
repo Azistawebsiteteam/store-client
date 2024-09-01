@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import SideBar from "./SideBar";
 import "./UserProfile.css";
 import SwalHandle from "../../Components/ErrorHandler";
+import BackBtn from "../../Components/BackBtn";
 
 const EditProfile = () => {
   const location = useLocation();
@@ -87,7 +88,10 @@ const EditProfile = () => {
       <div className="d-flex">
         <SideBar />
         <div className="myAccount_right_sec">
-          <h4>Profile Details</h4>
+          <div className="d-flex align-items-center">
+            <BackBtn className="me-3" />
+            <h4>Profile Details</h4>
+          </div>
           <div className="myAccInnerSec">
             <form className="row g-3" onSubmit={handleProfileUpdate}>
               <div className="form-floating mb-3 col-md-6">
@@ -253,9 +257,9 @@ const EditProfile = () => {
                   Landmark (optional)
                 </label>
               </div>
-              <div class="form-floating">
+              <div className="form-floating">
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   placeholder="Primary Address"
                   id="address1"
                   value={profileDetails.address1}
@@ -263,9 +267,9 @@ const EditProfile = () => {
                 ></textarea>
                 <label htmlFor="address1">Primary Address</label>
               </div>
-              <div class="form-floating">
+              <div className="form-floating">
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   placeholder="Secondary Address"
                   id="address2"
                   value={profileDetails.address2}
@@ -291,7 +295,7 @@ const EditProfile = () => {
                 </label>
               </div>
               <div className="row mt-3">
-                <div class="form-check col-md-6">
+                <div className="form-check col-md-6">
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -299,11 +303,14 @@ const EditProfile = () => {
                     checked={profileDetails.acceeptEmailMarketing}
                     onChange={onChangeDefault}
                   />
-                  <label class="form-check-label" htmlFor="flexCheckChecked">
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckChecked"
+                  >
                     Email me with news and offers
                   </label>
                 </div>
-                <div class="form-check col-md-6">
+                <div className="form-check col-md-6">
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -311,7 +318,10 @@ const EditProfile = () => {
                     checked={profileDetails.marketingSmsAccept}
                     onChange={onChangeDefault}
                   />
-                  <label class="form-check-label" htmlFor="marketingSmsAccept">
+                  <label
+                    className="form-check-label"
+                    htmlFor="marketingSmsAccept"
+                  >
                     SMS me with news and offers
                   </label>
                 </div>

@@ -17,7 +17,18 @@
     .accBtnArr{
         font-size: 2rem;
     }
-    .accCont{
+    .accordion-item .accCont {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out, opacity 0.4s ease-out;
+      }
+      
+      .accordion-item .accCont.show {
+        max-height: 1000px; /* Adjust according to content size */
+        opacity: 1;
+      }
+    /* .accCont{
         overflow: hidden;
         max-height: 0;
         transition: all 0.5sec cubic-bezier(0,1,0,1);
@@ -26,7 +37,7 @@
         height: auto;
         max-height: 9999px;
         transition: all 0.5sec cubic-bezier(0,1,0,1);
-    }
+    } */
     .checkoutPage {
         padding: 50px 0;
     }

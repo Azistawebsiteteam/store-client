@@ -36,8 +36,22 @@ const UserLoginPage = () => {
     setError("");
   };
 
+  const addLocalCartToUser = async (token) => {
+    try {
+      const url = `${baseUrl}/cart/add/user`;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const body = {
+        sessionId: localStorage.getItem(process.env.REACT_APP_CART_KEY),
+      };
+      await axios.post(url, body, { headers });
+    } catch (error) {}
+  };
+
   const onSubmitSuccess = (jwtToken) => {
     Cookies.set(jwt_token, jwtToken);
+    addLocalCartToUser(jwtToken);
     navigate("/", { replace: true });
   };
 

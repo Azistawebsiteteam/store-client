@@ -6,6 +6,9 @@
     justify-content: center;
     align-items: center;
 }
+.summaryCardSec{
+    padding: 4% 0;
+}
 .summaryCard{
     width: 40%;
     position: relative;
@@ -19,7 +22,73 @@
     margin-top: -1.5rem;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 .orderSummaryCard{
     width: 84%;
+}
+.orderSummaryInfoCard{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 2rem;
+    width: 70%;
+}
+
+.orderSummaryInfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+hr.dashedLine {
+    border-top: 2px dashed #CBCBCB;
+    width: 100%;
+}
+
+hr.contLine{
+    border-top: 2px solid #CBCBCB;
+    width: 100%;
+}
+
+.orderSummaryTxt{
+    font-size: 11px !important;
+    color: #535353;
+    margin-bottom: 0.6rem;
+}
+.orderSummaryTxtVal{
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.orderSummaryBtn{
+    padding: 0.6rem 1.8rem !important;
+    background-color: var(--hover-bg-color);
+    width: max-content;
+    border-radius: 4rem;
+    color:#fff;
+}
+
+@media screen and (max-width: 768px) {
+    .summaryCardSec{
+        padding: 8% 0;
+    }
+    .summaryCard{
+        width: 90%;
+        position: relative;
+    }
+    .orderSummaryCont {
+        margin-top: -1.3rem;
+    }
+    .orderSummaryInfoCard {
+        top: 1rem;
+    }
+    .summarycardTxt{
+        font-size: 1rem !important;
+    }
+    .orderSummaryTxt {
+        font-size: 12px !important;
+        margin-bottom: 0;
+    }
 }

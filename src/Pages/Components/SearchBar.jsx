@@ -3,14 +3,16 @@ import { IoIosSearch } from "react-icons/io";
 import { IoIosClose } from "react-icons/io";
 import Categories from "../HomePage/Categories";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const SearchBar = ({ handleSearchBar }) => {
+const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchTextResult, setSearchTextResult] = useState([]);
 
   const baseUrl = process.env.REACT_APP_API_URL;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const categories = async () => {
@@ -55,71 +57,86 @@ const SearchBar = ({ handleSearchBar }) => {
   };
 
   const searchFunctionality = () => {
+    const goToSearchResultPage = () => {
+      navigate("/search/products");
+    };
     return (
       <div className="searchResultsCont">
         <p>
           <strong>Search Results</strong>
         </p>
-        {searchTextResult.length > 0 ? (
-          <div className="d-flex flex-wrap">
-            {searchTextResult.slice(0, 2).map((product, i) => (
-              <Link
-                className="linkBtn"
-                to={`/productitem/${product.product_url_title}`}
-                key={i}
-              >
-                <div
-                  className="searchProductCard"
-                  onClick={() => closeSearchBar(false)}
-                  style={{ backgroundColor: "#F3F4F5" }}
+        <div className="searchResults">
+          {searchTextResult.length > 0 ? (
+            <>
+              {searchTextResult.slice(0, 2).map((product, i) => (
+                <Link
+                  className="linkBtn"
+                  to={`/productitem/${product.product_url_title}`}
+                  key={i}
                 >
-                  <div className="productContent">
-                    <p>{product.product_main_title} </p>
-                    <small
-                      className="product_subTitle"
-                      style={{ color: "rgba(40, 40, 40, 0.8)" }}
-                    >
-                      {product.product_title}
-                    </small>
+                  <div
+                    className="searchProductCard"
+                    onClick={() => closeSearchBar(false)}
+                    style={{ backgroundColor: "#F3F4F5" }}
+                  >
+                    <div className="productContent">
+                      <p>{product.product_main_title} </p>
+                      <small
+                        className="product_subTitle"
+                        style={{ color: "rgba(40, 40, 40, 0.8)" }}
+                      >
+                        {product.product_title}
+                      </small>
+                    </div>
+                    <div className="text-center">
+                      <img
+                        className="searchImg"
+                        src={product.image_src}
+                        alt="productImg"
+                      />
+                    </div>
+                    <div className="productPrice">
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          color: "rgba(40, 40, 40, 0.7)",
+                        }}
+                      >
+                        Rs {product.compare_at_price}
+                      </span>
+                      <span className="ms-2">Rs {product.price}</span>
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <img
-                      className="searchImg"
-                      src={product.image_src}
-                      alt="productImg"
-                    />
-                  </div>
-                  <div className="productPrice">
-                    <span
-                      style={{
-                        textDecoration: "line-through",
-                        color: "rgba(40, 40, 40, 0.7)",
-                      }}
-                    >
-                      Rs {product.compare_at_price}
-                    </span>
-                    <span className="ms-2">Rs {product.price}</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-            {/* {searchTextResult.length > 2 && (
-              <p className="linkBtn" onClick={goToSearchResultPage}>
-                View all products
-              </p>
-            )} */}
-          </div>
-        ) : (
-          <p>No products found</p>
-        )}
+                </Link>
+              ))}
+              {searchTextResult.length > 2 && (
+                <p className="linkBtn" onClick={goToSearchResultPage}>
+                  View all products
+                </p>
+              )}
+            </>
+          ) : (
+            <p>No products found</p>
+          )}
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="searchBarCont">
+    <div
+      className={`${
+        showSearchBar ? "showSearchBar" : "hideSearchBar"
+      } searchBarCont`}
+    >
       <div className="searchBarLeftSec" onClick={() => closeSearchBar(false)}>
-        Continue Shopping
+        <Link
+          to="/"
+          className="linkBtn"
+          style={{ color: "#fff", cursor: "pointer", fontSize: "1.3rem" }}
+        >
+          Continue Shopping
+        </Link>
       </div>
       <div className="searchBarPage">
         <div className="topSec">
@@ -140,17 +157,19 @@ const SearchBar = ({ handleSearchBar }) => {
             onClick={() => closeSearchBar(false)}
           />
         </div>
-        {searchText.length > 0 ? (
-          searchFunctionality()
-        ) : (
-          <div className="">
-            <Categories
-              categories={categories}
-              type="searchbarCont"
-              closeCategories={closeSearchBar}
-            />
-          </div>
-        )}
+        <div className="searchBarRightSec">
+          {searchText.length > 0 ? (
+            searchFunctionality()
+          ) : (
+            <div className="">
+              <Categories
+                categories={categories}
+                type="searchbarCont"
+                closeCategories={closeSearchBar}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

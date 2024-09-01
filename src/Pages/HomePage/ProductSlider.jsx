@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ProductCard from "../Components/ProductCard";
@@ -7,14 +7,14 @@ import "../Components/Customer.css";
 const Slider = ({ title, type, items }) => {
   const boxRef = useRef(null);
 
-  // const scrollNext = () => {
-  //   const box = boxRef.current;
-  //   let width = box.clientWidth;
-  //   box.scrollLeft = box.scrollLeft + width;
-  //   if (box.scrollLeft >= box.scrollWidth / 2) {
-  //     box.scrollLeft = 0;
-  //   }
-  // };
+  const scrollNext = () => {
+    const box = boxRef.current;
+    let width = box.clientWidth;
+    box.scrollLeft = box.scrollLeft + width;
+    if (box.scrollLeft >= box.scrollWidth / 2) {
+      box.scrollLeft = 0;
+    }
+  };
 
   const renderCollections = () => {
     return (
@@ -116,10 +116,10 @@ const Slider = ({ title, type, items }) => {
         return null;
     }
   };
-  // useEffect(() => {
-  //   const interval = setInterval(scrollNext, 3000); // Auto-scroll every 3 seconds
-  //   return () => clearInterval(interval); // Cleanup on unmount
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(scrollNext, 3000); // Auto-scroll every 3 seconds
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   return (
     <div className="container-fluid">

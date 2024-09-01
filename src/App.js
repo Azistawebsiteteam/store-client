@@ -41,7 +41,6 @@ import EditReview from "./Pages/UserDashboard/EditReview";
 import ContactUs from "./Pages/ContactUs/ContactUs";
 import RequestCb from "./Pages/RequestCallbackPage/RequestCb";
 import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
-import Payments from "./Pages/Components/Payments";
 import OrderSummary from "./Pages/OrderSummary/OrderSummary";
 
 function App() {
@@ -139,8 +138,8 @@ function App() {
         <Route path="/edit-review" element={<EditReview />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/request-callback" element={<RequestCb />} />
-        <Route path="/Payments" element={<Payments />} />
-        <Route path="/orderSummary" element={<OrderSummary />} />
+
+        <Route path="/order-summary" element={<OrderSummary />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

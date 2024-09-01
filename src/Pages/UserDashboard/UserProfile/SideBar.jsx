@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -6,9 +6,14 @@ import Swal from "sweetalert2";
 import "./UserProfile.css";
 import swalHandle from "../../Components/ErrorHandler";
 import { RiLogoutCircleFill } from "react-icons/ri";
+import { calculateTotal, cartItems } from "../../Cart/Functions";
+import { searchResultContext } from "../../../ReactContext/SearchResults";
 
 const SideBar = () => {
   const [activeTab, setActiveTab] = useState("profile");
+
+  const { setCartCount, setCartList, setCartTotal } =
+    useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -37,10 +42,19 @@ const SideBar = () => {
           icon: "success",
           timer: 2000,
         });
-        setTimeout(() => {
-          navigate("/login");
-          Cookies.remove(token);
-        }, 2000);
+        cartItems(0).then((data) => {
+          if (data) {
+            setCartList(data);
+            setCartCount(data.length);
+            setCartTotal(calculateTotal(data));
+          }
+        });
+        // setTimeout(() => {
+        //   navigate("/login");
+        //   Cookies.remove(token);
+        // }, 2000);
+        navigate("/login");
+        Cookies.remove(token);
       }
     } catch (error) {
       swalHandle.onLoadingClose();

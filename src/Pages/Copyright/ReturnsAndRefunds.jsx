@@ -8,7 +8,7 @@ const ReturnsAndRefunds = () => {
       <ScrollToTop />
       <div className="container">
         <div className="policyCont">
-          <h3>Returns & Refunds</h3>
+          <h3 className="policyContTxt">Returns & Refunds</h3>
           <p>
             <strong>Easy returns and refunds.</strong>
           </p>

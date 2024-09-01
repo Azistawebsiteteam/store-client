@@ -4,6 +4,7 @@ import ButtonRow from "../Components/ButtonRow";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ScrollToTop from "../../Utils/ScrollToTop";
+import "./Blogs.css";
 
 const Blogs = () => {
   const [blogsTypes, setBlogTypes] = useState(["All Blogs"]);
@@ -43,10 +44,10 @@ const Blogs = () => {
       <ScrollToTop />
       <div className="userPage">
         <div className="blogsPage">
-          <h3 className="text-center">
+          <h4 className="text-center">
             Exploring the Uncharted:
             <br /> Insights, Ideas, and Inspiration
-          </h3>
+          </h4>
           <p className="text-center" style={{ color: "#717171" }}>
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout.
@@ -57,7 +58,7 @@ const Blogs = () => {
             defaultItem={"All Blogs"}
           />
 
-          <div className="mt-5">
+          <div className="mt-3">
             <div className="container">
               <div className="row">
                 {filterBlogs.map((each, i) => (

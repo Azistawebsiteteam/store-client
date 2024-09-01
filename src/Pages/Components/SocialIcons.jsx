@@ -4,7 +4,7 @@ const SocialIcons = () => {
   const imageUrl = process.env.PUBLIC_URL;
 
   return (
-    <div>
+    <div className="footerSocialIcons">
       <a
         href="https://www.facebook.com/Azistastore-110936125083262"
         target="_blank"

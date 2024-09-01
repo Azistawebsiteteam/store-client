@@ -9,14 +9,13 @@ import { RxCross2 } from "react-icons/rx";
 import { calculateTotal } from "../Cart/Functions";
 import QntyBtn from "../Cart/QntyBtn";
 
-const Cart = ({ handleCart }) => {
+const Cart = ({ handleCart, showCart }) => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const { updateCartData, cartList } = useContext(searchResultContext);
 
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   const handleRemoveItem = async (id) => {
-    console.log(id, "ididid");
     let url = `${baseUrl}/cart/data`;
     const response = await axios.patch(url, { cartId: id });
     updateCartData();
@@ -49,11 +48,16 @@ const Cart = ({ handleCart }) => {
   };
 
   return (
-    <div className="cartPageSec">
+    <div className={`${showCart ? "showCart" : "hideCart"} cartPageSec`}>
       <div className="cartPageLeftSec">
-        <span onClick={closeCart} style={{ color: "#fff", cursor: "pointer" }}>
+        <Link
+          to="/"
+          className="linkBtn"
+          onClick={closeCart}
+          style={{ color: "#fff", cursor: "pointer", fontSize: "1.3rem" }}
+        >
           Continue Shopping
-        </span>
+        </Link>
       </div>
       {cartList.length ? (
         <div className="cartPageRightSec">
@@ -81,60 +85,72 @@ const Cart = ({ handleCart }) => {
               You are Saving Rs.{savingCalculator()} from this order.
             </small>
           </div>
-          {cartList.map((each, i) => (
-            <div key={i} className="cartProduct d-flex justify-content-around">
-              <div className="imgCont">
-                <img
-                  src={
-                    each.variant_image.slice(
-                      each.variant_image.lastIndexOf("/") + 1
-                    ) !== ""
-                      ? each.variant_image
-                      : each.image_src
-                  }
-                  alt="productImg"
-                  className="cartProductImg"
-                />
-              </div>
+          <div className="cartProducts">
+            {cartList.map((each, i) => (
               <div
-                className="d-flex flex-column justify-content-between cartProductMidSec"
-                style={{ padding: "0.6rem 0" }}
+                key={i}
+                className="cartProduct d-flex justify-content-around"
               >
-                <div className="">
-                  <small className="d-block">
-                    <strong>{each.product_main_title}</strong>
-                  </small>
-                  {each.is_varaints_aval === 1 && <small>Pack of 3</small>}
+                <div className="imgCont">
+                  <img
+                    src={
+                      each.variant_image.slice(
+                        each.variant_image.lastIndexOf("/") + 1
+                      ) !== ""
+                        ? each.variant_image
+                        : each.image_src
+                    }
+                    alt="productImg"
+                    className="cartProductImg"
+                  />
                 </div>
-                <div>
-                  <small>
-                    <strong>
-                      Rs.
-                      {productTotalPrice(
-                        each.price,
-                        each.offer_price,
-                        each.azst_cart_quantity
-                      )}
-                      .00
-                    </strong>
-                  </small>
+                <div
+                  className="d-flex flex-column justify-content-between cartProductMidSec"
+                  style={{ padding: "0.6rem 0" }}
+                >
+                  <div className="">
+                    <small className="d-block">
+                      <strong>{each.product_main_title}</strong>
+                    </small>
+                    {each.is_varaints_aval === 1 && (
+                      <small>
+                        {each.option1 && each.option1}
+                        {each.option1 && " - "}
+                        {each.option2 && each.option2}
+                        {each.option2 && " - "}
+                        {each.option3 && each.option3}
+                      </small>
+                    )}
+                  </div>
+                  <div>
+                    <small>
+                      <strong>
+                        Rs.
+                        {productTotalPrice(
+                          each.price,
+                          each.offer_price,
+                          each.azst_cart_quantity
+                        )}
+                      </strong>
+                    </small>
+                  </div>
+                </div>
+                <div
+                  className="d-flex flex-column justify-content-between align-items-end"
+                  style={{ padding: "0.4rem 0", cursor: "pointer" }}
+                >
+                  <GiCancel
+                    fill="rgb(180, 180, 180)"
+                    onClick={() => handleRemoveItem(each.azst_cart_id)}
+                  />
+                  <QntyBtn
+                    cartQuantity={each.azst_cart_quantity}
+                    cartId={each.azst_cart_id}
+                  />
                 </div>
               </div>
-              <div
-                className="d-flex flex-column justify-content-between align-items-end"
-                style={{ padding: "0.4rem 0", cursor: "pointer" }}
-              >
-                <GiCancel
-                  fill="rgb(180, 180, 180)"
-                  onClick={() => handleRemoveItem(each.azst_cart_id)}
-                />
-                <QntyBtn
-                  cartQuantity={each.azst_cart_quantity}
-                  cartId={each.azst_cart_id}
-                />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
           <div
             className="freeShippingStrip"
             style={{ backgroundColor: "#F2FFFC", padding: "1rem" }}
@@ -147,7 +163,7 @@ const Cart = ({ handleCart }) => {
           <div className="cartPgbotSec">
             <Link
               to={jwtToken ? "/checkout" : "/login"}
-              className="linkBtn productPgBtn d-block"
+              className="linkBtn productPgBtn checkoutPgBtn d-block"
               onClick={closeCart}
             >
               Check Out - Rs.{calculateTotal(cartList)}
@@ -167,6 +183,14 @@ const Cart = ({ handleCart }) => {
           <span style={{ color: "grey", marginTop: "0.4rem" }}>
             Your Cart is Empty
           </span>
+          <Link
+            to="/"
+            onClick={closeCart}
+            style={{ color: "grey", cursor: "pointer" }}
+            className="d-md-none"
+          >
+            Continue Shopping
+          </Link>
         </div>
       )}
     </div>

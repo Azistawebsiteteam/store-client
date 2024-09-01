@@ -8,7 +8,7 @@ const SafteyAndSecurity = () => {
       <ScrollToTop />
       <div className="container">
         <div className="policyCont">
-          <h3>Safety & Security</h3>
+          <h3 className="policyContTxt">Safety & Security</h3>
           <p>
             <strong>
               Are credit/debit card transactions on Azistastore.com secure?

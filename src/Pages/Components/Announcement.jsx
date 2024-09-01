@@ -49,7 +49,7 @@ const Announcement = () => {
                   target="_blank"
                 >
                   <span
-                    className="text"
+                    className="announcement-text"
                     style={{ color: each.announcement_text_color }}
                   >
                     {each.announcement_web_text}

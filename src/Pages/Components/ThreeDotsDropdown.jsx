@@ -6,17 +6,21 @@ import Cookies from "js-cookie";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
 import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
+import { useNavigate } from "react-router-dom";
 
 const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
-const ThreeDotsDropdown = ({ reviewDetails, productReviews }) => {
+const ThreeDotsDropdown = ({ reviewId, productReviews }) => {
+  console.log("reviewId", reviewId);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const open = Boolean(anchorEl);
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
   const baseUrl = process.env.REACT_APP_API_URL;
+
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,22 +30,23 @@ const ThreeDotsDropdown = ({ reviewDetails, productReviews }) => {
     if (option === "Delete") {
       deleteReview();
     } else {
+      navigate("/edit-review", { state: { id: reviewId } });
       setModalShow(true);
     }
     setAnchorEl(null);
   };
 
-  const editReview = () => {
-    return (
-      <>
-        <MyVerticallyCenteredModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          reviewDetails={reviewDetails}
-        />
-      </>
-    );
-  };
+  // const editReview = () => {
+  //   return (
+  //     <>
+  //       <MyVerticallyCenteredModal
+  //         show={modalShow}
+  //         onHide={() => setModalShow(false)}
+  //         reviewDetails={reviewDetails}
+  //       />
+  //     </>
+  //   );
+  // };
 
   const deleteReview = async () => {
     try {
@@ -49,16 +54,10 @@ const ThreeDotsDropdown = ({ reviewDetails, productReviews }) => {
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
-      const { review_id } = reviewDetails;
-      const response = await axios.post(
-        url,
-        { reviewId: review_id },
-        { headers }
-      );
+      const response = await axios.post(url, { reviewId }, { headers });
       if (response.status === 200) {
         productReviews();
       }
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +65,6 @@ const ThreeDotsDropdown = ({ reviewDetails, productReviews }) => {
 
   return (
     <div>
-      {modalShow && editReview()}
       <IconButton
         aria-label="more"
         id="long-button"

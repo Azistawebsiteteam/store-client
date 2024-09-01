@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -98,7 +100,7 @@ const Home = () => {
               items={collections}
             />
           </div>
-          <div className="container bestSellers">
+          <div className="container bestSellers d-none d-md-block">
             <ProductSlider
               title={"Best Sellers"}
               type={"bestSellers"}
@@ -106,13 +108,23 @@ const Home = () => {
             />
           </div>
           <div className="container bestSellers">
+            <div className="ctn">
+              <a href="#" id="categories">
+                &nbsp;
+              </a>
+            </div>
+
             <Categories categories={categories} />
           </div>
           <div className="container productBanner">
             <div className="mt-4 mb-4">
               <div className="productBannerCont">
                 {productBanners.map((each, i) => (
-                  <Link className="linkItem" to={each.azst_background_url}>
+                  <Link
+                    key={i}
+                    className="linkItem"
+                    to={each.azst_background_url}
+                  >
                     <img
                       src={
                         isMobile ? each.azst_mobile_image : each.azst_web_image
@@ -138,13 +150,18 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="container brandsSec">
+          <div className="container brandsSec d-none d-md-block">
             <div className="brands">
               <h4 className="text-center">Explore With Brands</h4>
               <BrandsTab brandsItems={brandsItems} />
             </div>
           </div>
-          <div className="container shop99">
+          <div className="container shop99 d-none d-md-block">
+            <div className="ctn">
+              <a href="" id="shop99">
+                &nbsp;
+              </a>
+            </div>
             <ProductSlider
               title={"Shop at 99"}
               type={"shop99"}
@@ -157,13 +174,16 @@ const Home = () => {
               <h4 className="text-center mb-5">
                 Satisfied customers, happy shopping!
               </h4>
-              <div className="card" style={{ width: "22rem" }}>
+              <div
+                className="card custSatisfiedCard"
+                style={{ width: "21rem" }}
+              >
                 <img
                   src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
                   alt="satisfiedCust"
                   className="satisfiedCustImg"
                 />
-                <div className="card-body">
+                <div className="card-body custSatisfiedCardbody">
                   <p className="card-title">
                     <strong>Card title</strong>
                   </p>
@@ -198,48 +218,48 @@ const Home = () => {
             </h5>
             <div className="gifs">
               <div className="row">
-                <div className="col gifCont">
+                <div className="col-6 col-md-3 gifCont">
                   <img
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/free-delivery.gif`}
                     alt="Free Delivery"
                   />
-                  <div className="ps-2">
+                  <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">Free Shipping</p>
                     <small className="text-light">On all Orders</small>
                   </div>
                 </div>
-                <div className="col gifCont">
+                <div className="col-6 col-md-3 gifCont">
                   <img
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/award.gif`}
                     alt="Award"
                   />
-                  <div className="ps-2">
+                  <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">Global Quality</p>
                     <small className="text-light">Make in India</small>
                   </div>
                 </div>
-                <div className="col gifCont">
+                <div className="col-6 col-md-3 gifCont">
                   <img
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/courier.gif`}
                     alt="Courier"
                   />
-                  <div className="ps-2">
+                  <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">COD Available</p>
                     <small className="text-light">
                       Order Now, Pay On Delivery
                     </small>
                   </div>
                 </div>
-                <div className="col gifCont">
+                <div className="col-6 col-md-3 gifCont">
                   <img
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/shopping.gif`}
                     alt="Shopping"
                   />
-                  <div className="ps-2">
+                  <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">Try & Buy</p>
                     <small className="text-light">Click, Try and Buy</small>
                   </div>
@@ -247,7 +267,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="container blogs">
+          <div className="container blogs d-none d-md-block">
             <BlogsSection />
           </div>
           <div className="bottomStrip"></div>

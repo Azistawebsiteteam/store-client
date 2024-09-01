@@ -12,7 +12,7 @@ const AboutUs = () => {
             <p className="text-center" style={{ color: "#717171" }}>
               About Us
             </p>
-            <h3 className="text-center">
+            <h3 className="text-center aboutUsText">
               Discover Our Story: <br />
               Who We Are What We Do
             </h3>

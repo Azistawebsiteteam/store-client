@@ -1,5 +1,4 @@
 .userProfileSec {
-    padding: 12% 0;
     background-color: #F9F9FC;
 }
 .custNav{
@@ -70,8 +69,25 @@ small.details {
     box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     padding: 1rem;
     border-radius: 10px;
+    margin-top: 2rem;
 }
 .activeBar{
     color: var(--hover-bg-color) !important;
     text-decoration: underline !important;
+}
+
+@media screen and (max-width: 768px) {
+    .sideBar{
+        display: none !important;
+    }
+    .myAccount_right_sec {
+        padding: 8% 8% !important;
+        width: 100% !important;
+    }
+    .myAccInnerSec {
+        max-width: 100%;
+    }
+    .commonBtn {
+        width: 30% !important;
+    }
 }

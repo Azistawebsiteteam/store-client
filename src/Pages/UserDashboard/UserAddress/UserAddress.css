@@ -64,3 +64,15 @@
     height: auto !important;
     min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
 } */
+
+@media screen and (max-width:768px){
+    .identityDetails {
+        max-width: 60% !important;
+    }
+    .myAccUserAdd {
+        width: 100% !important;
+    }
+    .myAccUserInnerSec {
+        max-width: 100% !important;
+    }
+}

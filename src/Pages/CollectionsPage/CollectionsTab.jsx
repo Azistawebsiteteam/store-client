@@ -34,7 +34,7 @@ const CollectionsTab = (props) => {
   return (
     <div className="CollectionsTabCont">
       <form className="row d-md-flex justify-content-md-center">
-        <div className="col-md-2">
+        <div className="col-4 col-md-2">
           <label htmlFor="inputState" className="custFormlable form-label">
             Filters:
           </label>
@@ -51,7 +51,7 @@ const CollectionsTab = (props) => {
             Clear All
           </button>
         </div>
-        <div className="col-md-2">
+        <div className="col-4 col-md-2">
           <label htmlFor="availability" className="form-label custFormlable">
             Availability
           </label>
@@ -65,7 +65,7 @@ const CollectionsTab = (props) => {
             <option value="All">All</option>
           </select>
         </div>
-        <div className="col-md-2">
+        <div className="col-4 col-md-2">
           <label htmlFor="discount" className="form-label custFormlable">
             Discount
           </label>
@@ -87,7 +87,7 @@ const CollectionsTab = (props) => {
           handleStarRating={handleStarRating}
           starRating={starRating}
         />
-        <div className="col-md-2">
+        <div className="col-6 col-md-2">
           <label htmlFor="sortOrder" className="form-label custFormlable">
             Sort by 
           </label>

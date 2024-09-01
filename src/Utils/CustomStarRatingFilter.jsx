@@ -41,7 +41,7 @@ const options = [
 
 const CustomStarRatingFilter = ({ handleStarRating, starRating }) => {
   return (
-    <div className="col-md-2">
+    <div className="col-6 col-md-2">
       <label htmlFor="ratings" className="form-label custFormlable">
         Customer Ratings
       </label>

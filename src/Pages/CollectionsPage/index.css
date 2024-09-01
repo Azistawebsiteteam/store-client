@@ -1,5 +1,5 @@
-.userPage {
-    margin: 12% 0;
+.collectionPgBotSec{
+    padding-top: 4rem;
 }
 .CollectionDetails{
     text-align: center;
@@ -14,20 +14,31 @@
     border: none !important;
     padding: 0 4px !important;
     font-weight: 500 !important;
+    background-color: transparent !important;
 }
 .CollectionsTabCont {
     margin: 2% 0 !important;
 }
 .css-13cymwt-control{
     border: none !important;
+    background-color: transparent !important;;
 }
 .css-1u9des2-indicatorSeparator{
     display: none !important;
 }
 .css-1xc3v61-indicatorContainer{
-    display: none;
+    display: none !important;
 }
 .css-b62m3t-container {
     margin-top: -4% !important;
     background-color: transparent !important;
+}
+
+@media screen and (max-width: 767px) {
+    .CollectionDetails{
+        text-align: left !important;
+    }
+    .collectionPgBotSec{
+        padding-top: 2rem;
+    }
 }

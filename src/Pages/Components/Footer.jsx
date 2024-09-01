@@ -50,7 +50,7 @@ const Footer = () => {
       <div className="container">
         <div className="row">
           {footerContent.map((eachObj, i) => (
-            <div className="col-md-2" key={i}>
+            <div className="col-md-2 d-none d-md-block" key={i}>
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
@@ -66,7 +66,7 @@ const Footer = () => {
             </div>
           ))}
           {moreFromUs.map((eachObj, i) => (
-            <div className="col-md-3" key={i}>
+            <div className="col-md-3 d-none d-md-block" key={i}>
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
@@ -101,38 +101,42 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-8">
-            <small>Support or Help</small>
-            <p style={{ color: "#fff" }}>
-              <img
-                src={`${imageUrl}/images/email.svg`}
-                className="social_icon"
-                alt="email"
-              />
-              <a
-                style={{ color: "#fff", textDecoration: "none" }}
-                href="mailto:ecommerce@azistaindustries.com"
-              >
-                ecommerce@azistaindustries.com
-              </a>
-            </p>
-            <p style={{ color: "#fff" }}>
-              <img
-                src={`${imageUrl}/images/phone.svg`}
-                className="social_icon"
-                alt="phone"
-              />
-              <a
-                style={{ color: "#fff", textDecoration: "none" }}
-                href="tel:1800 102 0576"
-              >
-                1800 102 0576
-              </a>
-            </p>
-          </div>
-          <div className="col-md-4">
-            <SocialIcons />
+        <div className="supportSec">
+          <div className="row">
+            <div className="col-md-8 supportSecInfo">
+              <small style={{ color: "rgb(255, 255, 255)" }}>
+                Support or Help
+              </small>
+              <p style={{ color: "#fff", marginTop: "0.2rem" }}>
+                <img
+                  src={`${imageUrl}/images/email.svg`}
+                  className="social_icon"
+                  alt="email"
+                />
+                <a
+                  style={{ color: "#fff", textDecoration: "none" }}
+                  href="mailto:ecommerce@azistaindustries.com"
+                >
+                  ecommerce@azistaindustries.com
+                </a>
+              </p>
+              <p style={{ color: "#fff" }}>
+                <img
+                  src={`${imageUrl}/images/phone.svg`}
+                  className="social_icon"
+                  alt="phone"
+                />
+                <a
+                  style={{ color: "#fff", textDecoration: "none" }}
+                  href="tel:1800 102 0576"
+                >
+                  1800 102 0576
+                </a>
+              </p>
+            </div>
+            <div className="col-md-4">
+              <SocialIcons />
+            </div>
           </div>
         </div>
       </div>

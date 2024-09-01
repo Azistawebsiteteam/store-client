@@ -78,7 +78,7 @@ small, .small {
 /* headerSec */ 
 
 .headerSec {
-    position: fixed;
+    position: relative;
     top: 0;
     z-index: 3;
     background-color: #F9F9FC !important;
@@ -88,12 +88,18 @@ small, .small {
 /* shippingBar */
 
 .freeShippingBar {
+    position: sticky;
+    top: 0;
     width: 100%;
     text-align: center;
     padding: 0.4rem 2rem;
     background-color: black !important;
     display: flex;
     justify-content: space-between;
+}
+.announcements {
+    position: sticky;
+    top: 0;
 }
 .content small{
     color: #fff;
@@ -124,7 +130,7 @@ small, .small {
 /* announcementBar */
 
 .AnnouncementSlider {
-     min-height: 3.6rem;
+     min-height: 2.6rem;
      text-align: center;
      background-image: url('../../../public/images/announcementBg.png');
      width: 100%;
@@ -147,17 +153,29 @@ svg.announcementArrow {
     color: #000;
 }
 
-span.text {
+span.announcement-text {
     padding: 0.2rem 0;
     display: inline-block;
 }
 
 /* navbar */
+.navbarInnerSection .rightSec {
+    display: flex;
+    align-items: center;
+}
+.navBarClose{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
 
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    width: 100%;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
-    top: -24px;
+    top: 0;
+    transition: all 5s ease-in-out;
 }
 
 .navlogo{
@@ -173,7 +191,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 }
 
 .bottomSec{
-    margin-top: 9.6rem;;
+    margin-top: 0.6rem;
+    overflow: hidden;
 }
 .customCarousel{
     margin: auto;
@@ -195,9 +214,7 @@ li.slide{
 .rightSec img.social_icon{
     margin-left: 1rem;
 }
-.cartIcon{
-    margin-left: 1rem;
-}
+
 .nav-link{
     color: #171717 !important;
     font-size: 1rem !important;
@@ -236,12 +253,14 @@ li.nav-item {
     padding: 100px 0 50px 0;
     position: relative;
 }
+.supportSec{
+    margin-top: 2rem;
+}
 .footerHeading{
     font-size: 24px;
     color: var(--bg-color);
 }
 .footerEmailText{
-    font-size: 30px;
     font-weight: 600;
     color: #ffffff;
 }
@@ -422,6 +441,16 @@ img.blogMainImg {
     background-color: var(--hover-bg-color);
     width: 100%;
 }
+.custSatisfiedCard{
+    border: none !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+.custSatisfiedCardbody{
+    border: 1px solid #E3E3E3;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
 .custSatisfiedSec>h5{
    padding-top: 6rem;
 }
@@ -434,7 +463,7 @@ img.blogMainImg {
     padding: 4% 0;
 }
 img.gif {
-    width: 22%;
+    width: 20%;
     border-radius: 50%;
 }
 
@@ -444,7 +473,7 @@ img.gif {
   }
   .carousel-container {
     width: 100%;
-    margin: 0 auto;
+    margin:  1% auto;
     text-align: center;
   }
   
@@ -832,7 +861,7 @@ img.satisfiedProductImg {
 }
 .productInfoSec {
     background-color: #F9F9FC;
-    padding: 12% 0 4% 0;
+    padding: 4% 0 4% 0;
 }
 .reviewsCont {
     background-color: #F9F9FC;
@@ -912,10 +941,13 @@ svg.playIcon {
     display: block;
     max-height: 14rem;
     overflow: hidden;
-    transition: max-height 4s ease;
+    transition: max-height 4s ease-in-out;
 }
 .hideProductContentInfo.expanded {
     max-height: 100rem;
+}
+.hideProductContentInfo.hideContent{
+    max-height: 14rem;
 }
 .review{
     width: 300px;
@@ -1015,6 +1047,7 @@ svg.playIcon {
 p.ingredientTitle {
     width: 16rem;
 }
+/* faqs */
 .accordianCont {
     width: 70%;
     margin-top: 2rem;
@@ -1030,9 +1063,11 @@ p.ingredientTitle {
 .faqBtnCont {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     width: 80%;
     margin: 1rem 0 0 0;
 }
+
 .faqsSpacing{
     padding: 4% 0;
     display: flex;
@@ -1097,22 +1132,40 @@ p.ingredientTitle {
 
 /* searchBarPage */
 .searchBarCont{
-    position: absolute;
+    display: flex;
+    position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.75);
     z-index: 10;
+    opacity: 1;
+    transition: 0.4s ease-out;
 } 
+.searchBarLeftSec {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.showSearchBar {
+    right: 0;
+}
+.hideSearchBar{
+    right: -100%;
+}
+
 .searchBarPage{
     position: absolute;
     width: 60%;
     height: 100vh;
     right: 0;
     background-color: #fff;
-    transition: width 4s ease-in;
+    display: flex;
+    flex-direction: column;
+    transition: all 4s ease-in;
 }
 .searchBarPage .topSec {
     display: flex;
@@ -1120,16 +1173,6 @@ p.ingredientTitle {
     justify-content: space-between;
     padding: 1%;
     padding-bottom: 1rem;
-}
-.searchBarLeftSec {
-    position: absolute;
-    height: 100vh;
-    width: 40%;
-    justify-content: center;
-    left: 0;
-    color: #fff;
-    display: flex;
-    align-items: center;
 }
 .searchBar{
     border: none !important;
@@ -1169,17 +1212,20 @@ input[type="file"] {
     flex-direction: column;
     padding: 1rem;
 }
+.searchResults {
+    overflow-y: auto;
+}
 .productContent p {
     font-size: 1rem;
     color: #000;
     font-weight: 400;
     text-decoration: none;
     margin-bottom: 0;
-    display: -webkit-box;
+    /* display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
     -webkit-box-orient: vertical;
-    overflow: hidden;
+    overflow: hidden; */
 }
 
 /* myAccReviewCont */
@@ -1230,18 +1276,28 @@ img.displayIeviewImg {
 /* cart-page */
 
 .cartPageSec{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.75);
     z-index: 10;
-
+    transition: 0.4s ease-out;
 }
+.showCart{
+    right: 0;
+}
+.hideCart{
+    right: -100%;
+}
+
 .cartProduct {
     margin: 1rem 0;
+}
+.cartProducts {
+    overflow-y: auto;
+    margin: 0.6rem 0.4rem 2.6rem 0;
 }
 .cartPageLeftSec{
     width: 58%;
@@ -1267,6 +1323,9 @@ img.displayIeviewImg {
     justify-content: center;
     align-items: center;
 }
+img.emptyCartImg {
+    width: 100%;
+}
 .cartPageTopSec{
     display: flex;
     justify-content: space-between;
@@ -1291,3 +1350,333 @@ img.cartProductImg {
     align-items: center;
 }
 
+/* notFoundPage */
+
+.not-found-card {
+    background-color: #a890cc;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+  }
+  
+  .not-found-body {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+  
+  .heading-main {
+    color: #91bbd9;
+    font-size: 13rem;
+    font-weight: bold;
+    margin: 0px;
+  }
+  
+  .heading_sub {
+    font-family: 'Roboto', 'Helvetica Neue';
+    color: #363337;
+    margin-bottom: 15px;
+  }
+  
+  .productInfo {
+    width: 100%;
+}
+  
+
+/* mobile responsiveness */
+
+@media screen and (max-width:768px) {
+    h4,.h4 {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .freeShippingBar {
+        justify-content: center;
+    }
+    span.announcement-text {
+        font-size: 0.9rem;
+        max-width: 66%;
+    }
+    .carousel-control-prev, .carousel-control-next {
+        width: 20% !important;
+    }
+    .AnnouncementSlider {
+        min-height: 3.6rem;
+    } 
+   .announcementSlideBtns {
+        top: 0.6rem !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .footerSec {
+        padding: 50px 0 50px 0;
+    }
+    .footerEmailText{
+        font-size: 1.8rem !important;
+        text-align: center;
+    }
+    .cartIcon {
+        margin-left: 0rem;
+    }
+}
+
+@media screen and (max-width:768px) {
+    div#navbarSupportedContent {
+        position: fixed;
+    }
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+    }
+    .show-navbar{
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        width: 70%;
+        padding: 2rem;
+        transition: 0.4s left ease-out;
+    }
+    .hide-navbar{
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        transition: 1s ease-out;
+    }
+    .navlogo {
+        width: 52%;
+    }
+    .navbarInnerSection {
+        margin-top: 1rem;
+    }
+    .navbar-nav .dropdown-menu {
+        position: relative !important;
+        left: -4rem !important;
+        top: 2rem !important;
+        margin: 0 0 1.6rem 0 !important;
+        border: none !important;
+    }
+    .navbar-nav .dropdown-menu2 {
+        left: -6rem !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .sliderBtn-cont {
+        display: flex;
+    }
+    .sliderBtn-icon {
+        font-size: 40px;
+    }
+    .onLoadModal{
+        top: 20% !important;
+        --bs-modal-width: 49% !important;
+        margin: auto !important;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .carousel-container {
+        margin-top: 8% !important;
+      }
+      .slick-next {
+        right: 80px !important;
+      }
+      .slick-prev {
+        left: 80px !important;
+       }
+       .slick-prev, .slick-next {
+        top: 86% !important;
+      }
+}
+
+@media screen and (max-width:768px){
+    .gifCont{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 0.6rem 0;
+    }
+    .gifInfo{
+        text-align: center;
+    }
+    .supportSec>small{
+        text-align: center;
+    }
+    .supportSecInfo,.paymentOpt,.footerSocialIcons,.copyright_sec_info{
+        text-align: center;
+    }
+    .copyright_sec_info{
+        margin-bottom: 0.4rem;
+    }
+    .copyrightTxt {
+        text-align: center;
+        display: block;
+        margin-top: 0.4rem;
+    }
+}
+
+@media screen and (max-width:768px){
+    .custSatisfiedSec {
+        margin: 3rem 0;
+    }
+    .bottomStrip {
+        top: -1px;
+    }
+}
+
+/* bestSelledProduct */
+@media screen and (max-width:768px){
+    .bestSellerCarouselItem{
+        min-width: 10rem !important;
+        max-width: 10rem;
+        margin: 0.1rem;
+        border-radius: 12px;
+    }
+}
+
+/* searchBar */
+
+@media screen and (max-width:768px){
+    .searchBarPage{
+        width: 100%;
+    }
+    .productCount{
+        font-size: 0.6rem !important;
+    }
+    .category_overlay {
+        top: 40%;
+    }
+    .categoryTxt {
+        text-align: center;
+    }
+}
+
+/* cartPage */
+@media screen and (max-width:768px){
+    .cartPageRightSec {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+/* productItem */
+@media screen and (max-width:768px){
+    .productUserPage{
+        overflow: hidden;
+        background-color: #fff;
+    }  
+    .productContImgSec {
+        margin-bottom: 1rem;
+    }
+    .mainImage {
+        width: 68% !important;
+    }
+    .navigatingBtns {
+        width: 94%;
+    }
+    svg.playIcon {
+        font-size: 34px !important;
+    }
+    .bodyTypeStyle {
+        padding: 0.4rem 0.6rem !important;
+        font-weight: 400 !important;
+    }
+    .productPrice{
+        margin-top: 4px !important;
+    }
+    .productPgBtn{
+        width: 50% !important;
+    }
+    .quantityCont {
+        width: 30% !important;
+        padding: 6px !important;
+    }
+    form.searchAvailability {
+        width: 80% !important;
+    }
+    .accordianCont {
+        width: 100% !important;
+    }
+    li.nav-item {
+        margin: 0;
+    }
+    .custNavPills {
+        justify-content: inherit;
+    }
+    .custNavPills .custNavLink {
+        font-size: 16px !important;
+    }
+}
+
+/* checkout page */
+@media screen and (max-width:768px){
+    .checkoutPage {
+        padding: 0 !important;
+    }
+}
+
+/* cart page */
+@media screen and (max-width: 768px) {
+    .cartPageLeftSec{
+        display: none !important;
+    }
+    .cartPageTopSec {
+        padding: 0 !important;
+    }
+}
+
+/* faqsPage */
+@media screen and (max-width: 768px) {
+    .faqBtnCont {
+        width: 100%;
+    }
+    .faqInnerSec {
+        width: 90% !important;
+    }
+}
+
+@media  screen and (max-width: 768px) {
+    /* notFoundPage */
+
+.not-found-card {
+    background-color: #a890cc;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .not-found-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+  
+  .heading-main {
+    font-size: 4rem;
+  }
+  
+  .heading_sub {
+    font-size: 2rem !important;
+    text-align: center;
+  }
+  
+  .productInfo {
+    width: 100%;
+}
+  
+}

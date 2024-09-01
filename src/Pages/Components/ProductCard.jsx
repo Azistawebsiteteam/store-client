@@ -5,7 +5,6 @@ import "./Customer.css";
 import AddToCart from "../../Utils/AddToCart";
 
 const ProductCard = ({ items }) => {
-  console.log(items, "hdjhcdkhjjdnjdmdfd");
   return (
     <>
       {items.map((each, i) => (

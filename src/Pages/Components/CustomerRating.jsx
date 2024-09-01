@@ -245,11 +245,12 @@ export const DisplayReview = ({ productId }) => {
 
   return (
     <div>
-      {reviews.length > 1 && (
-        <div className="reviewCont flex-column">
-          <div className="col-md-12 d-flex flex-row justify-content-between align-items-center mb-5">
-            <div className="">
-              <h6>Reviews</h6>
+      {/* {reviews.length > 1 && ( */}
+      <div className="reviewCont flex-column">
+        <div className="col-md-12 d-flex flex-column flex-md-row justify-content-md-between align-items-start align-items-md-center mb-md-5">
+          <div className="">
+            <h6>Reviews</h6>
+            {reviews.length >= 1 && (
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
@@ -267,94 +268,99 @@ export const DisplayReview = ({ productId }) => {
                   Based on <span>{reviews.length}</span> reviews
                 </span>
               </div>
-            </div>
-            <div className="d-flex flex-column align-items-center">
-              <button
-                type="button"
-                className="reviewBtn"
-                data-bs-toggle="modal"
-                data-bs-target="#createReview"
-              >
-                Write a review
-              </button>
-
-              <div
-                className="modal fade"
-                id="createReview"
-                tabIndex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">
-                        Review the product
-                      </h5>
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div className="modal-body">
-                      <CreateReview
-                        productId={productId}
-                        buttonText={"Submit"}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {reviews.map((each, i) => (
-              <div key={i} className="review m-3">
-                <div className="d-flex justify-content-between">
-                  <div className="editSec">
-                    <Rating
-                      name="read-only"
-                      value={each.review_points}
-                      precision={0.5}
-                      readOnly
-                    />
+          <div className="d-flex flex-column align-items-center">
+            <button
+              type="button"
+              className="reviewBtn"
+              data-bs-toggle="modal"
+              data-bs-target="#createReview"
+            >
+              Write a review
+            </button>
+
+            <div
+              className="modal fade"
+              id="createReview"
+              tabIndex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      Review the product
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
-                  {userDetails?.azst_customer_id ===
-                    parseInt(each.customer_id) && (
-                    <ThreeDotsDropdown
-                      productReviews={productReviews}
-                      reviewDetails={each}
-                      reviewId={reviews.review_id}
-                    />
-                  )}
-                  {/* <span>{each.created_on}</span> */}
+                  <div className="modal-body">
+                    <CreateReview productId={productId} buttonText={"Submit"} />
+                  </div>
                 </div>
-                <div className="botSec">
-                  {/* <h6>{each.review_title}</h6> */}
-                  <p style={{ fontSize: "1rem", lineHeight: "1" }}>
-                    {each.review_content}
-                  </p>
-                </div>
-                <div className="displayIeviewImgsCont">
-                  {each.review_images.map((img, i) => (
-                    <img
-                      key={i}
-                      className="displayIeviewImg"
-                      src={img}
-                      alt="reviewImg"
-                    />
-                  ))}
-                </div>
-                <p style={{ fontWeight: "500" }}>
-                  {each.azst_customer_fname} {each.azst_customer_lname}
-                </p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      )}
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {reviews.map((each, i) => (
+            <div key={i} className="review m-3">
+              <div className="d-flex justify-content-between">
+                <div className="editSec">
+                  <Rating
+                    name="read-only"
+                    value={each.review_points}
+                    precision={0.5}
+                    readOnly
+                  />
+                </div>
+                {userDetails?.azst_customer_id ===
+                  parseInt(each.customer_id) && (
+                  <ThreeDotsDropdown
+                    reviewId={each.review_id}
+                    productReviews={productReviews}
+                  />
+                )}
+                {/* <span>{each.created_on}</span> */}
+              </div>
+              <div className="botSec">
+                <p style={{ fontWeight: "600", marginBottom: "0" }}>
+                  {each.review_title}
+                </p>
+                <p
+                  style={{
+                    fontSize: "1rem",
+                    lineHeight: "1",
+                    margin: "0.4rem 0",
+                  }}
+                >
+                  {each.review_content}
+                </p>
+              </div>
+              <div className="displayIeviewImgsCont">
+                {each.review_images.map((img, i) => (
+                  <img
+                    key={i}
+                    className="displayIeviewImg"
+                    src={img}
+                    alt="reviewImg"
+                  />
+                ))}
+              </div>
+              <p style={{ fontWeight: "500" }}>
+                {each.azst_customer_fname} {each.azst_customer_lname}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* )} */}
     </div>
   );
 };

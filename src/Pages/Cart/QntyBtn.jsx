@@ -22,13 +22,12 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
   console.log(cartList, "ddddd");
   const increaseQuantityCounter = (cartId) => {
     const product = cartList.find((c) => c.azst_cart_id === cartId);
-    console.log(product, "kkk");
     let quantity = product.azst_cart_quantity ?? 1;
     if (product) {
       const updatedCart = cartList.map((eachProduct) => {
         if (eachProduct.azst_cart_id === cartId) {
           if (eachProduct.azst_cart_quantity < eachProduct.max_cart_quantity) {
-            quantity = eachProduct.azst_cart_quantity + 1;
+            quantity = parseInt(eachProduct.azst_cart_quantity) + 1;
             return {
               ...eachProduct,
               azst_cart_quantity: quantity,
@@ -52,7 +51,7 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
       const updatedCart = cartList.map((eachProduct) => {
         if (eachProduct.azst_cart_id === cartId) {
           if (eachProduct.azst_cart_quantity > eachProduct.min_cart_quantity) {
-            quantity = eachProduct.azst_cart_quantity - 1;
+            quantity = parseInt(eachProduct.azst_cart_quantity) - 1;
             return {
               ...eachProduct,
               azst_cart_quantity: quantity,

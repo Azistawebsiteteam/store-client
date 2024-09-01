@@ -90,7 +90,7 @@ const CollectionsDetails = () => {
   return (
     <>
       <ScrollToTop />
-      <div className="userPage">
+      <div className="collectionPgBotSec">
         <div className="container">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -104,16 +104,27 @@ const CollectionsDetails = () => {
               </li>
             </ol>
           </nav>
-          <CollectionsTab
-            filterAccDis={filterAccDis}
-            filteredValues={filteredValues}
-            setFilteredValues={setFilteredValues}
-            starRating={starRating}
-            setStarRating={setStarRating}
-          />
+          <div className="d-none d-md-block">
+            <CollectionsTab
+              filterAccDis={filterAccDis}
+              filteredValues={filteredValues}
+              setFilteredValues={setFilteredValues}
+              starRating={starRating}
+              setStarRating={setStarRating}
+            />
+          </div>
           <div className="CollectionDetails">
             <h1>{collectionData.azst_collection_title}</h1>
             <p>{collectionData.azst_collection_description}</p>
+          </div>
+          <div className="d-md-none">
+            <CollectionsTab
+              filterAccDis={filterAccDis}
+              filteredValues={filteredValues}
+              setFilteredValues={setFilteredValues}
+              starRating={starRating}
+              setStarRating={setStarRating}
+            />
           </div>
           <div className="collectionProducts">
             <ProductCard items={filteredProducts} />
