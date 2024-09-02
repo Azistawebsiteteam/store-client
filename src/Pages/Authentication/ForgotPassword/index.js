@@ -62,7 +62,6 @@ const ForgotPassword = () => {
       const response = await axios.post(url, {
         mailOrMobile: inputValues.mailOrMobile,
       });
-      console.log(response, "balaji");
       setInputValues({ ...inputValues, onSubmit: true });
       if (response.status === 200) {
         onSubmitSuccess();
@@ -83,7 +82,6 @@ const ForgotPassword = () => {
       };
       const response = await axios.post(url, body);
       onSubmitOtpSuccess(response.data.jwtToken);
-      console.log(response, "fad");
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -94,7 +92,6 @@ const ForgotPassword = () => {
     setError("");
   };
 
-  console.log(inputValues.otp.length > 4, "rrr");
   return (
     <div className="userLoginSection">
       {!display && (

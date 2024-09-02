@@ -25,7 +25,6 @@ const EditReview = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
   const { id } = location.state || 0;
-  console.log(review);
   useEffect(() => {
     try {
       const fetchReview = async () => {

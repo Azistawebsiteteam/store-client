@@ -25,8 +25,6 @@ const ReviewsAndRatings = () => {
     userReviews();
   }, [userDetails, baseUrl, jwtToken]);
 
-  console.log(reviews);
-
   return (
     <div className="bottomSec">
       <div className="d-flex">

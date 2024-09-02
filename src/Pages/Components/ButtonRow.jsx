@@ -9,7 +9,6 @@ const ButtonRow = ({ items, handleChange, defaultItem }) => {
     }
     setSelectedFaq(each);
   };
-  console.log(selectedFaq);
   return (
     <div className="faqBtnCont">
       {items.map((each, i) => (

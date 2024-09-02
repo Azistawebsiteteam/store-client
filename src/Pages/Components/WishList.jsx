@@ -53,13 +53,10 @@ const WishList = () => {
       swalHandle.onLoadingClose();
       getWishlist();
     } catch (error) {
-      console.log(error);
       swalHandle.onLoadingClose();
       swalHandle.onError(error);
     }
   };
-
-  console.log(wishList, "wishList");
 
   return (
     <>

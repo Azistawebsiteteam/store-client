@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Components/Customer.css";
 import "../Components/Components.css";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const BlogsSection = () => {
   const [blogContent, setBlogContent] = useState([]);
@@ -16,15 +17,13 @@ const BlogsSection = () => {
         const { blogs } = response.data;
         setBlogContent(blogs);
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     getBlogContent();
   }, [baseUrl]);
 
   const firstElement = blogContent[0] || {};
-
-  console.log(blogContent, "blog");
 
   return (
     <div className="blogCont">

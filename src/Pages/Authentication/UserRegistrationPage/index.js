@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import GoogleSignIn from "../GoogleSignIn";
 import "../Authentication.css";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const UserRegistrationPage = () => {
   const [inputValues, setInputValues] = useState({
@@ -31,9 +32,9 @@ const UserRegistrationPage = () => {
         customerName: inputValues.customerFullName,
         mailOrMobile: inputValues.customerMailOrMobileNum,
       };
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, body);
       setInputValues({ ...inputValues, requestOtp: true });
-      console.log(response);
     } catch (error) {
       if (error.response.status === 400) {
         setError(error.response.data.message);
@@ -52,10 +53,10 @@ const UserRegistrationPage = () => {
         navigate("/create-password", { state: { userData: inputValues } });
       }
     } catch (error) {
-      console.log(error);
+      ErrorHandler.onError(error);
     }
   };
-  console.log(inputValues, "input");
+
   return (
     <div className="userLoginSection">
       <div className="userLoginPage">

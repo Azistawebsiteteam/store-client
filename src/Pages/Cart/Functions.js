@@ -18,17 +18,16 @@ export const handleAddtoCart = async (custId, product, updateCartData) => {
         },
       ],
     };
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.post(url, body);
     swalHandle.onSuccess("Product Added to Cart");
     updateCartData();
-    console.log(response);
   } catch (error) {
     swalHandle.onError(error);
   }
 };
 
 export const cartItems = async (custId) => {
-  console.log(custId, "customer djndf");
   try {
     const url = `${baseUrl}/cart/data`;
     const body = {

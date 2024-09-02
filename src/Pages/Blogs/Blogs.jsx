@@ -37,8 +37,6 @@ const Blogs = () => {
     }
   };
 
-  console.log(blogsTypes, "blogsTypes");
-
   return (
     <>
       <ScrollToTop />

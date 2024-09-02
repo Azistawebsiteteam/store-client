@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const AddressForm = (props) => {
   const { setInputValue, inputValues } = props;
@@ -14,7 +15,7 @@ const AddressForm = (props) => {
         const response = await axios.post(statesUrl, { country: "India" });
         setStates(response.data.data.states);
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     stateApi();
@@ -27,8 +28,6 @@ const AddressForm = (props) => {
   const onChangeDefault = (e) => {
     setInputValue({ ...inputValues, [e.target.id]: e.target.checked });
   };
-  console.log(inputValues.marketingSmsAccept, "inputValues.homeOrCompany");
-  console.log(inputValues.isDefault, "inputValues.isDefault");
 
   return (
     <form className="row g-3">

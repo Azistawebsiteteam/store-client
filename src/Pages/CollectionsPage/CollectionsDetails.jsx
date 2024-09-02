@@ -60,7 +60,6 @@ const CollectionsDetails = () => {
         setFilteredProducts(products);
         ErrorHandle.onLoadingClose();
       } catch (error) {
-        console.log(error, "error");
         ErrorHandle.onLoadingClose();
         ErrorHandle.onError(error);
       }

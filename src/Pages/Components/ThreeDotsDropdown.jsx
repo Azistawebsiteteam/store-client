@@ -5,17 +5,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Cookies from "js-cookie";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
-import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
 import { useNavigate } from "react-router-dom";
+import ErrorHandler from "./ErrorHandler";
 
 const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
 const ThreeDotsDropdown = ({ reviewId, productReviews }) => {
-  console.log("reviewId", reviewId);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [modalShow, setModalShow] = useState(false);
+  // const [modalShow, setModalShow] = useState(false);
   const open = Boolean(anchorEl);
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -31,7 +30,7 @@ const ThreeDotsDropdown = ({ reviewId, productReviews }) => {
       deleteReview();
     } else {
       navigate("/edit-review", { state: { id: reviewId } });
-      setModalShow(true);
+      // setModalShow(true);
     }
     setAnchorEl(null);
   };
@@ -59,7 +58,7 @@ const ThreeDotsDropdown = ({ reviewId, productReviews }) => {
         productReviews();
       }
     } catch (error) {
-      console.log(error);
+      ErrorHandler.onError(error);
     }
   };
 

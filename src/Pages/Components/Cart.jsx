@@ -17,9 +17,9 @@ const Cart = ({ handleCart, showCart }) => {
 
   const handleRemoveItem = async (id) => {
     let url = `${baseUrl}/cart/data`;
+    // eslint-disable-next-line no-unused-vars
     const response = await axios.patch(url, { cartId: id });
     updateCartData();
-    console.log(response);
   };
 
   const closeCart = () => {

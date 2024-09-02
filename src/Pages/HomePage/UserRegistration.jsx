@@ -58,15 +58,14 @@ const UserRegistrationPopup = () => {
         Authorization: `Bearer ${jwtToken}`,
       };
       swalHandle.onLoading();
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, custDetails, { headers });
-      console.log(response);
       swalHandle.onLoadingClose();
-      swalHandle.onSuccess();
+      swalHandle.onSuccess("Welcome");
       setTimeout(() => {
         setShowForm(false);
       }, 2000);
     } catch (error) {
-      console.log(error);
       swalHandle.onLoadingClose();
       swalHandle.onError(error);
     }
@@ -76,8 +75,8 @@ const UserRegistrationPopup = () => {
       {showForm && (
         <div className="UserRegistrationPopup">
           <div className="registrationFormPopup">
-            <p>Fill in your Details to proceed</p>
-            <div className="row">
+            <h6>Fill in your Details to proceed</h6>
+            <div className="row mt-2">
               <div className="form-group col-md-6">
                 <label htmlFor="firstName">First Name</label>
                 <input
@@ -131,7 +130,11 @@ const UserRegistrationPopup = () => {
                 />
               </div>
               <div className="form-group col-md-2">
-                <button onClick={submitUserForm} className="bg-primary mt-2">
+                <button
+                  onClick={submitUserForm}
+                  className="productPgBtn mt-2"
+                  style={{ width: "max-content", padding: "0.2rem 1rem" }}
+                >
                   Submit
                 </button>
               </div>

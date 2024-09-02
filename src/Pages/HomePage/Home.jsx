@@ -19,6 +19,7 @@ import Categories from "./Categories";
 import { useMediaQuery } from "@mui/material";
 import "../Components/Components.css";
 import "../Components/Customer.css";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const Home = () => {
   const [brandsItems, setBrandsItems] = useState([]);
@@ -79,7 +80,7 @@ const Home = () => {
           setBestSellers(bestSellersResponse.data);
         }
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     apiCallMethod();

@@ -3,9 +3,9 @@ import { GoPlus } from "react-icons/go";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { HiMiniMinusSmall } from "react-icons/hi2";
 import axios from "axios";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const QntyBtn = ({ cartQuantity, cartId }) => {
-  console.log(cartQuantity, "cart");
   const { userDetails, cartList, setCartList } =
     useContext(searchResultContext);
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -16,10 +16,9 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
       body = { ...body, customerId: userDetails.azst_customer_id ?? 0 };
       await axios.put(url, body);
     } catch (error) {
-      console.log(error);
+      ErrorHandler.onError(error);
     }
   };
-  console.log(cartList, "ddddd");
   const increaseQuantityCounter = (cartId) => {
     const product = cartList.find((c) => c.azst_cart_id === cartId);
     let quantity = product.azst_cart_quantity ?? 1;

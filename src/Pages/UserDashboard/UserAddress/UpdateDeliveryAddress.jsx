@@ -45,10 +45,8 @@ const UpdateDeliveryAddress = () => {
         };
         swalHandle.onLoading();
         const response = await axios.post(url, { addressId: id }, { headers });
-        console.log(response);
         if (response.status === 200) {
           const address = response.data.address;
-          console.log(address);
           setInputValue({
             customerFirstName: address.address_first_name,
             customerLastName: address.address_last_name,
@@ -74,7 +72,6 @@ const UpdateDeliveryAddress = () => {
         }
         swalHandle.onLoadingClose();
       } catch (error) {
-        console.log(error);
         swalHandle.onLoadingClose();
         swalHandle.onError(error);
       }
@@ -104,7 +101,6 @@ const UpdateDeliveryAddress = () => {
       swalHandle.onLoadingClose();
       swalHandle.onSuccess();
     } catch (error) {
-      console.log(error);
       swalHandle.onLoadingClose();
       swalHandle.onError(error);
     }

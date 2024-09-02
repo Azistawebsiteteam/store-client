@@ -8,6 +8,7 @@ import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import "../Authentication/UserLoginPage/index.css";
 import "../Components/Customer.css";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const GoogleSignIn = (props) => {
   const { btnTxt, type } = props;
@@ -45,11 +46,11 @@ const GoogleSignIn = (props) => {
           navigate("/", { replace: true });
         }
       } catch (err) {
-        console.error("Error fetching user info:", err);
+        ErrorHandler.onError(err);
       }
     },
     onError: (error) => {
-      console.error("Login Failed:", error);
+      ErrorHandler.onError(error);
     },
   });
 

@@ -41,10 +41,10 @@ const RequestCb = () => {
       formdata.append("estimatedDeliveryDate", rcbForm.estimatedDeliveryDate);
       formdata.append("customerId", userDetails.azst_customer_id ?? 0);
       ErrorHandler.onLoading();
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, formdata);
       ErrorHandler.onLoadingClose();
       ErrorHandler.onSuccess("Callback requested.");
-      console.log(response, "rcb");
     } catch (error) {
       ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
@@ -54,8 +54,6 @@ const RequestCb = () => {
   const handleRcbForm = (e) => {
     setRcbForm({ ...rcbForm, [e.target.id]: e.target.value });
   };
-
-  console.log(rcbForm, "rcbForm");
 
   return (
     <div className="bottomSec">

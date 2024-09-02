@@ -4,6 +4,7 @@ import { IoIosClose } from "react-icons/io";
 import Categories from "../HomePage/Categories";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import ErrorHandler from "./ErrorHandler";
 
 const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const [categories, setCategories] = useState([]);
@@ -24,7 +25,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
           setCategories(categoriesResponse.data);
         }
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     categories();

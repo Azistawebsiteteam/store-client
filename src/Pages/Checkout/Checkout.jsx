@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
@@ -26,7 +26,6 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("razorPayment");
   const [discountCode, setDiscountCode] = useState("");
   const [checkoutCount, setCheckoutCount] = useState(0);
-  console.log(checkoutCount, "count");
   const { cartList, userDetails } = useContext(searchResultContext);
 
   const calculateShippingCharges = (cartList) => {
@@ -62,7 +61,7 @@ const Checkout = () => {
     azst_customer_fname,
     azst_customer_lname,
     azst_customer_mobile,
-    azst_customer_email,
+    // azst_customer_email,
   } = userDetails;
 
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -185,7 +184,6 @@ const Checkout = () => {
       const response = await axios.post(url, data, { headers });
       handleRazorPayScreen(e, response.data);
     } catch (err) {
-      console.error("Error creating order:", err);
       alert("Failed to create order. Please try again later.");
     }
   };
@@ -256,7 +254,6 @@ const Checkout = () => {
   };
 
   const createPlaceOrder = async (response) => {
-    console.log(response);
     try {
       const url = `${baseUrl}/orders/customer/place-order`;
       const { amount, currency, orderId, paymentId, notes, noteAttributes } =
@@ -285,8 +282,6 @@ const Checkout = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
       };
-
-      console.log(body);
 
       ErrorHandler.onLoading();
       const order = await axios.post(url, body, { headers });

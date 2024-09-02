@@ -44,7 +44,6 @@ const ContactUs = () => {
       const response = await axios.post(url, formdata, { headers });
       swalHandler.onLoadingClose();
       swalHandler.onSuccess(response.data.message);
-      console.log(response);
     } catch (error) {
       swalHandler.onLoadingClose();
       swalHandler.onError(error);

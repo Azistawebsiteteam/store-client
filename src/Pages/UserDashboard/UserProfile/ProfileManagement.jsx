@@ -10,7 +10,6 @@ import ScrollToTop from "../../../Utils/ScrollToTop";
 
 const ProfileManagement = () => {
   const { userDetails } = useContext(searchResultContext);
-  console.log(userDetails, "user");
 
   return (
     <>

@@ -7,7 +7,6 @@ import SocialIcons from "./SocialIcons";
 import SearchBar from "./SearchBar";
 import Cart from "./Cart";
 import { RxCross2 } from "react-icons/rx";
-import { LuUser2 } from "react-icons/lu";
 import "./Customer.css";
 import Swal from "sweetalert2";
 import ErrorHandler from "./ErrorHandler";

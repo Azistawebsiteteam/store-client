@@ -97,7 +97,6 @@ const UpdateAddress = () => {
         ...inputValues,
         avalableTime,
       };
-      console.log(body, "update");
       const response = await axios.put(url, body, { headers });
       if (response.status === 200) {
         navigate(-1);
@@ -105,7 +104,6 @@ const UpdateAddress = () => {
       swalHandle.onLoadingClose();
       swalHandle.onSuccess();
     } catch (error) {
-      console.log(error);
       swalHandle.onLoadingClose();
       swalHandle.onError(error);
     }

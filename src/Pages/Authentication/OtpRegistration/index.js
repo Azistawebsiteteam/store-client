@@ -29,10 +29,10 @@ const OtpRegistration = () => {
     e.preventDefault();
     try {
       const url = `${baseUrl}/auth/register/otp`;
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, {
         mailOrMobile: inputValue.enterNumber,
       });
-      console.log(response);
       setInputValue({ ...inputValue, numberEntered: false });
     } catch (error) {
       setError(error.response.data.message);

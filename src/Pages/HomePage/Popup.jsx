@@ -5,6 +5,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import "../Components/Customer.css";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const Popup = () => {
   const [popupData, setPopupData] = useState({});
@@ -30,13 +31,12 @@ const Popup = () => {
           setPopupData(response.data);
         }
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
         setPopupData("");
       }
     };
     getBanner();
   }, [baseUrl, token]);
-  console.log(popupData);
 
   return (
     <div

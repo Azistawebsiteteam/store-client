@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Faqs from "./Faqs";
 import "./Customer.css";
-import { Button } from "bootstrap";
 import ButtonRow from "./ButtonRow";
 
 const FaqsPage = () => {
@@ -14,7 +13,6 @@ const FaqsPage = () => {
     const faqsContent = async () => {
       const faqUrl = `${baseUrl}/faqs/customer`;
       const response = await axios.get(faqUrl);
-      console.log(response);
       const { faqTypes, faqs } = response.data;
       setFaqTypes(faqTypes);
       setFaqs(faqs);

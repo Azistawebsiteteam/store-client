@@ -68,7 +68,6 @@ const OtpLogin = () => {
       setError(error.response.data.message);
     }
   };
-  console.log(timer);
 
   const onSubmitOtp = async (e) => {
     e.preventDefault();

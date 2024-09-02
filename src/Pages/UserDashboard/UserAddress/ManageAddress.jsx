@@ -30,7 +30,6 @@ const ManageAddress = () => {
         }
         swalErr.onLoadingClose();
       } catch (error) {
-        console.log(error);
         swalErr.onLoadingClose();
         swalErr.onError(error);
       }

@@ -39,7 +39,6 @@ const ManageOrders = () => {
     }
   };
 
-  console.log(orders);
   return (
     <>
       <ScrollToTop />

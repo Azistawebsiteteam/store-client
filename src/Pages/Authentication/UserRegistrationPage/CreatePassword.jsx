@@ -15,10 +15,8 @@ const CreatePassword = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const tokenKey = process.env.REACT_APP_JWT_TOKEN;
   const { userData } = location.state || {};
-  console.log(location.state, "location");
 
   const onSubmitSuccess = (token) => {
-    console.log(token, "apiSuccess");
     Cookies.set(tokenKey, token);
     navigate("/");
   };
@@ -32,7 +30,6 @@ const CreatePassword = () => {
         mailOrMobile: userData.customerMailOrMobileNum,
         password: passwordInput.password,
       };
-      console.log(body);
       const response = await axios.post(url, body);
       if (response.status === 201) {
         onSubmitSuccess(response.data.jwtToken);

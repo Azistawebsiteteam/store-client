@@ -5,7 +5,6 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
 } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -23,6 +22,7 @@ import ScrollToTop from "../../Utils/ScrollToTop";
 import { handleAddtoCart } from "../Cart/Functions";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import Faqs from "./Faqs";
+import ErrorHandler from "./ErrorHandler";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
@@ -54,10 +54,8 @@ const ProductItem = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
-  const { userDetails, updateCartData, wishlist } =
-    useContext(searchResultContext);
+  const { userDetails, updateCartData } = useContext(searchResultContext);
   //  const location = useLocation();
-  console.log(wishlist, "inWishlist");
   // const { productId = 0 } = location.state;
   const navigate = useNavigate();
 
@@ -91,7 +89,7 @@ const ProductItem = () => {
         setProductImagesArr(productDetails.product_images);
         setVariants(variants);
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     productDetails();
@@ -170,13 +168,11 @@ const ProductItem = () => {
     const variantDetails = async () => {
       try {
         const url = `${baseUrl}/product/variants`;
-        console.log(reqVariantId, "reqVariant");
         const variantId = reqVariantId ? reqVariantId : 0;
         let response = await axios.post(url, { variantId });
         setOutput(response.data.variant);
       } catch (error) {
-        console.log(error, "variantId");
-        // ErrorHandler.onError(error);
+        ErrorHandler.onError(error);
       }
     };
     variantDetails();
@@ -290,8 +286,6 @@ const ProductItem = () => {
   const handleEstimateDate = (e) => {
     setPincode(e.target.value);
   };
-
-  console.log(output, "output");
 
   return (
     <>

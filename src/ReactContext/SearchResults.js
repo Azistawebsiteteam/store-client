@@ -52,7 +52,6 @@ const SearchResultsProvider = (props) => {
         const storedKey = generateRandomKey();
 
         const sub = storedKey.substring(1, 5);
-        console.log(sub);
         localStorage.setItem(
           process.env.REACT_APP_CART_KEY,
           `${sub}-${storedIP}`

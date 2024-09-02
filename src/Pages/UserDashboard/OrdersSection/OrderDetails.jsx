@@ -8,12 +8,12 @@ import ScrollToTop from "../../../Utils/ScrollToTop";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [steps, setSteps] = useState(2);
 
   const totalSteps = 4;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
 
-  console.log(percentage, setSteps, "progressStatus");
   return (
     <>
       <ScrollToTop />

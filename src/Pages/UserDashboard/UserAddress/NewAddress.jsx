@@ -41,7 +41,6 @@ const NewAddress = ({ updateFormFilledStatus }) => {
       const avalableTime = `${inputValues.availableFromTime}-${inputValues.availableToTime} `;
       delete inputValues.availableFromTime;
       delete inputValues.availableToTime;
-      console.log(inputValues, "inputValues");
 
       swalErr.onLoading();
       const response = await axios.post(
@@ -55,7 +54,6 @@ const NewAddress = ({ updateFormFilledStatus }) => {
       swalErr.onLoadingClose();
       swalErr.onSuccess();
     } catch (error) {
-      console.log(error);
       swalErr.onLoadingClose();
       swalErr.onError(error);
     }

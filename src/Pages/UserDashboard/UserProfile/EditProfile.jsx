@@ -10,7 +10,6 @@ import BackBtn from "../../Components/BackBtn";
 const EditProfile = () => {
   const location = useLocation();
   const { userDetails } = location.state || {};
-  console.log(userDetails, "USER");
   const Navigate = useNavigate();
   const changeDateFormat = (dateString) => {
     const [day, month, year] = dateString.split("-");
@@ -79,7 +78,6 @@ const EditProfile = () => {
     setProfileDetails({ ...profileDetails, [e.target.id]: e.target.value });
   };
   const onChangeDefault = (e) => {
-    console.log(e.target.checked);
     setProfileDetails({ ...profileDetails, [e.target.id]: e.target.checked });
   };
 

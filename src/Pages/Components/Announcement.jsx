@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { TiArrowRight, TiArrowLeft } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import "./Customer.css";
+import ErrorHandler from "./ErrorHandler";
 
 const Announcement = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -16,7 +17,7 @@ const Announcement = () => {
         const response = await axios.get(url);
         setAnnouncements(response.data);
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     getAnnouncementText();

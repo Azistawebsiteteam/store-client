@@ -3,8 +3,8 @@ import { searchResultContext } from "../ReactContext/SearchResults";
 import { handleAddtoCart } from "../Pages/Cart/Functions";
 
 const AddToCart = (props) => {
-  const { productId, variantId, quantity } = props;
-  console.log(productId, variantId, quantity, "productId, variantId, quantity");
+  // const { productId, variantId, quantity } = props;
+  // console.log(productId, variantId, quantity, "productId, variantId, quantity");
   const { userDetails, updateCartData } = useContext(searchResultContext);
   return (
     <>

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
 
 import "../Components/Customer.css";
+import ErrorHandler from "../Components/ErrorHandler";
 
 const CarouselItem = () => {
   const [banners, setBanners] = useState([]);
@@ -25,7 +26,7 @@ const CarouselItem = () => {
           setBanners(bannersResponse.data);
         }
       } catch (error) {
-        console.log(error);
+        ErrorHandler.onError(error);
       }
     };
     getBanners();

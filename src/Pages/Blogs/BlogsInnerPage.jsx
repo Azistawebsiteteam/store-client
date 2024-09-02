@@ -27,8 +27,6 @@ const BlogsInnerPage = () => {
     blogsData();
   }, [blogsData]);
 
-  console.log(blogData, "blogData");
-
   return (
     <>
       <ScrollToTop />
