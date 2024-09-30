@@ -114,7 +114,9 @@ const CollectionsDetails = () => {
           </div>
           <div className="CollectionDetails">
             <h1>{collectionData.azst_collection_title}</h1>
-            <p>{collectionData.azst_collection_description}</p>
+            {collectionData.azst_collection_description && (
+              <p>{collectionData.azst_collection_description}</p>
+            )}
           </div>
           <div className="d-md-none">
             <CollectionsTab

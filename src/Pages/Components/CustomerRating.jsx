@@ -106,7 +106,7 @@ export const CreateReview = (props) => {
   };
 
   return (
-    <div className="writeReview d-flex flex-column align-items-center">
+    <div className="writeReview">
       <div className="ratingSec d-flex flex-column">
         <div className="starRating">
           <Rating
@@ -118,19 +118,21 @@ export const CreateReview = (props) => {
             precision={0.5}
           />
         </div>
-        <div className="reviewTitle d-flex flex-column">
+        <div className="reviewTitle">
           <label htmlFor="reviewTitle">Title</label>
           <input
             id="reviewTitle"
+            className="reviewSectionInput"
             type="text"
             value={reviewData.reviewTitle}
             onChange={handleReviewForm}
           />
         </div>
-        <div className="reviewSec d-flex flex-column mt-2">
+        <div className="reviewSec mt-2">
           <label htmlFor="review">Review</label>
           <textarea
             id="reviewContent"
+            className="reviewSectionInput"
             rows={4}
             cols={50}
             onChange={handleReviewForm}
@@ -144,7 +146,7 @@ export const CreateReview = (props) => {
             )}
           </div>
         </div>
-        <div className="uploadFiles d-flex flex-column mt-2">
+        <div className="uploadFiles mt-2">
           <label htmlFor="reviewImg" className="custom-file-upload">
             Upload image
           </label>

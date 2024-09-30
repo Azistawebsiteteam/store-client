@@ -1,158 +1,173 @@
-import React, { useEffect, useRef } from "react";
-import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
+import React from "react";
 import { Link } from "react-router-dom";
-import ProductCard from "../Components/ProductCard";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import "../Components/Customer.css";
+import AddToCart from "../../Utils/AddToCart";
+import { getProductDiscount } from "../../Utils/DiscountPrcentage";
 
-const Slider = ({ title, type, items }) => {
-  const boxRef = useRef(null);
+function SampleNextArrow(props) {
+  const { style, onClick } = props;
 
-  const scrollNext = () => {
-    const box = boxRef.current;
-    let width = box.clientWidth;
-    box.scrollLeft = box.scrollLeft + width;
-    if (box.scrollLeft >= box.scrollWidth / 2) {
-      box.scrollLeft = 0;
-    }
+  return (
+    <div
+      className={` productSlider next-btn`}
+      style={{ ...style, display: "block", background: "transparent" }}
+      onClick={onClick}
+    >
+      <img
+        src={`${process.env.PUBLIC_URL}/images/right-arrow.svg`}
+        alt="navigationArrows"
+      />
+    </div>
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { style, onClick } = props;
+  return (
+    <div
+      className={`productSlider back-btn`}
+      style={{ ...style, display: "block", background: "transparent" }}
+      onClick={onClick}
+    >
+      <img
+        src={`${process.env.PUBLIC_URL}/images/left-arrow.svg`}
+        alt="navigationArrows"
+      />
+    </div>
+  );
+}
+
+const productSlider = ({ title, items }) => {
+  var settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 5, // Default for desktop view
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 2000,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    // Responsive settings for different screen sizes
+    responsive: [
+      {
+        breakpoint: 1024, // Tablet and small desktop
+        settings: {
+          slidesToShow: 3, // Show 3 slides
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768, // Mobile devices in portrait mode
+        settings: {
+          slidesToShow: 2, // Show 2 slides
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, // Small mobile devices
+        settings: {
+          slidesToShow: 1, // Show 1 slide
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
-  const renderCollections = () => {
-    return (
-      <>
+  return (
+    <div className="slider-container">
+      <h4>{title}</h4>
+      <Slider {...settings}>
         {items.map((each, i) => (
-          <div className="carouselItem" key={each.azst_collection_id}>
-            <div className="exploreCategory">
-              <img
-                src={each.azst_collection_img}
-                alt="productBanner"
-                className="explore_more_categories_img"
-              />
-              <div className="custlinkBtnCont">
+          <div className="bestSellerCarouselItem" key={each.product_id}>
+            <div className="bestSelledProduct">
+              <div className="productCard">
+                <div className="d-flex justify-content-between align-items-center">
+                  {parseInt(each.is_varaints_aval) !== 1 && (
+                    <p
+                      className="mb-0"
+                      style={{ color: "#EC6B5B", fontWeight: "800" }}
+                    >
+                      Save{" "}
+                      {getProductDiscount(each.compare_at_price, each.price)}%
+                    </p>
+                  )}
+
+                  <div>
+                    {each.in_wishlist === 1 ? (
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/coloredIcon.svg`}
+                        alt="heartIcon"
+                        className="heartIcon"
+                      />
+                    ) : (
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/blackIcon.svg`}
+                        alt="heartIcon"
+                        className="heartIcon"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className="productContent">
+                  <p>
+                    <strong>{each.product_main_title}</strong>
+                  </p>
+                  <small
+                    className="product_subTitle"
+                    style={{ color: "rgba(40, 40, 40, 0.8)" }}
+                  >
+                    {each.product_title}
+                  </small>
+                </div>
+                <img
+                  src={each.image_src}
+                  alt={each.image_alt_text}
+                  className="bestSelledImg"
+                />
+                <div className="productPrice">
+                  <span
+                    style={{
+                      textDecoration: "line-through",
+                      color: "rgba(40, 40, 40, 0.7)",
+                    }}
+                    className="me-2"
+                  >
+                    {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
+                    {each.compare_at_price}
+                  </span>
+                  {parseInt(each.is_varaints_aval) === 1 && <br />}
+                  <span className="">
+                    {parseInt(each.is_varaints_aval) !== 1 && "Rs"} {each.price}
+                  </span>
+                </div>
+              </div>
+              <div className="overlay_bg">
+                {/* <Link to="" className="linkBtn beforeHover">
+                Add to Cart
+              </Link> */}
+                {parseInt(each.is_varaints_aval) !== 1 && (
+                  <AddToCart
+                    productId={each.product_id}
+                    variantId={each.variant_id}
+                    quantity={each.min_cart_quantity}
+                  />
+                )}
                 <Link
-                  className="linkBtn custlinkBtn"
-                  to={`/collection/${each.collection_url_title}`}
-                  state={{
-                    collectionId: each.azst_collection_id,
-                    collectionName: each.azst_collection_name,
-                  }}
+                  to={`/productitem/${each.product_url_title}`}
+                  className="linkBtn beforeHover"
                 >
-                  {each.azst_collection_name}
+                  View Details
                 </Link>
               </div>
             </div>
           </div>
         ))}
-      </>
-    );
-  };
-
-  const renderBestSellers = () => {
-    return (
-      // <>
-      //   {items.map((each, i) => (
-      //     <div className="bestSellerCarouselItem" key={each.product_id}>
-      //       <div className="bestSelledProduct">
-      //         <div className="productCard">
-      //           <div className="d-flex justify-content-between align-items-center">
-      //             <p
-      //               className="mb-0"
-      //               style={{ color: "#EC6B5B", fontWeight: "800" }}
-      //             >
-      //               Save {getProductDiscount(each.compare_at_price, each.price)}
-      //               %
-      //             </p>
-      //             <div>
-      //               <img
-      //                 src={`${process.env.PUBLIC_URL}/images/blackIcon.svg`}
-      //                 alt="heartIcon"
-      //                 className="heartIcon"
-      //               />
-      //             </div>
-      //           </div>
-      //           <div className="content">
-      //             <h6>IscanBreast</h6>
-      //             <small style={{ color: "rgba(40, 40, 40, 0.8)" }}>
-      //               {each.product_title}
-      //             </small>
-      //           </div>
-      //           <img
-      //             src={each.image_src}
-      //             alt={each.image_alt_text}
-      //             className="bestSelledImg"
-      //           />
-      //           <div className="price">
-      //             <span style={{ textDecoration: "line-through" }}>
-      //               Rs {each.compare_at_price}
-      //             </span>
-      //             <span className="ms-2">Rs {each.price}</span>
-      //           </div>
-      //         </div>
-      //         <div className="overlay_bg">
-      //           <Link to="" className="linkBtn beforeHover">
-      //             Add to Cart
-      //           </Link>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   ))}
-      // </>
-      <ProductCard items={items} />
-    );
-  };
-
-  const renderShop99 = () => {
-    return <ProductCard items={items} />;
-  };
-
-  const renderElement = () => {
-    switch (type) {
-      case "categories":
-        return renderCollections();
-      case "bestSellers":
-        return renderBestSellers();
-      case "shop99":
-        return renderShop99();
-      default:
-        return null;
-    }
-  };
-  useEffect(() => {
-    const interval = setInterval(scrollNext, 3000); // Auto-scroll every 3 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
-
-  return (
-    <div className="container-fluid">
-      <div className="product-carousel">
-        <div className="d-flex justify-content-md-between align-items-md-center">
-          <h4>{title}</h4>
-          {items.length > 4 && (
-            <div className="sliderBtn-cont">
-              <button
-                className="slider-btn"
-                onClick={() => {
-                  boxRef.current.scrollLeft -= boxRef.current.clientWidth;
-                }}
-              >
-                <BsArrowLeftShort fill="#7E7E7E" className="sliderBtn-icon" />
-              </button>
-              <button
-                className="slider-btn ms-3"
-                onClick={() => {
-                  boxRef.current.scrollLeft += boxRef.current.clientWidth;
-                }}
-              >
-                <BsArrowRightShort fill="#7E7E7E" className="sliderBtn-icon" />
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="carouselItems-cont" ref={boxRef}>
-          <div className="carouselItems">{renderElement()}</div>
-        </div>
-      </div>
+      </Slider>
     </div>
   );
 };
 
-export default Slider;
+export default productSlider;

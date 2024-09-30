@@ -19,29 +19,40 @@
     width: 80%;
 }
 .orderSummaryCont {
-    margin-top: -1.5rem;
     display: flex;
     justify-content: center;
     position: relative;
-}
-.orderSummaryCard{
-    width: 84%;
+    top: -0.9rem;
 }
 .orderSummaryInfoCard{
-    position: absolute;
+    background-color:#F5F5F5;
     display: flex;
     flex-direction: column;
     align-items: center;
-    top: 2rem;
-    width: 70%;
+    width: 78%;
+    padding: 3rem 2rem;
+    height: max-content;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
-
+.orderSummaryInfoCard:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 78%;
+    height: 30px;
+    bottom: -30px;
+    background: linear-gradient(-45deg, transparent 75%, #F5F5F5 0) 0 50%,
+                linear-gradient(45deg, transparent 75%, #F5F5F5 0) 0 50%;
+    background-size: 30px 30px;
+  }
 .orderSummaryInfo{
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-
+.orderSummaryProductInfo{
+    width: 100%;
+}
 hr.dashedLine {
     border-top: 2px dashed #CBCBCB;
     width: 100%;
@@ -60,6 +71,7 @@ hr.contLine{
 .orderSummaryTxtVal{
     font-size: 13px;
     font-weight: 600;
+    margin-bottom: 0 !important;
 }
 
 .orderSummaryBtn{
@@ -78,11 +90,9 @@ hr.contLine{
         width: 90%;
         position: relative;
     }
-    .orderSummaryCont {
-        margin-top: -1.3rem;
-    }
+    
     .orderSummaryInfoCard {
-        top: 1rem;
+        padding: 2rem 2rem;
     }
     .summarycardTxt{
         font-size: 1rem !important;
@@ -90,5 +100,11 @@ hr.contLine{
     .orderSummaryTxt {
         font-size: 12px !important;
         margin-bottom: 0;
+    }
+    .orderSummaryInfo{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: inherit;
     }
 }

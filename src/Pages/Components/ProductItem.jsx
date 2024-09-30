@@ -11,7 +11,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import Cookies from "js-cookie";
-import swalHandle from "./ErrorHandler";
 import { DisplayReview, ProductRating } from "./CustomerRating";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -37,7 +36,7 @@ const ProductItem = () => {
   const [contArray, setContArray] = useState();
   const [reqVariantId, setReqVariantId] = useState(0);
   const [output, setOutput] = useState();
-  const [chooseCondn, setChooseCondn] = useState("oilySkin");
+  // const [chooseCondn, setChooseCondn] = useState("oilySkin");
 
   const [productImagesArr, setProductImagesArr] = useState([]);
   const [imgCount, setImgCount] = useState(0);
@@ -87,7 +86,7 @@ const ProductItem = () => {
         setProductDetails(productDetails);
         setQuantityCounter(productDetails.min_cart_quantity);
         setProductImagesArr(productDetails.product_images);
-        setVariants(variants);
+        variants ? setVariants(variants) : setVariants("");
       } catch (error) {
         ErrorHandler.onError(error);
       }
@@ -101,7 +100,6 @@ const ProductItem = () => {
   //   if (contentInfo) {
   //     // Get the full height of the content
   //     const fullHeight = contentInfo.current.offsetHeight;
-  //     console.log(fullHeight, "balaji");
   //     setContentHeight(`${fullHeight}px`);
   //     // Check if content is overflowing the initial max-height
   //     setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
@@ -168,14 +166,16 @@ const ProductItem = () => {
     const variantDetails = async () => {
       try {
         const url = `${baseUrl}/product/variants`;
-        const variantId = reqVariantId ? reqVariantId : 0;
+        const variantId = reqVariantId ? reqVariantId : "0";
         let response = await axios.post(url, { variantId });
         setOutput(response.data.variant);
       } catch (error) {
         ErrorHandler.onError(error);
       }
     };
-    variantDetails();
+    if (reqVariantId) {
+      variantDetails();
+    }
   }, [baseUrl, reqVariantId]);
 
   if (Object.keys(productDetails).length === 0) {
@@ -205,7 +205,7 @@ const ProductItem = () => {
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
-      swalHandle.onLoading();
+      ErrorHandler.onLoading();
       const response = await axios.post(
         url,
         {
@@ -220,10 +220,10 @@ const ProductItem = () => {
           in_wishlist: 1,
         });
       }
-      swalHandle.onLoadingClose();
+      ErrorHandler.onLoadingClose();
     } catch (error) {
-      swalHandle.onLoadingClose();
-      swalHandle.onError(error);
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
     }
   };
 
@@ -263,9 +263,9 @@ const ProductItem = () => {
 
   let productMainImg = productImagesArr[imgCount];
 
-  const handleBodyCondn = (type) => {
-    setChooseCondn(type);
-  };
+  // const handleBodyCondn = (type) => {
+  //   setChooseCondn(type);
+  // };
 
   const onSubmitPincode = async (e) => {
     e.preventDefault();
@@ -287,6 +287,24 @@ const ProductItem = () => {
     setPincode(e.target.value);
   };
 
+  const handleBuyNow = async () => {
+    try {
+      if (!jwtToken) return navigate("/login");
+      await handleAddtoCart(
+        userDetails.azst_customer_id,
+        {
+          productId: productDetails.id,
+          variantId: output?.id ?? 0,
+          quantity: quantityCounter,
+        },
+        updateCartData
+      );
+      navigate("/checkout");
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -301,9 +319,7 @@ const ProductItem = () => {
                       Home
                     </Link>
                   </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    {productDetails.product_main_title}
-                  </li>
+
                   <li className="breadcrumb-item active" aria-current="page">
                     {productDetails.product_title}
                   </li>
@@ -363,7 +379,7 @@ const ProductItem = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="bodyType">
+                  {/* <div className="bodyType">
                     <p>
                       <strong>What is Your Skin type</strong>
                     </p>
@@ -409,7 +425,7 @@ const ProductItem = () => {
                         Sensitive
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="">
                     <p>
                       <strong>Availability</strong>
@@ -444,7 +460,7 @@ const ProductItem = () => {
                         : productDetails.price}
                     </p>
                     <p className="discountPer">
-                      Save
+                      Save{" "}
                       {variants.length > 0
                         ? getProductDiscount(
                             output?.compare_at_price,
@@ -496,7 +512,10 @@ const ProductItem = () => {
                         onClick={handleWishlist}
                       />
                     </div>
-                    <button className="buyNowBtn">Buy it Now</button>
+                    <button className="buyNowBtn" onClick={handleBuyNow}>
+                      Buy it Now
+                    </button>
+
                     <div className="variants">
                       {variants.length > 0 && (
                         <div

@@ -1,20 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
-import Cookies from "js-cookie";
 import "../Components/Customer.css";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import ErrorHandler from "../Components/ErrorHandler";
 
-const Popup = () => {
-  const [popupData, setPopupData] = useState({});
-  // const [togglePopup, setTogglePopup] = useState(true);
-
-  const baseUrl = process.env.REACT_APP_API_URL;
-  const jwtToken = process.env.REACT_APP_ADMIN_JWT_TOKEN;
-  const token = Cookies.get(jwtToken);
-
+const Popup = ({ popupData }) => {
   useEffect(() => {
     const bootstrap = require("bootstrap");
     const modalElement = document.getElementById("exampleModal");
@@ -22,22 +11,9 @@ const Popup = () => {
     modalInstance.show();
   }, []);
 
-  useEffect(() => {
-    const getBanner = async () => {
-      try {
-        const url = `${baseUrl}/popups/current/popup`;
-        const response = await axios.get(url);
-        if (response.status === 200) {
-          setPopupData(response.data);
-        }
-      } catch (error) {
-        ErrorHandler.onError(error);
-        setPopupData("");
-      }
-    };
-    getBanner();
-  }, [baseUrl, token]);
-
+  const handleLinkClick = (e) => {
+    e.stopPropagation(); // Stop event propagation to prevent modal closing
+  };
   return (
     <div
       className="modal fade onLoadModal"
@@ -47,17 +23,36 @@ const Popup = () => {
       aria-hidden="true"
     >
       <div className="modal-dialog">
-        <div className="modal-body">
-          {/* <button type="button"  aria-label="Close"></button> */}
-          <IoMdCloseCircleOutline
-            className="popupbtnclose"
-            data-bs-dismiss="modal"
-          />
-          <img
-            className="popupImg"
-            src={popupData.popup_image}
-            alt={popupData.popup_name}
-          />
+        <div className="modal-content custom-model-content">
+          <div className="modal-header custom-modal-header">
+            <IoMdCloseCircleOutline
+              className="popupbtnclose"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style={{
+                cursor: "pointer",
+                color: `${popupData.popup_btn_color}`,
+              }}
+            />
+          </div>
+          <div className="modal-body">
+            {/* Anchor tag for clickable image, with event handling */}
+            <a
+              href={popupData.popup_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="popup-link"
+              onClick={handleLinkClick} // Prevents modal close on click
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <img
+                className="popupImg"
+                src={popupData.popup_image}
+                alt={popupData.popup_name}
+                style={{ cursor: "pointer" }}
+              />
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -39,6 +39,9 @@ button.dropdown-toggle.custDropdown {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .orderedProductImg{
     width: 3rem;
@@ -96,6 +99,10 @@ li.addressTab {
     overflow-y: scroll;
     max-height: 10rem;
     width: 50%;
+}
+.orderedProductsInfo {
+    max-height: 7rem;
+    overflow-y: scroll;
 }
 .paymentDetails {
     margin-top: 1rem;
@@ -158,4 +165,53 @@ li.addressTab {
 }
 .activeCircle{
     background-color: #0066FF;
+}
+@media screen and (max-width:768px) {
+    .ordersCont{
+        width: 100%;
+    }
+    .detailHeading {
+        margin: 4px 0;
+    }
+    .detailHeading>span{
+        line-height: 1rem;
+    }
+    .orderDetailsBotSec{
+        flex-direction: column;
+        justify-content:inherit;
+        align-items: inherit;
+    }
+    .orderedProducts {
+        overflow-y: scroll;
+        max-height: 10rem;
+        width: 100%;
+    }
+    .deliveryDetailsBotSec {
+        flex-direction: column;
+    }
+    .ordersSecCard {
+        margin: 12px 0 0 0;
+    }
+    .circle{
+        height: 50px;
+        width: 50px;
+    }
+    .progress_bar {
+        transform: rotate(90deg);
+        margin: 50% 4%;
+    }
+    .circle::before {
+        margin-top: -2rem;
+        width: 20%;
+        transform: rotate(270deg);
+    }
+    
+    .tickSvgIcon {
+        transform: rotate(280deg);
+    }
+    .circle::after {
+        width: 40%;
+        transform: rotate(270deg);
+        margin-top: 2rem;
+    }
 }

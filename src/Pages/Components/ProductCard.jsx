@@ -12,12 +12,16 @@ const ProductCard = ({ items }) => {
           <div className="bestSelledProduct">
             <div className="productCard">
               <div className="d-flex justify-content-between align-items-center">
-                <p
-                  className="mb-0"
-                  style={{ color: "#EC6B5B", fontWeight: "800" }}
-                >
-                  Save {getProductDiscount(each.compare_at_price, each.price)}%
-                </p>
+                {parseInt(each.is_varaints_aval) !== 1 && (
+                  <p
+                    className="mb-0"
+                    style={{ color: "#EC6B5B", fontWeight: "800" }}
+                  >
+                    Save {getProductDiscount(each.compare_at_price, each.price)}
+                    %
+                  </p>
+                )}
+
                 <div>
                   {each.in_wishlist === 1 ? (
                     <img
@@ -56,21 +60,28 @@ const ProductCard = ({ items }) => {
                     textDecoration: "line-through",
                     color: "rgba(40, 40, 40, 0.7)",
                   }}
+                  className="me-2"
                 >
-                  Rs {each.compare_at_price}
+                  {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
+                  {each.compare_at_price}
                 </span>
-                <span className="ms-2">Rs {each.price}</span>
+                {parseInt(each.is_varaints_aval) === 1 && <br />}
+                <span className="">
+                  {parseInt(each.is_varaints_aval) !== 1 && "Rs"} {each.price}
+                </span>
               </div>
             </div>
             <div className="overlay_bg">
               {/* <Link to="" className="linkBtn beforeHover">
                 Add to Cart
               </Link> */}
-              <AddToCart
-                productId={each.product_id}
-                variantId={each.variant_id}
-                quantity={each.min_cart_quantity}
-              />
+              {parseInt(each.is_varaints_aval) !== 1 && (
+                <AddToCart
+                  productId={each.product_id}
+                  variantId={each.variant_id}
+                  quantity={each.min_cart_quantity}
+                />
+              )}
               <Link
                 to={`/productitem/${each.product_url_title}`}
                 className="linkBtn beforeHover"

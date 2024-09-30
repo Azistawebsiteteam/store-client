@@ -10,10 +10,10 @@ const footerContent = [
     id: uuidv4,
     title: "Shop",
     text: [
-      { link: "Categories", text: "Categories" },
-      { link: "Brands", text: "Brands" },
+      { link: "#categories", text: "Categories" },
+      { link: "#brands", text: "Brands" },
       { link: "Combos", text: "Combos" },
-      { link: "Shop99", text: "Shop@99" },
+      { link: "#shop99", text: "Shop@99" },
     ],
   },
   {
@@ -24,7 +24,7 @@ const footerContent = [
       { link: "blogs", text: "Blog" },
       { link: "faqs", text: "FAQ's" },
       { link: "Careers", text: "Careers" },
-      { link: "Contact", text: "Contact Us" },
+      { link: "contact-us", text: "Contact Us" },
     ],
   },
 ];

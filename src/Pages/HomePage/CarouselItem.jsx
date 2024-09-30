@@ -48,21 +48,44 @@ const CarouselItem = () => {
 
   return (
     <div className="carousel-container ">
-      <Slider {...settings}>
-        {banners.map((each, i) => (
-          <div key={i} className="carousel-slide carouselImgBg">
-            <Link className="linkItem" to={each.azst_background_url}>
-              <div className="carousel-image-wrapper">
-                <img
-                  src={isMobile ? each.azst_mobile_image : each.azst_web_image}
-                  alt={each.banner_id}
-                  className="carousel-image carouselImgOverlay"
-                />
+      {banners.length === 1 ? (
+        <div className="carousel-slide carouselImgBg">
+          <Link className="linkItem" to={banners[0].azst_background_url}>
+            <div className="carousel-image-wrapper">
+              <img
+                src={
+                  isMobile
+                    ? banners[0].azst_mobile_image
+                    : banners[0].azst_web_image
+                }
+                alt={banners[0].banner_id}
+                className="carousel-image carouselImgOverlay"
+              />
+            </div>
+          </Link>
+        </div>
+      ) : (
+        <>
+          {" "}
+          <Slider {...settings}>
+            {banners.map((each, i) => (
+              <div key={i} className="carousel-slide carouselImgBg">
+                <Link className="linkItem" to={each.azst_background_url}>
+                  <div className="carousel-image-wrapper">
+                    <img
+                      src={
+                        isMobile ? each.azst_mobile_image : each.azst_web_image
+                      }
+                      alt={each.banner_id}
+                      className="carousel-image carouselImgOverlay"
+                    />
+                  </div>
+                </Link>
               </div>
-            </Link>
-          </div>
-        ))}
-      </Slider>
+            ))}
+          </Slider>
+        </>
+      )}
     </div>
   );
 };

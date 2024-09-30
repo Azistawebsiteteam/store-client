@@ -106,7 +106,7 @@ const AddressForm = (props) => {
           placeholder="Email Id"
         />
         <label htmlFor="customerEmail" className="ms-1">
-          Email address (optional)
+          Email address
         </label>
       </div>
       <div className="form-floating col-md-6">

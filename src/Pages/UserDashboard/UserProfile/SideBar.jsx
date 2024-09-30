@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { useNavigate, Link, useResolvedPath } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ import { calculateTotal, cartItems } from "../../Cart/Functions";
 import { searchResultContext } from "../../../ReactContext/SearchResults";
 
 const SideBar = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+  const { pathname } = useResolvedPath();
 
   const { setCartCount, setCartList, setCartTotal } =
     useContext(searchResultContext);
@@ -19,11 +19,6 @@ const SideBar = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
-
-  const handleTabClick = (tab, path) => {
-    setActiveTab(tab);
-    navigate(path);
-  };
 
   const logoutUser = async () => {
     try {
@@ -77,6 +72,10 @@ const SideBar = () => {
     });
   };
 
+  const isActiveTab = (path) => {
+    return pathname.startsWith(path);
+  };
+
   return (
     <div className="sideBar">
       <h4>My Account</h4>
@@ -84,17 +83,17 @@ const SideBar = () => {
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "profile" ? "profileActive.svg" : "profile.svg"
+              isActiveTab("/profile-management")
+                ? "profileActive.svg"
+                : "profile.svg"
             }`}
             alt="profile"
           />
           <Link
             to="/profile-management"
-            className={`nav-link ${activeTab === "profile" ? "activeBar" : ""}`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("profile", "/profile-management");
-            }}
+            className={`nav-link ${
+              isActiveTab("/profile-management") ? "activeBar" : ""
+            }`}
           >
             Profile
           </Link>
@@ -120,17 +119,15 @@ const SideBar = () => {
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "orders" ? "ordersActive.svg" : "orders.svg"
+              isActiveTab("/manage-orders") ? "ordersActive.svg" : "orders.svg"
             }`}
             alt="orders"
           />
           <Link
             to="/manage-orders"
-            className={`nav-link ${activeTab === "orders" ? "activeBar" : ""}`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("orders", "/manage-orders");
-            }}
+            className={`nav-link ${
+              isActiveTab("/manage-orders") ? "activeBar" : ""
+            }`}
           >
             Orders
           </Link>
@@ -138,19 +135,15 @@ const SideBar = () => {
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "wishlist" ? "wishlistActive.svg" : "wishlist.svg"
+              isActiveTab("/wishlist") ? "wishlistActive.svg" : "wishlist.svg"
             }`}
             alt="wishlist"
           />
           <Link
             to="/wishlist"
             className={`nav-link ${
-              activeTab === "wishlist" ? "activeBar" : ""
+              isActiveTab("/wishlist") ? "activeBar" : ""
             }`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("wishlist", "/wishlist");
-            }}
           >
             Wishlist
           </Link>
@@ -158,7 +151,7 @@ const SideBar = () => {
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "reviewsAndRatings"
+              isActiveTab("/reviews-ratings")
                 ? "reviewsActive.svg"
                 : "reviews.svg"
             }`}
@@ -167,12 +160,8 @@ const SideBar = () => {
           <Link
             to="/reviews-ratings"
             className={`nav-link ${
-              activeTab === "reviewsAndRatings" ? "activeBar" : ""
+              isActiveTab("/reviews-ratings") ? "activeBar" : ""
             }`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("reviewsAndRatings", "/reviews-ratings");
-            }}
           >
             Reviews & Ratings
           </Link>
@@ -180,19 +169,17 @@ const SideBar = () => {
         <li className="nav-item">
           <img
             src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "addresses" ? "locationActive.svg" : "location.svg"
+              isActiveTab("/manage-address")
+                ? "locationActive.svg"
+                : "location.svg"
             }`}
             alt="addresses"
           />
           <Link
             to="/manage-address"
             className={`nav-link ${
-              activeTab === "addresses" ? "activeBar" : ""
+              isActiveTab("/manage-address") ? "activeBar" : ""
             }`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("addresses", "/manage-address");
-            }}
           >
             Delivery Address Book
           </Link>
@@ -227,10 +214,7 @@ const SideBar = () => {
         </li> */}
         <li className="nav-item d-flex align-items-center">
           <RiLogoutCircleFill style={{ fontSize: "1.6rem" }} />
-          <button
-            className={`nav-link ${activeTab === "logout" ? "activeBar" : ""}`}
-            onClick={handleLogout}
-          >
+          <button className="nav-link" onClick={handleLogout}>
             Logout
           </button>
         </li>

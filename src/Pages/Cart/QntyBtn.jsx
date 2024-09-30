@@ -6,7 +6,7 @@ import axios from "axios";
 import ErrorHandler from "../Components/ErrorHandler";
 
 const QntyBtn = ({ cartQuantity, cartId }) => {
-  const { userDetails, cartList, setCartList } =
+  const { updateCartData, userDetails, cartList, setCartList } =
     useContext(searchResultContext);
   const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -15,6 +15,7 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
       const url = `${baseUrl}/cart`;
       body = { ...body, customerId: userDetails.azst_customer_id ?? 0 };
       await axios.put(url, body);
+      updateCartData();
     } catch (error) {
       ErrorHandler.onError(error);
     }

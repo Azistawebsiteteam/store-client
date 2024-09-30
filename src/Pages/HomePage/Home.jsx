@@ -20,13 +20,16 @@ import { useMediaQuery } from "@mui/material";
 import "../Components/Components.css";
 import "../Components/Customer.css";
 import ErrorHandler from "../Components/ErrorHandler";
+import MultiCollections from "./MultiCollections";
 
 const Home = () => {
   const [brandsItems, setBrandsItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
+  const [shop99Data, setShop99Data] = useState([]);
   const [productBanners, setProductBanners] = useState([]);
+  const [popupData, setPopupData] = useState({});
   const [value, setValue] = useState(3);
   const baseUrl = process.env.REACT_APP_API_URL;
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -46,12 +49,17 @@ const Home = () => {
         const productBannersUrl = `${baseUrl}/banners/product`;
         const collectionsUrl = `${baseUrl}/collections/data`;
         const bestSellersUrl = `${baseUrl}/product/bestseller`;
+        const shop99Url = `${baseUrl}/product/shop@99`;
+        const popupUrl = `${baseUrl}/popups/current/popup`;
+
         const [
           brandsResponse,
           categoriesResponse,
           collectionsResponse,
           productBannersResponse,
           bestSellersResponse,
+          shop99Response,
+          popupResponse,
         ] = await Promise.all([
           axios.get(brandsUrl),
           axios.get(categoriesUrl),
@@ -62,6 +70,8 @@ const Home = () => {
               userDetails.azst_customer_id ??
               localStorage.getItem(process.env.REACT_APP_CART_KEY),
           }),
+          axios.post(shop99Url),
+          axios.get(popupUrl),
         ]);
 
         if (brandsResponse.status === 200) {
@@ -79,6 +89,12 @@ const Home = () => {
         if (collectionsResponse.status === 200) {
           setBestSellers(bestSellersResponse.data);
         }
+        if (shop99Response.status === 200) {
+          setShop99Data(shop99Response.data);
+        }
+        if (popupResponse.status === 200) {
+          setPopupData(popupResponse.data);
+        }
       } catch (error) {
         ErrorHandler.onError(error);
       }
@@ -92,22 +108,22 @@ const Home = () => {
       <div className="bottomSec">
         <div className="home">
           <CarouselItem />
-          <Popup />
+          {Object.keys(popupData).length > 0 && <Popup popupData={popupData} />}
           <UserRegistrationPopup />
-          <div className="container multiCollections">
-            <ProductSlider
-              title={"Explore Multi Collections"}
-              type={"categories"}
-              items={collections}
-            />
-          </div>
-          <div className="container bestSellers d-none d-md-block">
-            <ProductSlider
-              title={"Best Sellers"}
-              type={"bestSellers"}
-              items={bestSellers}
-            />
-          </div>
+          {Object.keys(categories).length > 0 && (
+            <div className="container multiCollections mt-md-4">
+              <MultiCollections items={collections} />
+            </div>
+          )}
+          {Object.keys(bestSellers).length > 0 && (
+            <div className="container bestSellers d-none d-md-block">
+              <ProductSlider
+                title={"Best Sellers"}
+                type={"bestSellers"}
+                items={bestSellers}
+              />
+            </div>
+          )}
           <div className="container bestSellers">
             <div className="ctn">
               <a href="#" id="categories">
@@ -153,22 +169,30 @@ const Home = () => {
           </div>
           <div className="container brandsSec d-none d-md-block">
             <div className="brands">
+              <div className="ctn">
+                <a href="#" id="brands">
+                  &nbsp;
+                </a>
+              </div>
               <h4 className="text-center">Explore With Brands</h4>
               <BrandsTab brandsItems={brandsItems} />
             </div>
           </div>
-          <div className="container shop99 d-none d-md-block">
-            <div className="ctn">
-              <a href="" id="shop99">
-                &nbsp;
-              </a>
+
+          {Object.keys(shop99Data).length > 0 && (
+            <div className="container shop99 d-none d-md-block">
+              <div className="ctn">
+                <a href="" id="shop99">
+                  &nbsp;
+                </a>
+              </div>
+              <ProductSlider
+                title={"Shop at 99"}
+                type={"shop99"}
+                items={shop99Data}
+              />
             </div>
-            <ProductSlider
-              title={"Shop at 99"}
-              type={"shop99"}
-              items={bestSellers}
-            />
-          </div>
+          )}
 
           <div className="custSatisfiedSecTop">
             <div className="container">
@@ -212,7 +236,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           <div className="custSatisfiedSec">
             <h5 className="text-center text-light">
               Satisfied customers, happy shopping!

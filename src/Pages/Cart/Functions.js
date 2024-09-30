@@ -22,6 +22,7 @@ export const handleAddtoCart = async (custId, product, updateCartData) => {
     const response = await axios.post(url, body);
     swalHandle.onSuccess("Product Added to Cart");
     updateCartData();
+    return;
   } catch (error) {
     swalHandle.onError(error);
   }
@@ -37,9 +38,10 @@ export const cartItems = async (custId) => {
 
     swalHandle.onLoading();
     const response = await axios.post(url, body);
-    const { cart_products } = response.data;
+    // const { cart_products, cart_total,discountAmount } = response.data;
+    // console.log(response, "cart");
     swalHandle.onLoadingClose();
-    return cart_products;
+    return response.data;
   } catch (error) {
     swalHandle.onError(error);
   }

@@ -1,5 +1,5 @@
 .contactUsPage{
-    margin-top: 12rem;
+    margin-top: 4rem;
 }
 .contactusPgleftSec{
     background-color: #000;
@@ -41,4 +41,14 @@
 }
 .contactusForm{
     padding-top: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .contactUsPage{
+        margin-top: 2rem;
+    }
+   
+    .contactusPgrightSec {
+        margin: 1rem 0 !important;
+    }
 }

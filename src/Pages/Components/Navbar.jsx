@@ -17,7 +17,7 @@ const Navbar = () => {
   const [showCart, setShowCart] = useState(false);
   const [showSideNavbar, setShowSideNavbar] = useState(false);
 
-  const { cartTotal, cartCount } = useContext(searchResultContext);
+  const { cartTotal, cartCount, setCartList } = useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -114,6 +114,7 @@ const Navbar = () => {
       });
     } else {
       navigate("/login");
+      setCartList([]);
       setShowSideNavbar(!showSideNavbar);
     }
   };
@@ -207,7 +208,7 @@ const Navbar = () => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to="#categories"
+                      to="/#categories"
                       onClick={handleSideNavbar}
                     >
                       Categories
@@ -269,7 +270,7 @@ const Navbar = () => {
                   <li className="nav-item">
                     <Link
                       className="nav-link"
-                      to="#shop99"
+                      to="/#shop99"
                       onClick={handleSideNavbar}
                     >
                       Shop @99

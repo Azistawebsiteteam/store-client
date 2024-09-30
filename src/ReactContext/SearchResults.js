@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
-import { cartItems, calculateTotal } from "../Pages/Cart/Functions";
+import { cartItems } from "../Pages/Cart/Functions";
 
 export const searchResultContext = createContext();
 
@@ -10,7 +10,10 @@ const SearchResultsProvider = (props) => {
   const { children } = props;
   const [searchResults, setSearchResults] = useState([]);
   const [cartList, setCartList] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0.0);
+  const [discountCodes, setDiscountCodes] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [cartCount, setCartCount] = useState();
 
@@ -37,9 +40,19 @@ const SearchResultsProvider = (props) => {
   const updateCartData = useCallback(() => {
     cartItems(userDetails.azst_customer_id).then((data) => {
       if (data) {
-        setCartList(data);
-        setCartCount(data.length);
-        setCartTotal(calculateTotal(data));
+        const {
+          cart_products,
+          cart_total,
+          discountAmount,
+          discountCodes,
+          similarProducts,
+        } = data;
+        setCartList(cart_products);
+        setCartCount(cart_products.length);
+        setCartTotal(cart_total);
+        setDiscountAmount(discountAmount);
+        setDiscountCodes(discountCodes);
+        setSimilarProducts(similarProducts);
       }
     });
   }, [userDetails.azst_customer_id]);
@@ -92,6 +105,12 @@ const SearchResultsProvider = (props) => {
         cartList,
         setCartList,
         updateCartData,
+        discountAmount,
+        setDiscountAmount,
+        discountCodes,
+        setDiscountCodes,
+        similarProducts,
+        setSimilarProducts,
       }}
     >
       {children}

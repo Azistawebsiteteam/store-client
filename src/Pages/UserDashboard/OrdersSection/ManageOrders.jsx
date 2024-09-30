@@ -8,6 +8,7 @@ import DropdownComponent from "../../Components/DropdownComponent";
 import "../index.css";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 import moment from "moment";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -16,12 +17,19 @@ const ManageOrders = () => {
 
   useEffect(() => {
     const getOrderDetails = async () => {
-      const url = `${baseUrl}/orders/customer/all`;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(url, { headers });
-      setOrders(response.data);
+      try {
+        const url = `${baseUrl}/orders/customer/all`;
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        ErrorHandler.onLoading();
+        const response = await axios.get(url, { headers });
+        ErrorHandler.onLoadingClose();
+        setOrders(response.data);
+      } catch (error) {
+        ErrorHandler.onLoadingClose();
+        ErrorHandler.onError(error);
+      }
     };
     getOrderDetails();
   }, [baseUrl, token]);
@@ -86,10 +94,10 @@ const ManageOrders = () => {
                 </div>
               </div>
             </div>
-            {orders.map((order) => (
-              <div className="orderDetails">
-                <div className="orderDetailsTopSec d-flex justify-content-md-between">
-                  <div className="detailHeading">
+            {orders.map((order, i) => (
+              <div key={i} className="orderDetails">
+                <div className="orderDetailsTopSec d-flex flex-wrap justify-content-md-between">
+                  <div className="detailHeading col-8 col-md-3">
                     <span className="d-block" style={{ color: "#858585" }}>
                       Order Placed on
                     </span>
@@ -99,47 +107,69 @@ const ManageOrders = () => {
                       )}
                     </span>
                   </div>
-                  <div className="detailHeading">
+                  <div className="detailHeading col-4 col-md-3">
                     <span className="d-block" style={{ color: "#858585" }}>
                       Status
                     </span>
                     <span>
-                      {order.azst_orders_confirm_status === 0
+                      {order.azst_orders_status === 0
+                        ? "Cancelled"
+                        : order.azst_orders_confirm_status === 0
                         ? "Order Placed"
                         : orderStatusValue(order.azst_orders_delivery_status)}
                     </span>
                   </div>
-                  <div className="detailHeading">
+                  <div className="detailHeading col-8 col-md-3">
                     <span className="d-block" style={{ color: "#858585" }}>
                       Order ID
                     </span>
                     <span>{order.azst_order_id}</span>
                   </div>
-                  <div className="detailHeading">
+                  <div className="detailHeading col-4 col-md-3">
                     <span className="d-block" style={{ color: "#858585" }}>
                       Order Value
                     </span>
-                    <span>{order.azst_orders_total}</span>
+                    <span>Rs.{order.azst_orders_total}</span>
                   </div>
                 </div>
-                <div className="orderDetailsBotSec d-flex justify-content-md-between align-items-md-center">
+                <div className="orderDetailsBotSec">
                   <div className="orderedProducts">
-                    <div className="d-flex align-items-md-center">
-                      <img
-                        src={`${process.env.PUBLIC_URL}/images/sparkelImg.png`}
-                        alt="orderImage"
-                        className="orderedProductImg"
-                      />
-                      <div className="ms-2 orderedProductInfo">
-                        <span className="d-block">
-                          Sparkel Glow - Anti Oxidant Face Sheet Mask
-                        </span>
-                        <span style={{ color: "#858585" }}>Pack of 3</span>
+                    {order.products_details.map((each, i) => (
+                      <div
+                        className="d-flex align-items-md-center mb-3"
+                        key={i}
+                      >
+                        <img
+                          src={each.product_image}
+                          alt="orderImage"
+                          className="orderedProductImg"
+                        />
+                        <div className="ms-2 orderedProductInfo">
+                          <span className="d-block">{each.product_title}</span>
+                          {each.option1 !== 0 && (
+                            <span style={{ color: "#858585" }}>
+                              {each.option1}
+                            </span>
+                          )}
+                          {each.option2 && (
+                            <span style={{ color: "#858585" }}>
+                              {each.option2}
+                            </span>
+                          )}
+                          {each.option3 && (
+                            <span style={{ color: "#858585" }}>
+                              {each.option3}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                   <div className="d-flex flex-column orderedProductBtns">
-                    <Link to="/order-details" className="orderedProductBtn">
+                    <Link
+                      to={`/order-details/${order.azst_order_id}`}
+                      className="orderedProductBtn"
+                    >
                       Order Details
                     </Link>
                     <Link className="orderedProductBtn">Write a Review</Link>
