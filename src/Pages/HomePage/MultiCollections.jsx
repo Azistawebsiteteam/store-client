@@ -22,7 +22,6 @@ function SampleNextArrow(props) {
     </div>
   );
 }
-
 function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
   return (

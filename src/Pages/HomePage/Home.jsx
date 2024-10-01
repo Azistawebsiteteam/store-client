@@ -110,12 +110,12 @@ const Home = () => {
           <CarouselItem />
           {Object.keys(popupData).length > 0 && <Popup popupData={popupData} />}
           <UserRegistrationPopup />
-          {Object.keys(categories).length > 0 && (
+          {collections.length > 0 && (
             <div className="container multiCollections mt-md-4">
               <MultiCollections items={collections} />
             </div>
           )}
-          {Object.keys(bestSellers).length > 0 && (
+          {bestSellers.length > 0 && (
             <div className="container bestSellers d-none d-md-block">
               <ProductSlider
                 title={"Best Sellers"}
@@ -124,15 +124,17 @@ const Home = () => {
               />
             </div>
           )}
-          <div className="container bestSellers">
-            <div className="ctn">
-              <a href="#" id="categories">
-                &nbsp;
-              </a>
-            </div>
+          {categories.length > 0 && (
+            <div className="container bestSellers">
+              <div className="ctn">
+                <a href="#" id="categories">
+                  &nbsp;
+                </a>
+              </div>
 
-            <Categories categories={categories} />
-          </div>
+              <Categories categories={categories} />
+            </div>
+          )}
           <div className="container productBanner">
             <div className="mt-4 mb-4">
               <div className="productBannerCont">
@@ -167,19 +169,21 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="container brandsSec d-none d-md-block">
-            <div className="brands">
-              <div className="ctn">
-                <a href="#" id="brands">
-                  &nbsp;
-                </a>
+          {brandsItems.length > 0 && (
+            <div className="container brandsSec d-none d-md-block">
+              <div className="brands">
+                <div className="ctn">
+                  <a href="#" id="brands">
+                    &nbsp;
+                  </a>
+                </div>
+                <h4 className="text-center">Explore With Brands</h4>
+                <BrandsTab brandsItems={brandsItems} />
               </div>
-              <h4 className="text-center">Explore With Brands</h4>
-              <BrandsTab brandsItems={brandsItems} />
             </div>
-          </div>
+          )}
 
-          {Object.keys(shop99Data).length > 0 && (
+          {shop99Data.length > 0 && (
             <div className="container shop99 d-none d-md-block">
               <div className="ctn">
                 <a href="" id="shop99">
