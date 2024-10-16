@@ -31,7 +31,7 @@ const CreatePassword = () => {
         password: passwordInput.password,
       };
       const response = await axios.post(url, body);
-      if (response.status === 201) {
+      if (response.status === 200) {
         onSubmitSuccess(response.data.jwtToken);
       }
     } catch (error) {

@@ -4,6 +4,10 @@ import "./Customer.css";
 import SocialIcons from "./SocialIcons";
 import { Link } from "react-router-dom";
 import { IoArrowForwardCircleSharp } from "react-icons/io5";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useState } from "react";
+import ErrorHandler from "./ErrorHandler";
 
 const footerContent = [
   {
@@ -34,15 +38,50 @@ const moreFromUs = [
     id: 1,
     title: "More from Us",
     text: [
-      { link: "Ambassador", text: "Become an Ambassador" },
-      { link: "Corporate", text: "Corporate Gifting" },
-      { link: "Loyalty", text: "Loyalty Program" },
-      { link: "Influencer", text: "Influencer Program" },
+      { link: "#", text: "Become an Ambassador" },
+      { link: "#", text: "Corporate Gifting" },
+      { link: "#", text: "Loyalty Program" },
+      { link: "#", text: "Influencer Program" },
     ],
   },
 ];
 
 const Footer = () => {
+  const [newsletterSubscription, setNewsletterSubscription] = useState("");
+  const [newsletterMsg, setNewsletterMsg] = useState("");
+
+  const baseUrl = process.env.REACT_APP_API_URL;
+  const token = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+
+  const handleNewsletterSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const url = `${baseUrl}/auth/newsletter/subscribe`;
+      const response = await axios.post(url, {
+        email: newsletterSubscription,
+        token,
+      });
+      ErrorHandler.onLoading();
+      if (response.status === 200) {
+        setNewsletterMsg("You're now subscribed to our newsletter!");
+      }
+      ErrorHandler.onLoadingClose();
+    } catch (error) {
+      ErrorHandler.onLoadingClose();
+      const message = error.response
+        ? error.response.data.message
+        : error.message;
+      setNewsletterMsg(message);
+    }
+  };
+
+  const handleNewsletterEmail = (e) => {
+    setNewsletterSubscription(e.target.value);
+    if (e.target.value === "") {
+      setNewsletterMsg("");
+    }
+  };
+
   const imageUrl = process.env.PUBLIC_URL;
   return (
     <div className="footerSec">
@@ -70,9 +109,9 @@ const Footer = () => {
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
-                  <a key={i} href={eachTxt.link} className="footerAnchorEl">
+                  <span key={i} className="footerAnchorEl">
                     {eachTxt.text}
-                  </a>
+                  </span>
                 ))}
               </div>
             </div>
@@ -84,11 +123,18 @@ const Footer = () => {
             </h4>
             <form className="subscribeBtnCont">
               <input
+                value={newsletterSubscription}
                 type="email"
                 className="subscribeField"
                 placeholder="Enter Your Email Address"
+                onChange={handleNewsletterEmail}
+                autoComplete="false"
               />
-              <button type="submit" className="subscribeBtn">
+              <button
+                type="submit"
+                className="subscribeBtn"
+                onClick={handleNewsletterSubmit}
+              >
                 <IoArrowForwardCircleSharp
                   style={{
                     fontSize: "3rem",
@@ -99,12 +145,15 @@ const Footer = () => {
                 />
               </button>
             </form>
+            <small className="text-light text-capitalize">
+              {newsletterMsg}
+            </small>
           </div>
         </div>
         <div className="supportSec">
           <div className="row">
             <div className="col-md-8 supportSecInfo">
-              <small style={{ color: "rgb(255, 255, 255)" }}>
+              <small style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}>
                 Support or Help
               </small>
               <p style={{ color: "#fff", marginTop: "0.2rem" }}>
@@ -114,7 +163,12 @@ const Footer = () => {
                   alt="email"
                 />
                 <a
-                  style={{ color: "#fff", textDecoration: "none" }}
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    fontize: "1.4rem",
+                    fontWeight: "200",
+                  }}
                   href="mailto:ecommerce@azistaindustries.com"
                 >
                   ecommerce@azistaindustries.com
@@ -127,7 +181,12 @@ const Footer = () => {
                   alt="phone"
                 />
                 <a
-                  style={{ color: "#fff", textDecoration: "none" }}
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    fontize: "1.4rem",
+                    fontWeight: "200",
+                  }}
                   href="tel:1800 102 0576"
                 >
                   1800 102 0576

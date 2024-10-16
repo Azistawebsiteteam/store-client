@@ -21,6 +21,7 @@ import "../Components/Components.css";
 import "../Components/Customer.css";
 import ErrorHandler from "../Components/ErrorHandler";
 import MultiCollections from "./MultiCollections";
+import BannerImages from "./BannerImages";
 
 const Home = () => {
   const [brandsItems, setBrandsItems] = useState([]);
@@ -132,40 +133,13 @@ const Home = () => {
                 </a>
               </div>
 
-              <Categories categories={categories} />
+              <Categories categories={categories} breakpoint={2} />
             </div>
           )}
           <div className="container productBanner">
             <div className="mt-4 mb-4">
               <div className="productBannerCont">
-                {productBanners.map((each, i) => (
-                  <Link
-                    key={i}
-                    className="linkItem"
-                    to={each.azst_background_url}
-                  >
-                    <img
-                      src={
-                        isMobile ? each.azst_mobile_image : each.azst_web_image
-                      }
-                      alt={each.banner_id}
-                      className="carousel-image"
-                    />
-                  </Link>
-                ))}
-                {/* <img
-                  src={`${process.env.PUBLIC_URL}/images/productBanner.png`}
-                  alt="productBanner"
-                  className="productBannerImg"
-                />
-                <div className="productBannerContent">
-                  <h2 style={{ fontWeight: "200" }}>
-                    Made For You Made For Better Skincare.
-                  </h2>
-                  <Link className="linkBtn customBtn" to={"toProduct"}>
-                    Shop Now
-                  </Link>
-                </div> */}
+                <BannerImages productBanners={productBanners} />
               </div>
             </div>
           </div>

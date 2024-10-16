@@ -29,8 +29,9 @@ const CollectionsTab = (props) => {
       discount: "10",
       sortOrder: "DESC",
     });
-    setStarRating(1);
+    setStarRating(0);
   };
+
   return (
     <div className="CollectionsTabCont">
       <form className="row d-md-flex justify-content-md-center">

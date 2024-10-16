@@ -5,15 +5,21 @@ import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import "./UserProfile.css";
 import swalHandle from "../../Components/ErrorHandler";
-import { RiLogoutCircleFill } from "react-icons/ri";
-import { calculateTotal, cartItems } from "../../Cart/Functions";
+import { CiLogout } from "react-icons/ci";
+import { cartItems } from "../../Cart/Functions";
 import { searchResultContext } from "../../../ReactContext/SearchResults";
 
 const SideBar = () => {
   const { pathname } = useResolvedPath();
 
-  const { setCartCount, setCartList, setCartTotal } =
-    useContext(searchResultContext);
+  const {
+    setCartCount,
+    setCartList,
+    setCartTotal,
+    setDiscountAmount,
+    setDiscountCodes,
+    setSimilarProducts,
+  } = useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -39,15 +45,22 @@ const SideBar = () => {
         });
         cartItems(0).then((data) => {
           if (data) {
-            setCartList(data);
-            setCartCount(data.length);
-            setCartTotal(calculateTotal(data));
+            const {
+              cart_products,
+              cart_total,
+              discountAmount,
+              discountCodes,
+              similarProducts,
+            } = data;
+            setCartList(cart_products);
+            setCartCount(cart_products.length);
+            setCartTotal(cart_total);
+            setDiscountAmount(discountAmount);
+            setDiscountCodes(discountCodes);
+            setSimilarProducts(similarProducts);
           }
         });
-        // setTimeout(() => {
-        //   navigate("/login");
-        //   Cookies.remove(token);
-        // }, 2000);
+
         navigate("/login");
         Cookies.remove(token);
       }
@@ -184,36 +197,9 @@ const SideBar = () => {
             Delivery Address Book
           </Link>
         </li>
-        {/* <li className="nav-item">
-          <img
-            src={`${process.env.PUBLIC_URL}/images/${
-              activeTab === "logout" ? "rewardsActive.svg" : "rewards.svg"
-            }`}
-            alt="logout"
-          />
-          <button
-            className={`nav-link ${activeTab === "logout" ? "activeBar" : ""}`}
-            onClick={handleLogout}
-          >
-            Loyalty Rewards
-          </button>
-        </li> */}
-        {/* <li className="nav-item">
-          <Link
-            to="/password-manager"
-            className={`nav-link ${
-              activeTab === "updatePassword" ? "activeBar" : ""
-            }`}
-            onClick={(e) => {
-              e.preventDefault();
-              handleTabClick("updatePassword", "/password-manager");
-            }}
-          >
-            Password Manager
-          </Link>
-        </li> */}
+
         <li className="nav-item d-flex align-items-center">
-          <RiLogoutCircleFill style={{ fontSize: "1.6rem" }} />
+          <CiLogout style={{ fontSize: "1.6rem" }} />
           <button className="nav-link" onClick={handleLogout}>
             Logout
           </button>

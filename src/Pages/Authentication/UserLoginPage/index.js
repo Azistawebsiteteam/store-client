@@ -59,6 +59,9 @@ const UserLoginPage = () => {
     e.preventDefault();
 
     try {
+      if (inputValues.mailOrMobile === "" || inputValues.password === "") {
+        return setError("Enter the required credentials");
+      }
       const url = `${baseUrl}/auth/login`;
 
       const response = await axios.post(url, inputValues);

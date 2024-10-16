@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import SideBar from "../UserProfile/SideBar";
 import axios from "axios";
@@ -11,6 +11,8 @@ import moment from "moment";
 import ErrorHandler from "../../Components/ErrorHandler";
 
 const ManageOrders = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const debounceRef = useRef(null);
   const [orders, setOrders] = useState([]);
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
@@ -22,17 +24,17 @@ const ManageOrders = () => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        ErrorHandler.onLoading();
         const response = await axios.get(url, { headers });
-        ErrorHandler.onLoadingClose();
-        setOrders(response.data);
+        if (searchTerm === "") {
+          setOrders(response.data);
+          return;
+        }
       } catch (error) {
-        ErrorHandler.onLoadingClose();
         ErrorHandler.onError(error);
       }
     };
     getOrderDetails();
-  }, [baseUrl, token]);
+  }, [baseUrl, token, searchTerm]);
 
   const orderStatusValue = (val) => {
     switch (val) {
@@ -46,6 +48,31 @@ const ManageOrders = () => {
         return null;
     }
   };
+
+  const handleSearchOrder = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+  };
+
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current); // Clear previous timer
+    }
+
+    debounceRef.current = setTimeout(() => {
+      const filtered = orders
+        .map((order) => ({
+          ...order,
+          products_details: order.products_details.filter((each) =>
+            each.product_title.toLowerCase().includes(searchTerm.toLowerCase())
+          ),
+        }))
+        .filter((order) => order.products_details.length > 0); // Only include orders with matching products
+
+      setOrders(filtered);
+    }, 300);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [searchTerm, orders]);
 
   return (
     <>
@@ -76,6 +103,7 @@ const ManageOrders = () => {
                     fontSize: "16px",
                     outline: "transparent",
                   }}
+                  onChange={handleSearchOrder}
                 />
                 <div
                   className="orderPgSearchIcon"
@@ -94,180 +122,101 @@ const ManageOrders = () => {
                 </div>
               </div>
             </div>
-            {orders.map((order, i) => (
-              <div key={i} className="orderDetails">
-                <div className="orderDetailsTopSec d-flex flex-wrap justify-content-md-between">
-                  <div className="detailHeading col-8 col-md-3">
-                    <span className="d-block" style={{ color: "#858585" }}>
-                      Order Placed on
-                    </span>
-                    <span>
-                      {moment(order.azst_orders_created_on).format(
-                        "DD MMM, YYYY"
-                      )}
-                    </span>
+            {orders.length > 0 ? (
+              orders.map((order, i) => (
+                <div key={i} className="orderDetails">
+                  <div className="orderDetailsTopSec d-flex flex-wrap justify-content-md-between">
+                    <div className="detailHeading col-8 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
+                        Order Placed on
+                      </span>
+                      <span>
+                        {moment(order.azst_orders_created_on).format(
+                          "DD MMM, YYYY"
+                        )}
+                      </span>
+                    </div>
+                    <div className="detailHeading col-4 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
+                        Status
+                      </span>
+                      <span>
+                        {order.azst_orders_status === 0
+                          ? "Cancelled"
+                          : order.azst_orders_confirm_status === 0
+                          ? "Order Placed"
+                          : orderStatusValue(order.azst_orders_delivery_status)}
+                      </span>
+                    </div>
+                    <div className="detailHeading col-8 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
+                        Order ID
+                      </span>
+                      <span>{order.azst_order_id}</span>
+                    </div>
+                    <div className="detailHeading col-4 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
+                        Order Value
+                      </span>
+                      <span>Rs.{order.azst_orders_total}</span>
+                    </div>
                   </div>
-                  <div className="detailHeading col-4 col-md-3">
-                    <span className="d-block" style={{ color: "#858585" }}>
-                      Status
-                    </span>
-                    <span>
-                      {order.azst_orders_status === 0
-                        ? "Cancelled"
-                        : order.azst_orders_confirm_status === 0
-                        ? "Order Placed"
-                        : orderStatusValue(order.azst_orders_delivery_status)}
-                    </span>
-                  </div>
-                  <div className="detailHeading col-8 col-md-3">
-                    <span className="d-block" style={{ color: "#858585" }}>
-                      Order ID
-                    </span>
-                    <span>{order.azst_order_id}</span>
-                  </div>
-                  <div className="detailHeading col-4 col-md-3">
-                    <span className="d-block" style={{ color: "#858585" }}>
-                      Order Value
-                    </span>
-                    <span>Rs.{order.azst_orders_total}</span>
-                  </div>
-                </div>
-                <div className="orderDetailsBotSec">
-                  <div className="orderedProducts">
-                    {order.products_details.map((each, i) => (
-                      <div
-                        className="d-flex align-items-md-center mb-3"
-                        key={i}
-                      >
-                        <img
-                          src={each.product_image}
-                          alt="orderImage"
-                          className="orderedProductImg"
-                        />
-                        <div className="ms-2 orderedProductInfo">
-                          <span className="d-block">{each.product_title}</span>
-                          {each.option1 !== 0 && (
-                            <span style={{ color: "#858585" }}>
-                              {each.option1}
+                  <div className="orderDetailsBotSec">
+                    <div className="orderedProducts">
+                      {order.products_details.map((each, i) => (
+                        <div
+                          className="d-flex align-items-md-center mb-3"
+                          key={i}
+                        >
+                          <img
+                            src={each.product_image}
+                            alt="orderImage"
+                            className="orderedProductImg"
+                          />
+                          <div className="ms-2 orderedProductInfo">
+                            <span className="d-block">
+                              {each.product_title}
                             </span>
-                          )}
-                          {each.option2 && (
-                            <span style={{ color: "#858585" }}>
-                              {each.option2}
-                            </span>
-                          )}
-                          {each.option3 && (
-                            <span style={{ color: "#858585" }}>
-                              {each.option3}
-                            </span>
-                          )}
+                            {each.option1 !== 0 && (
+                              <span style={{ color: "#858585" }}>
+                                {each.option1}
+                              </span>
+                            )}
+                            {each.option2 && (
+                              <span style={{ color: "#858585" }}>
+                                {each.option2}
+                              </span>
+                            )}
+                            {each.option3 && (
+                              <span style={{ color: "#858585" }}>
+                                {each.option3}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="d-flex flex-column orderedProductBtns">
-                    <Link
-                      to={`/order-details/${order.azst_order_id}`}
-                      className="orderedProductBtn"
-                    >
-                      Order Details
-                    </Link>
-                    <Link className="orderedProductBtn">Write a Review</Link>
-                    <button className="orderedProductBtn">Reorder</button>
-                    <button className="orderedProductBtn">
-                      Return or Replace
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* {orderDetails.map((order, i) => (
-            <div className="mt-3 mb-3 order" key={i}>
-              <div className="d-md-flex justify-content-md-between">
-                <span>
-                  <strong>Order#{order.azst_order_id.toUpperCase()}</strong>
-                </span>
-                <span>
-                  {moment(order.azst_orders_created_on).format(
-                    "D MMMM YYYY [at] h:mm a"
-                  )}
-                </span>
-              </div>
-              <div className="d-flex">
-                {order.products_details.map((item, i) => (
-                  <div key={i} className="d-flex flex-column m-2">
-                    <img
-                      src={item.product_image}
-                      className="orderImg"
-                      alt="orderImage"
-                    />
-                    <small>
-                      {item.product_title}
-                      {item.option1 ? item.option1 : ""}
-                    </small>
-                    <small>{item.azst_product_price}</small>
-                  </div>
-                ))}
-              </div>
-              <div className="">
-                <h5>Addresses</h5>
-                <hr />
-                <div className="">
-                  <h6>Shipping address</h6>
-                  <span>
-                    {order.shipping_address.address_lname}{" "}
-                    {order.shipping_address.address_fname},
-                  </span>
-                  <span>{order.shipping_address.address_address1},</span>
-                  <span>{order.shipping_address.address_mobile},</span>
-                  <span>
-                    {order.shipping_address.address_city}{" "}
-                    {order.shipping_address.address_zip}
-                  </span>
-                  <span>{order.shipping_address.address_country}</span>
-                </div>
-                <hr />
-                <div className="">
-                  <h6>Billing address</h6>
-                  <span>
-                    {order.billing_address.address_lname}{" "}
-                    {order.shipping_address.address_fname},
-                  </span>
-                  <span>{order.billing_address.azst_customer_address1},</span>
-                  <span>{order.billing_address.address_mobile},</span>
-                  <span>
-                    {order.billing_address.azst_customer_city}{" "}
-                    {order.billing_address.azst_customer_zip}
-                  </span>
-                  <span>{order.billing_address.azst_customer_country}</span>
-                </div>
-                <div className="">
-                  <h6>Total summary</h6>
-                  <div className="d-flex justify-content-between">
-                    <span>Sub total</span>
-                    <span>{order.azst_orders_subtotal}</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Total discount</span>
-                    <span>0</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Tax price</span>
-                    <span>{order.azst_orders_taxes}</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Shipping price</span>
-                    <span>0</span>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Grand Total</span>
-                    <span>{order.azst_orders_total}</span>
+                      ))}
+                    </div>
+                    <div className="d-flex flex-column orderedProductBtns">
+                      <Link
+                        to={`/order-details/${order.azst_order_id}`}
+                        className="orderedProductBtn"
+                      >
+                        Order Details
+                      </Link>
+                      <Link className="orderedProductBtn">Write a Review</Link>
+                      <button className="orderedProductBtn">Reorder</button>
+                      <button className="orderedProductBtn">
+                        Return or Replace
+                      </button>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="d-flex align-items-center justify-content-center h-75">
+                <h6>No orders found</h6>
               </div>
-            </div>
-          ))} */}
+            )}
           </div>
         </div>
       </div>

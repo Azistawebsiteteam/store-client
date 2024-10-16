@@ -39,21 +39,21 @@ const ProductCard = ({ items }) => {
                 </div>
               </div>
               <div className="productContent">
-                <p>
-                  <strong>{each.product_main_title}</strong>
-                </p>
+                <p className="truncate">{each.product_main_title}</p>
                 <small
-                  className="product_subTitle"
+                  className="product_subTitle truncate"
                   style={{ color: "rgba(40, 40, 40, 0.8)" }}
                 >
                   {each.product_title}
                 </small>
               </div>
-              <img
-                src={each.image_src}
-                alt={each.image_alt_text}
-                className="bestSelledImg"
-              />
+              <div className="d-flex justify-content-center">
+                <img
+                  src={each.image_src}
+                  alt={each.image_alt_text}
+                  className="bestSelledImg"
+                />
+              </div>
               <div className="productPrice">
                 <span
                   style={{
@@ -66,7 +66,7 @@ const ProductCard = ({ items }) => {
                   {each.compare_at_price}
                 </span>
                 {parseInt(each.is_varaints_aval) === 1 && <br />}
-                <span className="">
+                <span>
                   {parseInt(each.is_varaints_aval) !== 1 && "Rs"} {each.price}
                 </span>
               </div>

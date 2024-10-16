@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./index.css";
 import GoogleSignIn from "../GoogleSignIn";
 import "../Authentication.css";
@@ -14,7 +15,8 @@ const UserRegistrationPage = () => {
     requestOtp: false,
     otp: "",
   });
-  const [error, setError] = useState("");
+  const [requestOtpError, setError] = useState("");
+  const [verifyOtpError, setError2] = useState("");
 
   const navigate = useNavigate();
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -27,18 +29,26 @@ const UserRegistrationPage = () => {
   const handleRequestOtp = async (e) => {
     try {
       e.preventDefault();
+      if (
+        inputValues.customerFullName === "" ||
+        inputValues.customerMailOrMobileNum === ""
+      ) {
+        setError("Enter the required credentials");
+        return;
+      }
       const url = `${baseUrl}/auth/register/otp`;
       const body = {
         customerName: inputValues.customerFullName,
         mailOrMobile: inputValues.customerMailOrMobileNum,
       };
+      ErrorHandler.onLoading();
       // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, body);
       setInputValues({ ...inputValues, requestOtp: true });
+      ErrorHandler.onLoadingClose();
     } catch (error) {
-      if (error.response.status === 400) {
-        setError(error.response.data.message);
-      }
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
     }
   };
 
@@ -50,10 +60,12 @@ const UserRegistrationPage = () => {
         otp: inputValues.otp,
       });
       if (response.status === 200) {
+        const token = process.env.REACT_APP_JWT_TOKEN;
+        Cookies.set(token, response.data.jwtToken);
         navigate("/create-password", { state: { userData: inputValues } });
       }
     } catch (error) {
-      ErrorHandler.onError(error);
+      setError2(error.response.data.message);
     }
   };
 
@@ -100,7 +112,9 @@ const UserRegistrationPage = () => {
               onChange={handleOnChangeInput}
             />
           </div>
-          {error && <span>{error}</span>}
+          {requestOtpError && (
+            <span className="text-danger d-block">{requestOtpError}</span>
+          )}
           {!inputValues.requestOtp && (
             <input
               className="signinBtn submitBtn mt-3"
@@ -122,6 +136,9 @@ const UserRegistrationPage = () => {
                 value={inputValues.otp}
                 onChange={handleOnChangeInput}
               />
+              {verifyOtpError && (
+                <span className="text-danger d-block">{verifyOtpError}</span>
+              )}
             </div>
             <input
               className="signinBtn submitBtn mt-2"

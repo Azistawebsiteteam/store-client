@@ -33,6 +33,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
 
   const closeSearchBar = (val) => {
     handleSearchBar(val);
+    setSearchText("");
   };
 
   const getProducts = async (value) => {
@@ -59,6 +60,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
 
   const searchFunctionality = () => {
     const goToSearchResultPage = () => {
+      handleSearchBar(false);
       navigate("/search/products");
     };
     return (
@@ -69,52 +71,67 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
         <div className="searchResults">
           {searchTextResult.length > 0 ? (
             <>
-              {searchTextResult.slice(0, 2).map((product, i) => (
-                <Link
-                  className="linkBtn"
-                  to={`/productitem/${product.product_url_title}`}
-                  key={i}
-                >
-                  <div
-                    className="searchProductCard"
-                    onClick={() => closeSearchBar(false)}
-                    style={{ backgroundColor: "#F3F4F5" }}
+              <div className="d-flex">
+                {searchTextResult.slice(0, 3).map((product, i) => (
+                  <Link
+                    className="linkBtn"
+                    to={`/productitem/${product.product_url_title}`}
+                    key={i}
                   >
-                    <div className="productContent">
-                      <p>{product.product_main_title} </p>
-                      <small
-                        className="product_subTitle"
-                        style={{ color: "rgba(40, 40, 40, 0.8)" }}
-                      >
-                        {product.product_title}
-                      </small>
+                    <div
+                      className="searchProductCard"
+                      onClick={() => closeSearchBar(false)}
+                      style={{ backgroundColor: "#F3F4F5" }}
+                    >
+                      <div className="productContent">
+                        <p className="truncate">
+                          {product.product_main_title}{" "}
+                        </p>
+                        <small
+                          className="product_subTitle truncate"
+                          style={{ color: "rgba(40, 40, 40, 0.8)" }}
+                        >
+                          {product.product_title}
+                        </small>
+                      </div>
+                      <div className="text-center">
+                        <img
+                          className="bestSelledImg"
+                          src={product.image_src}
+                          alt="productImg"
+                        />
+                      </div>
+                      <div className="productPrice">
+                        <span
+                          style={{
+                            textDecoration: "line-through",
+                            color: "rgba(40, 40, 40, 0.7)",
+                          }}
+                        >
+                          {parseInt(product.is_varaints_aval) !== 1 && "Rs"}{" "}
+                          {product.compare_at_price}
+                        </span>
+                        {parseInt(product.is_varaints_aval) === 1 && <br />}
+                        <span>
+                          {parseInt(product.is_varaints_aval) !== 1 && "  Rs "}
+                          {product.price}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-center">
-                      <img
-                        className="searchImg"
-                        src={product.image_src}
-                        alt="productImg"
-                      />
-                    </div>
-                    <div className="productPrice">
-                      <span
-                        style={{
-                          textDecoration: "line-through",
-                          color: "rgba(40, 40, 40, 0.7)",
-                        }}
-                      >
-                        Rs {product.compare_at_price}
-                      </span>
-                      <span className="ms-2">Rs {product.price}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-              {searchTextResult.length > 2 && (
-                <p className="linkBtn" onClick={goToSearchResultPage}>
-                  View all products
-                </p>
-              )}
+                  </Link>
+                ))}
+              </div>
+              <div>
+                {searchTextResult.length > 3 && (
+                  <p
+                    className="linkBtn"
+                    style={{ cursor: "pointer", fontWeight: "500" }}
+                    onClick={goToSearchResultPage}
+                  >
+                    View all products
+                  </p>
+                )}
+              </div>
             </>
           ) : (
             <p>No products found</p>
@@ -167,6 +184,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
                 categories={categories}
                 type="searchbarCont"
                 closeCategories={closeSearchBar}
+                breakpoint={3}
               />
             </div>
           )}

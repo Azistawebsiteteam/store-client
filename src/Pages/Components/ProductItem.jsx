@@ -776,12 +776,12 @@ const ProductItem = () => {
                         />
 
                         {/* {isContentOverflowing && ( */}
-                        <btn
+                        <button
                           className="btn btn-secondary displayBtn mt-1"
                           onClick={() => setReadMoreContent(!readMoreContent)}
                         >
                           {readMoreContent ? "Read Less" : "Read More"}
-                        </btn>
+                        </button>
                         {/* )} */}
                       </div>
                     ))}

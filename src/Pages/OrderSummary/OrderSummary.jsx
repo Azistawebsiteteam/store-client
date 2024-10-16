@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import "./index.css";
 import axios from "axios";
@@ -10,6 +10,8 @@ const OrderSummary = () => {
   const [orderSummary, setOrderSummary] = useState({});
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+  const location = useLocation();
+  const { orderId } = location.state ?? {};
 
   useEffect(() => {
     const getOrderSummary = async () => {
@@ -19,11 +21,7 @@ const OrderSummary = () => {
           Authorization: `Bearer ${token}`,
         };
         ErrorHandler.onLoading();
-        const response = await axios.post(
-          url,
-          { orderId: "AZSTA-M0M3O3RI5FGJ" },
-          { headers }
-        );
+        const response = await axios.post(url, { orderId }, { headers });
         ErrorHandler.onLoadingClose();
         setOrderSummary(response.data);
       } catch (error) {
@@ -32,7 +30,7 @@ const OrderSummary = () => {
       }
     };
     getOrderSummary();
-  }, [baseUrl, token]);
+  }, [baseUrl, token, orderId]);
 
   return (
     <>
@@ -156,7 +154,7 @@ const OrderSummary = () => {
                 <div className="d-flex flex-column align-items-center mt-1">
                   <Link
                     className="orderSummaryBtn linkBtn"
-                    to="/order-details#track-order"
+                    to={`/order-details/${orderSummary.azst_order_id}`}
                   >
                     Track Order
                   </Link>

@@ -17,6 +17,8 @@ import ErrorHandler from "../Components/ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
 
 const Checkout = () => {
+  const [isDiscountCodeAppliedMsg, setIsDiscountCodeAppliedMsg] =
+    useState(false);
   const [shippingAddress, setShippingAddress] = useState([]);
   const [selectedAccordian, setSelectedAccordian] = useState(null);
   const [addShippingAddress, setAddShippingAddress] = useState(false);
@@ -31,6 +33,7 @@ const Checkout = () => {
     cartList,
     userDetails,
     setCartList,
+    setCartCount,
     discountAmount,
     discountCodes,
     cartTotal,
@@ -64,7 +67,12 @@ const Checkout = () => {
       const response = await axios.post(url, { discountCode }, { headers });
       ErrorHandler.onLoadingClose();
       if (response.status === 200) {
-        const { discountAmount } = response.data;
+        const { discountAmount, message } = response.data;
+
+        message !== ""
+          ? setIsDiscountCodeAppliedMsg(message)
+          : setIsDiscountCodeAppliedMsg(`${discountCode} is applied`);
+
         setDiscountCodes((pre) => [...pre, discountCode]);
         setDiscountAmount(
           (prev) => parseFloat(prev) + parseFloat(discountAmount)
@@ -111,9 +119,10 @@ const Checkout = () => {
           setShippingAddress(response.data);
           const addressBook = response.data;
           if (addressBook.length > 0) {
-            const address = addressBook.filter(
+            const address = addressBook.find(
               (a) => parseInt(a.address_defaultStatus) === 1
             );
+
             setSelectedShippingAddress(address.address_id);
             setIsBillingAdressSame(true);
           } else {
@@ -209,6 +218,10 @@ const Checkout = () => {
     if (selectedShippingAddress === "" || paymentMethod === "") {
       return alert("Please select a shipping address");
     }
+    if (cartTotal === 0) {
+      alert("Your cart is empty");
+      return;
+    }
 
     if (paymentMethod === "RazorPay") {
       createRazorPayOrder();
@@ -245,7 +258,7 @@ const Checkout = () => {
       handleRazorPayScreen(e, response.data);
     } catch (err) {
       ErrorHandler.onLoadingClose();
-      alert("Failed to create order. Please try again later.");
+      ErrorHandler.onError(err);
     }
   };
 
@@ -320,6 +333,18 @@ const Checkout = () => {
       const { amount, currency, orderId, paymentId, notes, noteAttributes } =
         response;
 
+      const requiredCartList = cartList.map((product) => ({
+        azst_cart_product_id: product.azst_cart_product_id,
+        azst_cart_variant_id: product.azst_cart_variant_id,
+        azst_cart_quantity: product.azst_cart_quantity,
+        price: product.price,
+        azst_cart_id: product.azst_cart_id,
+        product_compare_at_price: product.product_compare_at_price,
+        compare_at_price: product.compare_at_price,
+        offer_price: product.offer_price,
+        is_varaints_aval: product.is_varaints_aval,
+      }));
+
       const body = {
         paymentMethod,
         paymentData: {
@@ -336,7 +361,7 @@ const Checkout = () => {
         addressId: selectedShippingAddress,
         isBillingAdsame: isBillingAdressSame,
         shippingCharge: shippingCharges,
-        cartList: cartList,
+        cartList: requiredCartList,
       };
 
       const headers = {
@@ -349,6 +374,7 @@ const Checkout = () => {
 
       if (order.status === 200) {
         setCartList([]);
+        setCartCount(0);
         const { orderId } = order.data;
         navigate("/order-summary", {
           state: { orderId: orderId },
@@ -452,7 +478,8 @@ const Checkout = () => {
                             id={each.address_id}
                             name="addressCard"
                             checked={
-                              selectedShippingAddress === each.address_id
+                              parseInt(selectedShippingAddress) ===
+                              each.address_id
                             }
                             onChange={() =>
                               handleShippingAddress(each.address_id)
@@ -525,6 +552,7 @@ const Checkout = () => {
                           setSelectedShippingAddress={
                             setSelectedShippingAddress
                           }
+                          setShippingAddress={setShippingAddress}
                           setAddShippingAddress={setAddShippingAddress}
                           setSelectedAccordian={setSelectedAccordian}
                         />
@@ -567,7 +595,7 @@ const Checkout = () => {
                         selectedAccordian === "3" ? "accCont show" : "accCont"
                       }
                     >
-                      <div className="orderSummaryCont">
+                      <div className="orderSummaryInfoCont">
                         <div className="">
                           <small>
                             Order confirmation will be sent to your registered
@@ -701,7 +729,7 @@ const Checkout = () => {
                 <div
                   style={{
                     borderBottom: "1px solid rgba(176, 176, 176, 1)",
-                    paddingBottom: "1rem",
+                    padding: "1rem",
                   }}
                 >
                   <h5>Discounts and Coupon</h5>
@@ -733,11 +761,12 @@ const Checkout = () => {
                   <small style={{ color: "darkred" }}>
                     {discountCodeError}
                   </small>
+                  <small>{isDiscountCodeAppliedMsg}</small>
                 </div>
                 <div
                   style={{
                     borderBottom: "1px solid rgba(176, 176, 176, 1)",
-                    padding: "1rem 0",
+                    padding: "1rem",
                   }}
                 >
                   <h5>Price Details</h5>
@@ -776,8 +805,7 @@ const Checkout = () => {
                   className="d-flex justify-content-between"
                   style={{
                     borderBottom: "1px solid rgba(176, 176, 176, 1)",
-                    paddingTop: "1rem",
-                    paddingBottom: "1rem",
+                    padding: "1rem",
                   }}
                 >
                   <h6>Grand Total</h6>
@@ -786,7 +814,10 @@ const Checkout = () => {
                     {(cartTotal + shippingCharges - discountAmount).toFixed(2)}
                   </h6>
                 </div>
-                <div className="d-flex justify-content-md-end">
+                <div
+                  className="d-flex justify-content-md-end"
+                  style={{ padding: "1rem 0 1rem 1rem" }}
+                >
                   <button
                     className="buyNowBtn"
                     style={{

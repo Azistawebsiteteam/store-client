@@ -23,7 +23,7 @@ const ProfileManagement = () => {
                 <div className="d-flex justify-content-between">
                   <h5>Profile Details</h5>
                   <div>
-                    <Link to="/edit-profile" state={{ userDetails }}>
+                    <Link to="/edit-profile">
                       <button
                         style={{
                           border: "none",
@@ -39,9 +39,7 @@ const ProfileManagement = () => {
                   <div>
                     Name :
                     <small className="details">
-                      {userDetails.azst_customer_fname +
-                        " " +
-                        userDetails.azst_customer_lname}
+                      {userDetails.azst_customer_name}
                     </small>
                   </div>
                   <div>
@@ -63,9 +61,7 @@ const ProfileManagement = () => {
                 <div>
                   Name :
                   <small className="details">
-                    {userDetails.azst_customer_fname +
-                      " " +
-                      userDetails.azst_customer_lname}
+                    {userDetails.azst_customer_name}
                   </small>
                 </div>
                 <div>

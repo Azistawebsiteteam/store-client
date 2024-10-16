@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import SideBar from "../UserProfile/SideBar";
 import Cookies from "js-cookie";
@@ -17,6 +17,30 @@ const OrderDetails = () => {
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+
+  useEffect(() => {
+    const statusCount = () => {
+      if (orderDetails.azst_orders_status === 1) {
+        setSteps(1);
+      } else if (orderDetails.azst_orders_confirm_status === 1) {
+        setSteps(2);
+      } else if (
+        orderDetails.azst_orders_delivery_status === 0 &&
+        orderDetails.azst_orders_confirm_status === 1
+      ) {
+        setSteps(3);
+      } else if (orderDetails.azst_orders_delivery_status === 1) {
+        setSteps(4);
+      } else if (orderDetails.azst_orders_delivery_status === 2) {
+        setSteps(5);
+      }
+    };
+    statusCount();
+  }, [
+    orderDetails.azst_orders_status,
+    orderDetails.azst_orders_delivery_status,
+    orderDetails.azst_orders_confirm_status,
+  ]);
 
   useMemo(() => {
     const getOrderDetails = async () => {
@@ -38,9 +62,9 @@ const OrderDetails = () => {
   }, [baseUrl, jwtToken, id]);
 
   // eslint-disable-next-line no-unused-vars
-  const [steps, setSteps] = useState(3);
+  const [steps, setSteps] = useState(1);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
 
   return (
@@ -235,14 +259,22 @@ const OrderDetails = () => {
                               style={{ fontWeight: "600" }}
                             >
                               {orderDetails.azst_orders_status === 0
-                                ? "Order Closed"
+                                ? "Order Cancelled"
                                 : orderDetails.azst_orders_delivery_status === 1
                                 ? `Delivered ${moment(
                                     orderDetails.azst_orders_delivery_on
                                   ).format("DD MMM, YYYY")}`
                                 : "Order in Transit"}
                             </span>
-                            <div className="paymentDetails">
+                            <div
+                              className="paymentDetails"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                height: "11rem",
+                              }}
+                            >
                               <div className="orderedProductsInfo">
                                 {orderDetails.products_details.map(
                                   (each, i) => (
@@ -275,9 +307,14 @@ const OrderDetails = () => {
                                   )
                                 )}
                               </div>
-                              <button className="d-block orderedProductBtn">
-                                Reorder
-                              </button>
+                              <div className="d-flex justify-content-center">
+                                <button
+                                  className="d-block orderedProductBtn"
+                                  style={{ borderRadius: "8px" }}
+                                >
+                                  Reorder
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -388,14 +425,39 @@ const OrderDetails = () => {
                       ></div>
                       <div
                         className={`${
+                          orderDetails.azst_orders_status === 1
+                            ? "circle activeCircle"
+                            : "circle"
+                        }`}
+                        datatitle1="Order placed"
+                        datatitle2={moment(
+                          orderDetails.azst_orders_created_on
+                        ).format("DD MMM, YYYY")}
+                      >
+                        <TiTick
+                          fill={`${
+                            orderDetails.azst_orders_status === 1
+                              ? "#fff"
+                              : "#D5D5D5"
+                          }`}
+                          style={{ fontSize: "26px" }}
+                          className="tickSvgIcon"
+                        />
+                      </div>
+                      <div
+                        className={`${
                           orderDetails.azst_orders_confirm_status === 1
                             ? "circle activeCircle"
                             : "circle"
                         }`}
                         datatitle1="Order Confirmed"
-                        datatitle2={moment(
-                          orderDetails.azst_orders_confirm_on
-                        ).format("DD MMM, YYYY")}
+                        datatitle2={
+                          orderDetails.azst_orders_confirm_on !== null
+                            ? moment(
+                                orderDetails.azst_orders_confirm_on
+                              ).format("DD MMM, YYYY")
+                            : ""
+                        }
                       >
                         <TiTick
                           fill={`${
@@ -409,16 +471,23 @@ const OrderDetails = () => {
                       </div>
                       <div
                         className={`${
+                          orderDetails.azst_orders_delivery_status === 0 &&
                           orderDetails.azst_orders_confirm_status === 1
                             ? "circle activeCircle"
                             : "circle"
                         }`}
                         datatitle1="Shipped"
-                        datatitle2="9 Feb, 2024"
+                        datatitle2={
+                          orderDetails.azst_orders_delivery_on !== null
+                            ? moment(
+                                orderDetails.azst_orders_delivery_on
+                              ).format("DD MMM, YYYY")
+                            : ""
+                        }
                       >
                         <TiTick
                           fill={`${
-                            orderDetails.azst_orders_confirm_status === 1
+                            orderDetails.azst_orders_delivery_status === 1
                               ? "#fff"
                               : "#D5D5D5"
                           }`}
@@ -428,24 +497,45 @@ const OrderDetails = () => {
                       </div>
                       <div
                         className={`${
-                          steps >= 3 ? "circle activeCircle" : "circle"
+                          orderDetails.azst_orders_delivery_status === 1
+                            ? "circle activeCircle"
+                            : "circle"
                         }`}
                         datatitle1="Out for Delivery"
-                        datatitle2="10 Feb, 2024"
+                        datatitle2={
+                          orderDetails.azst_orders_delivery_on !== null
+                            ? moment(
+                                orderDetails.azst_orders_delivery_on
+                              ).format("DD MMM, YYYY")
+                            : ""
+                        }
                       >
                         <TiTick
-                          fill={`${steps >= 3 ? "#fff" : "#D5D5D5"}`}
+                          fill={`${
+                            orderDetails.azst_orders_delivery_status === 1
+                              ? "#fff"
+                              : "#D5D5D5"
+                          }`}
                           style={{ fontSize: "26px" }}
                           className="tickSvgIcon"
                         />
                       </div>
                       <div
                         className={`${
-                          steps === 4 ? "circle activeCircle" : "circle"
+                          orderDetails.azst_orders_delivery_status === 2
+                            ? "circle activeCircle"
+                            : "circle"
                         }`}
                         datatitle1="Delivered"
-                        datatitle2="Expected Delivery
-                     by 11 Feb, 2024"
+                        datatitle2={
+                          orderDetails.azst_orders_delivery_status !== 2
+                            ? `Expected delivery on ${moment(
+                                orderDetails.azst_order_exptd_delivery_on
+                              ).format("DD MMM, YYYY")}`
+                            : moment(
+                                orderDetails.azst_orders_delivery_on
+                              ).format("DD MMM, YYYY")
+                        }
                       >
                         <TiTick
                           fill={`${steps === 4 ? "#fff" : "#D5D5D5"}`}

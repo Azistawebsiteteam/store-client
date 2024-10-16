@@ -58,7 +58,7 @@ const CarouselItem = () => {
                     ? banners[0].azst_mobile_image
                     : banners[0].azst_web_image
                 }
-                alt={banners[0].banner_id}
+                alt="banner-img"
                 className="carousel-image carouselImgOverlay"
               />
             </div>

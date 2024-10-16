@@ -110,6 +110,7 @@ const Navbar = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           logoutUser();
+          handleSideNavbar();
         }
       });
     } else {
@@ -143,7 +144,7 @@ const Navbar = () => {
               Help or Support
               <img
                 src={`${process.env.PUBLIC_URL}/images/customer-service.svg`}
-                className="social_icon"
+                className="ms-1 social_icon"
                 alt="email"
               />
             </small>

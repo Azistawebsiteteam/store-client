@@ -1,11 +1,14 @@
 import React from "react";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import swalHandle from "../Components/ErrorHandler";
 import Cookies from "js-cookie";
 import { getProfileDetails } from "../UserDashboard/UserProfile/GetUseDetails";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import { IoMdEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
+
 import "../Components/Components.css";
-import axios from "axios";
 
 const UserRegistrationPopup = () => {
   const [custDetails, setCustDetails] = useState({
@@ -16,6 +19,7 @@ const UserRegistrationPopup = () => {
     confirmPassword: "",
   });
   const [showForm, setShowForm] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { userDetails, setUserDetails } = useContext(searchResultContext);
 
@@ -24,13 +28,17 @@ const UserRegistrationPopup = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
-  useEffect(() => {
-    getProfileDetails(jwtToken, setUserDetails);
-  }, [jwtToken, setUserDetails]);
+  // useEffect(() => {
+  //   getProfileDetails(jwtToken, setUserDetails);
+  // }, [jwtToken, setUserDetails]);
 
   useEffect(() => {
     const callbackFun = () => {
-      if (jwtToken && userDetails.azst_customer_fname === null) {
+      if (
+        jwtToken &&
+        (userDetails.azst_customer_fname === null ||
+          userDetails.azst_customer_fname === "")
+      ) {
         setShowForm(true);
       } else {
         setShowForm(false);
@@ -65,6 +73,7 @@ const UserRegistrationPopup = () => {
       setTimeout(() => {
         setShowForm(false);
       }, 2000);
+      getProfileDetails(jwtToken, setUserDetails);
     } catch (error) {
       swalHandle.onLoadingClose();
       swalHandle.onError(error);
@@ -111,18 +120,28 @@ const UserRegistrationPopup = () => {
               </div>
               <div className="form-group col-md-4">
                 <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  placeholder="Password"
-                  onChange={handleCustDetails}
-                />
+                <div className="position-relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control"
+                    id="password"
+                    placeholder="Password"
+                    onChange={handleCustDetails}
+                  />
+                  <div
+                    className="hideIcon"
+                    style={{ top: "0.3rem" }}
+                    onClick={(e) => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <IoMdEye /> : <IoIosEyeOff />}
+                  </div>
+                </div>
               </div>
               <div className="form-group col-md-4">
                 <label htmlFor="confirmPassword">Confirm Password</label>
+
                 <input
-                  type="password"
+                  type="text"
                   className="form-control"
                   id="confirmPassword"
                   placeholder="Confirm Password"

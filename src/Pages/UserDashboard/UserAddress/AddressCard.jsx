@@ -10,7 +10,7 @@ import swalErr from "../../Components/ErrorHandler";
 import "./UserAddress.css";
 
 const AddressCard = (props) => {
-  const { addressList } = props;
+  const { addressList, setAddressList } = props;
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -53,6 +53,11 @@ const AddressCard = (props) => {
         try {
           const response = await axios.post(URL, body, { headers });
           if (response.status === 200) {
+            const updatedAddress = addressList.filter(
+              (item) => item.address_id !== id
+            );
+
+            setAddressList(updatedAddress);
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",

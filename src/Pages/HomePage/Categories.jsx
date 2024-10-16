@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Components/Customer.css";
 
-const Categories = ({ categories, type, closeCategories }) => {
+const Categories = ({ categories, type, closeCategories, breakpoint }) => {
   const handleSearchbarClose = () => {
     if (closeCategories) {
       closeCategories(false);
@@ -16,9 +16,12 @@ const Categories = ({ categories, type, closeCategories }) => {
         ) : (
           <h4 className="text-center">Categories</h4>
         )}
-        <div className="d-flex flex-wrap">
+        <div className="row">
           {categories.map((eachCategory, i) => (
-            <div className="col-4 col-md-2" key={eachCategory.azst_category_id}>
+            <div
+              className={`col-6 col-md-${breakpoint}`}
+              key={eachCategory.azst_category_id}
+            >
               <div className="categoryBox">
                 <div className="category">
                   <img

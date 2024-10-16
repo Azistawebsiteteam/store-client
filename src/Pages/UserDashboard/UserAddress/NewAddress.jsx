@@ -6,6 +6,7 @@ import SideBar from "../UserProfile/SideBar";
 import { useNavigate } from "react-router-dom";
 import swalErr from "../../Components/ErrorHandler";
 import { FaArrowLeft } from "react-icons/fa6";
+import { handleValidationError } from "./Validation";
 
 const NewAddress = ({ updateFormFilledStatus }) => {
   const [inputValues, setInputValue] = useState({
@@ -26,12 +27,19 @@ const NewAddress = ({ updateFormFilledStatus }) => {
     availableFromTime: "",
     availableToTime: "",
   });
+  const [errors, setErrors] = useState({});
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
+    const validationErrorMessage = handleValidationError(inputValues);
+    if (Object.keys(validationErrorMessage).length > 0) {
+      window.scrollTo(0, 0);
+      setErrors(validationErrorMessage);
+      return;
+    }
     try {
       e.preventDefault();
       const url = `${baseUrl}/address/add/newaddress`;
@@ -58,6 +66,7 @@ const NewAddress = ({ updateFormFilledStatus }) => {
       swalErr.onError(error);
     }
   };
+
   return (
     <div className="UserAddressSec">
       <div className="d-flex">
@@ -78,6 +87,8 @@ const NewAddress = ({ updateFormFilledStatus }) => {
             <AddressForm
               inputValues={inputValues}
               setInputValue={setInputValue}
+              errors={errors}
+              setErrors={setErrors}
             />
             <input
               type="button"

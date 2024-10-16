@@ -7,6 +7,7 @@ const AddShippingAddress = ({
   setSelectedShippingAddress,
   setSelectedAccordian,
   setAddShippingAddress,
+  setShippingAddress,
 }) => {
   const [addressForm, setAddressForm] = useState({
     customerFirstName: "",
@@ -24,7 +25,8 @@ const AddShippingAddress = ({
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
-  const onSubmitForm = async () => {
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
     try {
       const url = `${baseUrl}/address/add/newaddress`;
       const headers = {
@@ -36,6 +38,7 @@ const AddShippingAddress = ({
       if (response.status === 201) {
         const { address } = response.data;
         setSelectedShippingAddress(address.address_id);
+        setShippingAddress((prev) => [...prev, address]);
         setSelectedAccordian("3");
         setAddShippingAddress(false);
         ErrorHandler.onSuccess();
@@ -87,7 +90,14 @@ const AddShippingAddress = ({
   ];
 
   const handleAddressForm = (e) => {
-    setAddressForm({ ...addressForm, [e.target.id]: e.target.value });
+    let { id, value } = e.target;
+    if (id === "zipCode" || id === "customerMobileNum") {
+      value = value.replace(/[^0-9]/g, ""); // Sanitize value to allow only numbers
+    }
+    setAddressForm((prevForm) => ({
+      ...prevForm,
+      [id]: value,
+    }));
   };
 
   return (
@@ -103,6 +113,7 @@ const AddShippingAddress = ({
                 placeholder="First Name"
                 onChange={handleAddressForm}
                 value={addressForm.customerFirstName}
+                maxLength={50}
               />
               <label htmlFor="customerFirstName">First Name</label>
             </div>
@@ -116,6 +127,7 @@ const AddShippingAddress = ({
                 placeholder="Last Name"
                 onChange={handleAddressForm}
                 value={addressForm.customerLastName}
+                maxLength={50}
               />
               <label htmlFor="customerLastName">Last Name</label>
             </div>
@@ -128,6 +140,7 @@ const AddShippingAddress = ({
                 id="address1"
                 onChange={handleAddressForm}
                 value={addressForm.address1}
+                maxLength={100}
               ></textarea>
               <label htmlFor="address1">Address (Area & Street)</label>
             </div>
@@ -135,12 +148,13 @@ const AddShippingAddress = ({
           <div className="col-md-6">
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 id="zipCode"
                 placeholder="Pincode"
                 onChange={handleAddressForm}
                 value={addressForm.zipCode}
+                maxLength={6}
               />
               <label htmlFor="zipCode">Pincode</label>
             </div>
@@ -148,12 +162,13 @@ const AddShippingAddress = ({
           <div className="col-md-6">
             <div className="form-floating mb-3">
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 id="customerMobileNum"
                 placeholder="Contact Number"
                 onChange={handleAddressForm}
                 value={addressForm.customerMobileNum}
+                maxLength={10}
               />
               <label htmlFor="customerMobileNum">Contact Number</label>
             </div>
@@ -161,12 +176,13 @@ const AddShippingAddress = ({
           <div className="col-md-6">
             <div className="form-floating mb-3">
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 id="district"
                 placeholder="City/Town/District"
                 onChange={handleAddressForm}
                 value={addressForm.district}
+                maxLength={35}
               />
               <label htmlFor="district">City/Town/District</label>
             </div>
@@ -193,12 +209,13 @@ const AddShippingAddress = ({
           <div className="col-md-6">
             <div className="form-floating mb-3">
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 id="landmark"
                 placeholder="Landmark (Optional)"
                 onChange={handleAddressForm}
                 value={addressForm.landmark}
+                maxLength={50}
               />
               <label htmlFor="landmark">Landmark (Optional)</label>
             </div>
@@ -227,8 +244,9 @@ const AddShippingAddress = ({
                 placeholder="Email Address (Optional)"
                 onChange={handleAddressForm}
                 value={addressForm.customerEmail}
+                maxLength={62}
               />
-              <label htmlFor="customerEmail">Email Address (Optional)</label>
+              <label htmlFor="customerEmail">Email Address</label>
             </form>
           </div>
           <div className="col-sm-12 mt-2">

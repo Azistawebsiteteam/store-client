@@ -42,27 +42,28 @@ function SamplePrevArrow(props) {
 
 const productSlider = ({ title, items }) => {
   var settings = {
+    lazyLoad: true,
     dots: false,
-    infinite: true,
-    slidesToShow: 5, // Default for desktop view
+    infinite: items.length > 1, // Make infinite scrolling only if more than 1 item
+    slidesToShow: items.length > 4 ? 5 : items.length, // Default for desktop view, handle when only 1 item
     slidesToScroll: 1,
-    autoplay: true,
-    speed: 2000,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    // Responsive settings for different screen sizes
+    autoplay: items.length > 1, // Enable autoplay only if more than 1 item
+    speed: 2000, // Adjust this for faster slide transitions (lower value = faster)
+    autoplaySpeed: 1000, // Time in milliseconds between each autoplay slide
+    nextArrow: items.length > 1 ? <SampleNextArrow /> : null, // Show arrows only if more than 1 item
+    prevArrow: items.length > 1 ? <SamplePrevArrow /> : null, // Show arrows only if more than 1 item
     responsive: [
       {
         breakpoint: 1024, // Tablet and small desktop
         settings: {
-          slidesToShow: 3, // Show 3 slides
+          slidesToShow: items.length > 2 ? 3 : items.length, // Show 3 slides or the available items
           slidesToScroll: 1,
         },
       },
       {
         breakpoint: 768, // Mobile devices in portrait mode
         settings: {
-          slidesToShow: 2, // Show 2 slides
+          slidesToShow: items.length > 1 ? 2 : items.length, // Show 2 slides or the available items
           slidesToScroll: 1,
         },
       },
@@ -112,21 +113,21 @@ const productSlider = ({ title, items }) => {
                   </div>
                 </div>
                 <div className="productContent">
-                  <p>
-                    <strong>{each.product_main_title}</strong>
-                  </p>
+                  <p className="truncate">{each.product_main_title}</p>
                   <small
-                    className="product_subTitle"
+                    className="product_subTitle truncate"
                     style={{ color: "rgba(40, 40, 40, 0.8)" }}
                   >
                     {each.product_title}
                   </small>
                 </div>
-                <img
-                  src={each.image_src}
-                  alt={each.image_alt_text}
-                  className="bestSelledImg"
-                />
+                <div className="d-flex justify-content-center">
+                  <img
+                    src={each.image_src}
+                    alt={each.image_alt_text}
+                    className="bestSelledImg"
+                  />
+                </div>
                 <div className="productPrice">
                   <span
                     style={{

@@ -71,6 +71,7 @@ export const CreateReview = (props) => {
       await axios.post(url, formdata, { headers });
       ErrorHandler.onSuccess();
     } catch (error) {
+      console.log(error, "review");
       ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
     }
@@ -272,43 +273,48 @@ export const DisplayReview = ({ productId }) => {
               </div>
             )}
           </div>
-          <div className="d-flex flex-column align-items-center">
-            <button
-              type="button"
-              className="reviewBtn"
-              data-bs-toggle="modal"
-              data-bs-target="#createReview"
-            >
-              Write a review
-            </button>
+          {jwtToken && (
+            <div className="d-flex flex-column align-items-center">
+              <button
+                type="button"
+                className="reviewBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#createReview"
+              >
+                Write a review
+              </button>
 
-            <div
-              className="modal fade"
-              id="createReview"
-              tabIndex="-1"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">
-                      Review the product
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="modal-body">
-                    <CreateReview productId={productId} buttonText={"Submit"} />
+              <div
+                className="modal fade"
+                id="createReview"
+                tabIndex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div className="modal-dialog">
+                  <div className="modal-content reviewModalContent">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="exampleModalLabel">
+                        Review the product
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <CreateReview
+                        productId={productId}
+                        buttonText={"Submit"}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {reviews.map((each, i) => (

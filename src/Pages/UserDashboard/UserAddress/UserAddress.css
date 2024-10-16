@@ -64,6 +64,11 @@
     min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
 } */
 
+.error{
+    color: #f14848;
+    font-size: 15px;
+}
+
 @media screen and (max-width:768px){
     .identityDetails {
         max-width: 60% !important;

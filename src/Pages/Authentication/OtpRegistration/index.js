@@ -20,7 +20,6 @@ const OtpRegistration = () => {
   const onSubmitOtpSuccess = (jwtToken) => {
     const token = process.env.REACT_APP_JWT_TOKEN;
     Cookies.set(token, jwtToken);
-
     navigate("/", { replace: true });
   };
 
@@ -35,6 +34,7 @@ const OtpRegistration = () => {
       });
       setInputValue({ ...inputValue, numberEntered: false });
     } catch (error) {
+      console.log(error);
       setError(error.response.data.message);
     }
   };
@@ -47,8 +47,12 @@ const OtpRegistration = () => {
         mailOrMobile: inputValue.enterNumber,
         otp: inputValue.enterOtp,
       });
-      onSubmitOtpSuccess(response.data.jwtToken);
+      console.log(response, "registration");
+      if (response.status === 200) {
+        onSubmitOtpSuccess(response.data.jwtToken);
+      }
     } catch (error) {
+      console.log(error);
       setError2(error.response.data.message);
     }
   };

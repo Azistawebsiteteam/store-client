@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../UserProfile/SideBar";
 import swalHandle from "../../Components/ErrorHandler";
 import { FaArrowLeft } from "react-icons/fa6";
+import { handleValidationError } from "./Validation";
 import "./UserAddress.css";
 
 const UpdateDeliveryAddress = () => {
@@ -29,12 +30,12 @@ const UpdateDeliveryAddress = () => {
     availableFromTime: "",
     availableToTime: "",
   });
+  const [errors, setErrors] = useState({});
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
   const navigate = useNavigate();
-  const local = process.env.REACT_APP_LOCAL_URL;
 
   useEffect(() => {
     const getAddress = async () => {
@@ -80,8 +81,14 @@ const UpdateDeliveryAddress = () => {
   }, [jwtToken, baseUrl, id]);
 
   const handleUpdate = async () => {
+    const validationErrorMessage = handleValidationError(inputValues);
+    if (Object.keys(validationErrorMessage).length > 0) {
+      window.scrollTo(0, 0);
+      setErrors(validationErrorMessage);
+      return;
+    }
     try {
-      const url = `${local}/address/update/address`;
+      const url = `${baseUrl}/address/update/address`;
       const headers = {
         Authorization: `Bearer ${jwtToken} `,
       };
@@ -125,10 +132,12 @@ const UpdateDeliveryAddress = () => {
             <AddressForm
               inputValues={inputValues}
               setInputValue={setInputValue}
+              errors={errors}
+              setErrors={setErrors}
             />
             <input
               type="button"
-              className="commonBtn"
+              className="commonBtn mt-3"
               value="Save"
               onClick={handleUpdate}
             />

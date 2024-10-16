@@ -134,6 +134,10 @@ small, .small {
     background-color: transparent !important;
     border: none !important;
 }
+.reviewModalContent{
+    background-color: #fff !important;
+    border: initial !important;
+}
 
 /* announcementBar */
 
@@ -147,11 +151,11 @@ small, .small {
 } 
 .announcementSlideBtns {
     height: 2rem !important;
-    top: 0.1rem !important;
+    top: 0.4rem !important;
 }
 
 .carousel-control-prev, .carousel-control-next {
-    width: 46% !important;
+    width: 34% !important;
 }
 .carousel-control-prev-icon,.carousel-control-next-icon{
     background-image: none !important;
@@ -162,7 +166,7 @@ svg.announcementArrow {
 }
 
 span.announcement-text {
-    padding: 0.2rem 0;
+    padding: 0.5rem 0;
     display: inline-block;
 }
 
@@ -255,6 +259,9 @@ li.nav-item {
 .footerAnchorEl{
     text-decoration: none;
     color: #ffffff;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.8rem;
 }
 .footerSec{
     background-color: var(--heading-text-color);
@@ -265,10 +272,12 @@ li.nav-item {
     margin-top: 2rem;
 }
 .footerHeading{
-    font-size: 24px;
+    font-family: var(--primary-fontfamily);
+    font-size: 1.5rem!important;
     color: var(--bg-color);
 }
 .footerEmailText{
+    font-family: var(--primary-fontfamily);
     font-weight: 600;
     color: #ffffff;
 }
@@ -291,7 +300,36 @@ img.social_icon {
 }
 .subscribeBtnCont {
     position: relative;
+    /* display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 410px;
+    height: 50px;
+    z-index: 1; */
 }
+/* .subscribeBtnCont::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to right, grey, white);
+    animation: rotate 4s linear infinite;
+}
+.subscribeBtnCont::after{
+    content: "";
+    position: absolute;
+    inset: 5px;
+    background: 0e1538;
+    border: 16px;
+}
+@keyframes rotate {
+    from{
+        transform: rotate(0deg);
+    }to{
+        transform: rotate(0deg);
+    }
+} */
+
 input.subscribeField {
     background-color: rgba(255, 255, 255, 0.07);
     border: none;
@@ -300,6 +338,7 @@ input.subscribeField {
     height: 3rem;
     border-radius: 0.4rem;
     padding: 0 1rem;
+    z-index: 2;
 }
 button.subscribeBtn {
     background-color: transparent;
@@ -521,6 +560,9 @@ img.gif {
     z-index: 0;
     position: relative;
   }
+  .slick-prev:before, .slick-next:before{
+    opacity: 0 !important;
+  }
   
   .slick-dots{
     bottom: 40px !important;
@@ -652,9 +694,9 @@ img.gif {
   }
   .categoryBox{
    position: relative; 
+   min-width: 10rem;
    max-width: 10rem;
-   max-width: 10rem;
-   margin: 2% 0;
+   margin: 2% 8%;
   }
   .category{
     position: relative;
@@ -686,12 +728,18 @@ img.gif {
     opacity: 1;
   }
   img.categoryImg {
-    width: 80%;
+    /* width: 80%; */
+    min-width: 8rem;
+    max-width: 8rem;
+    min-height: 8rem;
+    max-height: 8rem;
+    border-radius: 50%;
   }
   .categoryTxt {
     font-weight: 500;
     margin-top: 5%;
     font-size: 0.8em;
+    text-align: center;
    }
 
    /* bestSelledProduct */
@@ -709,7 +757,9 @@ img.gif {
     min-height: 100%;
    }
    img.bestSelledImg {
-    max-width: 80%;
+        max-width: 80%;
+        min-height: 8rem;
+        max-height: 8rem;
     }
     .overlay_bg {
         transition: .5s ease;
@@ -762,6 +812,14 @@ img.gif {
     .productPrice {
         margin-top: 4%;
     }
+    .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+                line-clamp: 1;
+        -webkit-box-orient: vertical;
+     }
     
     
 /* collections */ 
@@ -1524,10 +1582,10 @@ img.navigateArrowCircle {
         width: 20% !important;
     }
     .AnnouncementSlider {
-        min-height: 3.6rem;
+        min-height: 5rem;
     } 
    .announcementSlideBtns {
-        top: 0.6rem !important;
+        top: 1.6rem !important;
     }
 }
 
@@ -1810,6 +1868,9 @@ img.navigateArrowCircle {
     }
     .faqInnerSec {
         width: 90% !important;
+    }
+    .categoryBox{
+        margin: 2% 0 !important;
     }
 }
 

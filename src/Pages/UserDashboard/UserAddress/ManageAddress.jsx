@@ -40,7 +40,10 @@ const ManageAddress = () => {
   const addAddress = () => {
     return (
       <>
-        <AddressCard addressList={addressList} />
+        <AddressCard
+          addressList={addressList}
+          setAddressList={setAddressList}
+        />
       </>
     );
   };
