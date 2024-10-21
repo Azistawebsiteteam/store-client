@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import { IoIosEyeOff } from "react-icons/io";
 import GoogleSignIn from "../GoogleSignIn";
 import "./index.css";
 import "../Authentication.css";
+import { searchResultContext } from "../../../ReactContext/SearchResults";
 
 const UserLoginPage = () => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -16,6 +17,7 @@ const UserLoginPage = () => {
     password: "",
   });
   const [error, setError] = useState("");
+  const { updateCartData } = useContext(searchResultContext);
 
   const navigate = useNavigate();
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -47,6 +49,7 @@ const UserLoginPage = () => {
         sessionId: localStorage.getItem(process.env.REACT_APP_CART_KEY),
       };
       await axios.post(url, body, { headers });
+      updateCartData();
     } catch (error) {}
   };
 
