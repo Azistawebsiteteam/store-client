@@ -84,45 +84,44 @@ const EditProfile = () => {
 
   const handleValidationError = (profileDetails) => {
     const validationErrorMessage = {};
-    if (!profileDetails.firstName.trim()) {
+    if (!profileDetails.firstName) {
       validationErrorMessage["firstName"] = "First name is required";
     }
-    if (!profileDetails.lastName.trim()) {
+    if (!profileDetails.lastName) {
       validationErrorMessage.lastName = "Last name is required";
     }
-    if (!profileDetails.mobileNum.trim()) {
+    if (!profileDetails.mobileNum) {
       validationErrorMessage.mobileNum = "Mobile number is required";
     } else if (!/^[6-9]\d{9}$/.test(profileDetails.mobileNum)) {
       validationErrorMessage.mobileNum = "Invalid mobile number";
     }
-    if (!profileDetails.email.trim()) {
+    if (!profileDetails.email) {
       validationErrorMessage.email = "Email is required";
     }
-    if (!profileDetails.houseNumber.trim()) {
+    if (!profileDetails.houseNumber) {
       validationErrorMessage.houseNumber = "House number is required";
     }
-    if (!profileDetails.district.trim()) {
+    if (!profileDetails.district) {
       validationErrorMessage.district = "District is required";
     }
-    if (!profileDetails.state.trim()) {
+    if (!profileDetails.state) {
       validationErrorMessage.state = "State is required";
     }
-    if (!profileDetails.country.trim()) {
+    if (!profileDetails.country) {
       validationErrorMessage.country = "Country is required";
     }
-    if (!profileDetails.zipCode.trim()) {
+    if (!profileDetails.zipCode) {
       validationErrorMessage.zipCode = "Zip code is required";
+    } else if (profileDetails.zipCode && profileDetails.zipCode.length < 6) {
+      validationErrorMessage.zipCode = "Invalid zip code";
     }
-    if (!profileDetails.landmark.trim()) {
-      validationErrorMessage.landmark = "Landmark is required";
-    }
-    if (!profileDetails.dob.trim()) {
+    if (!profileDetails.dob) {
       validationErrorMessage.dob = "Date of birth is required";
     }
-    if (!profileDetails.gender.trim()) {
+    if (!profileDetails.gender) {
       validationErrorMessage.gender = "Gender is required";
     }
-    if (!profileDetails.address1.trim()) {
+    if (!profileDetails.address1) {
       validationErrorMessage.address1 = "Address is required";
     }
 
@@ -179,9 +178,14 @@ const EditProfile = () => {
             <h4>Profile Details</h4>
           </div>
           <div className="myAccInnerSec">
-            <form className="row g-3" onSubmit={handleProfileUpdate}>
+            <form
+              autoComplete="off"
+              className="row g-3"
+              onSubmit={handleProfileUpdate}
+            >
               <div className="form-floating mb-3 col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.firstName}
                   className="form-control"
@@ -201,6 +205,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating mb-3 col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.lastName}
                   className="form-control"
@@ -218,6 +223,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating mb-3 col-md-6">
                 <input
+                  autoComplete="off"
                   type="date"
                   value={profileDetails.dob}
                   className="form-control"
@@ -254,6 +260,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.mobileNum}
                   className="form-control"
@@ -274,6 +281,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.houseNumber}
                   className="form-control"
@@ -293,6 +301,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.zipCode}
                   className="form-control"
@@ -311,6 +320,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="email"
                   value={profileDetails.email}
                   className="form-control"
@@ -326,6 +336,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.district}
                   className="form-control"
@@ -364,6 +375,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   value={profileDetails.country}
                   className="form-control"
@@ -381,6 +393,7 @@ const EditProfile = () => {
               </div>
               <div className="form-floating col-md-6">
                 <input
+                  autoComplete="off"
                   type="text"
                   className="form-control"
                   placeholder="Landmark"
@@ -389,9 +402,6 @@ const EditProfile = () => {
                   style={errors.landmark ? { border: "1px solid #f14848" } : {}}
                   onChange={handleInputValue}
                 />
-                {errors.landmark && (
-                  <span className="error">{errors.landmark}</span>
-                )}
                 <label htmlFor="Landmark" className="ms-1">
                   Landmark (optional)
                 </label>
@@ -446,6 +456,7 @@ const EditProfile = () => {
               <div className="row mt-3">
                 <div className="form-check col-md-6">
                   <input
+                    autoComplete="off"
                     className="form-check-input"
                     type="checkbox"
                     id="acceeptEmailMarketing"
@@ -466,6 +477,7 @@ const EditProfile = () => {
                 </div>
                 <div className="form-check col-md-6">
                   <input
+                    autoComplete="off"
                     className="form-check-input"
                     type="checkbox"
                     id="marketingSmsAccept"

@@ -1,7 +1,6 @@
 .ordersCont{
     width: 80%;
-    margin: 0px 20px;
-    padding: 0 10px;
+    padding: 4% 3%;
 }
 img.orderImg {
     width: 100px;
@@ -165,6 +164,9 @@ li.addressTab {
 }
 .activeCircle{
     background-color: #0066FF;
+}
+.rejectedCircle{
+    background-color: red;
 }
 @media screen and (max-width:768px) {
     .ordersCont{

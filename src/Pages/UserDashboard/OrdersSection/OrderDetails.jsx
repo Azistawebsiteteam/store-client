@@ -1,9 +1,10 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import SideBar from "../UserProfile/SideBar";
 import Cookies from "js-cookie";
 import { TiTick } from "react-icons/ti";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { ImCross } from "react-icons/im";
 import "../index.css";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 import axios from "axios";
@@ -12,6 +13,8 @@ import moment from "moment";
 
 const OrderDetails = () => {
   const [orderDetails, setOrderDetails] = useState({});
+  const [steps, setSteps] = useState(3);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -22,16 +25,24 @@ const OrderDetails = () => {
     const statusCount = () => {
       if (orderDetails.azst_orders_status === 1) {
         setSteps(1);
-      } else if (orderDetails.azst_orders_confirm_status === 1) {
+      }
+      if (
+        orderDetails.azst_orders_status === 1 &&
+        (orderDetails.azst_orders_confirm_status === 1 ||
+          orderDetails.azst_orders_confirm_status === 2)
+      ) {
         setSteps(2);
-      } else if (
+      }
+      if (
         orderDetails.azst_orders_delivery_status === 0 &&
         orderDetails.azst_orders_confirm_status === 1
       ) {
         setSteps(3);
-      } else if (orderDetails.azst_orders_delivery_status === 1) {
+      }
+      if (orderDetails.azst_orders_delivery_status === 1) {
         setSteps(4);
-      } else if (orderDetails.azst_orders_delivery_status === 2) {
+      }
+      if (orderDetails.azst_orders_delivery_status === 2) {
         setSteps(5);
       }
     };
@@ -61,12 +72,8 @@ const OrderDetails = () => {
     getOrderDetails();
   }, [baseUrl, jwtToken, id]);
 
-  // eslint-disable-next-line no-unused-vars
-  const [steps, setSteps] = useState(1);
-
   const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
-
   return (
     <>
       <ScrollToTop />
@@ -425,7 +432,8 @@ const OrderDetails = () => {
                       ></div>
                       <div
                         className={`${
-                          orderDetails.azst_orders_status === 1
+                          orderDetails.azst_orders_status === 1 ||
+                          orderDetails.azst_orders_confirm_status === 0
                             ? "circle activeCircle"
                             : "circle"
                         }`}
@@ -435,11 +443,7 @@ const OrderDetails = () => {
                         ).format("DD MMM, YYYY")}
                       >
                         <TiTick
-                          fill={`${
-                            orderDetails.azst_orders_status === 1
-                              ? "#fff"
-                              : "#D5D5D5"
-                          }`}
+                          fill={"#fff"}
                           style={{ fontSize: "26px" }}
                           className="tickSvgIcon"
                         />
@@ -448,9 +452,15 @@ const OrderDetails = () => {
                         className={`${
                           orderDetails.azst_orders_confirm_status === 1
                             ? "circle activeCircle"
+                            : orderDetails.azst_orders_confirm_status === 2
+                            ? "circle rejectedCircle"
                             : "circle"
                         }`}
-                        datatitle1="Order Confirmed"
+                        datatitle1={
+                          orderDetails.azst_orders_confirm_status === 2
+                            ? "Order Rejected"
+                            : "Order Confirmed"
+                        }
                         datatitle2={
                           orderDetails.azst_orders_confirm_on !== null
                             ? moment(
@@ -459,19 +469,30 @@ const OrderDetails = () => {
                             : ""
                         }
                       >
-                        <TiTick
-                          fill={`${
-                            orderDetails.azst_orders_confirm_status === 1
-                              ? "#fff"
-                              : "#D5D5D5"
-                          }`}
-                          style={{ fontSize: "26px" }}
-                          className="tickSvgIcon"
-                        />
+                        {orderDetails.azst_orders_confirm_status !== 2 ? (
+                          <TiTick
+                            fill={`${
+                              orderDetails.azst_orders_confirm_status === 1
+                                ? "#fff"
+                                : "#D5D5D5"
+                            }`}
+                            style={{ fontSize: "26px" }}
+                            className="tickSvgIcon"
+                          />
+                        ) : (
+                          <ImCross
+                            fill={`${
+                              orderDetails.azst_orders_confirm_status === 2 &&
+                              "#fff"
+                            }`}
+                          />
+                        )}
                       </div>
                       <div
                         className={`${
-                          orderDetails.azst_orders_delivery_status === 0 &&
+                          (orderDetails.azst_orders_delivery_status === 0 ||
+                            orderDetails.azst_orders_delivery_status === 1 ||
+                            orderDetails.azst_orders_delivery_status === 2) &&
                           orderDetails.azst_orders_confirm_status === 1
                             ? "circle activeCircle"
                             : "circle"
@@ -487,7 +508,10 @@ const OrderDetails = () => {
                       >
                         <TiTick
                           fill={`${
-                            orderDetails.azst_orders_delivery_status === 1
+                            (orderDetails.azst_orders_delivery_status === 0 ||
+                              orderDetails.azst_orders_delivery_status === 1 ||
+                              orderDetails.azst_orders_delivery_status === 2) &&
+                            orderDetails.azst_orders_confirm_status === 1
                               ? "#fff"
                               : "#D5D5D5"
                           }`}
@@ -497,7 +521,9 @@ const OrderDetails = () => {
                       </div>
                       <div
                         className={`${
-                          orderDetails.azst_orders_delivery_status === 1
+                          (orderDetails.azst_orders_delivery_status === 1 ||
+                            orderDetails.azst_orders_delivery_status === 2) &&
+                          orderDetails.azst_orders_confirm_status === 1
                             ? "circle activeCircle"
                             : "circle"
                         }`}
@@ -512,7 +538,9 @@ const OrderDetails = () => {
                       >
                         <TiTick
                           fill={`${
-                            orderDetails.azst_orders_delivery_status === 1
+                            (orderDetails.azst_orders_delivery_status === 1 ||
+                              orderDetails.azst_orders_delivery_status === 2) &&
+                            orderDetails.azst_orders_confirm_status === 1
                               ? "#fff"
                               : "#D5D5D5"
                           }`}
@@ -522,19 +550,22 @@ const OrderDetails = () => {
                       </div>
                       <div
                         className={`${
+                          orderDetails.azst_orders_confirm_status === 1 &&
                           orderDetails.azst_orders_delivery_status === 2
                             ? "circle activeCircle"
                             : "circle"
                         }`}
                         datatitle1="Delivered"
                         datatitle2={
-                          orderDetails.azst_orders_delivery_status !== 2
-                            ? `Expected delivery on ${moment(
-                                orderDetails.azst_order_exptd_delivery_on
-                              ).format("DD MMM, YYYY")}`
-                            : moment(
-                                orderDetails.azst_orders_delivery_on
-                              ).format("DD MMM, YYYY")
+                          orderDetails.azst_orders_confirm_status !== 2
+                            ? orderDetails.azst_orders_delivery_status !== 2
+                              ? `Expected delivery on ${moment(
+                                  orderDetails.azst_order_exptd_delivery_on
+                                ).format("DD MMM, YYYY")}`
+                              : moment(
+                                  orderDetails.azst_orders_delivery_on
+                                ).format("DD MMM, YYYY")
+                            : ""
                         }
                       >
                         <TiTick

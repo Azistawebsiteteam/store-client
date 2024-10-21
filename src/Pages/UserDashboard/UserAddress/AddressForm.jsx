@@ -35,9 +35,10 @@ const AddressForm = (props) => {
   };
 
   return (
-    <form className="row g-3">
+    <form autoComplete="off" className="row g-3">
       <div className="form-floating mb-3 col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.customerFirstName}
           style={
@@ -58,6 +59,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating mb-3 col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.customerLastName}
           className="form-control"
@@ -76,6 +78,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.customerMobileNum}
           style={
@@ -96,6 +99,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="email"
           value={inputValues.customerEmail}
           style={errors.customerEmail ? { border: "1px solid #f14848" } : {}}
@@ -115,6 +119,7 @@ const AddressForm = (props) => {
 
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.zipCode}
           style={errors.zipCode ? { border: "1px solid #f14848" } : {}}
@@ -131,6 +136,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.housenumber}
           style={errors.housenumber ? { border: "1px solid #f14848" } : {}}
@@ -149,6 +155,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.district}
           style={errors.district ? { border: "1px solid #f14848" } : {}}
@@ -174,7 +181,7 @@ const AddressForm = (props) => {
         >
           <option>Select the state</option>
           {states.map((each, i) => (
-            <option key={i} value={each.state_code}>
+            <option key={i} value={each.name}>
               {each.name}
             </option>
           ))}
@@ -186,6 +193,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           value={inputValues.country}
           style={errors.country ? { border: "1px solid #f14848" } : {}}
@@ -201,6 +209,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="text"
           className="form-control"
           placeholder="Landmark"
@@ -210,7 +219,6 @@ const AddressForm = (props) => {
           onChange={handleInputValue}
           maxLength={50}
         />
-        {errors.landmark && <span className="error">{errors.landmark}</span>}
         <label htmlFor="Landmark" className="ms-1">
           Landmark (Optional)
         </label>
@@ -260,6 +268,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="time"
           className="form-control"
           placeholder="Available To Time"
@@ -277,6 +286,7 @@ const AddressForm = (props) => {
       </div>
       <div className="form-floating col-md-6">
         <input
+          autoComplete="off"
           type="time"
           className="form-control"
           placeholder="Available From Time"
@@ -297,6 +307,7 @@ const AddressForm = (props) => {
       <div className="row mt-3">
         <div className="form-check col-md-6">
           <input
+            autoComplete="off"
             className="form-check-input"
             type="checkbox"
             id="isDefault"

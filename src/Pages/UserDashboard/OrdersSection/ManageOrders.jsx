@@ -36,7 +36,20 @@ const ManageOrders = () => {
     getOrderDetails();
   }, [baseUrl, token, searchTerm]);
 
-  const orderStatusValue = (val) => {
+  const orderStatusValue = (val, del) => {
+    switch (val) {
+      case 0:
+        return "Order Placed";
+      case 1:
+        return orderShipmentStatus(del);
+      case 2:
+        return "Rejected";
+      default:
+        return null;
+    }
+  };
+
+  const orderShipmentStatus = (val) => {
     switch (val) {
       case 0:
         return "Order Shipped";
@@ -143,9 +156,10 @@ const ManageOrders = () => {
                       <span>
                         {order.azst_orders_status === 0
                           ? "Cancelled"
-                          : order.azst_orders_confirm_status === 0
-                          ? "Order Placed"
-                          : orderStatusValue(order.azst_orders_delivery_status)}
+                          : orderStatusValue(
+                              order.azst_orders_confirm_status,
+                              order.azst_orders_delivery_status
+                            )}
                       </span>
                     </div>
                     <div className="detailHeading col-8 col-md-3">

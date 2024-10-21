@@ -26,8 +26,16 @@ const AddressCard = (props) => {
       swalErr.onLoading();
       // eslint-disable-next-line no-unused-vars
       const response = await axios.post(url, { addressId: id }, { headers });
-      swalErr.onLoadingClose();
-      swalErr.onSuccess();
+      if (response.status === 200) {
+        const updatedAddressList = addressList.map((item) =>
+          item.address_id === id
+            ? { ...item, address_defaultStatus: 1 }
+            : { ...item, address_defaultStatus: 0 }
+        );
+        setAddressList(updatedAddressList);
+        swalErr.onLoadingClose();
+        swalErr.onSuccess("Address has been set as default.");
+      }
     } catch (error) {
       swalErr.onLoadingClose();
       swalErr.onError(error);
@@ -70,6 +78,7 @@ const AddressCard = (props) => {
       }
     });
   };
+
   return (
     <>
       {addressList.map((address) => (
@@ -93,9 +102,9 @@ const AddressCard = (props) => {
             {} {address.address_area}
           </small>
           <small className="d-block">
-            {address.address_city}, {address.address_zipcode}
+            {address.address_address1}, {address.address_zipcode}
           </small>
-          <small>{address.address_state}</small>
+          <small>{address.address_state + " "}</small>
           <small>{address.address_country}</small>
           <p className="addHeadingTxt">Contact Number</p>
           <small>{address.address_mobile}</small>
@@ -114,6 +123,19 @@ const AddressCard = (props) => {
               Make As Default
             </button>
           )}
+
+          {/* {address.is_default ? (
+            <button className="addressStatusBtn" disabled>
+              Default
+            </button>
+          ) : (
+            <button
+              className="addressStatusBtn"
+              onClick={() => makeDefault(address.address_id)}
+            >
+              Make As Default
+            </button>
+          )} */}
         </div>
       ))}
     </>

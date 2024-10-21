@@ -31,17 +31,17 @@ import ReturnsAndRefunds from "./Pages/Copyright/ReturnsAndRefunds";
 import TermsAndCondition from "./Pages/Copyright/TermsAndCondition";
 import SafteyAndSecurity from "./Pages/Copyright/SafteyAndSecurity";
 import ShippingPolicy from "./Pages/Copyright/ShippingPolicy";
-import "bootstrap/dist/css/bootstrap.css";
-import "./App.css";
 import FaqsPage from "./Pages/Components/FaqsPage";
 import AboutUs from "./Pages/AbouUs/AboutUs";
 import BlogsInnerPage from "./Pages/Blogs/BlogsInnerPage";
-import ReviewsAndRatings from "./Pages/UserDashboard/ReviewsAndRatings";
-import EditReview from "./Pages/UserDashboard/EditReview";
+import ReviewsList from "./Pages/UserDashboard/ReviewsAndRatings/ReviewsList";
+import EditReview from "./Pages/UserDashboard/ReviewsAndRatings/EditReview";
 import ContactUs from "./Pages/ContactUs/ContactUs";
 import RequestCb from "./Pages/RequestCallbackPage/RequestCb";
 import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
 import OrderSummary from "./Pages/OrderSummary/OrderSummary";
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
 
 function App() {
   return (
@@ -134,7 +134,7 @@ function App() {
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/reviews-ratings" element={<ReviewsAndRatings />} />
+        <Route path="/reviews-ratings" element={<ReviewsList />} />
         <Route path="/edit-review" element={<EditReview />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/request-callback" element={<RequestCb />} />

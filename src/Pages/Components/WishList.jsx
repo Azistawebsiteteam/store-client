@@ -140,8 +140,8 @@ const WishList = () => {
                 ))}
               </div>
             ) : (
-              <div className="d-flex justify-content-center align-items-center">
-                No Products Found.
+              <div className="d-flex justify-content-center align-items-center h-100">
+                <h6>No Reviews Available</h6>
               </div>
             )}
           </div>

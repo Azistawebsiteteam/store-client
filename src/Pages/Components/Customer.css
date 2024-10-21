@@ -711,7 +711,7 @@ img.gif {
     transition: .5s ease;
     opacity: 0;
     position: absolute;
-    top: 50%;
+    top: 34%;
     left: 50%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
@@ -1419,7 +1419,7 @@ img.emptyCartImg {
 }
 .otherVariantsSec{
     padding: 0 0.8rem;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
 }
 img.cartProductImg {
     width: 5rem;

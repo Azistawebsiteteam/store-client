@@ -1,36 +1,35 @@
 export const handleValidationError = (inputValues) => {
   const validationErrorMessage = {};
-  if (!inputValues.customerFirstName.trim()) {
+  if (!inputValues.customerFirstName) {
     validationErrorMessage["customerFirstName"] = "First name is required";
   }
-  if (!inputValues.customerLastName.trim()) {
+  if (!inputValues.customerLastName) {
     validationErrorMessage.customerLastName = "Last name is required";
   }
-  if (!inputValues.customerMobileNum.trim()) {
+  if (!inputValues.customerMobileNum) {
     validationErrorMessage.customerMobileNum = "Mobile number is required";
   } else if (!/^[6-9]\d{9}$/.test(inputValues.customerMobileNum)) {
     validationErrorMessage.customerMobileNum = "Invalid mobile number";
   }
-  if (!inputValues.customerEmail.trim()) {
+  if (!inputValues.customerEmail) {
     validationErrorMessage.customerEmail = "Email is required";
   }
-  if (!inputValues.housenumber.trim()) {
+  if (!inputValues.housenumber) {
     validationErrorMessage.housenumber = "House number is required";
   }
-  if (!inputValues.district.trim()) {
+  if (!inputValues.district) {
     validationErrorMessage.district = "District is required";
   }
-  if (!inputValues.state.trim()) {
+  if (!inputValues.state) {
     validationErrorMessage.state = "State is required";
   }
-  if (!inputValues.country.trim()) {
+  if (!inputValues.country) {
     validationErrorMessage.country = "Country is required";
   }
-  if (!inputValues.zipCode.trim()) {
+  if (!inputValues.zipCode) {
     validationErrorMessage.zipCode = "Zip code is required";
-  }
-  if (!inputValues.landmark.trim()) {
-    validationErrorMessage.landmark = "Landmark is required";
+  } else if (inputValues.zipCode.length < 6 && inputValues.zipCode) {
+    validationErrorMessage.zipCode = "Invalid zip code";
   }
   if (!inputValues.availableFromTime) {
     validationErrorMessage.availableFromTime =
@@ -39,7 +38,7 @@ export const handleValidationError = (inputValues) => {
   if (!inputValues.availableToTime) {
     validationErrorMessage.availableToTime = "Available To Time is required";
   }
-  if (!inputValues.address1.trim()) {
+  if (!inputValues.address1) {
     validationErrorMessage.address1 = "Address is required";
   }
 
