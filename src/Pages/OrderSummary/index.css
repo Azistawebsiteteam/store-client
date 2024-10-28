@@ -79,7 +79,7 @@ hr.contLine{
     background-color: var(--hover-bg-color);
     width: max-content;
     border-radius: 4rem;
-    color:#fff;
+    color:#fff !important;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,8 +1,15 @@
 .collectionPgBotSec{
-    padding-top: 4rem;
+    padding-top: 1rem;
 }
 .CollectionDetails{
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.collectionDescription{
+    color: #717171;
+    width: 80%;
 }
 .custFormlable{
     margin-bottom: 0 !important;
@@ -12,12 +19,13 @@
 }
 .formSelect{
     border: none !important;
-    padding: 0 4px !important;
+    padding: 0 !important;
     font-weight: 500 !important;
     background-color: transparent !important;
+    font-size: 0.9rem !important
 }
 .CollectionsTabCont {
-    margin: 2% 0 !important;
+    margin: 1% 0 4% 0 !important;
 }
 .css-13cymwt-control{
     border: none !important;
@@ -25,6 +33,12 @@
 }
 .css-1u9des2-indicatorSeparator{
     display: none !important;
+}
+.css-1fdsijx-ValueContainer{
+    padding: 0 2px !important;
+}
+.css-1dimb5e-singleValue{
+    margin-left: 0 !important;
 }
 .css-1xc3v61-indicatorContainer{
     display: none !important;

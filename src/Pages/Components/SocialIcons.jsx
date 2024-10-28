@@ -1,6 +1,6 @@
 import React from "react";
 
-const SocialIcons = () => {
+const SocialIcons = ({ width }) => {
   const imageUrl = process.env.PUBLIC_URL;
 
   return (
@@ -14,6 +14,7 @@ const SocialIcons = () => {
           src={`${imageUrl}/images/facebook.svg`}
           className="social_icon"
           alt="facebook"
+          style={{ width: `${width}rem` }}
         />
       </a>
       <a
@@ -25,6 +26,7 @@ const SocialIcons = () => {
           src={`${imageUrl}/images/instagram.svg`}
           className="social_icon"
           alt="instagram"
+          style={{ width: `${width}rem` }}
         />
       </a>
       <a
@@ -36,6 +38,7 @@ const SocialIcons = () => {
           src={`${imageUrl}/images/twitter.svg`}
           className="social_icon"
           alt="twitter"
+          style={{ width: `${width}rem` }}
         />
       </a>
       <a
@@ -47,6 +50,7 @@ const SocialIcons = () => {
           src={`${imageUrl}/images/youtube.svg`}
           className="social_icon"
           alt="youtube"
+          style={{ width: `${width}rem` }}
         />
       </a>
     </div>

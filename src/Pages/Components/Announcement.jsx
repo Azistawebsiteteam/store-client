@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { TiArrowRight, TiArrowLeft } from "react-icons/ti";
+import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import "./Customer.css";
 import ErrorHandler from "./ErrorHandler";
@@ -69,7 +69,7 @@ const Announcement = () => {
               data-bs-slide="prev"
             >
               <span className="carousel-control-prev-icon" aria-hidden="true">
-                <TiArrowLeft className="announcementArrow" />
+                <HiArrowNarrowLeft className="announcementArrow" />
               </span>
               <span className="visually-hidden">Previous</span>
             </button>
@@ -80,7 +80,7 @@ const Announcement = () => {
               data-bs-slide="next"
             >
               <span className="carousel-control-next-icon" aria-hidden="true">
-                <TiArrowRight className="announcementArrow" />
+                <HiArrowNarrowRight className="announcementArrow" />
               </span>
               <span className="visually-hidden">Next</span>
             </button>

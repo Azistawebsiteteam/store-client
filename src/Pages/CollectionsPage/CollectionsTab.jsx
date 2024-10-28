@@ -34,7 +34,7 @@ const CollectionsTab = (props) => {
 
   return (
     <div className="CollectionsTabCont">
-      <form className="row d-md-flex justify-content-md-center">
+      <form className="row d-md-flex justify-content-md-between">
         <div className="col-4 col-md-2">
           <label htmlFor="inputState" className="custFormlable form-label">
             Filters:
@@ -46,6 +46,7 @@ const CollectionsTab = (props) => {
               backgroundColor: "transparent",
               display: "block",
               fontWeight: "500",
+              fontSize: "0.9rem",
             }}
             onClick={clearFilters}
           >

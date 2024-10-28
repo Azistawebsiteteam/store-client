@@ -59,16 +59,16 @@ const Copyright = () => {
               />
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 d-flex justify-content-center justify-content-md-end align-items-center">
             <small className="copyrightTxt">
-              © 
-              {new Date().getFullYear()}
+              © {new Date().getFullYear()}
               <a
                 href="https://www.azistaindustries.com/"
                 target="_blank"
                 rel="noreferrer"
-                style={{ color: "#fff", textDecoration: "none" }}
+                style={{ color: "#ABABAB", textDecoration: "none" }}
               >
+                {" "}
                 Azista Industries Private Limited.
               </a>
             </small>

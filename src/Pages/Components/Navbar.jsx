@@ -36,7 +36,7 @@ const Navbar = () => {
     stickyRef.current = navbar.offsetTop;
 
     const handleScroll = () => {
-      if (window.scrollY >= stickyRef.current + 20) {
+      if (window.scrollY >= stickyRef.current + 10) {
         navbar.classList.add("position-fixed");
       } else {
         navbar.classList.remove("position-fixed");
@@ -130,7 +130,7 @@ const Navbar = () => {
         <Cart handleCart={handleCart} showCart={showCart} />
         <div className="freeShippingBar">
           <div className="socialIconsCont d-none d-md-block">
-            <SocialIcons />
+            <SocialIcons width={1.3} />
           </div>
           <div className="content">
             {cartTotal > parseInt(150) ? (
@@ -139,7 +139,10 @@ const Navbar = () => {
               <small>Free shipping for orders over Rs. 150.00!</small>
             )}
           </div>
-          <div className="chatbotCont d-none d-md-block">
+          <div
+            className="chatbotCont d-none d-md-block"
+            style={{ cursor: "pointer" }}
+          >
             <small>
               Help or Support
               <img

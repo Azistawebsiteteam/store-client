@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import "./Customer.css";
 import SocialIcons from "./SocialIcons";
 import { Link } from "react-router-dom";
-import { IoArrowForwardCircleSharp } from "react-icons/io5";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
@@ -49,13 +48,17 @@ const moreFromUs = [
 const Footer = () => {
   const [newsletterSubscription, setNewsletterSubscription] = useState("");
   const [newsletterMsg, setNewsletterMsg] = useState("");
-
+  const [error, setError] = useState("");
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
   const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    if (newsletterSubscription === "") {
+      setError("Please enter your email to subscribe.");
+      return;
+    }
     try {
-      e.preventDefault();
       const url = `${baseUrl}/auth/newsletter/subscribe`;
       const response = await axios.post(url, {
         email: newsletterSubscription,
@@ -64,9 +67,12 @@ const Footer = () => {
       ErrorHandler.onLoading();
       if (response.status === 200) {
         setNewsletterMsg("You're now subscribed to our newsletter!");
+        setError("");
       }
+      console.log(response);
       ErrorHandler.onLoadingClose();
     } catch (error) {
+      setError("");
       ErrorHandler.onLoadingClose();
       const message = error.response
         ? error.response.data.message
@@ -74,7 +80,7 @@ const Footer = () => {
       setNewsletterMsg(message);
     }
   };
-
+  console.log(newsletterMsg);
   const handleNewsletterEmail = (e) => {
     setNewsletterSubscription(e.target.value);
     if (e.target.value === "") {
@@ -105,7 +111,7 @@ const Footer = () => {
             </div>
           ))}
           {moreFromUs.map((eachObj, i) => (
-            <div className="col-md-3 d-none d-md-block" key={i}>
+            <div className="col-md-2 d-none d-md-block" key={i}>
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
@@ -116,8 +122,10 @@ const Footer = () => {
               </div>
             </div>
           ))}
-          <div className="col-md-1 verticalLine"></div>
-          <div className="col-md-4">
+          <div className="col-md-1" style={{ width: "5%" }}>
+            <div className="verticalLine"></div>
+          </div>
+          <div className="col-md-5">
             <h4 className="footerEmailText">
               Stay in the loop with our weekly newsletter
             </h4>
@@ -135,66 +143,74 @@ const Footer = () => {
                 className="subscribeBtn"
                 onClick={handleNewsletterSubmit}
               >
-                <IoArrowForwardCircleSharp
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/subscribeBtn.svg`}
+                  alt="subscribeBtn"
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                    bottom: "0",
+                    width: "54px",
+                    padding: "4px",
+                  }}
+                />
+                {/* <IoArrowForwardCircleSharp
                   style={{
                     fontSize: "3rem",
                     position: "absolute",
                     top: "0",
                     right: "0",
                   }}
-                />
+                /> */}
               </button>
             </form>
             <small className="text-light text-capitalize">
-              {newsletterMsg}
+              {error ? error : newsletterMsg}
             </small>
           </div>
         </div>
         <div className="supportSec">
           <div className="row">
-            <div className="col-md-8 supportSecInfo">
-              <small style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}>
+            <div className="col-md-7 supportSecInfo">
+              <small
+                style={{
+                  color: "rgb(255, 255, 255)",
+                  fontSize: "1rem",
+                  fontWeight: "200",
+                }}
+              >
                 Support or Help
               </small>
-              <p style={{ color: "#fff", marginTop: "0.2rem" }}>
+              <p
+                style={{ color: "#fff", marginTop: "0.1rem" }}
+                className="supportSecCont"
+              >
                 <img
                   src={`${imageUrl}/images/email.svg`}
-                  className="social_icon"
+                  className="supportSecIcon"
                   alt="email"
                 />
                 <a
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    fontize: "1.4rem",
-                    fontWeight: "200",
-                  }}
+                  className="supportDetails"
                   href="mailto:ecommerce@azistaindustries.com"
                 >
                   ecommerce@azistaindustries.com
                 </a>
               </p>
-              <p style={{ color: "#fff" }}>
+              <p style={{ color: "#fff" }} className="supportSecCont">
                 <img
                   src={`${imageUrl}/images/phone.svg`}
-                  className="social_icon"
+                  className="supportSecIcon"
                   alt="phone"
                 />
-                <a
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    fontize: "1.4rem",
-                    fontWeight: "200",
-                  }}
-                  href="tel:1800 102 0576"
-                >
+                <a className="supportDetails" href="tel:1800 102 0576">
                   1800 102 0576
                 </a>
               </p>
             </div>
-            <div className="col-md-4">
-              <SocialIcons />
+            <div className="col-md-5">
+              <SocialIcons width={1.4} />
             </div>
           </div>
         </div>

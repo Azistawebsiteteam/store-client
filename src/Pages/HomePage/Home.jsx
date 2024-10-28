@@ -106,18 +106,18 @@ const Home = () => {
   return (
     <>
       <ScrollToTop />
-      <div className="bottomSec">
+      <div className="bottomSec" style={{ marginTop: "0" }}>
         <div className="home">
           <CarouselItem />
           {Object.keys(popupData).length > 0 && <Popup popupData={popupData} />}
           <UserRegistrationPopup />
           {collections.length > 0 && (
-            <div className="container multiCollections mt-md-4">
+            <div className="container multiCollections mt-md-5">
               <MultiCollections items={collections} />
             </div>
           )}
           {bestSellers.length > 0 && (
-            <div className="container bestSellers d-none d-md-block">
+            <div className="container bestSellers d-none d-md-block mt-md-5">
               <ProductSlider
                 title={"Best Sellers"}
                 type={"bestSellers"}
@@ -126,7 +126,7 @@ const Home = () => {
             </div>
           )}
           {categories.length > 0 && (
-            <div className="container bestSellers">
+            <div className="container bestSellers mt-md-5">
               <div className="ctn">
                 <a href="#" id="categories">
                   &nbsp;
@@ -136,7 +136,7 @@ const Home = () => {
               <Categories categories={categories} breakpoint={2} />
             </div>
           )}
-          <div className="container productBanner">
+          <div className="container productBanner mt-md-5">
             <div className="mt-4 mb-4">
               <div className="productBannerCont">
                 <BannerImages productBanners={productBanners} />
@@ -144,7 +144,7 @@ const Home = () => {
             </div>
           </div>
           {brandsItems.length > 0 && (
-            <div className="container brandsSec d-none d-md-block">
+            <div className="container brandsSec d-none d-md-block mt-md-5">
               <div className="brands">
                 <div className="ctn">
                   <a href="#" id="brands">
@@ -158,7 +158,7 @@ const Home = () => {
           )}
 
           {shop99Data.length > 0 && (
-            <div className="container shop99 d-none d-md-block">
+            <div className="container shop99 d-none d-md-block mt-md-5">
               <div className="ctn">
                 <a href="" id="shop99">
                   &nbsp;
@@ -172,7 +172,7 @@ const Home = () => {
             </div>
           )}
 
-          <div className="custSatisfiedSecTop">
+          <div className="custSatisfiedSecTop mt-md-5">
             <div className="container">
               <h4 className="text-center mb-5">
                 Satisfied customers, happy shopping!
@@ -214,7 +214,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="custSatisfiedSec">
+          <div className="custSatisfiedSec mt-md-5">
             <h5 className="text-center text-light">
               Satisfied customers, happy shopping!
             </h5>

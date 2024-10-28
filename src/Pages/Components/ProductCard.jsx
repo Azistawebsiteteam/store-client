@@ -55,13 +55,7 @@ const ProductCard = ({ items }) => {
                 />
               </div>
               <div className="productPrice">
-                <span
-                  style={{
-                    textDecoration: "line-through",
-                    color: "rgba(40, 40, 40, 0.7)",
-                  }}
-                  className="me-2"
-                >
+                <span style={{}} className="me-2 comparedPrice">
                   {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
                   {each.compare_at_price}
                 </span>

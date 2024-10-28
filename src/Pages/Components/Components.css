@@ -195,11 +195,6 @@
     margin-top: 4px;
     margin-bottom: 0.6px !important;
 }
-.comparedPrice{
-    text-decoration: line-through;
-    color: red;
-    margin-left: 4px;
-}
 
 .addToCartHandle{
     border: none;
