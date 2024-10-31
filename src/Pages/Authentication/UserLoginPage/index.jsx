@@ -29,7 +29,7 @@ const UserLoginPage = () => {
     if (jwt) {
       navigate("/");
     }
-  });
+  }, [jwt_token, navigate]);
 
   const handleOnChangeInput = (e) => {
     setInputValues({
@@ -103,6 +103,7 @@ const UserLoginPage = () => {
               id="mailOrMobile"
               value={inputValues.mailOrMobile}
               onChange={handleOnChangeInput}
+              maxLength={50}
             />
           </div>
           <div className="form-group passwordField">
@@ -127,6 +128,7 @@ const UserLoginPage = () => {
               id="password"
               value={inputValues.password}
               onChange={handleOnChangeInput}
+              maxLength={50}
             />
             <small>
               <Link to="/forgot-password" className="linkBtn">
@@ -148,11 +150,16 @@ const UserLoginPage = () => {
             value="Sign In"
           />
         </form>
-        <hr />
-        <p className="text-center" style={{ color: "#858585" }}>
+        <div className="d-flex justify-content-center">
+          <hr className="custLine" />
+        </div>
+        <p
+          className="text-center"
+          style={{ color: "#858585", fontSize: "0.9rem" }}
+        >
           New to Azista Store
         </p>
-        <Link className="signinBtn secBtn linkBtn" to="/registration">
+        <Link className="signinBtn secBtn" to="/registration">
           Sign Up
         </Link>
       </div>

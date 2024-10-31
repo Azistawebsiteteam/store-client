@@ -39,6 +39,8 @@ const options = [
   },
 ];
 
+const DropdownIndicator = () => null;
+
 const CustomStarRatingFilter = ({ handleStarRating, starRating }) => {
   return (
     <div className="col-6 col-md-2">
@@ -48,10 +50,17 @@ const CustomStarRatingFilter = ({ handleStarRating, starRating }) => {
       <Select
         id="ratings"
         className="form-select formSelect"
-        style={{ border: "none" }}
+        styles={{
+          control: (provided, state) => ({
+            ...provided,
+            boxShadow: state.isFocused ? "none" : provided.boxShadow,
+            border: "none",
+          }),
+        }}
         onChange={(selectedOption) => handleStarRating(selectedOption.value)}
         value={options.find((option) => option.value === starRating)}
         options={options}
+        components={{ DropdownIndicator }}
       />
     </div>
   );

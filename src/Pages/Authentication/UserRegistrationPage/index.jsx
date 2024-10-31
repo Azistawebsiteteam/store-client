@@ -48,7 +48,7 @@ const UserRegistrationPage = () => {
       ErrorHandler.onLoadingClose();
     } catch (error) {
       ErrorHandler.onLoadingClose();
-      ErrorHandler.onError(error);
+      setError(ErrorHandler.errMsg(error));
     }
   };
 
@@ -98,6 +98,7 @@ const UserRegistrationPage = () => {
               id="customerFullName"
               value={inputValues.customerFullName}
               onChange={handleOnChangeInput}
+              maxLength={50}
             />
           </div>
           <div className="form-group">
@@ -110,10 +111,16 @@ const UserRegistrationPage = () => {
               id="customerMailOrMobileNum"
               value={inputValues.customerMailOrMobileNum}
               onChange={handleOnChangeInput}
+              maxLength={100}
             />
           </div>
           {requestOtpError && (
-            <span className="text-danger d-block">{requestOtpError}</span>
+            <span
+              className="text-danger d-block mt-1"
+              style={{ fontSize: "1rem" }}
+            >
+              {requestOtpError}
+            </span>
           )}
           {!inputValues.requestOtp && (
             <input
@@ -148,11 +155,16 @@ const UserRegistrationPage = () => {
             />
           </div>
         )}
-        <hr />
-        <p className="text-center" style={{ color: "#858585" }}>
+        <div className="d-flex justify-content-center">
+          <hr className="custLine" />
+        </div>
+        <p
+          className="text-center"
+          style={{ color: "#858585", fontSize: "0.9rem" }}
+        >
           Already have an account?
         </p>
-        <Link className="signinBtn secBtn linkBtn" to="/login">
+        <Link className="signinBtn secBtn" to="/login">
           Sign In
         </Link>
       </div>

@@ -35,18 +35,6 @@ const ThreeDotsDropdown = ({ reviewId, productReviews }) => {
     setAnchorEl(null);
   };
 
-  // const editReview = () => {
-  //   return (
-  //     <>
-  //       <MyVerticallyCenteredModal
-  //         show={modalShow}
-  //         onHide={() => setModalShow(false)}
-  //         reviewDetails={reviewDetails}
-  //       />
-  //     </>
-  //   );
-  // };
-
   const deleteReview = async () => {
     try {
       const url = `${baseUrl}/reviews/delete/review`;

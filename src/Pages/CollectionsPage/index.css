@@ -10,16 +10,18 @@
 .collectionDescription{
     color: #717171;
     width: 80%;
+    font-size: 1rem;
 }
 .custFormlable{
     margin-bottom: 0 !important;
     color: #747474 !important;
     font-size: 14px;
     font-weight: 500;
+    margin-left: 0.8rem;
 }
 .formSelect{
+    padding: 4px 2.25rem .375rem .75rem !important;
     border: none !important;
-    padding: 0 !important;
     font-weight: 500 !important;
     background-color: transparent !important;
     font-size: 0.9rem !important
@@ -29,13 +31,41 @@
 }
 .css-13cymwt-control{
     border: none !important;
-    background-color: transparent !important;;
+    background-color: transparent !important;
+    width: 11rem;
+}
+.css-t3ipsp-control:focus{
+        outline: none;
+        box-shadow: none; 
+}
+.formSelect .css-1s2u09g-control {
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+.css-19eo3mx-control{
+    background-color: #f9f9fc !important;
+}
+
+.formSelect .css-1s2u09g-control:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 .css-1u9des2-indicatorSeparator{
     display: none !important;
 }
+.css-19eo3mx-control{
+    width: 8rem !important;
+}
+.css-1a9d28t-control{
+    background-color: #f9f9fc !important;
+}
+.css-1nmdiq5-menu{
+    border-radius: 8px !important;
+}
 .css-1fdsijx-ValueContainer{
     padding: 0 2px !important;
+    background-color: #f9f9fc !important;
 }
 .css-1dimb5e-singleValue{
     margin-left: 0 !important;

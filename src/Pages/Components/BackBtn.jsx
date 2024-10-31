@@ -1,13 +1,13 @@
 import React from "react";
-import { MdOutlineArrowBack } from "react-icons/md";
+import { FiArrowLeft } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const BackBtn = () => {
   const navigate = useNavigate();
   return (
     <>
-      <MdOutlineArrowBack
-        width="1.4em"
+      <FiArrowLeft
+        size={20}
         style={{ cursor: "pointer" }}
         onClick={() => navigate(-1)}
       />

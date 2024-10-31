@@ -48,6 +48,10 @@ button.dropdown-toggle.custDropdown {
 .detailHeading>span{
     font-size: 0.9rem;
 }
+.detailHeading .value {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
 .orderedProductInfo span{
     font-size: 0.9rem;
 }
@@ -75,14 +79,14 @@ button.dropdown-toggle.custDropdown {
 }
 .nav-tabs .nav-link{
     border: none !important; 
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important;
     color:#878787!important;
+    font-weight: 600 !important;
+    font-family: outfit;
 }
 .nav-tabs .nav-link.active{
-    border: none !important; 
     background-color: transparent !important;
     border-bottom: 4px solid var(--hover-bg-color) !important;
-    font-size: 1.2rem !important;
     color: var(--hover-bg-color) !important;
 }
 li.addressTab {
@@ -168,6 +172,11 @@ li.addressTab {
 .rejectedCircle{
     background-color: red;
 }
+.reviewTxt{
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+}
+
 @media screen and (max-width:768px) {
     .ordersCont{
         width: 100%;

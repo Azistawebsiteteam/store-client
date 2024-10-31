@@ -3,14 +3,27 @@
 }
 .custNav{
     border: none !important;
+    margin-top: 3rem;
+}
+li.sideNavItem {
+    margin: 0 !important;
+}
+img.sidenav-img {
+    width: 17px;
 }
 .sideBar {
     background-color: #fff;
     padding: 3% 3%;
     min-width: 26%;
 }
+.sideNavlink{
+    color: #878787 !important;
+    font-family: outfit !important;
+    font-size: 1rem !important;
+    padding: 0.4rem 0.6rem !important;
+}
 .myAccount_right_sec {
-    padding: 4% 3%;
+    padding: 3% 3%;
     width: 70%;
 }
 .myAccInnerSec{
@@ -21,10 +34,11 @@
     height: 100%;
     max-width: 84%;
 }
-small.details {
-    font-weight: 600;
+span.details {
+    font-weight: 500;
     padding-left: 30px;
     font-size: 17px;
+    color: #1E0405;
 }
 .icon-red {
     color: red;
@@ -64,12 +78,23 @@ small.details {
 .form-check-input:focus {
     box-shadow: unset !important;
 }
-
+.billingAddressCont {
+    margin-top: 4rem;
+}
 .billingAdd{
-    box-shadow:rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     padding: 1rem;
     border-radius: 10px;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
+    border: 1px solid #e1e1e1;
+    width: 20rem;
+}
+address {
+    margin-top: 1rem;
+    font-style: normal;
+    line-height: inherit;
+    font-family: 'Outfit';
+    font-weight: 500;
+    font-size: 0.9rem;
 }
 .activeBar{
     color: var(--hover-bg-color) !important;
@@ -85,7 +110,7 @@ small.details {
         display: none !important;
     }
     .myAccount_right_sec {
-        padding: 8% 8% !important;
+        padding: 16% 8% !important;
         width: 100% !important;
     }
     .myAccInnerSec {
@@ -93,5 +118,8 @@ small.details {
     }
     .commonBtn {
         width: 30% !important;
+    }
+    .billingAdd{
+        width: 18rem !important;
     }
 }

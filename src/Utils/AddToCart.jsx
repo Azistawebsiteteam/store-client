@@ -10,7 +10,11 @@ const AddToCart = (props) => {
     <>
       <button
         className="linkBtn beforeHover"
-        style={{ border: "none" }}
+        style={{
+          border: "none",
+          backgroundColor: "rgba(0, 128, 96, 1)",
+          color: "#fff",
+        }}
         onClick={() =>
           handleAddtoCart(userDetails.azst_customer_id, props, updateCartData)
         }

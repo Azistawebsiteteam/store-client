@@ -53,7 +53,7 @@ const ManageAddress = () => {
       <div className="d-flex">
         <SideBar />
         <div className="myAccount_right_sec">
-          <div className="d-flex flex-column flex-md-row justify-content-md-between">
+          <div className="d-flex flex-column flex-md-row justify-content-md-between mb-4">
             <h5>Delivery Address Book</h5>
             <Link
               to="/new-address"
@@ -68,7 +68,7 @@ const ManageAddress = () => {
               Add New Address
             </Link>
           </div>
-          <div className="addressCont">{addAddress()}</div>
+          <div className="row">{addAddress()}</div>
         </div>
       </div>
     </div>

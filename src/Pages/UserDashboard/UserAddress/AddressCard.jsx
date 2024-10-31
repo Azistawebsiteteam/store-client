@@ -2,12 +2,11 @@ import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-
-import { MdModeEditOutline } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import swalErr from "../../Components/ErrorHandler";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./UserAddress.css";
+import { grey } from "@mui/material/colors";
 
 const AddressCard = (props) => {
   const { addressList, setAddressList } = props;
@@ -82,49 +81,66 @@ const AddressCard = (props) => {
   return (
     <>
       {addressList.map((address) => (
-        <div key={address.address_id} className="identityDetails billingAdd">
-          <div className="topAddressSec d-flex justify-content-between align-items-center">
-            <p className="addHeadingTxt">{address.address_first_name}</p>
-            <div className="options">
-              <Link to={`/update-address/${address.address_id}`}>
-                {<MdModeEditOutline />}
-              </Link>
-              <button
-                className="addressDltBtn"
-                onClick={(e) => deleteAddress(address.address_id)}
-              >
-                {<MdDelete />}
-              </button>
+        <div className="col-10 m-auto m-md-0 col-md-4" key={address.address_id}>
+          <div className="addressBook">
+            <div className="topAddressSec d-flex justify-content-between align-items-center">
+              <small className="addHeadingTxt">
+                {address.address_first_name}
+              </small>
+              <div className="dropdown">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{ border: "none", backgroundColor: "transparent" }}
+                >
+                  <MoreVertIcon fill={grey} />
+                </button>
+                <ul
+                  className="dropdown-menu addressDropdownMenu"
+                  aria-labelledby="dropdownMenuButton1"
+                >
+                  <li>
+                    <Link
+                      className="AddDropdownBtn"
+                      to={`/update-address/${address.address_id}`}
+                    >
+                      Edit
+                    </Link>
+                  </li>
+                  <li onClick={(e) => deleteAddress(address.address_id)}>
+                    <span className="AddDropdownBtn">Delete</span>
+                  </li>
+                  <li onClick={(event) => makeDefault(address.address_id)}>
+                    <span className="AddDropdownBtn">Make as default</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <small>
-            {address.address_house_no}
-            {} {address.address_area}
-          </small>
-          <small className="d-block">
-            {address.address_address1}, {address.address_zipcode}
-          </small>
-          <small>{address.address_state + " "}</small>
-          <small>{address.address_country}</small>
-          <p className="addHeadingTxt">Contact Number</p>
-          <small>{address.address_mobile}</small>
-          {address.address_defaultStatus === 1 ? (
-            <button
-              className="addressStatusBtn"
-              onClick={(event) => makeDefault(address.address_id)}
-            >
-              Default
-            </button>
-          ) : (
-            <button
-              className="addressStatusBtn"
-              onClick={(event) => makeDefault(address.address_id)}
-            >
-              Make As Default
-            </button>
-          )}
+            <div style={{ lineHeight: "16px" }}>
+              <small>
+                {address.address_house_no}
+                {} {address.address_area}
+              </small>
+              <small className="d-block">
+                {address.address_address1}, {address.address_zipcode}
+              </small>
+              <small>{address.address_state + " "}</small>
+              <small>{address.address_country}</small>
+            </div>
+            <div>
+              <small className="addHeadingTxt d-block mb-0">
+                Contact Number
+              </small>
+              <small>{address.address_mobile}</small>
+            </div>
+            {address.address_defaultStatus === 1 && (
+              <span className="addressStatusBtn">Default</span>
+            )}
 
-          {/* {address.is_default ? (
+            {/* {address.is_default ? (
             <button className="addressStatusBtn" disabled>
               Default
             </button>
@@ -136,6 +152,7 @@ const AddressCard = (props) => {
               Make As Default
             </button>
           )} */}
+          </div>
         </div>
       ))}
     </>

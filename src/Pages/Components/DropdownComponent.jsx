@@ -1,19 +1,39 @@
 import React from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+import { Link } from "react-router-dom";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 const DropdownComponent = () => {
   return (
-    <Dropdown>
-      <Dropdown.Toggle variant="none" id="dropdown-basic">
+    <li className="nav-item m-0 dropdown">
+      <a
+        className="nav-link dropdown-toggle mt-0"
+        href="shobby"
+        id="navbarDropdown"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
         All Orders
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+        <MdOutlineKeyboardArrowDown size={20} />
+      </a>
+      <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li>
+          <Link className="dropdown-item" to="Action">
+            Action
+          </Link>
+        </li>
+        <li>
+          <Link className="dropdown-item" to="Action">
+            Another action
+          </Link>
+        </li>
+        <li>
+          <Link className="dropdown-item" to="Action">
+            Something else here
+          </Link>
+        </li>
+      </ul>
+    </li>
   );
 };
 

@@ -173,9 +173,12 @@ const EditProfile = () => {
       <div className="d-flex">
         <SideBar />
         <div className="myAccount_right_sec">
-          <div className="d-flex align-items-center">
+          <div className="mb-4">
             <BackBtn className="me-3" />
-            <h4>Profile Details</h4>
+            <h5 className="mb-0">Billing Address</h5>
+            <small style={{ color: "#747474", fontWeight: "600" }}>
+              Profile &lt; Billing Address
+            </small>
           </div>
           <div className="myAccInnerSec">
             <form

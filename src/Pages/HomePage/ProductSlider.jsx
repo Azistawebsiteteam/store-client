@@ -47,8 +47,8 @@ const productSlider = ({ title, items }) => {
     infinite: items.length > 1, // Make infinite scrolling only if more than 1 item
     slidesToShow: items.length > 4 ? 5 : items.length, // Default for desktop view, handle when only 1 item
     slidesToScroll: 1,
-    autoplay: items.length > 1, // Enable autoplay only if more than 1 item
-    speed: 2000, // Adjust this for faster slide transitions (lower value = faster)
+    autoplay: false, // Enable autoplay only if more than 1 item
+    speed: 500, // Adjust this for faster slide transitions (lower value = faster)
     autoplaySpeed: 1000, // Time in milliseconds between each autoplay slide
     nextArrow: items.length > 1 ? <SampleNextArrow /> : null, // Show arrows only if more than 1 item
     prevArrow: items.length > 1 ? <SamplePrevArrow /> : null, // Show arrows only if more than 1 item
@@ -161,6 +161,9 @@ const productSlider = ({ title, items }) => {
                   className="linkBtn beforeHover"
                 >
                   View Details
+                </Link>
+                <Link to="" className="linkBtn tertiaryBtn">
+                  Add to Favourite
                 </Link>
               </div>
             </div>

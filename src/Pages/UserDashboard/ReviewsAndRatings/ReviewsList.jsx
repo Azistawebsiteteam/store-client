@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Rating from "@mui/material/Rating";
 import SideBar from "../UserProfile/SideBar";
-
+// import moment from "moment";
 import { searchResultContext } from "../../../ReactContext/SearchResults";
 import axios from "axios";
 import ThreeDotsDropdown from "../../Components/ThreeDotsDropdown";
+import "../index.css";
 
 const ReviewsList = () => {
   const [reviews, setReviews] = useState([]);
@@ -25,12 +26,16 @@ const ReviewsList = () => {
     userReviews();
   }, [userDetails, baseUrl, jwtToken]);
 
+  // const date = (createDate) => {
+  //   return moment(createDate).format("YYYY-MM-DD");
+  // };
+
   return (
     <div className="bottomSec">
       <div className="d-flex">
         <SideBar />
         <div className="myAccount_right_sec">
-          <h5>Reviews & Ratings</h5>
+          <h5 style={{ fontFamily: "outfit" }}>Reviews & Ratings</h5>
           {reviews.length !== 0 ? (
             reviews.map((review, i) => (
               <div
@@ -50,12 +55,10 @@ const ReviewsList = () => {
                       alt="productImage"
                     />
                   }
-                  <small>
-                    <strong>
-                      Reviewed on
-                      <br />
-                      {review.created_on}
-                    </strong>
+                  <small style={{ fontWeight: "500" }}>
+                    Reviewed on
+                    <br />
+                    {review.created_on}
                   </small>
                   <div className="dropdownMenuCont">
                     <ThreeDotsDropdown reviewId={review.review_id} />
@@ -67,10 +70,8 @@ const ReviewsList = () => {
                   precision={0.5}
                   readOnly
                 />
-                <small>
-                  <strong>{review.review_title}</strong>
-                </small>
-                <small>{review.review_content}</small>
+                <span style={{ fontWeight: "500" }}>{review.review_title}</span>
+                <small className="truncate">{review.review_content}</small>
               </div>
             ))
           ) : (

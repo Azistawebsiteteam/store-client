@@ -87,6 +87,8 @@ const ManageOrders = () => {
     return () => clearTimeout(debounceRef.current);
   }, [searchTerm, orders]);
 
+  console.log(orders);
+
   return (
     <>
       <ScrollToTop />
@@ -94,7 +96,7 @@ const ManageOrders = () => {
         <div className="d-flex">
           <SideBar />
           <div className="ordersCont">
-            <h5>Orders</h5>
+            <h5 style={{ fontFamily: "outFit" }}>Orders</h5>
             <div
               className="d-flex justify-content-md-between align-items-center"
               style={{ borderBottom: "1px solid #D6D6D6", paddingBottom: "1%" }}
@@ -143,7 +145,7 @@ const ManageOrders = () => {
                       <span className="d-block" style={{ color: "#858585" }}>
                         Order Placed on
                       </span>
-                      <span>
+                      <span className="value">
                         {moment(order.azst_orders_created_on).format(
                           "DD MMM, YYYY"
                         )}
@@ -153,7 +155,7 @@ const ManageOrders = () => {
                       <span className="d-block" style={{ color: "#858585" }}>
                         Status
                       </span>
-                      <span>
+                      <span className="value">
                         {order.azst_orders_status === 0
                           ? "Cancelled"
                           : orderStatusValue(
@@ -166,13 +168,15 @@ const ManageOrders = () => {
                       <span className="d-block" style={{ color: "#858585" }}>
                         Order ID
                       </span>
-                      <span>{order.azst_order_id}</span>
+                      <span className="value">{order.azst_order_id}</span>
                     </div>
                     <div className="detailHeading col-4 col-md-3">
                       <span className="d-block" style={{ color: "#858585" }}>
                         Order Value
                       </span>
-                      <span>Rs.{order.azst_orders_total}</span>
+                      <span className="value">
+                        Rs.{order.azst_orders_total}
+                      </span>
                     </div>
                   </div>
                   <div className="orderDetailsBotSec">
@@ -217,11 +221,23 @@ const ManageOrders = () => {
                       >
                         Order Details
                       </Link>
-                      <Link className="orderedProductBtn">Write a Review</Link>
-                      <button className="orderedProductBtn">Reorder</button>
-                      <button className="orderedProductBtn">
-                        Return or Replace
-                      </button>
+                      {orders.azst_orders_delivery_status === 1 && (
+                        <Link className="orderedProductBtn">
+                          Write a Review
+                        </Link>
+                      )}
+                      {orders.azst_orders_delivery_status === 1 ? (
+                        <button className="orderedProductBtn">Reorder</button>
+                      ) : (
+                        <button className="orderedProductBtn">
+                          Cancel order
+                        </button>
+                      )}
+                      {orders.azst_orders_delivery_status === 1 && (
+                        <button className="orderedProductBtn">
+                          Return or Replace
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

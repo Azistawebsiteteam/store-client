@@ -82,6 +82,9 @@ const ProductCard = ({ items }) => {
               >
                 View Details
               </Link>
+              <Link to="" className="linkBtn tertiaryBtn">
+                Add to Favourite
+              </Link>
             </div>
           </div>
         </div>

@@ -36,7 +36,7 @@ const CollectionsTab = (props) => {
     <div className="CollectionsTabCont">
       <form className="row d-md-flex justify-content-md-between">
         <div className="col-4 col-md-2">
-          <label htmlFor="inputState" className="custFormlable form-label">
+          <label htmlFor="inputState" className="custFormlable form-label ms-0">
             Filters:
           </label>
           <button

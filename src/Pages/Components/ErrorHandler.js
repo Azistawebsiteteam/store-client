@@ -33,4 +33,7 @@ const onError = (error) => {
   });
 };
 
-export default { onError, onSuccess, onLoading, onLoadingClose };
+const errMsg = (error) =>
+  error.response ? error.response.data.message : error.message;
+
+export default { onError, onSuccess, onLoading, onLoadingClose, errMsg };

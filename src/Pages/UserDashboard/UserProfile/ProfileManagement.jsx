@@ -1,16 +1,12 @@
 import React, { useContext } from "react";
 import { MdModeEditOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-
 import { searchResultContext } from "../../../ReactContext/SearchResults";
-
 import SideBar from "./SideBar";
-// import ManageAddress from "../UserAddress/ManageAddress";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 
 const ProfileManagement = () => {
   const { userDetails } = useContext(searchResultContext);
-
   return (
     <>
       <ScrollToTop />
@@ -19,62 +15,101 @@ const ProfileManagement = () => {
           <SideBar />
           <div className="myAccount_right_sec">
             <div className="myAccInnerSec">
-              <div className="d-flex flex-column">
-                <div className="d-flex justify-content-between">
-                  <h5>Profile Details</h5>
-                  <div>
-                    <Link to="/edit-profile">
-                      <button
-                        style={{
-                          border: "none",
-                          backgroundColor: "transparent",
-                        }}
-                      >
-                        {<MdModeEditOutline style={{ fontSize: "22px" }} />}
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    Name :
-                    <small className="details">
-                      {userDetails.azst_customer_name}
-                    </small>
+              <div className="addressCont">
+                <div className="d-flex flex-column">
+                  <div className="d-flex justify-content-between mb-4">
+                    <h5 style={{ fontFamily: "outFit" }}>Profile Details</h5>
+                    <div>
+                      <Link to="/edit-profile">
+                        <button
+                          style={{
+                            border: "none",
+                            backgroundColor: "transparent",
+                          }}
+                        >
+                          {<MdModeEditOutline style={{ fontSize: "22px" }} />}
+                        </button>
+                      </Link>
+                    </div>
                   </div>
                   <div>
-                    Email :
-                    <small className="details">
-                      {userDetails.azst_customer_email}
-                    </small>
-                  </div>
-                  <div>
-                    Contact :
-                    <small className="details">
-                      {userDetails.azst_customer_mobile}
-                    </small>
+                    <div
+                      style={{
+                        color: "#878787",
+                        fontWeight: "500",
+                        marginBottom: "0.6rem",
+                      }}
+                    >
+                      Name :
+                      <span className="details">
+                        {userDetails.azst_customer_name}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        color: "#878787",
+                        fontWeight: "500",
+                        marginBottom: "0.6rem",
+                      }}
+                    >
+                      Email :
+                      <span className="details">
+                        {userDetails.azst_customer_email}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        color: "#878787",
+                        fontWeight: "500",
+                        marginBottom: "0.6rem",
+                      }}
+                    >
+                      Contact :
+                      <span className="details">
+                        {userDetails.azst_customer_mobile}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="d-flex flex-column billingAdd">
-                <h5>Billing Address</h5>
-                <div>
-                  Name :
-                  <small className="details">
-                    {userDetails.azst_customer_name}
-                  </small>
-                </div>
-                <div>
-                  Email :
-                  <small className="details">
-                    {userDetails.azst_customer_email}
-                  </small>
-                </div>
-                <div>
-                  Contact :
-                  <small className="details">
-                    {userDetails.azst_customer_mobile}
-                  </small>
+              <div className="billingAddressCont">
+                <div className="d-flex flex-column">
+                  <div className="d-flex justify-content-between mb-4">
+                    <h5 style={{ fontFamily: "outFit" }}>Billing Address</h5>
+                  </div>
+                  <div className="billingAdd">
+                    <div className="d-flex justify-content-between mb-4">
+                      <span style={{ fontWeight: "500" }}>
+                        {userDetails.azst_customer_name}
+                      </span>
+                      <div>
+                        <Link to="/edit-profile">
+                          <button
+                            style={{
+                              border: "none",
+                              backgroundColor: "transparent",
+                            }}
+                          >
+                            {<MdModeEditOutline style={{ fontSize: "22px" }} />}
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                    <address>
+                      {userDetails.azst_customer_hno}{" "}
+                      {userDetails.azst_customer_address1}
+                      <br />
+                      {userDetails.azst_customer_district}
+                      {" - "}
+                      {userDetails.azst_customer_zip}
+                      <br />
+                      {userDetails.azst_customer_state}
+                      {", "}
+                      {userDetails.azst_customer_country}
+                      <br />
+                      {`Phone number: ${userDetails.azst_customer_mobile}`}
+                    </address>
+                  </div>
                 </div>
               </div>
             </div>

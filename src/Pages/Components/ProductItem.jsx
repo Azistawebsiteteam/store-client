@@ -20,6 +20,7 @@ import { RxCaretRight, RxCaretLeft } from "react-icons/rx";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import { handleAddtoCart } from "../Cart/Functions";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import { TiArrowRight } from "react-icons/ti";
 import Faqs from "./Faqs";
 import ErrorHandler from "./ErrorHandler";
 
@@ -777,12 +778,19 @@ const ProductItem = () => {
 
                         {/* {isContentOverflowing && ( */}
                         <button
-                          className="btn btn-secondary displayBtn mt-1"
+                          className="mt-1"
+                          style={{
+                            border: "none",
+                            backgroundColor: "transparent",
+                            color: "#008060",
+                            fontWeight: "500",
+                            cursor: "pointer",
+                          }}
                           onClick={() => setReadMoreContent(!readMoreContent)}
                         >
                           {readMoreContent ? "Read Less" : "Read More"}
+                          <TiArrowRight />
                         </button>
-                        {/* )} */}
                       </div>
                     ))}
                   </div>

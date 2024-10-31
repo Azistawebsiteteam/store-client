@@ -25,13 +25,13 @@ h3,.h3 {
 }
 h4,.h4 {
     font-family: var(--sec-fontfamily);
-    font-size: 2rem !important;
+    font-size: 1.8rem !important;
     font-weight: 600 !important;
 }
 h5,.h5 {
     font-family: var(--primary-fontfamily);
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
 }
 h6,.h6 {
     font-family: var(--primary-fontfamily);
@@ -56,7 +56,7 @@ small, .small {
   background: #ffffff;
   border: none;
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background: #000000;
   width: 1rem;
@@ -74,7 +74,6 @@ small, .small {
   border: 1px solid #000;
 }
  
-
 /* headerSec */ 
 
 .headerSec {
@@ -88,19 +87,26 @@ small, .small {
 /* shippingBar */
 
 .freeShippingBar {
-    position: sticky;
-    top: 0;
     width: 100%;
     text-align: center;
-    padding: 0.4rem 2rem;
+    padding: 0.6rem 2rem;
     background-color: black !important;
     display: flex;
     justify-content: space-between;
 }
-.announcements {
-    position: sticky;
+.stickyHeader {
+    position: relative;
+    transition: top 0.3s ease-in-out;
+    max-height: 7rem;
+  }
+  
+  .stickyHeader.fixed {
+    position: fixed;
     top: 0;
-}
+    left: 0;
+    width: 100%;
+    z-index: 5; /* Adjust z-index as needed */
+  }
 .content small{
     color: #fff;
 }
@@ -142,7 +148,7 @@ small, .small {
 /* announcementBar */
 
 .AnnouncementSlider {
-     min-height: 3.6rem;
+     min-height: 4.4rem;
      text-align: center;
      background-image: url('../../../public/images/announcementBg.png');
      width: 100%;
@@ -151,7 +157,7 @@ small, .small {
 } 
 .announcementSlideBtns {
     height: 2rem !important;
-    top: 0.4rem !important;
+    top: 0.5rem !important;
 }
 
 .carousel-control-prev, .carousel-control-next {
@@ -166,7 +172,7 @@ svg.announcementArrow {
 }
 
 span.announcement-text {
-    padding: 0.6rem 0;
+    padding: 0.7rem 0;
     display: inline-block;
     font-size: 0.9rem;
 }
@@ -185,13 +191,17 @@ span.announcement-text {
 
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     width: 100%;
-    transition: all 5s ease-in-out;
-    border-top-left-radius: 1.6rem;
-    border-top-right-radius: 1.6rem;
-    top: -16px;
-    padding: 1.1rem 0 0.6rem 0;
+    border-top-left-radius: 36px;
+    border-top-right-radius: 36px;
+    top: -1.6rem;
+    padding: 0.6rem 0;
 }
-
+.dropdown-toggle::after {
+    display: none !important;
+}
+.dropdown-toggle:focus{
+    box-shadow: none !important;
+}
 .navlogo{
     width: 70%;
     cursor: pointer !important;
@@ -232,7 +242,7 @@ li.slide{
 .nav-link{
     color: #171717 !important;
     font-size: 0.9rem !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     font-family: 'Public Sans';
     margin-top: 1rem;
 }
@@ -251,10 +261,10 @@ li.nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 25px;
+    width: 20px;
     font-size: 0.8rem;
     font-weight: 500;
-    height: 25px;
+    height: 20px;
     color: #fff;
 }
 
@@ -576,16 +586,17 @@ img.gif {
   }
   .slick-dots li button:before{
     color: #fff !important;
-    font-size: 13px !important;
+    font-size: 11px !important;
     opacity: 1 !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 11px !important;
+    height: 11px !important;
+    line-height: 14px !important;
   }
   .slick-dots li.slick-active button:before{
     color: transparent !important; 
-    border: 3px solid #fff !important;
+    border: 2px solid #fff !important;
     border-radius: 50%;
-    font-size: 10px !important;
+    font-size: 11px !important;
     opacity: 1 !important;
   }
   .slick-next {
@@ -596,7 +607,7 @@ img.gif {
    }
    .slick-prev, .slick-next {
     z-index: 1;
-    top: 90% !important;
+    top: 89% !important;
     color: #fff !important;
   }
   .leftArrow{
@@ -628,10 +639,9 @@ img.gif {
 
   .custlinkBtnCont {
     position: absolute;
-    bottom: 4%;
+    bottom: 3%;
     background-color: transparent;
-    width: 84%;
-    
+    width: 96%;
   }
 
   .custlinkBtn{
@@ -641,6 +651,7 @@ img.gif {
     border-radius: 12px;
     width: 100%;
     display: block;
+    font-size: 1rem !important;
   }
   .exploreCategory {
     position: relative;
@@ -737,6 +748,10 @@ img.gif {
   .categoryBox:hover .category_overlay{
     opacity: 1;
   }
+  .categoryBox:hover .categoryImg{
+    background-color: green !important; 
+    opacity: 0.8;
+  }
   img.categoryImg {
     /* width: 80%; */
     min-width: 8rem;
@@ -760,11 +775,11 @@ img.gif {
         border-radius: 12px;
    }
    .bestSelledProduct{
-    padding: 1rem;
-    border-radius: 1rem;
-    position: relative;
-    background-color: #fff;
-    min-height: 100%;
+        padding: 1rem;
+        border-radius: 1rem;
+        position: relative;
+        background-color: #fff;
+        min-height: 100%;
    }
    img.bestSelledImg {
         max-width: 80%;
@@ -796,22 +811,34 @@ img.gif {
       opacity: 1;
     }
     .beforeHover {
-        width: max-content;
+        width: 180px;
         background-color: rgba(0, 128, 96, 0.2);
         text-align: center;
         font-weight: 600;
         border-radius: 25px;
         height: 50px;
-        padding: 0 30px;
         line-height: 50px;
         display: block;
         margin: 0.4rem;
+        font-size: 1rem !important;
     }
-    .beforeHover:hover {
+    .tertiaryBtn{
+        width: 180px;
+        text-align: center;
+        font-weight: 600;
+        border: 1px solid var(--hover-bg-color);
+        border-radius: 25px;
+        height: 50px;
+        line-height: 50px;
+        display: block;
+        margin: 0.4rem;
+        font-size: 1rem !important;
+    }
+    /* .beforeHover:hover {
         transition: 0.3s;
         color: #fff;
         background-color: var(--hover-bg-color);
-    }
+    } */
     .heartIcon {
         width: 90%;
     }
@@ -948,7 +975,7 @@ img.satisfiedProductImg {
 }
 .productInfoSec {
     background-color: #F9F9FC;
-    padding: 4% 0 4% 0;
+    padding: 2% 0 4% 0;
 }
 .reviewsCont {
     background-color: #F9F9FC;
@@ -1028,7 +1055,7 @@ svg.playIcon {
     display: block;
     max-height: 14rem;
     overflow: hidden;
-    transition: max-height 4s ease-in-out;
+    transition: max-height 1s ease-in-out;
 }
 .hideProductContentInfo.expanded {
     max-height: 100rem;
@@ -1271,6 +1298,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .searchBar:focus {
     outline: none !important; 
     border: none !important;
+    box-shadow: none !important;
 }
 input[type="file"] {
     display: none;
@@ -1350,11 +1378,38 @@ input[type="file"] {
     width: max-content;
     padding: 0.4rem;
     border-radius: 6px;
+    width: 100%;
 }
 .selectImg {
     position: relative;
-    width: 4rem;
+    min-width: 5rem;
+    max-width: 5rem;
+    height: 6rem;
     margin: 0 0.2rem;
+    border: 1px solid #D6D6D6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem;
+}
+
+.uploadFiles {
+    border: 1px solid #D6D6D6;
+    position: relative;
+    min-width: 5rem;
+    height: 6rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imgUploadIcon {
+    width: 100%;
+    position: absolute;
+    opacity: 0;
+}
+.reviewEditPgStarIcon{
+    font-size: 2.5 !important;
 }
 img.displayIeviewImg {
     width: 4rem;
@@ -1629,7 +1684,8 @@ img.navigateArrowCircle {
     nav.navbar.navbar-expand-lg.navbar-light.bg-light {
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
-        padding: 1rem 0;
+        padding: 0 0 0.8rem 0;
+        top: -1rem;
     }
     .bottomSec {
         margin-top: -2rem;

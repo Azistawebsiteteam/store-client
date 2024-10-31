@@ -19,6 +19,7 @@ const SideBar = () => {
     setDiscountAmount,
     setDiscountCodes,
     setSimilarProducts,
+    setUserDetails,
   } = useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -43,6 +44,7 @@ const SideBar = () => {
           icon: "success",
           timer: 2000,
         });
+        setUserDetails({});
         cartItems(0).then((data) => {
           if (data) {
             const {
@@ -93,8 +95,9 @@ const SideBar = () => {
     <div className="sideBar">
       <h4>My Account</h4>
       <ul className="custNav nav d-flex flex-column">
-        <li className="nav-item">
+        <li className="nav-item sideNavItem">
           <img
+            className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
               isActiveTab("/profile-management")
                 ? "profileActive.svg"
@@ -104,9 +107,10 @@ const SideBar = () => {
           />
           <Link
             to="/profile-management"
-            className={`nav-link ${
+            className={`nav-link sideNavlink ${
               isActiveTab("/profile-management") ? "activeBar" : ""
             }`}
+            style={{ marginTop: "0" }}
           >
             Profile
           </Link>
@@ -129,40 +133,47 @@ const SideBar = () => {
             Wallet
           </Link>
         </li> */}
-        <li className="nav-item">
+        <li className="nav-item sideNavItem">
           <img
+            className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
               isActiveTab("/manage-orders") ? "ordersActive.svg" : "orders.svg"
             }`}
             alt="orders"
+            style={{ marginTop: "0" }}
           />
           <Link
             to="/manage-orders"
-            className={`nav-link ${
+            className={`nav-link sideNavlink ${
               isActiveTab("/manage-orders") ? "activeBar" : ""
             }`}
+            style={{ marginTop: "0" }}
           >
             Orders
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item sideNavItem">
           <img
+            className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
               isActiveTab("/wishlist") ? "wishlistActive.svg" : "wishlist.svg"
             }`}
             alt="wishlist"
+            style={{ marginTop: "0" }}
           />
           <Link
             to="/wishlist"
-            className={`nav-link ${
+            className={`nav-link sideNavlink ${
               isActiveTab("/wishlist") ? "activeBar" : ""
             }`}
+            style={{ marginTop: "0" }}
           >
             Wishlist
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item sideNavItem">
           <img
+            className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
               isActiveTab("/reviews-ratings")
                 ? "reviewsActive.svg"
@@ -172,15 +183,17 @@ const SideBar = () => {
           />
           <Link
             to="/reviews-ratings"
-            className={`nav-link ${
+            className={`nav-link sideNavlink ${
               isActiveTab("/reviews-ratings") ? "activeBar" : ""
             }`}
+            style={{ marginTop: "0" }}
           >
             Reviews & Ratings
           </Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item sideNavItem">
           <img
+            className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
               isActiveTab("/manage-address")
                 ? "locationActive.svg"
@@ -190,17 +203,21 @@ const SideBar = () => {
           />
           <Link
             to="/manage-address"
-            className={`nav-link ${
+            className={`nav-link sideNavlink ${
               isActiveTab("/manage-address") ? "activeBar" : ""
             }`}
+            style={{ marginTop: "0" }}
           >
             Delivery Address Book
           </Link>
         </li>
-
-        <li className="nav-item d-flex align-items-center">
-          <CiLogout style={{ fontSize: "1.6rem" }} />
-          <button className="nav-link" onClick={handleLogout}>
+        <li className="nav-item sideNavItem d-flex align-items-center">
+          <CiLogout style={{ fontSize: "17px" }} />
+          <button
+            className="nav-link sideNavlink"
+            style={{ marginTop: "0" }}
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </li>

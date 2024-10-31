@@ -148,13 +148,18 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
       } searchBarCont`}
     >
       <div className="searchBarLeftSec" onClick={() => closeSearchBar(false)}>
-        <Link
-          to="/"
+        <button
           className="linkBtn"
-          style={{ color: "#fff", cursor: "pointer", fontSize: "1.3rem" }}
+          style={{
+            color: "#fff",
+            backgroundColor: "transparent",
+            cursor: "pointer",
+            fontSize: "1.3rem",
+            border: "none",
+          }}
         >
           Continue Shopping
-        </Link>
+        </button>
       </div>
       <div className="searchBarPage">
         <div className="topSec">

@@ -74,6 +74,7 @@ const OrderDetails = () => {
 
   const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
+  console.log(orderDetails);
   return (
     <>
       <ScrollToTop />
@@ -88,7 +89,7 @@ const OrderDetails = () => {
                     onClick={() => navigate(-1)}
                     style={{ cursor: "pointer" }}
                   />
-                  <h5>Orders Details</h5>
+                  <h5 className="mb-0">Orders Details</h5>
                   <small>
                     Orders {`>`} {orderDetails.azst_order_id}
                   </small>
@@ -112,7 +113,7 @@ const OrderDetails = () => {
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                   <li className="nav-item addressTab" role="presentation">
                     <button
-                      className="nav-link active"
+                      className="nav-link active orderDetailsTab"
                       id="home-tab"
                       data-bs-toggle="tab"
                       data-bs-target="#delivery-details"
@@ -127,7 +128,7 @@ const OrderDetails = () => {
                   {orderDetails.azst_orders_status === 1 && (
                     <li className="nav-item addressTab" role="presentation">
                       <button
-                        className="nav-link"
+                        className="nav-link orderDetailsTab"
                         id="profile-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#track-order"
@@ -157,7 +158,7 @@ const OrderDetails = () => {
                           >
                             Order Placed on
                           </span>
-                          <span>
+                          <span className="value">
                             {moment(orderDetails.azst_orders_created_on).format(
                               "DD MMM, YYYY"
                             )}
@@ -170,7 +171,9 @@ const OrderDetails = () => {
                           >
                             Order ID
                           </span>
-                          <span>{orderDetails.azst_order_id}</span>
+                          <span className="value">
+                            {orderDetails.azst_order_id}
+                          </span>
                         </div>
                         <div className="detailHeading col-8 col-md-4">
                           <span
@@ -179,7 +182,9 @@ const OrderDetails = () => {
                           >
                             Payment Method
                           </span>
-                          <span>{orderDetails.azst_orders_payment_method}</span>
+                          <span className="value">
+                            {orderDetails.azst_orders_payment_method}
+                          </span>
                         </div>
                       </div>
                       <div className="deliveryDetailsBotSec">
@@ -200,7 +205,7 @@ const OrderDetails = () => {
                             </span>
                             <div className="paymentDetails">
                               <address>
-                                <small
+                                <span
                                   className="card-subtitle mb-2"
                                   style={{
                                     fontWeight: "600",
@@ -209,9 +214,9 @@ const OrderDetails = () => {
                                 >
                                   {orderDetails.shipping_address.address_fname}{" "}
                                   {orderDetails.shipping_address.address_lname}
-                                </small>
-                                <small
-                                  className="d-block mb-2"
+                                </span>
+                                <span
+                                  className="d-block mt-3 mb-3"
                                   style={{
                                     fontWeight: "400",
                                     lineHeight: "1rem",
@@ -220,23 +225,21 @@ const OrderDetails = () => {
                                   {
                                     orderDetails.shipping_address
                                       .address_address1
-                                  }{" "}
-                                  {
-                                    orderDetails.shipping_address
-                                      .address_address2
                                   }
+                                  <br />
                                   {
                                     orderDetails.shipping_address
                                       .address_district
                                   }
+                                  {" - "}
+                                  {orderDetails.shipping_address.address_zip}
+                                  <br />
                                   {
                                     orderDetails.shipping_address
-                                      .address_district
+                                      .address_country
                                   }
-                                  Gachibowli, Hyderabad HYDERABAD, TELANGANA
-                                  500032 India
-                                </small>
-                                <small
+                                </span>
+                                <span
                                   className="card-subtitle d-block"
                                   style={{
                                     fontWeight: "600",
@@ -244,10 +247,10 @@ const OrderDetails = () => {
                                   }}
                                 >
                                   Contact Number
-                                </small>
-                                <small style={{ fontWeight: "400" }}>
+                                </span>
+                                <span style={{ fontWeight: "400" }}>
                                   {orderDetails.shipping_address.address_mobile}
-                                </small>
+                                </span>
                               </address>
                             </div>
                           </div>
@@ -286,7 +289,7 @@ const OrderDetails = () => {
                                 {orderDetails.products_details.map(
                                   (each, i) => (
                                     <div
-                                      className="d-flex align-items-md-start"
+                                      className="d-flex align-items-md-start mb-2"
                                       key={i}
                                     >
                                       <img
@@ -314,10 +317,10 @@ const OrderDetails = () => {
                                   )
                                 )}
                               </div>
-                              <div className="d-flex justify-content-center">
+                              <div className="ms-5">
                                 <button
                                   className="d-block orderedProductBtn"
-                                  style={{ borderRadius: "8px" }}
+                                  style={{ borderRadius: "6px" }}
                                 >
                                   Reorder
                                 </button>
@@ -343,7 +346,7 @@ const OrderDetails = () => {
                             <div className="paymentDetails">
                               {orderDetails.products_details.map((each, i) => (
                                 <div
-                                  className="d-flex justify-content-between"
+                                  className="d-flex justify-content-between mb-2"
                                   key={i}
                                 >
                                   <small
@@ -353,18 +356,21 @@ const OrderDetails = () => {
                                       lineHeight: "1.2rem",
                                     }}
                                   >
-                                    Total Products {`(${each.azst_order_qty})`}
+                                    Total Products{" "}
+                                    {each.azst_order_qty > 1
+                                      ? ` (${each.azst_order_qty} products)`
+                                      : ` (${each.azst_order_qty} product)`}
                                   </small>
                                   <small style={{ fontWeight: "400" }}>
                                     Rs.
-                                    {`(${
+                                    {`${
                                       each.azst_order_qty *
                                       each.azst_product_price
-                                    })`}
+                                    }`}
                                   </small>
                                 </div>
                               ))}
-                              <div className="d-flex justify-content-between">
+                              <div className="d-flex justify-content-between mb-2">
                                 <small
                                   className="card-subtitle d-block"
                                   style={{
@@ -382,7 +388,7 @@ const OrderDetails = () => {
                                     : `Rs.${orderDetails.azst_orderinfo_shpping_amount}`}
                                 </small>
                               </div>
-                              <div className="d-flex justify-content-between">
+                              <div className="d-flex justify-content-between mb-2">
                                 <small
                                   className="card-subtitle d-block"
                                   style={{
@@ -396,7 +402,7 @@ const OrderDetails = () => {
                                   Rs.{orderDetails.azst_orders_discount_amount}
                                 </small>
                               </div>
-                              <div className="d-flex justify-content-between">
+                              <div className="d-flex justify-content-between mb-2">
                                 <small
                                   className="card-subtitle d-block"
                                   style={{

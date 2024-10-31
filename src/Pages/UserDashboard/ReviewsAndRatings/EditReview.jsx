@@ -5,6 +5,9 @@ import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
 import ErrorHandler from "../../Components/ErrorHandler";
 import axios from "axios";
+import BackBtn from "../../Components/BackBtn";
+import { BsPlus } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 
 const EditReview = () => {
   const [review, setReview] = useState({
@@ -57,7 +60,6 @@ const EditReview = () => {
 
   const handleReviewForm = (e) => {
     const { id, value, files } = e.target;
-
     if (files && files.length > 0) {
       const newFiles = Array.from(files);
       setReview({
@@ -96,6 +98,7 @@ const EditReview = () => {
       const formdata = new FormData();
 
       const objLen = review.reviewImgs.length;
+      console.log(objLen);
       for (let i = 0; i < objLen; i++) {
         const img = review.reviewImgs[i];
         formdata.append("reviewImages", img);
@@ -115,24 +118,39 @@ const EditReview = () => {
     }
   };
 
+  const onDeleteImg = () => {
+    const updatedReviewImgs = review.reviewImgs.filter(
+      (_, index) => !reviewImgFile.includes(index)
+    );
+    setReview({
+      ...review,
+      reviewImgs: updatedReviewImgs,
+    });
+
+    setReviewImgFile([]);
+  };
+
+  console.log(review);
+
   return (
     <div className="bottomSec">
       <div className="d-flex">
         <SideBar />
-        <div style={{ padding: "4% 3%", width: "40%" }}>
-          <h5>Edit Review</h5>
+        <div className="myAccount_right_sec" style={{ width: "40%" }}>
+          <BackBtn />
+          <h5 className="mb-0">Edit Review</h5>
           <small>
             Reviews & Ratings &gt;{" "}
             <span style={{ fontWeight: "500" }}>{review.createdOn}</span>
           </small>
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center mt-2 mb-2">
             <img
               src={review.productImage}
               style={{ width: "20%" }}
               alt="productImage"
               onChange={handleReviewFormChange}
             />
-            <small style={{ display: "inline-block" }}>
+            <small className="ms-3" style={{ display: "inline-block" }}>
               <strong>{review.productTitle}</strong>
             </small>
           </div>
@@ -146,11 +164,12 @@ const EditReview = () => {
               setRating(newValue);
             }}
             precision={0.5}
+            className="reviewEditPgStarIcon"
           />
           <div className="form-floating mb-3">
             <input
               type="text"
-              className="form-control"
+              className="form-control reviewTxt"
               id="reviewTitle"
               placeholder="headline"
               value={review.reviewTitle}
@@ -161,7 +180,7 @@ const EditReview = () => {
           <div className="form-floating">
             <input
               type="text"
-              className="form-control"
+              className="form-control reviewTxt"
               id="reviewContent"
               placeholder="Write a Review"
               value={review.reviewContent}
@@ -172,57 +191,74 @@ const EditReview = () => {
           <span style={{ color: "#787878", display: "block" }}>
             Photo or Video
           </span>
-          <div className="uploadFiles d-flex flex-column mt-2">
-            <label htmlFor="reviewImg" className="custom-file-upload">
-              Upload image
-            </label>
-            <input
-              id="reviewImg"
-              multiple
-              type="file"
-              onChange={handleReviewForm}
-            />
-            <div className="reviewImgsCont mt-1 mb-2">
-              {review.reviewImgs.map((img, i) =>
-                typeof img === "string" ? (
-                  <div className="selectImg" key={i}>
-                    <img className="reviewImg" src={img} alt="reviewImg" />
-                    <input
-                      type="checkbox"
-                      id="chooseRviewImg"
-                      className={
-                        reviewImgFile.length > 0
-                          ? "selectImgInput"
-                          : "hideImgInput"
-                      }
-                      checked={reviewImgFile.includes(i)}
-                      onClick={(e) => handleReviewImg(e, i)}
-                    />
-                  </div>
-                ) : (
-                  <div className="selectImg" key={i}>
-                    <img
-                      src={URL.createObjectURL(img)}
-                      alt="Banner"
-                      className="reviewImg"
-                      checked={reviewImgFile.includes(i)}
-                      onClick={(e) => handleReviewImg(e, i)}
-                    />
-                    <input
-                      type="checkbox"
-                      id="chooseRviewImg"
-                      className={
-                        reviewImgFile.length > 0
-                          ? "selectImgInput"
-                          : "hideImgInput"
-                      }
-                    />
-                  </div>
-                )
-              )}
+          <div className="reviewImgsCont">
+            <div className="d-flex align-items-center">
+              <div className="reviewImgsCont mt-1 mb-2">
+                {review.reviewImgs.map((img, i) =>
+                  typeof img === "string" ? (
+                    <div className="selectImg" key={i}>
+                      <img className="reviewImg" src={img} alt="reviewImg" />
+                      <input
+                        type="checkbox"
+                        id="chooseRviewImg"
+                        className={
+                          reviewImgFile.length > 0
+                            ? "selectImgInput"
+                            : "hideImgInput"
+                        }
+                        checked={reviewImgFile.includes(i)}
+                        onChange={(e) => handleReviewImg(e, i)}
+                      />
+                    </div>
+                  ) : (
+                    <div className="selectImg" key={i}>
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt="Banner"
+                        className="reviewImg"
+                        checked={reviewImgFile.includes(i)}
+                        onClick={(e) => handleReviewImg(e, i)}
+                      />
+                      <input
+                        type="checkbox"
+                        id="chooseRviewImg"
+                        className={
+                          reviewImgFile.length > 0
+                            ? "selectImgInput"
+                            : "hideImgInput"
+                        }
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="uploadFiles mt-1 mb-2">
+                <div className="imgUploadIcon">
+                  <label htmlFor="reviewImg" className="custom-file-upload">
+                    Upload image
+                  </label>
+                  <input
+                    id="reviewImg"
+                    multiple
+                    type="file"
+                    onChange={handleReviewForm}
+                  />
+                </div>
+                <BsPlus size={30} />
+              </div>
             </div>
+            {reviewImgFile.length > 0 && (
+              <div className="d-flex justify-content-start align-items-start ms-2">
+                <MdDelete
+                  size={20}
+                  className="d-block"
+                  fill="red"
+                  onClick={onDeleteImg}
+                />
+              </div>
+            )}
           </div>
-          <button className="reviewBtn mt-3" onClick={onSubmitReview}>
+          <button className="commonBtn mt-3" onClick={onSubmitReview}>
             Submit
           </button>
         </div>

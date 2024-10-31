@@ -98,19 +98,33 @@ const WishList = () => {
                           </div>
                         </div>
                         <div className="productContent">
-                          <h6>{each.product_main_title}</h6>
+                          <p className="truncate">{each.product_main_title}</p>
                           <small
-                            className="product_subTitle"
+                            className="product_subTitle truncate"
                             style={{ color: "rgba(40, 40, 40, 0.8)" }}
                           >
                             {each.product_title}
                           </small>
                         </div>
-                        <img
-                          src={each.variant_image}
-                          alt={each.image_alt_text}
-                          className="bestSelledImg"
-                        />
+                        <div className="d-flex justify-content-center">
+                          <img
+                            src={each.variant_image}
+                            alt={each.image_alt_text}
+                            className="bestSelledImg"
+                          />
+                        </div>
+                        <div className="productPrice">
+                          <span style={{}} className="me-2 comparedPrice">
+                            {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
+                            {each.compare_at_price}
+                          </span>
+                          {parseInt(each.is_varaints_aval) === 1 && <br />}
+                          <span>
+                            {parseInt(each.is_varaints_aval) !== 1 && "Rs"}{" "}
+                            {each.price}
+                          </span>
+                        </div>
+
                         <div className="productPrice">
                           <span
                             style={{
@@ -118,19 +132,26 @@ const WishList = () => {
                               color: "rgba(40, 40, 40, 0.7)",
                             }}
                           >
-                            Rs {each.compare_at_price}
+                            Rs {each.product_compare_at_price}
                           </span>
                           <span className="ms-2">Rs {each.price}</span>
                         </div>
                       </div>
                       <div className="overlay_bg">
-                        <Link to="" className="linkBtn beforeHover">
+                        <Link
+                          to=""
+                          className="linkBtn beforeHover"
+                          style={{
+                            backgroundColor: "rgb(0, 128, 96)",
+                            color: "#fff",
+                          }}
+                        >
                           Add to Cart
                         </Link>
                         <button
                           onClick={() => handleDelete(each.azst_wishlist_id)}
                           className="beforeHover"
-                          style={{ border: "none" }}
+                          style={{ border: "none", fontWeight: "500" }}
                         >
                           Remove Item
                         </button>
@@ -141,7 +162,7 @@ const WishList = () => {
               </div>
             ) : (
               <div className="d-flex justify-content-center align-items-center h-100">
-                <h6>No Reviews Available</h6>
+                <h6>No Products Found</h6>
               </div>
             )}
           </div>

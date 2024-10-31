@@ -57,14 +57,19 @@ const Cart = ({ handleCart, showCart }) => {
   return (
     <div className={`${showCart ? "showCart" : "hideCart"} cartPageSec`}>
       <div className="cartPageLeftSec">
-        <Link
-          to="/"
+        <button
           className="linkBtn"
           onClick={closeCart}
-          style={{ color: "#fff", cursor: "pointer", fontSize: "1.3rem" }}
+          style={{
+            color: "#fff",
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1.3rem",
+          }}
         >
           Continue Shopping
-        </Link>
+        </button>
       </div>
       {cartList.length ? (
         <div className="cartPageRightSec">
@@ -235,14 +240,13 @@ const Cart = ({ handleCart, showCart }) => {
           <span style={{ color: "grey", marginTop: "0.4rem" }}>
             Your Cart is Empty
           </span>
-          <Link
-            to="/"
+          <button
             onClick={closeCart}
             style={{ color: "grey", cursor: "pointer" }}
             className="d-md-none"
           >
             Continue Shopping
-          </Link>
+          </button>
         </div>
       )}
     </div>

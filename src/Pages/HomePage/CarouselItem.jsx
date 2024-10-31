@@ -5,7 +5,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
-import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
+// import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 import "../Components/Customer.css";
 import ErrorHandler from "../Components/ErrorHandler";
@@ -38,12 +39,12 @@ const CarouselItem = () => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 3000,
     centerMode: true,
     centerPadding: "40px",
-    nextArrow: <HiArrowNarrowRight />,
-    prevArrow: <HiArrowNarrowLeft />,
+    nextArrow: <GoArrowRight />,
+    prevArrow: <GoArrowLeft />,
   };
 
   return (

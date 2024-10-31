@@ -65,7 +65,8 @@
     .reviewImgsCont{
         display: flex;
         overflow-x: auto;
-        width: 90%;
+        max-width: 90%;
+        margin-right: 4px;
     }
     .editSec {
         display: flex;
