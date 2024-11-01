@@ -64,7 +64,7 @@ const WishList = () => {
       <div className="bottomSec">
         <div className="d-flex">
           <SideBar />
-          <div className="myAccount_right_sec">
+          <div className="myAccount_right_sec wishlistContSec">
             <h5>Wishlist</h5>
             {wishList.length >= 1 ? (
               <div className="d-flex flex-wrap">

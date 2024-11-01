@@ -122,4 +122,7 @@ address {
     .billingAdd{
         width: 18rem !important;
     }
+    .wishlistContSec, .reviewsContSec{
+        padding: 24% 8% !important;
+    }
 }

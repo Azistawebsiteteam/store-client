@@ -100,12 +100,13 @@
     }
     .myAccUserAdd {
         width: 100% !important;
+        padding: 16% 8%;
     }
     .myAccUserInnerSec {
         max-width: 100% !important;
     }
     .addressBook{
         min-height: auto !important;
-        margin: 0.4 0;
+        margin: 0.4rem 0;
     }
 }

@@ -31,6 +31,10 @@ body{
 .css-15befwp-MuiRating-root,.css-1qqgbpl-MuiRating-root {
   color: var(--hover-bg-color) !important;
 }
+.similarProductRating > .css-15befwp-MuiRating-root {
+  color: #19ABFC !important;
+}
+
 .orderPgSearchBox::placeholder{
   color: #787878 !important;
   font-size: 0.9rem !important;
@@ -47,6 +51,9 @@ a{
   font-weight: 500;
   font-size: 0.8rem;
 }
+/* .linkBtn:hover{
+  color: inherit !important;
+} */
 .custLine {
   margin: 2rem 0 !important;
   color: inherit;

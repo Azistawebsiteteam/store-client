@@ -284,7 +284,11 @@ const Navbar = () => {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          My Account
+                          My Account{" "}
+                          <MdOutlineKeyboardArrowDown
+                            style={{ marginTop: "-3px" }}
+                            size={20}
+                          />
                         </a>
                         <ul
                           className="dropdown-menu dropdown-menu2"

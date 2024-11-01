@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { GoPlus } from "react-icons/go";
+import { FaPlus, FaMinus } from "react-icons/fa6";
 import { searchResultContext } from "../../ReactContext/SearchResults";
-import { HiMiniMinusSmall } from "react-icons/hi2";
 import axios from "axios";
 import ErrorHandler from "../Components/ErrorHandler";
 
@@ -74,15 +73,19 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
         border: "1px solid #B4B4B4",
         borderRadius: "6px",
         width: "max-content",
-        padding: "0 4px",
+        padding: "3px 6px",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <span className="me-2">
-        <HiMiniMinusSmall onClick={() => decreaseQuantityCounter(cartId)} />
+        <FaMinus fill="grey" onClick={() => decreaseQuantityCounter(cartId)} />
       </span>
-      <span>{cartQuantity}</span>
+      <span style={{ fontWeight: "600", fontSize: "16px", padding: "0 8px" }}>
+        {cartQuantity}
+      </span>
       <span className="ms-2">
-        <GoPlus onClick={() => increaseQuantityCounter(cartId)} />
+        <FaPlus fill="grey" onClick={() => increaseQuantityCounter(cartId)} />
       </span>
     </div>
   );

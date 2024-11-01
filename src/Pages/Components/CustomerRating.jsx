@@ -8,6 +8,7 @@ import ThreeDotsDropdown from "./ThreeDotsDropdown";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { MdDelete } from "react-icons/md";
 import ErrorHandler from "./ErrorHandler";
+import { BsPlus } from "react-icons/bs";
 
 const baseUrl = `${process.env.REACT_APP_API_URL}/reviews`;
 const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
@@ -49,6 +50,12 @@ export const CreateReview = (props) => {
   }, [reviewDetails]);
 
   const onSubmitReview = async (url, reviewId) => {
+    if (
+      reviewData.reviewContent === "" ||
+      reviewData.reviewContent.length <= 10
+    ) {
+      return alert("Review content should be at least 10 characters long.");
+    }
     try {
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
@@ -106,6 +113,8 @@ export const CreateReview = (props) => {
     });
   };
 
+  console.log(reviewImgFile.length, " reviewImgFile.length");
+
   return (
     <div className="writeReview">
       <div className="ratingSec d-flex flex-column">
@@ -125,6 +134,7 @@ export const CreateReview = (props) => {
             id="reviewTitle"
             className="reviewSectionInput"
             type="text"
+            maxLength={100}
             value={reviewData.reviewTitle}
             onChange={handleReviewForm}
           />
@@ -136,6 +146,8 @@ export const CreateReview = (props) => {
             className="reviewSectionInput"
             rows={4}
             cols={50}
+            minLength={10}
+            maxLength={200}
             onChange={handleReviewForm}
             value={reviewData.reviewContent}
           ></textarea>
@@ -147,16 +159,7 @@ export const CreateReview = (props) => {
             )}
           </div>
         </div>
-        <div className="uploadFiles mt-2">
-          <label htmlFor="reviewImg" className="custom-file-upload">
-            Upload image
-          </label>
-          <input
-            id="reviewImg"
-            multiple
-            type="file"
-            onChange={handleReviewForm}
-          />
+        <div className="d-flex align-items-center mt-2">
           <div className="reviewImgsCont mt-1 mb-2">
             {Array.from(reviewData.reviewImg).map((img, i) =>
               typeof img === "string" ? (
@@ -171,7 +174,7 @@ export const CreateReview = (props) => {
                         : "hideImgInput"
                     }
                     checked={reviewImgFile.includes(i)}
-                    onClick={(e) => handleReviewImg(e, i)}
+                    onChange={(e) => handleReviewImg(e, i)}
                   />
                 </div>
               ) : (
@@ -181,7 +184,7 @@ export const CreateReview = (props) => {
                     alt="Banner"
                     className="reviewImg"
                     checked={reviewImgFile.includes(i)}
-                    onClick={(e) => handleReviewImg(e, i)}
+                    onChange={(e) => handleReviewImg(e, i)}
                   />
                   <input
                     type="checkbox"
@@ -191,10 +194,26 @@ export const CreateReview = (props) => {
                         ? "selectImgInput"
                         : "hideImgInput"
                     }
+                    checked={reviewImgFile.includes(i)}
+                    onChange={(e) => handleReviewImg(e, i)}
                   />
                 </div>
               )
             )}
+          </div>
+          <div className="uploadFiles mt-1 mb-2">
+            <div className="imgUploadIcon">
+              <label htmlFor="reviewImg" className="custom-file-upload">
+                Upload image
+              </label>
+              <input
+                id="reviewImg"
+                multiple
+                type="file"
+                onChange={handleReviewForm}
+              />
+            </div>
+            <BsPlus size={30} />
           </div>
         </div>
         <button
@@ -219,6 +238,7 @@ const productReviews = async (productId) => {
       { productId: productId },
       { headers }
     );
+    console.log(response, "kkk");
     return response.data;
   } catch (error) {
     ErrorHandler.onError(error);
@@ -246,9 +266,11 @@ export const DisplayReview = ({ productId }) => {
     fetchReviews();
   }, [productId]);
 
+  console.log(reviews, reviews.length, "bb");
+
   return (
     <div>
-      {/* {reviews.length > 1 && ( */}
+      {/* {reviews.length > 0 && ( */}
       <div className="reviewCont flex-column">
         <div className="col-md-12 d-flex flex-column flex-md-row justify-content-md-between align-items-start align-items-md-center mb-md-5">
           <div className="">

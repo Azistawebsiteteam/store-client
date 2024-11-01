@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
-import { IoIosClose } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
 import Categories from "../HomePage/Categories";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -149,13 +149,13 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
     >
       <div className="searchBarLeftSec" onClick={() => closeSearchBar(false)}>
         <button
-          className="linkBtn"
           style={{
             color: "#fff",
             backgroundColor: "transparent",
             cursor: "pointer",
             fontSize: "1.3rem",
             border: "none",
+            textDecoration: "none",
           }}
         >
           Continue Shopping
@@ -175,8 +175,9 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
           {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button> */}
-          <IoIosClose
+          <RxCross2
             className="searchBarIcon"
+            size={20}
             onClick={() => closeSearchBar(false)}
           />
         </div>

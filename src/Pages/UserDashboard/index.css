@@ -180,6 +180,7 @@ li.addressTab {
 @media screen and (max-width:768px) {
     .ordersCont{
         width: 100%;
+        padding: 16% 8% !important;
     }
     .detailHeading {
         margin: 4px 0;

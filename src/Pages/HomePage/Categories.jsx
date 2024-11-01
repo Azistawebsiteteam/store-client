@@ -12,7 +12,9 @@ const Categories = ({ categories, type, closeCategories, breakpoint }) => {
     <div className="categories">
       <div className="container">
         {type ? (
-          <h6>Search with Categories</h6>
+          <p style={{ fontWeight: "500", color: "#000" }}>
+            Search with Categories
+          </p>
         ) : (
           <h4 className="text-center">Categories</h4>
         )}

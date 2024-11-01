@@ -87,8 +87,6 @@ const ManageOrders = () => {
     return () => clearTimeout(debounceRef.current);
   }, [searchTerm, orders]);
 
-  console.log(orders);
-
   return (
     <>
       <ScrollToTop />

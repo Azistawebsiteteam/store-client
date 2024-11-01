@@ -98,7 +98,6 @@ const EditReview = () => {
       const formdata = new FormData();
 
       const objLen = review.reviewImgs.length;
-      console.log(objLen);
       for (let i = 0; i < objLen; i++) {
         const img = review.reviewImgs[i];
         formdata.append("reviewImages", img);
@@ -119,24 +118,24 @@ const EditReview = () => {
   };
 
   const onDeleteImg = () => {
-    const updatedReviewImgs = review.reviewImgs.filter(
-      (_, index) => !reviewImgFile.includes(index)
+    let filteredReviewImgs = review.reviewImgs.filter(
+      (img, i) => !reviewImgFile.includes(i)
     );
+
     setReview({
       ...review,
-      reviewImgs: updatedReviewImgs,
+      reviewImgs: filteredReviewImgs,
     });
-
-    setReviewImgFile([]);
   };
-
-  console.log(review);
 
   return (
     <div className="bottomSec">
       <div className="d-flex">
         <SideBar />
-        <div className="myAccount_right_sec" style={{ width: "40%" }}>
+        <div
+          className="myAccount_right_sec reviewsContSec"
+          style={{ width: "40%" }}
+        >
           <BackBtn />
           <h5 className="mb-0">Edit Review</h5>
           <small>
@@ -249,12 +248,7 @@ const EditReview = () => {
             </div>
             {reviewImgFile.length > 0 && (
               <div className="d-flex justify-content-start align-items-start ms-2">
-                <MdDelete
-                  size={20}
-                  className="d-block"
-                  fill="red"
-                  onClick={onDeleteImg}
-                />
+                <MdDelete size={20} className="d-block" onClick={onDeleteImg} />
               </div>
             )}
           </div>

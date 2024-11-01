@@ -7,6 +7,7 @@ import SideBar from "../UserProfile/SideBar";
 import swalHandle from "../../Components/ErrorHandler";
 import { FaArrowLeft } from "react-icons/fa6";
 import "./UserAddress.css";
+import BackBtn from "../../Components/BackBtn";
 
 const UpdateAddress = () => {
   const [inputValues, setInputValue] = useState({
@@ -49,6 +50,12 @@ const UpdateAddress = () => {
           const address = response.data.address;
           swalHandle.onLoadingClose();
           swalHandle.onSuccess(response.data.message);
+          const [availableFromTime = "", availableToTime = ""] = (
+            address.address_available_time || ""
+          )
+            .split("-")
+            .map((time) => time.trim());
+
           setInputValue({
             customerFirstName: address.address_first_name,
             customerLastName: address.address_last_name,
@@ -66,12 +73,8 @@ const UpdateAddress = () => {
             address1: address.address_address1,
             address2: address.address_address2,
             isDefault: false,
-            availableFromTime: address.address_available_time
-              .split("-")[0]
-              .trim(),
-            availableToTime: address.address_available_time
-              .split("-")[1]
-              .trim(),
+            availableFromTime,
+            availableToTime,
           });
         }
       } catch (error) {
@@ -118,6 +121,7 @@ const UpdateAddress = () => {
               onClick={() => navigate(-1)}
               style={{ cursor: "pointer" }}
             />
+            <BackBtn />
             <h5 style={{ marginBottom: "0" }}>Delivery Address</h5>
             <small>
               Delivery Address Book &gt;{" "}

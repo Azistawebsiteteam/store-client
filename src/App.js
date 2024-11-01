@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+// import bootstrap from "bootstrap";
 import UserRegistrationPage from "./Pages/Authentication/UserRegistrationPage";
 import UserLoginPage from "./Pages/Authentication/UserLoginPage";
 import OtpRegistration from "./Pages/Authentication/OtpRegistration";

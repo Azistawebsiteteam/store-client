@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { GiCancel } from "react-icons/gi";
+import { MdOutlineCancel } from "react-icons/md";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { searchResultContext } from "../../ReactContext/SearchResults";
@@ -42,23 +42,22 @@ const Cart = ({ handleCart, showCart }) => {
   };
 
   const savingCalculator = () => {
-    return cartList.reduce(
-      (total, item) =>
-        total +
-        (item.is_varaints_aval !== 0
-          ? (parseInt(item.product_compare_at_price) - parseInt(item.price)) *
-            parseInt(item.azst_cart_quantity)
-          : (parseInt(item.product_compare_at_price) - parseInt(item.price)) *
-            parseInt(item.azst_cart_quantity)),
-      0
-    );
+    return cartList.reduce((total, item) => {
+      const comparePrice =
+        item.is_varaints_aval !== 0
+          ? Number(item.compare_at_price) || 0
+          : Number(item.product_compare_at_price) || 0;
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.azst_cart_quantity) || 0;
+
+      return total + (comparePrice - price) * quantity;
+    }, 0);
   };
 
   return (
     <div className={`${showCart ? "showCart" : "hideCart"} cartPageSec`}>
       <div className="cartPageLeftSec">
         <button
-          className="linkBtn"
           onClick={closeCart}
           style={{
             color: "#fff",
@@ -66,6 +65,7 @@ const Cart = ({ handleCart, showCart }) => {
             border: "none",
             cursor: "pointer",
             fontSize: "1.3rem",
+            textDecoration: "none",
           }}
         >
           Continue Shopping
@@ -74,18 +74,33 @@ const Cart = ({ handleCart, showCart }) => {
       {cartList.length ? (
         <div className="cartPageRightSec">
           <div className="cartPageTopSec">
-            <h5>
+            <h5
+              style={{
+                fontWeight: "600",
+                fontFamily: "Outfit",
+              }}
+            >
               Shopping Cart{" "}
-              <small style={{ fontWeight: "400" }}>
-                ({cartList.length} Product)
-              </small>
+              <sup
+                style={{
+                  fontWeight: "600",
+                  fontSize: "0.7rem",
+                  color: "#000",
+                }}
+              >
+                (
+                {cartList.length > 1
+                  ? `${cartList.length} Products`
+                  : `${cartList.length} Product`}{" "}
+                )
+              </sup>
             </h5>
             <RxCross2
               style={{
                 backgroundColor: "#fff",
-                fontSize: "20px",
                 cursor: "pointer",
               }}
+              size={20}
               onClick={closeCart}
             />
           </div>
@@ -93,9 +108,11 @@ const Cart = ({ handleCart, showCart }) => {
             className="savedAmtStrip"
             style={{ backgroundColor: "#F2FFFC", padding: "1rem" }}
           >
-            <small style={{ color: "#000", fontWeight: "600" }}>
+            <span
+              style={{ color: "#000", fontWeight: "500", fontSize: "0.9rem" }}
+            >
               You are Saving Rs.{savingCalculator()} from this order.
-            </small>
+            </span>
           </div>
           <div className="cartProducts">
             {cartList.map((each, i) => (
@@ -118,14 +135,14 @@ const Cart = ({ handleCart, showCart }) => {
                       className="cartProductImg"
                     />
                   </div>
-                  <div
-                    className="d-flex flex-column justify-content-between cartProductMidSec"
-                    style={{ padding: "0.6rem 0.8rem" }}
-                  >
+                  <div className="d-flex flex-column justify-content-between cartProductMidSec">
                     <div className="">
-                      <small className="d-block">
-                        <strong>{each.product_main_title}</strong>
-                      </small>
+                      <span
+                        className="d-block"
+                        style={{ fontWeight: "500", fontSize: "0.9rem" }}
+                      >
+                        {each.product_main_title}
+                      </span>
                       {each.is_varaints_aval === 1 && (
                         <small>
                           {each.option1 && each.option1}
@@ -137,10 +154,10 @@ const Cart = ({ handleCart, showCart }) => {
                       )}
                     </div>
                     <div>
-                      <small>
+                      <span style={{ fontWeight: "500", fontSize: "0.9rem" }}>
                         {each.azst_cart_product_type === "" ||
                         each.azst_cart_product_type === null ? (
-                          <strong>
+                          <span>
                             Rs.
                             {productTotalPrice(
                               each.is_varaints_aval,
@@ -148,11 +165,10 @@ const Cart = ({ handleCart, showCart }) => {
                               each.offer_price,
                               each.azst_cart_quantity
                             )}
-                          </strong>
+                          </span>
                         ) : (
                           <>
-                            {" "}
-                            <strong
+                            <span
                               style={{
                                 textDecoration: "line-through",
                                 marginRight: "5px",
@@ -165,8 +181,8 @@ const Cart = ({ handleCart, showCart }) => {
                                 each.offer_price,
                                 each.azst_cart_quantity
                               )}
-                            </strong>
-                            <strong>
+                            </span>
+                            <span>
                               {(
                                 productTotalPrice(
                                   each.is_varaints_aval,
@@ -175,17 +191,18 @@ const Cart = ({ handleCart, showCart }) => {
                                   each.azst_cart_quantity
                                 ) - parseFloat(each.azst_cart_dsc_amount)
                               ).toFixed(2)}
-                            </strong>
+                            </span>
                           </>
                         )}
-                      </small>
+                      </span>
                     </div>
                   </div>
                   <div
                     className="d-flex flex-column justify-content-between align-items-end"
                     style={{ padding: "0.4rem 0", cursor: "pointer" }}
                   >
-                    <GiCancel
+                    <MdOutlineCancel
+                      size={20}
                       fill="rgb(180, 180, 180)"
                       onClick={() => handleRemoveItem(each.azst_cart_id)}
                     />
@@ -210,24 +227,27 @@ const Cart = ({ handleCart, showCart }) => {
             className="freeShippingStrip"
             style={{ backgroundColor: "#F2FFFC", padding: "1rem" }}
           >
-            <small style={{ color: "#000", fontWeight: "600" }}>
+            <span
+              style={{ color: "#000", fontWeight: "500", fontSize: "0.9rem" }}
+            >
               {calculateTotal(cartList) > 150
                 ? "Congratulations, You are eligible for free shipping."
                 : "Free shipping for orders over Rs. 150.00!"}
-            </small>
+            </span>
           </div>
           <div className="cartPgbotSec">
             <Link
               to={jwtToken ? "/checkout" : "/login"}
-              className="linkBtn productPgBtn checkoutPgBtn d-block"
+              className="commonBtn d-block"
+              style={{ textDecoration: "none", padding: "0.5rem 10rem" }}
               onClick={closeCart}
             >
               Check Out - Rs.
               {(parseFloat(cartTotal) - parseFloat(discountAmount)).toFixed(2)}
             </Link>
-            <small style={{ color: "#000", fontWeight: "600" }}>
+            <span style={{ color: "#000", marginTop: "0.5rem" }}>
               Discounts and shipping calculated at checkout
-            </small>
+            </span>
           </div>
         </div>
       ) : (

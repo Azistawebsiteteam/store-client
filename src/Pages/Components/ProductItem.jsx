@@ -42,14 +42,10 @@ const ProductItem = () => {
   const [productImagesArr, setProductImagesArr] = useState([]);
   const [imgCount, setImgCount] = useState(0);
   const [readMoreContent, setReadMoreContent] = useState(false);
-  // const [contentHeight, setContentHeight] = useState("14rem");
-  // const [isContentOverflowing, setIsContentOverflowing] = useState(false);
   const [faqsList, setFaqsList] = useState([]);
   const [pincode, setPincode] = useState("");
   const [estimatedDelivery, setEstimatedDelivery] = useState({});
   const [pincodeError, setPincodeError] = useState("");
-
-  // const contentRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
@@ -97,16 +93,6 @@ const ProductItem = () => {
 
   const htmlString = productDetails.product_info;
 
-  // const productContent = (contentInfo) => {
-  //   if (contentInfo) {
-  //     // Get the full height of the content
-  //     const fullHeight = contentInfo.current.offsetHeight;
-  //     setContentHeight(`${fullHeight}px`);
-  //     // Check if content is overflowing the initial max-height
-  //     setIsContentOverflowing(fullHeight > 224); // 14rem in pixels
-  //   }
-  // };
-
   useEffect(() => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
@@ -131,8 +117,6 @@ const ProductItem = () => {
     // Update state with the extracted data
     setDescriptionHeadings(headingsArray);
     setContArray(contentArray);
-    // contentRef.current = contentArray;
-    // productContent(contentRef.current);
   }, [htmlString]);
 
   useEffect(() => {
@@ -766,7 +750,6 @@ const ProductItem = () => {
                         aria-labelledby={`tab-${id}`}
                       >
                         <div
-                          // ref={tabContent}
                           className={`hideProductContentInfo ${
                             readMoreContent ? "expanded" : "hideContent"
                           }`}
@@ -776,21 +759,24 @@ const ProductItem = () => {
                           }}
                         />
 
-                        {/* {isContentOverflowing && ( */}
-                        <button
-                          className="mt-1"
-                          style={{
-                            border: "none",
-                            backgroundColor: "transparent",
-                            color: "#008060",
-                            fontWeight: "500",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => setReadMoreContent(!readMoreContent)}
-                        >
-                          {readMoreContent ? "Read Less" : "Read More"}
-                          <TiArrowRight />
-                        </button>
+                        {tabContent.length > 700 ? (
+                          <button
+                            className="mt-1"
+                            style={{
+                              border: "none",
+                              backgroundColor: "transparent",
+                              color: "#008060",
+                              fontWeight: "500",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setReadMoreContent(!readMoreContent)}
+                          >
+                            {readMoreContent ? "Read Less" : "Read More"}
+                            <TiArrowRight />
+                          </button>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     ))}
                   </div>

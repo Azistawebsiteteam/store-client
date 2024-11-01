@@ -837,8 +837,7 @@ img.gif {
     /* .beforeHover:hover {
         transition: 0.3s;
         color: #fff;
-        background-color: var(--hover-bg-color);
-    } */
+    }  */
     .heartIcon {
         width: 90%;
     }
@@ -1033,10 +1032,16 @@ svg.productPgIcon {
     position: relative;
     display: flex;
     justify-content: center;
+    min-width: 98%;
+    min-height: 26rem;
+    max-width: 98%;
+    max-height: 26rem;
+    background-color: #fff;
+    border-radius: 6px;
 }
 .navigatingBtns {
     position: absolute;
-    width: 63%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     top: 50%;
@@ -1349,6 +1354,11 @@ input[type="file"] {
     padding: 1rem;
     border-radius: 10px;
     margin: 1rem 0;
+    max-width: 18rem;
+    min-height: 12rem;
+    max-height: 12rem;
+    display: flex;
+    flex-direction: column;
 }
 .dropdownMenuCont{
     position: relative;
@@ -1409,7 +1419,7 @@ input[type="file"] {
     opacity: 0;
 }
 .reviewEditPgStarIcon{
-    font-size: 2.5 !important;
+    font-size: 2.5rem !important;
 }
 img.displayIeviewImg {
     width: 4rem;
@@ -1680,6 +1690,7 @@ img.navigateArrowCircle {
     }
     div#navbarSupportedContent {
         position: fixed;
+        z-index: 4;
     }
     nav.navbar.navbar-expand-lg.navbar-light.bg-light {
         border-top-left-radius: 0 !important;
@@ -1722,6 +1733,9 @@ img.navigateArrowCircle {
     }
     .navbar-nav .dropdown-menu2 {
         left: -6rem !important;
+    }
+    .nav-link{
+        margin-top: 0 !important;
     }
 }
 
@@ -1967,37 +1981,46 @@ img.navigateArrowCircle {
     }
 }
 
+ /* notFoundPage */
 @media  screen and (max-width: 768px) {
-    /* notFoundPage */
+    .not-found-card {
+        background-color: #a890cc;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    
+    .not-found-body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+    
+    .heading-main {
+        font-size: 4rem;
+    }
+    
+    .heading_sub {
+        font-size: 2rem !important;
+        text-align: center;
+    }
+    
+    .productInfo {
+        width: 100%;
+    }
+  
+}
 
-.not-found-card {
-    background-color: #a890cc;
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-  
-  .not-found-body {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-  }
-  
-  .heading-main {
-    font-size: 4rem;
-  }
-  
-  .heading_sub {
-    font-size: 2rem !important;
-    text-align: center;
-  }
-  
-  .productInfo {
-    width: 100%;
+/* myAcc reviewsSec */
+
+@media screen and (max-width: 768px) {
+   .myAccReviewCont {
+        min-height: 12rem;
+        max-height: none;
+    }
 }
-  
-}
+

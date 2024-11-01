@@ -73,11 +73,11 @@ const SimilarProductsSlider = ({ similarProducts, closeCart }) => {
               <Rating
                 name="read-only"
                 value={product.product_review_points}
+                className="similarProductRating"
                 readOnly
+                style={{ color: "blue" }}
               />
-              <small className="d-block">
-                <strong>{product.product_main_title}</strong>
-              </small>
+              <span className="d-block">{product.product_main_title}</span>
               {product.is_varaints_aval !== 0 && (
                 <>
                   {product.option1 && <small>{product.option1}</small>}
@@ -85,9 +85,9 @@ const SimilarProductsSlider = ({ similarProducts, closeCart }) => {
                   {product.option3 && <small> - {product.option3}</small>}
                 </>
               )}
-              <small className="d-block">
-                Rs. {product.price ? product.price : product.offer_price}
-              </small>
+              <span className="d-block">
+                {product.price ? product.price : product.offer_price}
+              </span>
             </div>
           </div>
         </Link>
@@ -97,7 +97,14 @@ const SimilarProductsSlider = ({ similarProducts, closeCart }) => {
 
   return (
     <div className="slider-container">
-      <h5>Try Other Variants</h5>
+      <h5
+        style={{
+          fontWeight: "600",
+          fontFamily: "Outfit",
+        }}
+      >
+        Try Other Variants
+      </h5>
       {similarProducts.length > 1 ? (
         <Slider {...settings}>
           {similarProducts.map((product) => (

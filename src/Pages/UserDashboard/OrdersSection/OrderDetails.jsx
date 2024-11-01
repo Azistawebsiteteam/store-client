@@ -74,7 +74,6 @@ const OrderDetails = () => {
 
   const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
-  console.log(orderDetails);
   return (
     <>
       <ScrollToTop />
