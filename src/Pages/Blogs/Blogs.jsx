@@ -42,13 +42,14 @@ const Blogs = () => {
       <ScrollToTop />
       <div className="userPage">
         <div className="blogsPage">
-          <h4 className="text-center">
+          <h3 className="text-center">
             Exploring the Uncharted:
             <br /> Insights, Ideas, and Inspiration
-          </h4>
+          </h3>
           <p className="text-center" style={{ color: "#717171" }}>
             It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
+            the readable <br />
+            content of a page when looking at its layout.
           </p>
           <ButtonRow
             items={blogsTypes}
@@ -82,10 +83,13 @@ const Blogs = () => {
                                 <small className="d-block">
                                   {each.azst_blg_created}
                                 </small>
-                                <h5 className="card-title">
+                                <h5 className="card-title blogTitle">
                                   {each.azst_blg_title}
                                 </h5>
-                                <p className="card-text cardText">
+                                <p
+                                  className="card-text cardText"
+                                  style={{ color: "#717171" }}
+                                >
                                   {each.azst_blg_description}
                                 </p>
                               </div>

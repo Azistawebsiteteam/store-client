@@ -49,6 +49,11 @@ export const CreateReview = (props) => {
     setValue(review_points);
   }, [reviewDetails]);
 
+  const closeModal = () => {
+    const btn = document.getElementById("modalCloseBtn");
+    btn.click();
+  };
+
   const onSubmitReview = async (url, reviewId) => {
     if (
       reviewData.reviewContent === "" ||
@@ -77,8 +82,8 @@ export const CreateReview = (props) => {
       ErrorHandler.onLoading();
       await axios.post(url, formdata, { headers });
       ErrorHandler.onSuccess();
+      closeModal();
     } catch (error) {
-      console.log(error, "review");
       ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
     }
@@ -112,8 +117,6 @@ export const CreateReview = (props) => {
       reviewImg: filteredReviewImgs,
     });
   };
-
-  console.log(reviewImgFile.length, " reviewImgFile.length");
 
   return (
     <div className="writeReview">
@@ -238,7 +241,7 @@ const productReviews = async (productId) => {
       { productId: productId },
       { headers }
     );
-    console.log(response, "kkk");
+
     return response.data;
   } catch (error) {
     ErrorHandler.onError(error);
@@ -258,15 +261,23 @@ export const DisplayReview = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const { userDetails } = useContext(searchResultContext);
 
+  const fetchReviews = async (productId) => {
+    const reviews = await productReviews(productId);
+    setReviews(reviews);
+  };
+
   useEffect(() => {
-    const fetchReviews = async () => {
-      const reviews = await productReviews(productId);
-      setReviews(reviews);
-    };
-    fetchReviews();
+    fetchReviews(productId);
   }, [productId]);
 
-  console.log(reviews, reviews.length, "bb");
+  const showWriteReview = () => {
+    const myReview = reviews.find(
+      (review) => parseInt(review.customer_id) === userDetails?.azst_customer_id
+    );
+    const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
+
+    return jwtToken && !myReview;
+  };
 
   return (
     <div>
@@ -295,7 +306,8 @@ export const DisplayReview = ({ productId }) => {
               </div>
             )}
           </div>
-          {jwtToken && (
+
+          {showWriteReview && (
             <div className="d-flex flex-column align-items-center">
               <button
                 type="button"
@@ -320,6 +332,7 @@ export const DisplayReview = ({ productId }) => {
                         Review the product
                       </h5>
                       <button
+                        id="modalCloseBtn"
                         type="button"
                         className="btn-close"
                         data-bs-dismiss="modal"
@@ -354,7 +367,8 @@ export const DisplayReview = ({ productId }) => {
                   parseInt(each.customer_id) && (
                   <ThreeDotsDropdown
                     reviewId={each.review_id}
-                    productReviews={productReviews}
+                    fetchReviews={fetchReviews}
+                    productId={productId}
                   />
                 )}
                 {/* <span>{each.created_on}</span> */}

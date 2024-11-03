@@ -19,6 +19,7 @@ import { GrShareOption } from "react-icons/gr";
 import { RxCaretRight, RxCaretLeft } from "react-icons/rx";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import { handleAddtoCart } from "../Cart/Functions";
+import { AddToWishlist } from "../../Utils/AddToWishlist";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { TiArrowRight } from "react-icons/ti";
 import Faqs from "./Faqs";
@@ -186,28 +187,17 @@ const ProductItem = () => {
   const handleWishlist = async () => {
     try {
       if (!jwtToken) return navigate("/login");
-      const url = `${baseUrl}/whish-list/add`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      ErrorHandler.onLoading();
-      const response = await axios.post(
-        url,
-        {
-          productId: productDetails.id,
-          variantId: availableVariants[0]?.id ?? 0,
-        },
-        { headers }
+      const response = await AddToWishlist(
+        productDetails.id,
+        availableVariants[0]?.id ?? 0
       );
-      if (response.status === 200) {
+      if (response?.status === 200) {
         setProductDetails({
           ...productDetails,
           in_wishlist: 1,
         });
       }
-      ErrorHandler.onLoadingClose();
     } catch (error) {
-      ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
     }
   };
@@ -290,6 +280,7 @@ const ProductItem = () => {
     }
   };
 
+  console.log(productDetails, "productDetails");
   return (
     <>
       <ScrollToTop />
@@ -469,23 +460,31 @@ const ProductItem = () => {
                           <FaPlus />
                         </span>
                       </div>
-                      <button
-                        className="productPgBtn"
-                        type="button"
-                        onClick={() =>
-                          handleAddtoCart(
-                            userDetails.azst_customer_id,
-                            {
-                              productId: productDetails.id,
-                              variantId: output?.id ?? 0,
-                              quantity: quantityCounter,
-                            },
-                            updateCartData
-                          )
-                        }
-                      >
-                        Add to cart
-                      </button>
+                      {parseInt(productDetails) > 0 &&
+                      parseInt(productDetails) >=
+                        parseInt(productDetails.min_cart_quantity) ? (
+                        <button
+                          className="productPgBtn"
+                          type="button"
+                          onClick={() =>
+                            handleAddtoCart(
+                              userDetails.azst_customer_id,
+                              {
+                                productId: productDetails.id,
+                                variantId: output?.id ?? 0,
+                                quantity: quantityCounter,
+                              },
+                              updateCartData
+                            )
+                          }
+                        >
+                          Add to cart
+                        </button>
+                      ) : (
+                        <button className="outofStockBtn" type="button">
+                          Out Of Stock
+                        </button>
+                      )}
                       <img
                         src={`${process.env.PUBLIC_URL}/images/${
                           productDetails.in_wishlist === 1

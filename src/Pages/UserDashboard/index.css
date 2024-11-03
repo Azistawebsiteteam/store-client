@@ -70,6 +70,17 @@ button.dropdown-toggle.custDropdown {
     background-color: var(--hover-bg-color);
     color: #fff;
 }
+.cancelledBtn{
+    text-decoration: none;
+    color: red;
+    font-size: 0.8rem;
+    border: 1px solid #DFDFDF;
+    border-radius: 25px;
+    text-align: center;
+    padding: 0.3rem 1.4rem;
+    background-color: transparent;
+    margin: 0.3rem 0;
+}
 .deliveryDetailsTopSec{
     display: flex;
     margin: 1.2rem 0;

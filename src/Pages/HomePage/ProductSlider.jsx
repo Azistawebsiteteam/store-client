@@ -154,6 +154,7 @@ const productSlider = ({ title, items }) => {
                     productId={each.product_id}
                     variantId={each.variant_id}
                     quantity={each.min_cart_quantity}
+                    productQty={each.product_qty}
                   />
                 )}
                 <Link

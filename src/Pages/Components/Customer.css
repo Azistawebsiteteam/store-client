@@ -436,14 +436,17 @@ img.brandImg {
     border-radius: 25px;
 }
 .innerblogType{
-    padding: 6px 20px;
-    color: #fff;
-    background-color:#FF993C;
+    padding: 8px 20px;
+    color: #131212;
+    background-color:rgba(255, 153, 60, 0.14);
     border-radius: 25px;
     width: max-content;
+    font-family: var(--primary-fontfamily);
+    font-weight: 600;
 }
 img.blogMainImg {
     width: 100%;
+    padding: 2rem 0 ;
 }
 .mainBlog{
     top: 1.8rem;
@@ -454,7 +457,7 @@ img.blogMainImg {
     left: 1rem;
 }
 .blogHeading{
-    font-weight: 500 !important;
+    font-weight: 400 !important;
 }
 .customCardBody{
     position: absolute;
@@ -471,14 +474,15 @@ img.blogMainImg {
 .readmoreLink{
     text-decoration: underline;
     color: #171717;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
 }
 .cardText{
     overflow: hidden;
    text-overflow: ellipsis;
    display: -webkit-box;
-   line-clamp: 3;
-   -webkit-line-clamp: 3;
+   line-clamp: 6;
+   -webkit-line-clamp: 6;
    -webkit-box-orient: vertical;
 }
 .customLinkBtn{
@@ -1185,6 +1189,7 @@ p.ingredientTitle {
     flex-wrap: wrap;
     width: 80%;
     margin: 1rem 0 0 0;
+    padding: 0rem 12rem 2rem 12rem;
 }
 
 .faqsSpacing{
@@ -1914,6 +1919,13 @@ img.navigateArrowCircle {
     .mainImage {
         width: 68% !important;
     }
+    .mainImageCont{
+        min-height: 18rem;
+        max-height: 18rem;
+    }
+    .productInfoSec {
+        padding: 14% 0 4% 0;
+    }
     .navigatingBtns {
         width: 94%;
     }
@@ -2021,6 +2033,26 @@ img.navigateArrowCircle {
    .myAccReviewCont {
         min-height: 12rem;
         max-height: none;
+    }
+}
+
+/* Blogs */
+
+@media screen and (max-width: 768px) {
+    .blogCardBody {
+        padding: 14px 0;
+    }
+    .faqBtnCont{
+        padding: 0;
+    }
+    .blogHeading{
+        font-size: 1.6rem !important;
+    }
+    .faqHeading{
+        font-size: 1.6rem !important;
+    }
+    img.blogMainImg {
+        padding: 1rem 0 !important;
     }
 }
 

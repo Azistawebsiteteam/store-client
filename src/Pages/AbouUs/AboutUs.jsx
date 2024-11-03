@@ -8,10 +8,8 @@ const AboutUs = () => {
       <ScrollToTop />
       <div className="bottomSec">
         <div className="container">
-          <div className="aboutUsPage d-flex flex-column align-items-center">
-            <p className="text-center" style={{ color: "#717171" }}>
-              About Us
-            </p>
+          <div className="aboutUsPage">
+            <p className="aboutUsHeading">About Us</p>
             <h3 className="text-center aboutUsText">
               Discover Our Story: <br />
               Who We Are What We Do

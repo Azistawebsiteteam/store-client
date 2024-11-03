@@ -8,6 +8,7 @@ import axios from "axios";
 import BackBtn from "../../Components/BackBtn";
 import { BsPlus } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
+import ScrollToTop from "../../../Utils/ScrollToTop";
 
 const EditReview = () => {
   const [review, setReview] = useState({
@@ -129,135 +130,142 @@ const EditReview = () => {
   };
 
   return (
-    <div className="bottomSec">
-      <div className="d-flex">
-        <SideBar />
-        <div
-          className="myAccount_right_sec reviewsContSec"
-          style={{ width: "40%" }}
-        >
-          <BackBtn />
-          <h5 className="mb-0">Edit Review</h5>
-          <small>
-            Reviews & Ratings &gt;{" "}
-            <span style={{ fontWeight: "500" }}>{review.createdOn}</span>
-          </small>
-          <div className="d-flex align-items-center mt-2 mb-2">
-            <img
-              src={review.productImage}
-              style={{ width: "20%" }}
-              alt="productImage"
-              onChange={handleReviewFormChange}
-            />
-            <small className="ms-3" style={{ display: "inline-block" }}>
-              <strong>{review.productTitle}</strong>
+    <>
+      <ScrollToTop />
+      <div className="bottomSec">
+        <div className="d-flex">
+          <SideBar />
+          <div
+            className="myAccount_right_sec reviewsContSec"
+            style={{ width: "40%" }}
+          >
+            <BackBtn />
+            <h5 className="mb-0">Edit Review</h5>
+            <small>
+              Reviews & Ratings &gt;{" "}
+              <span style={{ fontWeight: "500" }}>{review.createdOn}</span>
             </small>
-          </div>
-          <span style={{ color: "#787878", display: "block" }}>
-            Overall Rating
-          </span>
-          <Rating
-            name="simple-controlled"
-            value={review.rating}
-            onChange={(event, newValue) => {
-              setRating(newValue);
-            }}
-            precision={0.5}
-            className="reviewEditPgStarIcon"
-          />
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control reviewTxt"
-              id="reviewTitle"
-              placeholder="headline"
-              value={review.reviewTitle}
-              onChange={handleReviewFormChange}
+            <div className="d-flex align-items-center mt-2 mb-2">
+              <img
+                src={review.productImage}
+                style={{ width: "20%" }}
+                alt="productImage"
+                onChange={handleReviewFormChange}
+              />
+              <small className="ms-3" style={{ display: "inline-block" }}>
+                <strong>{review.productTitle}</strong>
+              </small>
+            </div>
+            <span style={{ color: "#787878", display: "block" }}>
+              Overall Rating
+            </span>
+            <Rating
+              name="simple-controlled"
+              value={review.rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+              precision={0.5}
+              className="reviewEditPgStarIcon"
             />
-            <label htmlFor="headlineInput">Headline</label>
-          </div>
-          <div className="form-floating">
-            <input
-              type="text"
-              className="form-control reviewTxt"
-              id="reviewContent"
-              placeholder="Write a Review"
-              value={review.reviewContent}
-              onChange={handleReviewFormChange}
-            />
-            <label htmlFor="reviewTextInput">Write a Review</label>
-          </div>
-          <span style={{ color: "#787878", display: "block" }}>
-            Photo or Video
-          </span>
-          <div className="reviewImgsCont">
-            <div className="d-flex align-items-center">
-              <div className="reviewImgsCont mt-1 mb-2">
-                {review.reviewImgs.map((img, i) =>
-                  typeof img === "string" ? (
-                    <div className="selectImg" key={i}>
-                      <img className="reviewImg" src={img} alt="reviewImg" />
-                      <input
-                        type="checkbox"
-                        id="chooseRviewImg"
-                        className={
-                          reviewImgFile.length > 0
-                            ? "selectImgInput"
-                            : "hideImgInput"
-                        }
-                        checked={reviewImgFile.includes(i)}
-                        onChange={(e) => handleReviewImg(e, i)}
-                      />
-                    </div>
-                  ) : (
-                    <div className="selectImg" key={i}>
-                      <img
-                        src={URL.createObjectURL(img)}
-                        alt="Banner"
-                        className="reviewImg"
-                        checked={reviewImgFile.includes(i)}
-                        onClick={(e) => handleReviewImg(e, i)}
-                      />
-                      <input
-                        type="checkbox"
-                        id="chooseRviewImg"
-                        className={
-                          reviewImgFile.length > 0
-                            ? "selectImgInput"
-                            : "hideImgInput"
-                        }
-                      />
-                    </div>
-                  )
-                )}
+            <div className="form-floating mb-3">
+              <input
+                type="text"
+                className="form-control reviewTxt"
+                id="reviewTitle"
+                placeholder="headline"
+                value={review.reviewTitle}
+                onChange={handleReviewFormChange}
+              />
+              <label htmlFor="headlineInput">Headline</label>
+            </div>
+            <div className="form-floating">
+              <input
+                type="text"
+                className="form-control reviewTxt"
+                id="reviewContent"
+                placeholder="Write a Review"
+                value={review.reviewContent}
+                onChange={handleReviewFormChange}
+              />
+              <label htmlFor="reviewTextInput">Write a Review</label>
+            </div>
+            <span style={{ color: "#787878", display: "block" }}>
+              Photo or Video
+            </span>
+            <div className="reviewImgsCont">
+              <div className="d-flex align-items-center">
+                <div className="reviewImgsCont mt-1 mb-2">
+                  {review.reviewImgs.map((img, i) =>
+                    typeof img === "string" ? (
+                      <div className="selectImg" key={i}>
+                        <img className="reviewImg" src={img} alt="reviewImg" />
+                        <input
+                          type="checkbox"
+                          id="chooseRviewImg"
+                          className={
+                            reviewImgFile.length > 0
+                              ? "selectImgInput"
+                              : "hideImgInput"
+                          }
+                          checked={reviewImgFile.includes(i)}
+                          onChange={(e) => handleReviewImg(e, i)}
+                        />
+                      </div>
+                    ) : (
+                      <div className="selectImg" key={i}>
+                        <img
+                          src={URL.createObjectURL(img)}
+                          alt="Banner"
+                          className="reviewImg"
+                          checked={reviewImgFile.includes(i)}
+                          onClick={(e) => handleReviewImg(e, i)}
+                        />
+                        <input
+                          type="checkbox"
+                          id="chooseRviewImg"
+                          className={
+                            reviewImgFile.length > 0
+                              ? "selectImgInput"
+                              : "hideImgInput"
+                          }
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
+                <div className="uploadFiles mt-1 mb-2">
+                  <div className="imgUploadIcon">
+                    <label htmlFor="reviewImg" className="custom-file-upload">
+                      Upload image
+                    </label>
+                    <input
+                      id="reviewImg"
+                      multiple
+                      type="file"
+                      onChange={handleReviewForm}
+                    />
+                  </div>
+                  <BsPlus size={30} />
+                </div>
               </div>
-              <div className="uploadFiles mt-1 mb-2">
-                <div className="imgUploadIcon">
-                  <label htmlFor="reviewImg" className="custom-file-upload">
-                    Upload image
-                  </label>
-                  <input
-                    id="reviewImg"
-                    multiple
-                    type="file"
-                    onChange={handleReviewForm}
+              {reviewImgFile.length > 0 && (
+                <div className="d-flex justify-content-start align-items-start ms-2">
+                  <MdDelete
+                    size={20}
+                    className="d-block"
+                    onClick={onDeleteImg}
                   />
                 </div>
-                <BsPlus size={30} />
-              </div>
+              )}
             </div>
-            {reviewImgFile.length > 0 && (
-              <div className="d-flex justify-content-start align-items-start ms-2">
-                <MdDelete size={20} className="d-block" onClick={onDeleteImg} />
-              </div>
-            )}
+            <button className="commonBtn mt-3" onClick={onSubmitReview}>
+              Submit
+            </button>
           </div>
-          <button className="commonBtn mt-3" onClick={onSubmitReview}>
-            Submit
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

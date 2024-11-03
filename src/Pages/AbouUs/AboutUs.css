@@ -1,12 +1,34 @@
+.aboutUsPage {
+    padding: 4rem 12rem 2rem 12rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.aboutUsHeading{
+    text-align: center;
+    color: "#000";
+    font-family: "public sans";
+    font-weight: 600;
+    margin-bottom: 0;
+}
 img.aboutUsImg {
-    width: 90%;
-    margin: 1rem 0;
+    width: 100%;
+    margin: 4rem 0;
 }
 img.aboutUsSubImg {
     width: 100%;
 }
 @media screen and (max-width:768px) {
     .aboutUsText{
+        font-size: 1.6rem !important;
+    }
+    .aboutUsPage{
+        padding: 6rem 1rem 2rem 1rem;
+    }
+    img.aboutUsImg {
+        margin: 2rem 0;
+    }
+    .blogsPage>h3{
         font-size: 1.6rem !important;
     }
 }

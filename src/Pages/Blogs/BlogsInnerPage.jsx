@@ -1,13 +1,15 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { BsArrowLeftCircle } from "react-icons/bs";
+import { PiArrowCircleLeftThin } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import ScrollToTop from "../../Utils/ScrollToTop";
+import "./Blogs.css";
 
 const BlogsInnerPage = () => {
   const [blogData, setBlogData] = useState({});
 
   const { id } = useParams();
+  const imageUrl = process.env.PUBLIC_URL;
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
@@ -34,11 +36,12 @@ const BlogsInnerPage = () => {
         <div className="container">
           {Object.keys(blogData).length > 1 && (
             <div className="blogsInnerPage">
-              <BsArrowLeftCircle
-                style={{ fontSize: "2rem", cursor: "pointer" }}
+              <PiArrowCircleLeftThin
+                size={60}
+                style={{ cursor: "pointer" }}
                 onClick={() => navigate(-1)}
               />
-              <h4 className="blogHeading">{blogData.azst_blg_title}</h4>
+              <h3 className="blogHeading">{blogData.azst_blg_title}</h3>
               <p className="innerblogType">{blogData.azst_blg_product}</p>
               <div className="">
                 <img
@@ -57,6 +60,52 @@ const BlogsInnerPage = () => {
               </div>
             </div>
           )}
+          <div className="blogPgSocialIconsCont">
+            <a
+              href="https://www.facebook.com/Azistastore-110936125083262"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={`${imageUrl}/images/facebookColouredIcon.svg`}
+                className="blogPgSocialIcon"
+                alt="facebook"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/azistastore/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={`${imageUrl}/images/instagramColouredIcon.svg`}
+                className="blogPgSocialIcon"
+                alt="instagram"
+              />
+            </a>
+            <a
+              href="https://twitter.com/AzistaStore"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={`${imageUrl}/images/twitterColouredIcon.svg`}
+                className="blogPgSocialIcon"
+                alt="twitter"
+              />
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UCvl0776om6DXpwIwSE225jQ"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={`${imageUrl}/images/youtube.svg`}
+                className="blogPgSocialIcon"
+                alt="youtube"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </>

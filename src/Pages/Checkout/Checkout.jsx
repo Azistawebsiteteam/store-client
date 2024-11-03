@@ -196,10 +196,12 @@ const Checkout = () => {
     setSelectedShippingAddress(addressId);
   };
 
-  const productTotalPrice = (price, offerPrice, quantity) => {
-    if (price !== "") {
+  const productTotalPrice = (isvariantsAval, price, offerPrice, quantity) => {
+    if (parseInt(isvariantsAval) !== 1) {
+      console.log(parseInt(price) * parseInt(quantity));
       return parseInt(price) * parseInt(quantity);
     } else {
+      console.log(parseInt(offerPrice) * parseInt(quantity));
       return parseInt(offerPrice) * parseInt(quantity);
     }
   };
@@ -565,7 +567,7 @@ const Checkout = () => {
                           setSelectedAccordian={setSelectedAccordian}
                         />
                       )}
-                      <h6>Billing Address</h6>
+                      {/* <h6>Billing Address</h6> */}
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"
@@ -589,6 +591,10 @@ const Checkout = () => {
                     <div className="accTitle" onClick={() => handleAccTab("3")}>
                       <div>
                         <h6>Order Summary</h6>
+                        <small>
+                          Order confirmation will be sent to your registered
+                          email address.
+                        </small>
                       </div>
                       <span className="accBtn">
                         {selectedAccordian === "3" ? (
@@ -605,10 +611,6 @@ const Checkout = () => {
                     >
                       <div className="orderSummaryInfoCont">
                         <div className="">
-                          <small>
-                            Order confirmation will be sent to your registered
-                            email address.
-                          </small>
                           {cartList.map((each, i) => (
                             <div
                               className="d-flex justify-content-between align-items-center mt-2 mb-2"
@@ -649,6 +651,7 @@ const Checkout = () => {
                                 <strong>
                                   Rs.
                                   {productTotalPrice(
+                                    each.is_varaints_aval,
                                     each.price,
                                     each.offer_price,
                                     each.azst_cart_quantity

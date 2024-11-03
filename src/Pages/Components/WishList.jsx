@@ -1,13 +1,14 @@
 // import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
 import SideBar from "../UserDashboard/UserProfile/SideBar";
 import "../UserDashboard/UserProfile/UserProfile.css";
 import { useCallback, useEffect, useState } from "react";
 import swalHandle from "./ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
+import AddToCart from "../../Utils/AddToCart";
+import { Link } from "react-router-dom";
 
 const WishList = () => {
   const [wishList, setWishlist] = useState([]);
@@ -116,7 +117,7 @@ const WishList = () => {
                         <div className="productPrice">
                           <span style={{}} className="me-2 comparedPrice">
                             {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
-                            {each.compare_at_price}
+                            {each.product_compare_at_price}
                           </span>
                           {parseInt(each.is_varaints_aval) === 1 && <br />}
                           <span>
@@ -125,7 +126,7 @@ const WishList = () => {
                           </span>
                         </div>
 
-                        <div className="productPrice">
+                        {/* <div className="productPrice">
                           <span
                             style={{
                               textDecoration: "line-through",
@@ -135,22 +136,26 @@ const WishList = () => {
                             Rs {each.product_compare_at_price}
                           </span>
                           <span className="ms-2">Rs {each.price}</span>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="overlay_bg">
+                        {parseInt(each.is_varaints_aval) !== 1 && (
+                          <AddToCart
+                            productId={each.product_id}
+                            variantId={each.variant_id}
+                            quantity={each.min_cart_quantity}
+                            productQty={each.product_qty}
+                          />
+                        )}
                         <Link
-                          to=""
-                          className="linkBtn beforeHover"
-                          style={{
-                            backgroundColor: "rgb(0, 128, 96)",
-                            color: "#fff",
-                          }}
+                          class="linkBtn beforeHover"
+                          to={`/productitem/${each.product_url_title}`}
                         >
-                          Add to Cart
+                          View Details
                         </Link>
                         <button
                           onClick={() => handleDelete(each.azst_wishlist_id)}
-                          className="beforeHover"
+                          className="linkBtn tertiaryBtn"
                           style={{ border: "none", fontWeight: "500" }}
                         >
                           Remove Item

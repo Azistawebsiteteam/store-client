@@ -1,3 +1,31 @@
 .userPage{
-    padding-top: 2rem;
+    padding-top: 3rem;
+}
+.blogTitle{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-weight: 800 !important;
+}
+.blogsInnerPage {
+    padding: 2rem 12rem 2rem 12rem;
+}
+.blogPgSocialIconsCont{
+    padding: 0 12rem 0 12rem;
+}
+.blogPgSocialIcon{
+    width: 3rem;
+    margin-right: 1.2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .blogsInnerPage {
+        padding: 2rem 1rem 0 1rem;
+    }
+    .blogPgSocialIconsCont {
+        padding: 2rem 1rem;
+    }
 }

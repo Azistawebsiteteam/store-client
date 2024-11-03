@@ -62,9 +62,8 @@ const SideBar = () => {
             setSimilarProducts(similarProducts);
           }
         });
-
-        navigate("/login");
         Cookies.remove(token);
+        navigate("/login");
       }
     } catch (error) {
       swalHandle.onLoadingClose();

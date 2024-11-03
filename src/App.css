@@ -5,6 +5,9 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   outline: none;
+  user-select: none;
+  -webkit-user-select: none; 
+  -moz-user-select: none;
 }
 
 :root{
@@ -25,8 +28,13 @@ body{
   font-size: 1rem;
 }
 .formSelect:focus {
-  outline: none;
-  box-shadow: none; 
+  outline: none !important;
+  box-shadow: none !important; 
+}
+.form-select:focus {
+  border-color: rgb(212, 210, 210) !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .css-15befwp-MuiRating-root,.css-1qqgbpl-MuiRating-root {
   color: var(--hover-bg-color) !important;
@@ -54,6 +62,7 @@ a{
 /* .linkBtn:hover{
   color: inherit !important;
 } */
+
 .custLine {
   margin: 2rem 0 !important;
   color: inherit;
@@ -87,6 +96,19 @@ a{
     text-align: center;
     padding: 0.4rem;
 }
+.outofStockBtn{
+    border: 1px solid #A6A6A6;
+    background-color: #fff;
+    border-radius: 4rem;
+    font-size: 17px;
+    font-weight: 500;
+    color: red;
+    transition: 0.3s;
+    width: 70%;
+    text-align: center;
+    padding: 0.4rem;
+}
+
 .buyNowBtn{
   background-color: var(--hover-bg-color);
   border-radius: 4rem;
@@ -148,8 +170,9 @@ a{
     padding: 0.6rem 1.2rem;
     transition: 0.3s;
     border-radius: 25px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 6px;
+    font-size: 16px;
 }
 .faqBtn:hover{
   background-color: #008060;

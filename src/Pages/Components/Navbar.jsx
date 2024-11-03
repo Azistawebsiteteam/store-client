@@ -203,13 +203,13 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link
+                      <a
                         className="nav-link"
-                        to="/#categories"
+                        href="/#categories"
                         onClick={handleSideNavbar}
                       >
                         Categories
-                      </Link>
+                      </a>
                     </li>
                     <li className="nav-item dropdown">
                       <a
@@ -266,13 +266,13 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link
+                      <a
                         className="nav-link"
-                        to="/#shop99"
+                        href="/#shop99"
                         onClick={handleSideNavbar}
                       >
                         Shop @99
-                      </Link>
+                      </a>
                     </li>
                     {jwtToken && (
                       <li className="nav-item dropdown d-md-none">

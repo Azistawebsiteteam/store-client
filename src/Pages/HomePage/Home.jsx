@@ -103,6 +103,8 @@ const Home = () => {
     apiCallMethod();
   }, [baseUrl, userDetails.azst_customer_id]);
 
+  console.log(bestSellers, "bestSellers");
+
   return (
     <>
       <ScrollToTop />

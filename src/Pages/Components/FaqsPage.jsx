@@ -24,13 +24,15 @@ const FaqsPage = () => {
   return (
     <>
       <ScrollToTop />
-      <div className="userPage" style={{ margin: "6% 0 0 0" }}>
+      <div className="userPage">
         <div className="faqsPage">
-          <p style={{ fontWeight: "600" }}>Frequently Asked Questions</p>
-          <h4 className="text-center">
+          <p style={{ fontWeight: "600", marginBottom: "0" }}>
+            Frequently Asked Questions
+          </p>
+          <h3 className="text-center faqHeading">
             Common Queries Answered for <br />
             Your Convenience
-          </h4>
+          </h3>
           <ButtonRow items={faqTypes} />
         </div>
         <div className="faqsInfo">

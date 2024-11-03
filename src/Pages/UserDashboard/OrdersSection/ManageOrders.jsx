@@ -12,8 +12,12 @@ import ErrorHandler from "../../Components/ErrorHandler";
 
 const ManageOrders = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const debounceRef = useRef(null);
+  const [cancelOrderReason, setCancelOrderReason] = useState("0");
+  const [otherReason, setOtherReason] = useState("");
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+
+  const debounceRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
@@ -35,6 +39,27 @@ const ManageOrders = () => {
     };
     getOrderDetails();
   }, [baseUrl, token, searchTerm]);
+
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current); // Clear previous timer
+    }
+
+    debounceRef.current = setTimeout(() => {
+      const filtered = orders
+        .map((order) => ({
+          ...order,
+          products_details: order.products_details.filter((each) =>
+            each.product_title.toLowerCase().includes(searchTerm.toLowerCase())
+          ),
+        }))
+        .filter((order) => order.products_details.length > 0); // Only include orders with matching products
+
+      setFilteredOrders(filtered);
+    }, 300);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [searchTerm, orders]);
 
   const orderStatusValue = (val, del) => {
     switch (val) {
@@ -62,30 +87,56 @@ const ManageOrders = () => {
     }
   };
 
+  const closeModal = () => {
+    const btn = document.getElementById("modalCloseBtn");
+    btn.click();
+  };
+
   const handleSearchOrder = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current); // Clear previous timer
+  const submitCancelOrder = async (e, orderId) => {
+    try {
+      const url = `${baseUrl}/orders/customer/cancel-order`;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const data = {
+        orderId,
+        reason: cancelOrderReason === "7" ? otherReason : cancelOrderReason,
+      };
+      ErrorHandler.onLoading();
+      const response = await axios.post(url, data, { headers });
+      if (response.status === 200) {
+        const updatedOrders = filteredOrders.map((each) => {
+          if (each.azst_order_id === orderId) {
+            return { ...each, azst_orders_status: 0 };
+          }
+          return each;
+        });
+        setFilteredOrders(updatedOrders);
+      }
+      console.log(data, response, filteredOrders, "kkk");
+      ErrorHandler.onLoadingClose();
+      setCancelOrderReason("0");
+      setOtherReason("");
+      closeModal();
+    } catch (error) {
+      ErrorHandler.onLoadingClose();
+      ErrorHandler.onError(error);
     }
+  };
 
-    debounceRef.current = setTimeout(() => {
-      const filtered = orders
-        .map((order) => ({
-          ...order,
-          products_details: order.products_details.filter((each) =>
-            each.product_title.toLowerCase().includes(searchTerm.toLowerCase())
-          ),
-        }))
-        .filter((order) => order.products_details.length > 0); // Only include orders with matching products
+  const handleCancelOrderReason = (e) => {
+    setCancelOrderReason(e.target.value);
+  };
 
-      setOrders(filtered);
-    }, 300);
-
-    return () => clearTimeout(debounceRef.current);
-  }, [searchTerm, orders]);
+  const handleOtherReason = (e) => {
+    setOtherReason(e.target.value);
+  };
+  console.log(filteredOrders);
+  console.log(cancelOrderReason, otherReason);
 
   return (
     <>
@@ -135,8 +186,8 @@ const ManageOrders = () => {
                 </div>
               </div>
             </div>
-            {orders.length > 0 ? (
-              orders.map((order, i) => (
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order, i) => (
                 <div key={i} className="orderDetails">
                   <div className="orderDetailsTopSec d-flex flex-wrap justify-content-md-between">
                     <div className="detailHeading col-8 col-md-3">
@@ -219,23 +270,117 @@ const ManageOrders = () => {
                       >
                         Order Details
                       </Link>
-                      {orders.azst_orders_delivery_status === 1 && (
+                      {order.azst_orders_delivery_status === 1 && (
                         <Link className="orderedProductBtn">
                           Write a Review
                         </Link>
                       )}
-                      {orders.azst_orders_delivery_status === 1 ? (
+                      {order.azst_orders_delivery_status === 1 ? (
                         <button className="orderedProductBtn">Reorder</button>
                       ) : (
-                        <button className="orderedProductBtn">
-                          Cancel order
+                        <button
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#cancelOrder${order.azst_order_id}`}
+                          className={
+                            order.azst_orders_status !== 0
+                              ? "orderedProductBtn"
+                              : "cancelledBtn"
+                          }
+                          disabled={order.azst_orders_status === 0}
+                        >
+                          {order.azst_orders_status !== 0
+                            ? "Cancel order"
+                            : "Order Cancelled"}
                         </button>
                       )}
-                      {orders.azst_orders_delivery_status === 1 && (
+                      {order.azst_orders_delivery_status === 1 && (
                         <button className="orderedProductBtn">
                           Return or Replace
                         </button>
                       )}
+                    </div>
+                    <div
+                      className="modal fade"
+                      id={`cancelOrder${order.azst_order_id}`}
+                      tabIndex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content reviewModalContent">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">
+                              Request cancellation
+                            </h5>
+                            <button
+                              id="modalCloseBtn"
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <select
+                              className="form-select"
+                              aria-label="Default select example"
+                              onChange={handleCancelOrderReason}
+                              value={cancelOrderReason}
+                            >
+                              <option value="0">Cancellation reason</option>
+                              <option value="1">
+                                Order Created by Mistake
+                              </option>
+                              <option value="2">
+                                Item(s) Would Not Arrive on Time
+                              </option>
+                              <option value="3">Shipping Cost Too High</option>
+                              <option value="4">
+                                Found Cheaper Somewhere Else
+                              </option>
+                              <option value="4">
+                                Need to Change Shipping Address
+                              </option>
+                              <option value="5">
+                                Need to Change Billing Address
+                              </option>
+                              <option value="6">
+                                Need to Change Payment Method
+                              </option>
+                              <option value="7">Other Reason</option>
+                            </select>
+                            {cancelOrderReason === "7" ? (
+                              <textarea
+                                className="form-control  mt-2"
+                                id="otherReason"
+                                rows="3"
+                                onChange={handleOtherReason}
+                                value={otherReason}
+                                placeholder="Enter your reason..."
+                              ></textarea>
+                            ) : null}
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) =>
+                                submitCancelOrder(e, order.azst_order_id)
+                              }
+                              className="btn btn-danger"
+                            >
+                              Proceed
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

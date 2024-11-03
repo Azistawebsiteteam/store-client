@@ -1,10 +1,40 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
+import { AddToWishlist } from "../../Utils/AddToWishlist";
 import "./Customer.css";
 import AddToCart from "../../Utils/AddToCart";
+import ErrorHandler from "./ErrorHandler";
 
 const ProductCard = ({ items }) => {
+  const token = process.env.REACT_APP_JWT_TOKEN;
+  const jwtToken = Cookies.get(token);
+  const navigate = useNavigate();
+
+  const handleWishlist = async (product) => {
+    try {
+      if (!jwtToken) return navigate("/login");
+      const productId = product.product_id;
+      //const variantid = product.availableVariants[0]?.id ?? 0;
+      const response = await AddToWishlist(productId, 0);
+      if (response?.status === 200) {
+        const updatedItem = items.map((item) => {
+          if (item.product_id === product.product_id) {
+            return {
+              ...item,
+              in_wishlist: 1,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
+  };
+
   return (
     <>
       {items.map((each, i) => (
@@ -56,12 +86,13 @@ const ProductCard = ({ items }) => {
               </div>
               <div className="productPrice">
                 <span style={{}} className="me-2 comparedPrice">
-                  {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
+                  {parseInt(each.is_varaints_aval) !== 1 ? "Rs " : null}
                   {each.compare_at_price}
                 </span>
                 {parseInt(each.is_varaints_aval) === 1 && <br />}
                 <span>
-                  {parseInt(each.is_varaints_aval) !== 1 && "Rs"} {each.price}
+                  {parseInt(each.is_varaints_aval) !== 1 ? "Rs " : null}
+                  {each.price}
                 </span>
               </div>
             </div>
@@ -74,6 +105,7 @@ const ProductCard = ({ items }) => {
                   productId={each.product_id}
                   variantId={each.variant_id}
                   quantity={each.min_cart_quantity}
+                  productQty={each.product_qty}
                 />
               )}
               <Link
@@ -82,9 +114,12 @@ const ProductCard = ({ items }) => {
               >
                 View Details
               </Link>
-              <Link to="" className="linkBtn tertiaryBtn">
+              <button
+                onClick={(e) => handleWishlist(e, each)}
+                className="linkBtn tertiaryBtn"
+              >
                 Add to Favourite
-              </Link>
+              </button>
             </div>
           </div>
         </div>

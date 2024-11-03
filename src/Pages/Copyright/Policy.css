@@ -1,8 +1,12 @@
 .policyCont {
-    padding-top: 4rem;
+    padding: 6rem 12rem 2rem 12rem;
 }
 
 @media screen and (max-width: 768px) {
+    .policyCont{
+        padding: 4rem 2rem 2rem 2rem;
+        text-align: justify;
+    }
     .policyContTxt{
         font-size: 1.6rem !important;
     }
