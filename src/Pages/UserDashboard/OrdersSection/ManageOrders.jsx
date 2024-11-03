@@ -117,7 +117,6 @@ const ManageOrders = () => {
         });
         setFilteredOrders(updatedOrders);
       }
-      console.log(data, response, filteredOrders, "kkk");
       ErrorHandler.onLoadingClose();
       setCancelOrderReason("0");
       setOtherReason("");
@@ -135,8 +134,6 @@ const ManageOrders = () => {
   const handleOtherReason = (e) => {
     setOtherReason(e.target.value);
   };
-  console.log(filteredOrders);
-  console.log(cancelOrderReason, otherReason);
 
   return (
     <>
