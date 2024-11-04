@@ -43,132 +43,131 @@ import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
 import OrderSummary from "./Pages/OrderSummary/OrderSummary";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-import NoNetwork from "./Pages/NoNetwork/NoNetwork";
+import useNetworkStatus from "./ProtectedRoute/usenetwork";
+import NoNetwork from "./Pages/Components/NoNetwork";
 
 function App() {
+  const isOnline = useNetworkStatus();
   return (
-    <SearchResultsProvider>
-      <Navbar />
-      <Routes>
-        <Route path="/no-network" element={<NoNetwork />} />
-        <Route path="/registration" element={<UserRegistrationPage />} />
-        <Route path="/login" element={<UserLoginPage />} />
-        <Route path="/otp-registration" element={<OtpRegistration />} />
-        <Route path="/otp-login" element={<OtpLogin />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/create-password" element={<CreatePassword />} />
-        <Route path="/googlesignin" element={<GoogleSignIn />} />
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/edit-profile"
-          element={
-            <ProtectedRoute>
-              <EditProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile-management"
-          element={
-            <ProtectedRoute>
-              <ProfileManagement />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/manage-orders"
-          element={
-            <ProtectedRoute>
-              <ManageOrders />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/order-details/:id"
-          element={
-            <ProtectedRoute>
-              <OrderDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/manage-address"
-          element={
-            <ProtectedRoute>
-              <ManageAddress />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/password-manager"
-          element={
-            <ProtectedRoute>
-              <PasswordManager />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/new-address"
-          element={
-            <ProtectedRoute>
-              <NewAddress />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/update-address/:id"
-          element={
-            <ProtectedRoute>
-              <UpdateDeliveryAddress />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/collection/:id" element={<CollectionsDetails />} />
-        <Route path="/productitem/:id" element={<ProductItem />} />
-        <Route path="/search/products" element={<AllProductsPage />} />
-        <Route path="/popup" element={<Popup />} />
-        <Route path="/wishList" element={<WishList />} />
-        <Route
-          path="/checkout"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blogsInner/:id" element={<BlogsInnerPage />} />
-        <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
-        <Route path="/returns-and-refunds" element={<ReturnsAndRefunds />} />
-        <Route path="/safety-and-security" element={<SafteyAndSecurity />} />
-        <Route path="/shipping-policy" element={<ShippingPolicy />} />
-        <Route path="/faqs" element={<FaqsPage />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/reviews-ratings" element={<ReviewsList />} />
-        <Route
-          path="/edit-review"
-          element={
-            <ProtectedRoute>
-              <EditReview />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/request-callback" element={<RequestCb />} />
+    <>
+      {!isOnline ? (
+        <>
+          <Routes>
+            <Route path="*" element={<NoNetwork />} />
+          </Routes>
+        </>
+      ) : (
+        <SearchResultsProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/registration" element={<UserRegistrationPage />} />
+            <Route path="/login" element={<UserLoginPage />} />
+            <Route path="/otp-registration" element={<OtpRegistration />} />
+            <Route path="/otp-login" element={<OtpLogin />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/create-password" element={<CreatePassword />} />
+            <Route path="/googlesignin" element={<GoogleSignIn />} />
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/edit-profile"
+              element={
+                <ProtectedRoute>
+                  <EditProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile-management"
+              element={
+                <ProtectedRoute>
+                  <ProfileManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage-orders"
+              element={
+                <ProtectedRoute>
+                  <ManageOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-details/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage-address"
+              element={
+                <ProtectedRoute>
+                  <ManageAddress />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/password-manager"
+              element={
+                <ProtectedRoute>
+                  <PasswordManager />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new-address"
+              element={
+                <ProtectedRoute>
+                  <NewAddress />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/update-address/:id"
+              element={
+                <ProtectedRoute>
+                  <UpdateDeliveryAddress />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/collection/:id" element={<CollectionsDetails />} />
+            <Route path="/productitem/:id" element={<ProductItem />} />
+            <Route path="/search/products" element={<AllProductsPage />} />
+            <Route path="/popup" element={<Popup />} />
+            <Route path="/wishList" element={<WishList />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogsInner/:id" element={<BlogsInnerPage />} />
+            <Route
+              path="/terms-and-conditions"
+              element={<TermsAndCondition />}
+            />
+            <Route
+              path="/returns-and-refunds"
+              element={<ReturnsAndRefunds />}
+            />
+            <Route
+              path="/safety-and-security"
+              element={<SafteyAndSecurity />}
+            />
+            <Route path="/shipping-policy" element={<ShippingPolicy />} />
+            <Route path="/faqs" element={<FaqsPage />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/reviews-ratings" element={<ReviewsList />} />
+            <Route path="/edit-review" element={<EditReview />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/request-callback" element={<RequestCb />} />
 
-        <Route
-          path="/order-summary"
-          element={
-            <ProtectedRoute>
-              <OrderSummary />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-      <Copyright />
-    </SearchResultsProvider>
+            <Route path="/order-summary" element={<OrderSummary />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+          <Copyright />
+        </SearchResultsProvider>
+      )}
+    </>
   );
 }
 
