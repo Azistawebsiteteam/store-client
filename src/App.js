@@ -43,12 +43,14 @@ import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
 import OrderSummary from "./Pages/OrderSummary/OrderSummary";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
+import NoNetwork from "./Pages/NoNetwork/NoNetwork";
 
 function App() {
   return (
     <SearchResultsProvider>
       <Navbar />
       <Routes>
+        <Route path="/no-network" element={<NoNetwork />} />
         <Route path="/registration" element={<UserRegistrationPage />} />
         <Route path="/login" element={<UserLoginPage />} />
         <Route path="/otp-registration" element={<OtpRegistration />} />
@@ -126,7 +128,14 @@ function App() {
         <Route path="/search/products" element={<AllProductsPage />} />
         <Route path="/popup" element={<Popup />} />
         <Route path="/wishList" element={<WishList />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogsInner/:id" element={<BlogsInnerPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
@@ -136,11 +145,25 @@ function App() {
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/reviews-ratings" element={<ReviewsList />} />
-        <Route path="/edit-review" element={<EditReview />} />
+        <Route
+          path="/edit-review"
+          element={
+            <ProtectedRoute>
+              <EditReview />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/request-callback" element={<RequestCb />} />
 
-        <Route path="/order-summary" element={<OrderSummary />} />
+        <Route
+          path="/order-summary"
+          element={
+            <ProtectedRoute>
+              <OrderSummary />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

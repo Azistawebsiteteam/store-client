@@ -16,6 +16,7 @@ const ManageOrders = () => {
   const [otherReason, setOtherReason] = useState("");
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
+  const [cancellationReason, setCancellationReason] = useState("");
 
   const debounceRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -97,6 +98,10 @@ const ManageOrders = () => {
   };
 
   const submitCancelOrder = async (e, orderId) => {
+    if (cancelOrderReason === "0") {
+      setCancellationReason("Please select a reason for cancelling the order.");
+      return;
+    }
     try {
       const url = `${baseUrl}/orders/customer/cancel-order`;
       const headers = {
@@ -356,6 +361,7 @@ const ManageOrders = () => {
                                 placeholder="Enter your reason..."
                               ></textarea>
                             ) : null}
+                            <small>{cancellationReason}</small>
                           </div>
                           <div className="modal-footer">
                             <button

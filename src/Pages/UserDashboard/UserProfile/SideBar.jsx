@@ -23,8 +23,9 @@ const SideBar = () => {
   } = useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
-  const token = process.env.REACT_APP_JWT_TOKEN;
-  const jwtToken = Cookies.get(token);
+  const tokenKey = process.env.REACT_APP_JWT_TOKEN;
+  console.log(tokenKey);
+  const jwtToken = Cookies.get(tokenKey);
   const navigate = useNavigate();
 
   const logoutUser = async () => {
@@ -45,6 +46,7 @@ const SideBar = () => {
           timer: 2000,
         });
         setUserDetails({});
+        Cookies.remove(tokenKey);
         cartItems(0).then((data) => {
           if (data) {
             const {
@@ -62,7 +64,6 @@ const SideBar = () => {
             setSimilarProducts(similarProducts);
           }
         });
-        Cookies.remove(token);
         navigate("/login");
       }
     } catch (error) {

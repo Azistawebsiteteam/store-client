@@ -138,7 +138,7 @@ const Navbar = () => {
               Help or Support
               <img
                 src={`${process.env.PUBLIC_URL}/images/customer-service.svg`}
-                className="ms-1 social_icon"
+                className="ms-2 social_icon"
                 alt="email"
               />
             </small>

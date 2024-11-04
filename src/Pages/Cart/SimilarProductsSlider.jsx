@@ -75,7 +75,14 @@ const SimilarProductsSlider = ({ similarProducts, closeCart }) => {
                 value={product.product_review_points}
                 className="similarProductRating"
                 readOnly
-                style={{ color: "blue" }}
+                sx={{
+                  "& .MuiRating-iconFilled": {
+                    color: "rgba(25, 171, 252, 1)", // Color for filled stars
+                  },
+                  "& .MuiRating-iconEmpty": {
+                    color: "lightgray", // Color for empty stars
+                  },
+                }}
               />
               <span className="d-block">{product.product_main_title}</span>
               {product.is_varaints_aval !== 0 && (

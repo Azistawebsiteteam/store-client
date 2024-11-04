@@ -178,9 +178,11 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
           <RxCross2
             className="searchBarIcon"
             size={20}
+            strokeWidth={1}
             onClick={() => closeSearchBar(false)}
           />
         </div>
+        <div style={{ border: "1px solid #efecec" }}></div>
         <div className="searchBarRightSec">
           {searchText.length > 0 ? (
             searchFunctionality()

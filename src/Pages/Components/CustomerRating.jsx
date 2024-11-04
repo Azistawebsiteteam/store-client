@@ -62,6 +62,7 @@ export const CreateReview = (props) => {
       return alert("Review content should be at least 10 characters long.");
     }
     try {
+      const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
@@ -129,13 +130,23 @@ export const CreateReview = (props) => {
               setValue(newValue);
             }}
             precision={0.5}
+            sx={{
+              "& .MuiRating-iconFilled": {
+                color: "rgba(0, 128, 96, 1)", // Color for filled stars
+              },
+              "& .MuiRating-iconEmpty": {
+                color: "lightgray", // Color for empty stars
+              },
+            }}
           />
         </div>
         <div className="reviewTitle">
-          <label htmlFor="reviewTitle">Title</label>
+          <label className="form-label" htmlFor="reviewTitle">
+            Title
+          </label>
           <input
             id="reviewTitle"
-            className="reviewSectionInput"
+            className="form-control reviewSectionInput"
             type="text"
             maxLength={100}
             value={reviewData.reviewTitle}
@@ -143,10 +154,12 @@ export const CreateReview = (props) => {
           />
         </div>
         <div className="reviewSec mt-2">
-          <label htmlFor="review">Review</label>
+          <label className="form-label" htmlFor="review">
+            Review
+          </label>
           <textarea
             id="reviewContent"
-            className="reviewSectionInput"
+            className="form-control reviewSectionInput"
             rows={4}
             cols={50}
             minLength={10}
@@ -275,7 +288,6 @@ export const DisplayReview = ({ productId }) => {
       (review) => parseInt(review.customer_id) === userDetails?.azst_customer_id
     );
     const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
-
     return jwtToken && !myReview;
   };
 
@@ -298,6 +310,14 @@ export const DisplayReview = ({ productId }) => {
                     precision={0.5}
                     readOnly
                     className="gold-stars individualRating me-1"
+                    sx={{
+                      "& .MuiRating-iconFilled": {
+                        color: "rgba(0, 128, 96, 1)", // Color for filled stars
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        color: "lightgray", // Color for empty stars
+                      },
+                    }}
                   />
                 </span>
                 <span>
@@ -307,7 +327,7 @@ export const DisplayReview = ({ productId }) => {
             )}
           </div>
 
-          {showWriteReview && (
+          {showWriteReview() && (
             <div className="d-flex flex-column align-items-center">
               <button
                 type="button"
@@ -433,6 +453,14 @@ export const ProductRating = ({ productId }) => {
             precision={0.5}
             readOnly
             className="gold-stars me-1"
+            sx={{
+              "& .MuiRating-iconFilled": {
+                color: "rgba(0, 128, 96, 1)", // Color for filled stars
+              },
+              "& .MuiRating-iconEmpty": {
+                color: "lightgray", // Color for empty stars
+              },
+            }}
           />
           <span> ({reviewsCount})</span>{" "}
         </>

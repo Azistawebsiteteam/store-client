@@ -167,6 +167,14 @@ const EditReview = () => {
               }}
               precision={0.5}
               className="reviewEditPgStarIcon"
+              sx={{
+                "& .MuiRating-iconFilled": {
+                  color: "rgba(0, 128, 96, 1)", // Color for filled stars
+                },
+                "& .MuiRating-iconEmpty": {
+                  color: "lightgray", // Color for empty stars
+                },
+              }}
             />
             <div className="form-floating mb-3">
               <input

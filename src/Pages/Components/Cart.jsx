@@ -101,6 +101,7 @@ const Cart = ({ handleCart, showCart }) => {
                 cursor: "pointer",
               }}
               size={20}
+              strokeWidth={1}
               onClick={closeCart}
             />
           </div>

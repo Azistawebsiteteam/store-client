@@ -64,6 +64,14 @@ const ReviewsList = () => {
                       value={review.review_points}
                       precision={0.5}
                       readOnly
+                      sx={{
+                        "& .MuiRating-iconFilled": {
+                          color: "rgba(0, 128, 96, 1)", // Color for filled stars
+                        },
+                        "& .MuiRating-iconEmpty": {
+                          color: "lightgray", // Color for empty stars
+                        },
+                      }}
                     />
                     <span style={{ fontWeight: "500" }}>
                       {review.review_title}
