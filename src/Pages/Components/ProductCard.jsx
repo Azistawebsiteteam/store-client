@@ -7,7 +7,7 @@ import "./Customer.css";
 import AddToCart from "../../Utils/AddToCart";
 import ErrorHandler from "./ErrorHandler";
 
-const ProductCard = ({ items }) => {
+const ProductCard = ({ items, setUpdate }) => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const ProductCard = ({ items }) => {
             return item;
           }
         });
+        setUpdate(updatedItem);
       }
     } catch (error) {
       ErrorHandler.onError(error);

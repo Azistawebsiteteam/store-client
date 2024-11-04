@@ -280,7 +280,6 @@ const ProductItem = () => {
     }
   };
 
-  console.log(productDetails, "productDetails");
   return (
     <>
       <ScrollToTop />
@@ -460,8 +459,8 @@ const ProductItem = () => {
                           <FaPlus />
                         </span>
                       </div>
-                      {parseInt(productDetails) > 0 &&
-                      parseInt(productDetails) >=
+                      {parseInt(productDetails.product_qty) > 0 &&
+                      parseInt(productDetails.product_qty) >=
                         parseInt(productDetails.min_cart_quantity) ? (
                         <button
                           className="productPgBtn"
@@ -488,7 +487,7 @@ const ProductItem = () => {
                       <img
                         src={`${process.env.PUBLIC_URL}/images/${
                           productDetails.in_wishlist === 1
-                            ? "redHeart.svg"
+                            ? "inWishist.svg"
                             : "darkHeart.svg"
                         }`}
                         alt="wishlist"
@@ -496,7 +495,17 @@ const ProductItem = () => {
                         onClick={handleWishlist}
                       />
                     </div>
-                    <button className="buyNowBtn" onClick={handleBuyNow}>
+                    <button
+                      className="buyNowBtn"
+                      onClick={handleBuyNow}
+                      disabled={
+                        !(
+                          parseInt(productDetails.product_qty) > 0 &&
+                          parseInt(productDetails.product_qty) >=
+                            parseInt(productDetails.min_cart_quantity)
+                        )
+                      }
+                    >
                       Buy it Now
                     </button>
 

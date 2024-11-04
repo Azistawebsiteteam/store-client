@@ -6,6 +6,8 @@ import Slider from "react-slick";
 import "../Components/Customer.css";
 import AddToCart from "../../Utils/AddToCart";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
+import { AddToWishlist } from "../../Utils/AddToWishlist";
+import ErrorHandler from "../Components/ErrorHandler";
 
 function SampleNextArrow(props) {
   const { style, onClick } = props;
@@ -40,7 +42,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-const productSlider = ({ title, items }) => {
+const productSlider = ({ title, items, setUpdate }) => {
   var settings = {
     lazyLoad: true,
     dots: false,
@@ -75,6 +77,29 @@ const productSlider = ({ title, items }) => {
         },
       },
     ],
+  };
+
+  const handleWishlist = async (product) => {
+    try {
+      const productId = product.product_id;
+      //const variantid = product.availableVariants[0]?.id ?? 0;
+      const response = await AddToWishlist(productId, 0);
+      if (response?.status === 200) {
+        const updatedItem = items.map((item) => {
+          if (item.product_id === product.product_id) {
+            return {
+              ...item,
+              in_wishlist: 1,
+            };
+          } else {
+            return item;
+          }
+        });
+        setUpdate(updatedItem);
+      }
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
   };
 
   return (
@@ -163,9 +188,12 @@ const productSlider = ({ title, items }) => {
                 >
                   View Details
                 </Link>
-                <Link to="" className="linkBtn tertiaryBtn">
+                <button
+                  onClick={() => handleWishlist(each)}
+                  className="linkBtn tertiaryBtn"
+                >
                   Add to Favourite
-                </Link>
+                </button>
               </div>
             </div>
           </div>

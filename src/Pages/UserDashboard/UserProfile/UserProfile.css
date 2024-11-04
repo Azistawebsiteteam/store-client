@@ -117,7 +117,7 @@ address {
         max-width: 100%;
     }
     .commonBtn {
-        width: 30% !important;
+        width: 100% !important;
     }
     .billingAdd{
         width: 18rem !important;

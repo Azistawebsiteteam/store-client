@@ -59,6 +59,21 @@ const WishList = () => {
     }
   };
 
+  const getDicountPercentage = (each) => {
+    const discount =
+      each.is_varaints_aval === 0
+        ? getProductDiscount(each.product_compare_at_price, each.price)
+        : getProductDiscount(each.compare_at_price, each.offer_price);
+
+    return discount > 0 ? (
+      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}>
+        Save {discount}%
+      </p>
+    ) : (
+      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}></p>
+    );
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -74,22 +89,7 @@ const WishList = () => {
                     <div className="bestSelledProduct">
                       <div className="productCard">
                         <div className="d-flex justify-content-between align-items-center">
-                          <p
-                            className="mb-0"
-                            style={{ color: "#EC6B5B", fontWeight: "800" }}
-                          >
-                            Save{" "}
-                            {each.azst_variant_id === 0
-                              ? getProductDiscount(
-                                  each.product_compare_at_price,
-                                  each.price
-                                )
-                              : getProductDiscount(
-                                  each.compare_at_price,
-                                  each.offer_price
-                                )}
-                            %
-                          </p>
+                          {getDicountPercentage(each)}
                           <div>
                             <img
                               src={`${process.env.PUBLIC_URL}/images/coloredIcon.svg`}
@@ -98,6 +98,7 @@ const WishList = () => {
                             />
                           </div>
                         </div>
+
                         <div className="productContent">
                           <p className="truncate">{each.product_main_title}</p>
                           <small
@@ -148,7 +149,7 @@ const WishList = () => {
                           />
                         )}
                         <Link
-                          class="linkBtn beforeHover"
+                          className="linkBtn beforeHover"
                           to={`/productitem/${each.product_url_title}`}
                         >
                           View Details

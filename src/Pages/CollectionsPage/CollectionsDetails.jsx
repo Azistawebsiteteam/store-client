@@ -130,7 +130,10 @@ const CollectionsDetails = () => {
             />
           </div>
           <div className="collectionProducts">
-            <ProductCard items={filteredProducts} />
+            <ProductCard
+              items={filteredProducts}
+              setUpdate={setFilteredProducts}
+            />
           </div>
         </div>
       </div>

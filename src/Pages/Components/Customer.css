@@ -838,10 +838,10 @@ img.gif {
         margin: 0.4rem;
         font-size: 1rem !important;
     }
-    /* .beforeHover:hover {
+    .defaultHover:hover {
         transition: 0.3s;
         color: #fff;
-    }  */
+    } 
     .heartIcon {
         width: 90%;
     }
@@ -964,6 +964,7 @@ img.satisfiedProductImg {
 .wishListBtn {
     width: 3rem;
     cursor: pointer;
+    border-radius: 50%;
 }
 .wishlistItem{
     position: relative;
@@ -2053,6 +2054,9 @@ img.navigateArrowCircle {
     }
     img.blogMainImg {
         padding: 1rem 0 !important;
+    }
+    .blogsPage {
+        padding: 0 4px;
     }
 }
 

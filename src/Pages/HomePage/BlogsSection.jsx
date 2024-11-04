@@ -32,7 +32,11 @@ const BlogsSection = () => {
           <div className="row">
             <div className="col-sm-12 d-md-flex align-items-md-center justify-content-md-between mb-3">
               <h4>Latest Blogs</h4>
-              <Link className="linkBtn customLinkBtn" to={`/blogs`}>
+              <Link
+                className="linkBtn customLinkBtn"
+                style={{ fontSize: "1rem" }}
+                to={`/blogs`}
+              >
                 View All
               </Link>
             </div>

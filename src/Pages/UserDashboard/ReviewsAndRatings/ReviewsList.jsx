@@ -36,9 +36,10 @@ const ReviewsList = () => {
         <SideBar />
         <div className="myAccount_right_sec reviewsContSec">
           <h5 style={{ fontFamily: "outfit" }}>Reviews & Ratings</h5>
-          <div className="row">
-            {reviews.length !== 0 ? (
-              reviews.map((review, i) => (
+
+          {reviews.length !== 0 ? (
+            <div className="row">
+              {reviews.map((review, i) => (
                 <div className="col-md-4" key={review.review_id}>
                   <div className="myAccReviewCont">
                     <div className="d-flex justify-content-between align-items-start mt-1 mb-1">
@@ -70,13 +71,13 @@ const ReviewsList = () => {
                     <small className="truncate">{review.review_content}</small>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="d-flex justify-content-center align-items-center h-100">
-                <h6>No Reviews Available</h6>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <h6>No Reviews Available</h6>
+            </div>
+          )}
         </div>
       </div>
     </div>

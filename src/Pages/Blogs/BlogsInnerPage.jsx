@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { PiArrowCircleLeftThin } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import "./Blogs.css";
@@ -36,9 +35,10 @@ const BlogsInnerPage = () => {
         <div className="container">
           {Object.keys(blogData).length > 1 && (
             <div className="blogsInnerPage">
-              <PiArrowCircleLeftThin
-                size={60}
-                style={{ cursor: "pointer" }}
+              <img
+                src={`${process.env.PUBLIC_URL}/images/arrowLeftBtn.svg`}
+                alt="arrowLeft"
+                style={{ cursor: "pointer", width: "46px" }}
                 onClick={() => navigate(-1)}
               />
               <h3 className="blogHeading">{blogData.azst_blg_title}</h3>

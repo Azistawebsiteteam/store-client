@@ -115,12 +115,12 @@ const ManageOrders = () => {
           }
           return each;
         });
+        ErrorHandler.onLoadingClose();
+        setCancelOrderReason("0");
+        setOtherReason("");
+        closeModal();
         setFilteredOrders(updatedOrders);
       }
-      ErrorHandler.onLoadingClose();
-      setCancelOrderReason("0");
-      setOtherReason("");
-      closeModal();
     } catch (error) {
       ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
@@ -311,7 +311,6 @@ const ManageOrders = () => {
                               Request cancellation
                             </h5>
                             <button
-                              id="modalCloseBtn"
                               type="button"
                               className="btn-close"
                               data-bs-dismiss="modal"
@@ -360,6 +359,7 @@ const ManageOrders = () => {
                           </div>
                           <div className="modal-footer">
                             <button
+                              id="modalCloseBtn"
                               type="button"
                               className="btn btn-secondary"
                               data-bs-dismiss="modal"

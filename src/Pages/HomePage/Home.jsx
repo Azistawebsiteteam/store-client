@@ -103,8 +103,6 @@ const Home = () => {
     apiCallMethod();
   }, [baseUrl, userDetails.azst_customer_id]);
 
-  console.log(bestSellers, "bestSellers");
-
   return (
     <>
       <ScrollToTop />
@@ -124,6 +122,7 @@ const Home = () => {
                 title={"Best Sellers"}
                 type={"bestSellers"}
                 items={bestSellers}
+                setUpdate={setBestSellers}
               />
             </div>
           )}
@@ -170,6 +169,7 @@ const Home = () => {
                 title={"Shop at 99"}
                 type={"shop99"}
                 items={shop99Data}
+                setUpdate={setShop99Data}
               />
             </div>
           )}
