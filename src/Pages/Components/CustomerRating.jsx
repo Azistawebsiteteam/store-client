@@ -333,14 +333,14 @@ export const DisplayReview = ({ productId }) => {
                 type="button"
                 className="reviewBtn"
                 data-bs-toggle="modal"
-                data-bs-target="#createReview"
+                data-bs-target={`#createReviewModal${userDetails?.azst_customer_id}`}
               >
                 Write a review
               </button>
 
               <div
                 className="modal fade"
-                id="createReview"
+                id={`createReviewModal${userDetails?.azst_customer_id}`}
                 tabIndex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"

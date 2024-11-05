@@ -1516,6 +1516,8 @@ img.emptyCartImg {
 .otherVariantsSec{
     padding: 0 0.8rem;
     /* margin-bottom: 2rem; */
+    min-height: 10rem;
+    max-height: 10rem;
 }
 img.cartProductImg {
     width: 5rem;

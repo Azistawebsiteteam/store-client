@@ -198,8 +198,10 @@ const Checkout = () => {
 
   const productTotalPrice = (isvariantsAval, price, offerPrice, quantity) => {
     if (parseInt(isvariantsAval) !== 1) {
+      console.log(parseInt(price) * parseInt(quantity));
       return parseInt(price) * parseInt(quantity);
     } else {
+      console.log(parseInt(offerPrice) * parseInt(quantity));
       return parseInt(offerPrice) * parseInt(quantity);
     }
   };
