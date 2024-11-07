@@ -17,6 +17,8 @@ const SearchResultsProvider = (props) => {
   const [userDetails, setUserDetails] = useState({});
   const [cartCount, setCartCount] = useState();
   const [productDetails, setProductDetails] = useState({});
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
 
@@ -114,6 +116,10 @@ const SearchResultsProvider = (props) => {
         setSimilarProducts,
         productDetails,
         setProductDetails,
+        showSearchBar,
+        setShowSearchBar,
+        showCart,
+        setShowCart,
       }}
     >
       {children}

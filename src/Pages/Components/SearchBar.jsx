@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import Categories from "../HomePage/Categories";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorHandler from "./ErrorHandler";
+import { searchResultContext } from "../../ReactContext/SearchResults";
 
 const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const [categories, setCategories] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [searchTextResult, setSearchTextResult] = useState([]);
+  const { searchResults, setSearchResults } = useContext(searchResultContext);
 
   const baseUrl = process.env.REACT_APP_API_URL;
 
@@ -43,7 +44,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
     };
     const response = await axios.post(url, body);
     if (response.data.products) {
-      setSearchTextResult(response.data.products);
+      setSearchResults(response.data.products);
     }
   };
 
@@ -69,10 +70,10 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
           <strong>Search Results</strong>
         </p>
         <div className="searchResults">
-          {searchTextResult.length > 0 ? (
+          {searchResults.length > 0 ? (
             <>
               <div className="d-flex">
-                {searchTextResult.slice(0, 3).map((product, i) => (
+                {searchResults.slice(0, 3).map((product, i) => (
                   <Link
                     className="linkBtn"
                     to={`/productitem/${product.product_url_title}`}
@@ -122,7 +123,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
                 ))}
               </div>
               <div>
-                {searchTextResult.length > 3 && (
+                {searchResults.length > 3 && (
                   <p
                     className="linkBtn"
                     style={{ cursor: "pointer", fontWeight: "500" }}

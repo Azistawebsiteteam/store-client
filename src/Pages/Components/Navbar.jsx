@@ -14,10 +14,18 @@ import axios from "axios";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 const Navbar = () => {
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  // const [showSearchBar, setShowSearchBar] = useState(false);
+  // const [showCart, setShowCart] = useState(false);
   const [showSideNavbar, setShowSideNavbar] = useState(false);
-  const { cartTotal, cartCount, setCartList } = useContext(searchResultContext);
+  const {
+    cartTotal,
+    cartCount,
+    setCartList,
+    showSearchBar,
+    setShowSearchBar,
+    showCart,
+    setShowCart,
+  } = useContext(searchResultContext);
   const [isSticky, setIsSticky] = useState(false);
 
   const baseUrl = process.env.REACT_APP_API_URL;

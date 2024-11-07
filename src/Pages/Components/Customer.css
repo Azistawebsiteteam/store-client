@@ -1300,6 +1300,7 @@ p.ingredientTitle {
 }
 .searchBarRightSec{
     padding: 1rem;
+    overflow-y: scroll;
 }
 .searchBar{
     border: none !important;
@@ -1346,9 +1347,9 @@ input[type="file"] {
     flex-direction: column;
     padding: 1rem;
 }
-.searchResults {
+/* .searchResults {
     overflow-y: auto;
-}
+} */
 .productContent p {
     font-size: 1rem;
     color: #000;

@@ -74,6 +74,21 @@ const WishList = () => {
     );
   };
 
+  const getProductPrice = (each) => {
+    const isVariantAvailable = parseInt(each.is_varaints_aval) === 1;
+    const comparePrice = isVariantAvailable
+      ? each.compare_at_price
+      : each.product_compare_at_price;
+    const salePrice = isVariantAvailable ? each.offer_price : each.price;
+
+    return (
+      <>
+        <span className="me-2 comparedPrice">Rs {comparePrice}</span>
+        <span>Rs {salePrice}</span>
+      </>
+    );
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -116,15 +131,7 @@ const WishList = () => {
                           />
                         </div>
                         <div className="productPrice">
-                          <span style={{}} className="me-2 comparedPrice">
-                            {parseInt(each.is_varaints_aval) !== 1 && "Rs"}
-                            {each.product_compare_at_price}
-                          </span>
-                          {parseInt(each.is_varaints_aval) === 1 && <br />}
-                          <span>
-                            {parseInt(each.is_varaints_aval) !== 1 && "Rs"}{" "}
-                            {each.price}
-                          </span>
+                          {getProductPrice(each)}
                         </div>
 
                         {/* <div className="productPrice">
