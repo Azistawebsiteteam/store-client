@@ -74,6 +74,7 @@ const OrderDetails = () => {
 
   const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
+
   return (
     <>
       <ScrollToTop />
@@ -316,14 +317,17 @@ const OrderDetails = () => {
                                   )
                                 )}
                               </div>
-                              <div className="ms-5">
-                                <button
-                                  className="d-block orderedProductBtn"
-                                  style={{ borderRadius: "6px" }}
-                                >
-                                  Reorder
-                                </button>
-                              </div>
+                              {orderDetails.azst_orders_delivery_status ===
+                                2 && (
+                                <div className="ms-5">
+                                  <button
+                                    className="d-block orderedProductBtn"
+                                    style={{ borderRadius: "6px" }}
+                                  >
+                                    Reorder
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>

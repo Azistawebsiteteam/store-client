@@ -187,7 +187,32 @@ li.addressTab {
     font-size: 0.9rem !important;
     font-weight: 500 !important;
 }
-
+.bankFileUpload {
+    height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    width: 100%;
+    padding: 1rem 0.75rem !important;
+    display: inline-block;
+}
+.bankFileInput {
+    position: absolute;
+    left: 0;
+    /* height: calc(3.5rem + calc(var(--bs-border-width)* 2)); */
+    min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    opacity: 0;
+    height: 100%;
+}
+.customBankFileInput {
+    position: relative;
+    border: 1px solid grey;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    line-height: 1.25;
+    border-radius: 0.375rem;
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+}
 @media screen and (max-width:768px) {
     .ordersCont{
         width: 100%;

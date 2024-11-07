@@ -272,12 +272,12 @@ const ManageOrders = () => {
                       >
                         Order Details
                       </Link>
-                      {order.azst_orders_delivery_status === 1 && (
+                      {order.azst_orders_delivery_status === 2 && (
                         <Link className="orderedProductBtn">
                           Write a Review
                         </Link>
                       )}
-                      {order.azst_orders_delivery_status === 1 ? (
+                      {order.azst_orders_delivery_status === 2 ? (
                         <button className="orderedProductBtn">Reorder</button>
                       ) : (
                         <button
@@ -296,10 +296,14 @@ const ManageOrders = () => {
                             : "Order Cancelled"}
                         </button>
                       )}
-                      {order.azst_orders_delivery_status === 1 && (
-                        <button className="orderedProductBtn">
-                          Return or Replace
-                        </button>
+                      {order.azst_orders_delivery_status === 2 && (
+                        <Link
+                          to="/azst/orders/return"
+                          state={{ orderId: order.azst_order_id }}
+                          className="orderedProductBtn"
+                        >
+                          Return
+                        </Link>
                       )}
                     </div>
                     <div

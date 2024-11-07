@@ -124,7 +124,6 @@ const EditProfile = () => {
     if (!profileDetails.address1) {
       validationErrorMessage.address1 = "Address is required";
     }
-
     return validationErrorMessage;
   };
 

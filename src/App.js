@@ -45,6 +45,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import useNetworkStatus from "./ProtectedRoute/usenetwork";
 import NoNetwork from "./Pages/Components/NoNetwork";
+import ReturnsAndReplace from "./Pages/UserDashboard/OrdersSection/ReturnsAndReplace";
 
 function App() {
   const isOnline = useNetworkStatus();
@@ -129,6 +130,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <UpdateDeliveryAddress />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/azst/orders/return"
+              element={
+                <ProtectedRoute>
+                  <ReturnsAndReplace />
                 </ProtectedRoute>
               }
             />

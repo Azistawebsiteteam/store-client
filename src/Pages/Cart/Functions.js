@@ -35,7 +35,6 @@ export const cartItems = async (custId) => {
       customerId: custId ?? 0,
       sessionId: localStorage.getItem(process.env.REACT_APP_CART_KEY),
     };
-
     swalHandle.onLoading();
     const response = await axios.post(url, body);
     // const { cart_products, cart_total,discountAmount } = response.data;

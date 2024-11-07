@@ -1319,8 +1319,8 @@ input[type="search"]::-webkit-search-cancel-button {
     color: #a3a2a2 !important;
 }
 input[type="file"] {
-    display: none;
-  }
+    opacity: 0;    
+}
 
 .searchBarIcon{
     font-size: 1.5rem;
@@ -1536,6 +1536,9 @@ img.cartProductImg {
     flex-direction: column;
     align-items: center;
 }
+.cartPgBtn{
+    padding: 0.5rem 10rem !important
+}
 
 /* notFoundPage */
 
@@ -1612,7 +1615,20 @@ img.cartProductImg {
 .reviewSectionInput{
     width: 100%;
 }
-
+.productBuyNowSection{
+    background-color: rgba(249, 249, 252, 1);
+    padding: 2rem 0;
+    position: sticky;
+    top: 7rem;
+    width: 100%;
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+.productName{
+    font-size: 1.7rem !important;
+    font-weight: 600 !important;
+    font-family: 'Outfit';
+}
 img.navigateArrowCircle {
     width: 54px;
 }
@@ -1988,6 +2004,10 @@ img.navigateArrowCircle {
     }
     .cartPageTopSec {
         padding: 0 !important;
+    }
+    .cartPgBtn{
+        padding: 0.5rem 0 !important;
+        text-align: center;
     }
 }
 

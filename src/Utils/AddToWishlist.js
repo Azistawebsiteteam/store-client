@@ -35,7 +35,7 @@ export const AddToWishlist = async (productId, variantId) => {
   const jwtToken = Cookies.get(tokenKey);
 
   if (!jwtToken) {
-    throw new Error("User is not authenticated.");
+    return window.location.replace("/login");
   }
 
   try {

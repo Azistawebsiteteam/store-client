@@ -41,17 +41,17 @@ const Cart = ({ handleCart, showCart }) => {
     }
   };
 
-  const savingCalculator = () => {
-    return cartList.reduce((total, item) => {
-      const comparePrice =
+  const savingCalculator = (cartList, cartTotal) => {
+    const totalPrice = cartList.reduce((total, item) => {
+      const itemPrice =
         item.is_varaints_aval !== 0
-          ? Number(item.compare_at_price) || 0
-          : Number(item.product_compare_at_price) || 0;
-      const price = Number(item.price) || 0;
-      const quantity = Number(item.azst_cart_quantity) || 0;
-
-      return total + (comparePrice - price) * quantity;
+          ? Number(item.compare_at_price)
+          : Number(item.product_compare_at_price);
+      const price = itemPrice * parseInt(item.azst_cart_quantity);
+      return total + price;
     }, 0);
+    const saving = totalPrice - cartTotal;
+    return Math.max(saving, 0);
   };
 
   return (
@@ -112,7 +112,8 @@ const Cart = ({ handleCart, showCart }) => {
             <span
               style={{ color: "#000", fontWeight: "500", fontSize: "0.9rem" }}
             >
-              You are Saving Rs.{savingCalculator()} from this order.
+              You are Saving Rs.{savingCalculator(cartList, cartTotal)} from
+              this order.
             </span>
           </div>
           <div className="cartProducts">
@@ -239,8 +240,8 @@ const Cart = ({ handleCart, showCart }) => {
           <div className="cartPgbotSec">
             <Link
               to={jwtToken ? "/checkout" : "/login"}
-              className="commonBtn d-block"
-              style={{ textDecoration: "none", padding: "0.5rem 10rem" }}
+              className="commonBtn d-block cartPgBtn"
+              style={{ textDecoration: "none" }}
               onClick={closeCart}
             >
               Check Out - Rs.
@@ -263,8 +264,8 @@ const Cart = ({ handleCart, showCart }) => {
           </span>
           <button
             onClick={closeCart}
-            style={{ color: "grey", cursor: "pointer" }}
-            className="d-md-none"
+            style={{ cursor: "pointer" }}
+            className="d-md-none continueSpngBtn"
           >
             Continue Shopping
           </button>

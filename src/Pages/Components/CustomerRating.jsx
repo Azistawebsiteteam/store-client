@@ -373,7 +373,7 @@ export const DisplayReview = ({ productId }) => {
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {reviews.map((each, i) => (
-            <div key={i} className="review m-3">
+            <div key={i} className="review m-2">
               <div className="d-flex justify-content-between">
                 <div className="editSec">
                   <Rating

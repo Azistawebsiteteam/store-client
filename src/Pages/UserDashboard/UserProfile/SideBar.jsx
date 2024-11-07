@@ -24,7 +24,6 @@ const SideBar = () => {
 
   const baseUrl = process.env.REACT_APP_API_URL;
   const tokenKey = process.env.REACT_APP_JWT_TOKEN;
-  console.log(tokenKey);
   const jwtToken = Cookies.get(tokenKey);
   const navigate = useNavigate();
 

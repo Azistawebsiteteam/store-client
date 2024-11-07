@@ -168,6 +168,23 @@ const ProductItem = () => {
     return null;
   }
 
+  const myDiv = document.getElementById("productBuyNowSection");
+  const scrollHeight = 300;
+  const maxScrollHeight = 596;
+
+  window.onscroll = () => {
+    if (window.scrollY >= scrollHeight && window.scrollY <= maxScrollHeight) {
+      myDiv.style.display = "block";
+      myDiv.style.position = "relative";
+    } else if (window.scrollY > maxScrollHeight) {
+      myDiv.style.display = "block";
+      myDiv.style.position = "fixed";
+      myDiv.style.top = "0";
+    } else {
+      myDiv.style.display = "none";
+    }
+  };
+
   const decreaseQuantity = () => {
     if (quantityCounter > 1) {
       setQuantityCounter((prevVal) => prevVal - 1);
@@ -334,7 +351,7 @@ const ProductItem = () => {
               </div>
               <div className="col-md-6">
                 <div className="rightSec">
-                  <h5>
+                  <h5 className="productName">
                     {productDetails.product_title}
                     {selectedVariant1 && `-${selectedVariant1}`}
                     {selectedVariant2 && `-${selectedVariant2}`}
@@ -493,6 +510,7 @@ const ProductItem = () => {
                         alt="wishlist"
                         className="wishListBtn"
                         onClick={handleWishlist}
+                        // disabled={productDetails.in_wishlist === 1}
                       />
                     </div>
                     <button
@@ -638,6 +656,18 @@ const ProductItem = () => {
                         {pincodeError && <small>{pincodeError}</small>}
                       </div>
                       <div className="d-flex flex-column align-items-start align-items-md-end">
+                        <span
+                          style={{
+                            color: "black",
+                            fontWeight: "500",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {productDetails.product_return_accept === "No"
+                            ? "Non-returnable and non-replaceable"
+                            : `Returnable within ${productDetails.product_return_days} days`}
+                        </span>
                         <a
                           href="mailto:'ecommerce@azistaindustries.com'"
                           style={{
@@ -673,6 +703,86 @@ const ProductItem = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="productBuyNowSection" id="productBuyNowSection">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <nav aria-label="breadcrumb mb-4">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <Link className="breadcrumbCust-icon" to="/">
+                        Home
+                      </Link>
+                    </li>
+
+                    <li className="breadcrumb-item active" aria-current="page">
+                      {productDetails.product_title}
+                    </li>
+                  </ol>
+                </nav>
+                <h5 className="productName">
+                  {productDetails.product_title}
+                  {selectedVariant1 && `-${selectedVariant1}`}
+                  {selectedVariant2 && `-${selectedVariant2}`}
+                  {selectedVariant3 && `-${selectedVariant3}`}
+                </h5>
+              </div>
+              <div className="col-md-6 d-flex align-items-end justify-content-end">
+                <div className="d-flex align-items-end justify-content-end">
+                  <button
+                    className="secondaryBuynowBtn"
+                    onClick={handleBuyNow}
+                    disabled={
+                      !(
+                        parseInt(productDetails.product_qty) > 0 &&
+                        parseInt(productDetails.product_qty) >=
+                          parseInt(productDetails.min_cart_quantity)
+                      )
+                    }
+                  >
+                    Buy it Now
+                  </button>
+                  {parseInt(productDetails.product_qty) > 0 &&
+                  parseInt(productDetails.product_qty) >=
+                    parseInt(productDetails.min_cart_quantity) ? (
+                    <button
+                      className="secondaryAddtocartBtn"
+                      type="button"
+                      onClick={() =>
+                        handleAddtoCart(
+                          userDetails.azst_customer_id,
+                          {
+                            productId: productDetails.id,
+                            variantId: output?.id ?? 0,
+                            quantity: quantityCounter,
+                          },
+                          updateCartData
+                        )
+                      }
+                    >
+                      Add to cart
+                    </button>
+                  ) : (
+                    <button className="secondaryOutofStockBtn" type="button">
+                      Out Of Stock
+                    </button>
+                  )}
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/${
+                      productDetails.in_wishlist === 1
+                        ? "inWishist.svg"
+                        : "darkHeart.svg"
+                    }`}
+                    alt="wishlist"
+                    className="wishListBtn"
+                    onClick={handleWishlist}
+                    // disabled={productDetails.in_wishlist === 1}
+                  />
                 </div>
               </div>
             </div>
