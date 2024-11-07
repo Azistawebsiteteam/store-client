@@ -173,6 +173,7 @@ const ReturnsAndReplace = () => {
                       id="reason"
                       value={bankDetails.reason}
                       maxLength={1000}
+                      autoComplete="off"
                     ></textarea>
                     <label htmlFor="reason">Comments (required):</label>
                   </div>
@@ -186,6 +187,7 @@ const ReturnsAndReplace = () => {
                     id="sameBankAccount"
                     onChange={isBankAccountSame}
                     checked={sameBankAccount}
+                    autoComplete="off"
                   />
                   <label className="form-check-label" htmlFor="gridCheck">
                     Same as my previous bank
@@ -203,6 +205,7 @@ const ReturnsAndReplace = () => {
                         value={bankDetails.bankAcNo}
                         onChange={handleBankDetails}
                         placeholder="Bank Account Number"
+                        autoComplete="off"
                       />
                       <label htmlFor="bankAcNo">Bank Account Number</label>
                     </div>
@@ -216,6 +219,7 @@ const ReturnsAndReplace = () => {
                         value={bankDetails.acName}
                         onChange={handleBankDetails}
                         placeholder="Bank Account Holder Name"
+                        autoComplete="off"
                       />
                       <label htmlFor="acName">Bank Account Holder Name</label>
                     </div>
@@ -229,6 +233,7 @@ const ReturnsAndReplace = () => {
                         value={bankDetails.ifscCode}
                         onChange={handleBankDetails}
                         placeholder="Bank IFSC Number"
+                        autoComplete="off"
                       />
                       <label htmlFor="ifscCode">Bank IFSC Number</label>
                     </div>
@@ -242,6 +247,7 @@ const ReturnsAndReplace = () => {
                         value={bankDetails.bankName}
                         onChange={handleBankDetails}
                         placeholder="Bank Name"
+                        autoComplete="off"
                       />
                       <label htmlFor="bankName">Bank Name</label>
                     </div>
@@ -255,6 +261,7 @@ const ReturnsAndReplace = () => {
                         value={bankDetails.branch}
                         onChange={handleBankDetails}
                         placeholder="Branch Name"
+                        autoComplete="off"
                       />
                       <label htmlFor="branch">Branch Name</label>
                     </div>

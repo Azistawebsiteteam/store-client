@@ -1648,7 +1648,7 @@ img.navigateArrowCircle {
     width: 3.4rem;
 }
 .prev-btn{
-    left: 90% !important;
+    left: 91% !important;
 }
 .nxt-btn{
     right: 2% !important;
@@ -1664,10 +1664,10 @@ img.navigateArrowCircle {
     width: 3.4rem;
 }
 .back-btn{
-    left: 88% !important;
+    left: 90% !important;
 }
 .next-btn{
-    right: 2% !important;
+    right: 0 !important;
 }
 
 /* mobile responsiveness */
