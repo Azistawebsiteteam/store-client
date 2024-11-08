@@ -182,7 +182,7 @@ const productSlider = ({ title, items, setUpdate }) => {
 
                 <Link
                   to={`/productitem/${each.product_url_title}`}
-                  className="linkBtn beforeHover"
+                  className="linkBtn secondaryBuynowBtn"
                 >
                   View Details
                 </Link>

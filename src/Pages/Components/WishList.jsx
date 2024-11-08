@@ -9,6 +9,7 @@ import swalHandle from "./ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import AddToCart from "../../Utils/AddToCart";
 import { Link } from "react-router-dom";
+import { removeFromWishlist } from "../../Utils/AddToWishlist";
 
 const WishList = () => {
   const [wishList, setWishlist] = useState([]);
@@ -20,13 +21,13 @@ const WishList = () => {
   const getWishlist = useCallback(async () => {
     if (!jwtToken) return;
     try {
-      const url = `${baseUrl}/whish-list`;
+      const url = `${baseUrl}/wish-list`;
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
       swalHandle.onLoading();
       const response = await axios.post(url, {}, { headers });
-      setWishlist(response.data.whish_list);
+      setWishlist(response.data.wishlist);
       swalHandle.onLoadingClose();
     } catch (error) {
       swalHandle.onLoadingClose();
@@ -39,24 +40,10 @@ const WishList = () => {
   }, [getWishlist]);
 
   const handleDelete = async (id) => {
-    try {
-      const url = `${baseUrl}/whish-list/remove`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      swalHandle.onLoading();
-      await axios.post(
-        url,
-        {
-          whishlistId: id,
-        },
-        { headers }
-      );
-      swalHandle.onLoadingClose();
-      getWishlist();
-    } catch (error) {
-      swalHandle.onLoadingClose();
-      swalHandle.onError(error);
+    const result = await removeFromWishlist(id);
+    if (result) {
+      const updateData = wishList.filter((wl) => wl.azst_wishlist_id !== id);
+      setWishlist(updateData);
     }
   };
 
@@ -157,7 +144,7 @@ const WishList = () => {
                       <div className="overlay_bg">
                         <Link
                           to={`/productitem/${each.product_url_title}`}
-                          className="linkBtn beforeHover"
+                          className="linkBtn secondaryBuynowBtn"
                         >
                           View Details
                         </Link>
@@ -182,15 +169,6 @@ const WishList = () => {
                           )}
                         </div>
                       </div>
-                      {/* <div className="overlay_bg">
-                        <button
-                          onClick={() => handleDelete(each.azst_wishlist_id)}
-                          className="linkBtn tertiaryBtn"
-                          style={{ border: "none", fontWeight: "500" }}
-                        >
-                          Remove Item
-                        </button>
-                      </div> */}
                     </div>
                   </div>
                 ))}

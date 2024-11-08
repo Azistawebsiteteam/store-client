@@ -127,7 +127,7 @@ const ProductCard = ({ items, setUpdate }) => {
             <div className="overlay_bg">
               <Link
                 to={`/productitem/${each.product_url_title}`}
-                className="linkBtn beforeHover"
+                className="linkBtn secondaryBuynowBtn"
               >
                 View Details
               </Link>
