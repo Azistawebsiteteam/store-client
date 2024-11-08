@@ -174,26 +174,38 @@ const productSlider = ({ title, items, setUpdate }) => {
                 {/* <Link to="" className="linkBtn beforeHover">
                 Add to Cart
               </Link> */}
-                {parseInt(each.is_varaints_aval) !== 1 && (
-                  <AddToCart
-                    productId={each.product_id}
-                    variantId={each.variant_id}
-                    quantity={each.min_cart_quantity}
-                    productQty={each.product_qty}
-                  />
-                )}
+                <div className="hoveredCardButtonCont">
+                  <button
+                    onClick={() => handleWishlist(each)}
+                    className="hoveredCardButton"
+                  >
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/${
+                        each.in_wishlist === 1
+                          ? "inWishist.svg"
+                          : "darkHeart.svg"
+                      }`}
+                      alt="wishlist"
+                      className="wishListBtn"
+                      onClick={handleWishlist}
+                      // disabled={productDetails.in_wishlist === 1}
+                    />
+                  </button>
+                  {parseInt(each.is_varaints_aval) !== 1 && (
+                    <AddToCart
+                      productId={each.product_id}
+                      variantId={each.variant_id}
+                      quantity={each.min_cart_quantity}
+                      productQty={each.product_qty}
+                    />
+                  )}
+                </div>
                 <Link
                   to={`/productitem/${each.product_url_title}`}
                   className="linkBtn beforeHover"
                 >
                   View Details
                 </Link>
-                <button
-                  onClick={() => handleWishlist(each)}
-                  className="linkBtn tertiaryBtn"
-                >
-                  Add to Favourite
-                </button>
               </div>
             </div>
           </div>

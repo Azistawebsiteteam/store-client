@@ -870,6 +870,7 @@ const ProductItem = () => {
                           aria-selected={selectedTab === id ? "true" : "false"}
                         >
                           <div
+                            style={{ fontFamily: "outFit", fontWeight: "600" }}
                             dangerouslySetInnerHTML={{
                               __html: `${tabHeading}`,
                             }}

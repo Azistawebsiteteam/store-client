@@ -214,7 +214,19 @@ const Navbar = () => {
                       <a
                         className="nav-link"
                         href="/#categories"
-                        onClick={handleSideNavbar}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (window.location.pathname === "/") {
+                            document
+                              .getElementById("categories")
+                              ?.scrollIntoView({
+                                behavior: "smooth",
+                              });
+                            handleSideNavbar();
+                          } else {
+                            navigate("/#categories");
+                          }
+                        }}
                       >
                         Categories
                       </a>
@@ -277,7 +289,17 @@ const Navbar = () => {
                       <a
                         className="nav-link"
                         href="/#shop99"
-                        onClick={handleSideNavbar}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (window.location.pathname === "/") {
+                            document.getElementById("shop99")?.scrollIntoView({
+                              behavior: "smooth",
+                            });
+                            handleSideNavbar();
+                          } else {
+                            navigate("/#shop99");
+                          }
+                        }}
                       >
                         Shop @99
                       </a>

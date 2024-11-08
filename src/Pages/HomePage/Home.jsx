@@ -179,38 +179,42 @@ const Home = () => {
               <h4 className="text-center mb-5">
                 Satisfied customers, happy shopping!
               </h4>
-              <div
-                className="card custSatisfiedCard"
-                style={{ width: "21rem" }}
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
-                  alt="satisfiedCust"
-                  className="satisfiedCustImg"
-                />
-                <div className="card-body custSatisfiedCardbody">
-                  <p className="card-title">
-                    <strong>Card title</strong>
-                  </p>
-                  <Rating
-                    name="read-only"
-                    value={value}
-                    precision={0.5}
-                    readOnly
-                    className="gold-stars"
-                  />
-                  <small className="card-text d-block">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </small>
-                  <div className="productBox">
+              <div className="row">
+                <div className="col-md-4">
+                  <div
+                    className="card custSatisfiedCard"
+                    style={{ width: "21rem" }}
+                  >
                     <img
-                      src={`${process.env.PUBLIC_URL}/images/kwikmint.png`}
+                      src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
                       alt="satisfiedCust"
-                      className="satisfiedProductImg"
+                      className="satisfiedCustImg"
                     />
-                    <small>kwikmint mouth fresheners</small>
-                    <Link className="linkBtn activeBtn">Add to cart</Link>
+                    <div className="card-body custSatisfiedCardbody">
+                      <p className="card-title">
+                        <strong>Card title</strong>
+                      </p>
+                      <Rating
+                        name="read-only"
+                        value={value}
+                        precision={0.5}
+                        readOnly
+                        className="gold-stars"
+                      />
+                      <small className="card-text d-block mb-1">
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card's content.
+                      </small>
+                      <div className="productBox">
+                        <img
+                          src={`${process.env.PUBLIC_URL}/images/kwikmint.png`}
+                          alt="satisfiedCust"
+                          className="satisfiedProductImg"
+                        />
+                        <small>kwikmint mouth fresheners</small>
+                        <Link className="linkBtn activeBtn">Add to cart</Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

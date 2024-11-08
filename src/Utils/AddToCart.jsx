@@ -11,17 +11,16 @@ const AddToCart = (props) => {
       {parseInt(productQty) > 0 &&
       parseInt(productQty) >= parseInt(quantity) ? (
         <button
-          className="linkBtn beforeHover"
-          style={{
-            border: "none",
-            backgroundColor: "rgba(0, 128, 96, 1)",
-            color: "#fff",
-          }}
+          className="hoveredCardButton"
           onClick={() =>
             handleAddtoCart(userDetails.azst_customer_id, props, updateCartData)
           }
         >
-          Add to Cart
+          <img
+            src={`${process.env.PUBLIC_URL}/images/shopping-cart.svg`}
+            alt="cartIcon"
+            className="hoverCartIcon"
+          />
         </button>
       ) : (
         <button
