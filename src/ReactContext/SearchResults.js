@@ -1,8 +1,8 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
-import { cartItems } from "../Pages/Cart/Functions";
+import { getProfileDetails } from '../Pages/UserDashboard/UserProfile/GetUseDetails';
+import { cartItems } from '../Pages/Cart/Functions';
 
 export const searchResultContext = createContext();
 
@@ -24,11 +24,11 @@ const SearchResultsProvider = (props) => {
 
   const fetchIPAddress = async () => {
     try {
-      const response = await fetch("https://api.ipify.org?format=json");
+      const response = await fetch('https://api.ipify.org?format=json');
       const data = await response.json();
       return data.ip;
     } catch (error) {
-      console.error("Failed to fetch IP address:", error);
+      console.error('Failed to fetch IP address:', error);
       return null;
     }
   };
@@ -120,8 +120,7 @@ const SearchResultsProvider = (props) => {
         setShowSearchBar,
         showCart,
         setShowCart,
-      }}
-    >
+      }}>
       {children}
     </searchResultContext.Provider>
   );
