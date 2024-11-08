@@ -119,7 +119,7 @@ const ForgotPassword = () => {
                 <input
                   type="submit"
                   value="Sign In"
-                  className="signinBtn submitBtn mt-3"
+                  className="authenticationBtn primaryAuthenticationBtn"
                 />
               )}
               {inputValues.onSubmit && (
@@ -151,7 +151,7 @@ const ForgotPassword = () => {
                 <button
                   value="Proceed"
                   onClick={() => setDisplay(!display)}
-                  className="signinBtn submitBtn mt-3"
+                  className="authenticationBtn primaryAuthenticationBtn"
                   disabled={inputValues.otp.length < 6}
                 >
                   Proceed
@@ -179,8 +179,10 @@ const ForgotPassword = () => {
                   onChange={handleUserInput}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className="form-group mt-2">
+                <label className="labelText" htmlFor="confirmPassword">
+                  Confirm Password
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -197,7 +199,7 @@ const ForgotPassword = () => {
               )}
             </div>
             <input
-              className="signinBtn submitBtn mt-3"
+              className="authenticationBtn primaryAuthenticationBtn"
               type="submit"
               value="Sign In"
             />

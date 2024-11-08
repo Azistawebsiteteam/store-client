@@ -39,15 +39,12 @@ const ProductCard = ({ items, setUpdate }) => {
   return (
     <>
       {items.map((each, i) => (
-        <div className="bestSellerCarouselItem" key={each.product_id}>
-          <div className="bestSelledProduct">
+        <div className="col-6 col-md-3" key={each.product_id}>
+          <div className="productsCardCont commonProductCard">
             <div className="productCard">
-              <div className="d-flex justify-content-between align-items-center">
+              <div className="productCardContTopSec">
                 {parseInt(each.is_varaints_aval) !== 1 && (
-                  <p
-                    className="mb-0"
-                    style={{ color: "#EC6B5B", fontWeight: "800" }}
-                  >
+                  <p className="productCardDiscount mb-0">
                     Save {getProductDiscount(each.compare_at_price, each.price)}
                     %
                   </p>
@@ -102,32 +99,10 @@ const ProductCard = ({ items, setUpdate }) => {
                 <small style={{ color: "red" }}>Out of Stock</small>
               )}
             </div>
-            {/* <div className="overlay_bg">
-              {parseInt(each.is_varaints_aval) !== 1 && (
-                <AddToCart
-                  productId={each.product_id}
-                  variantId={each.variant_id}
-                  quantity={each.min_cart_quantity}
-                  productQty={each.product_qty}
-                />
-              )}
-              <Link
-                to={`/productitem/${each.product_url_title}`}
-                className="linkBtn beforeHover"
-              >
-                View Details
-              </Link>
-              <button
-                onClick={(e) => handleWishlist(e, each)}
-                className="linkBtn tertiaryBtn"
-              >
-                Add to Favourite
-              </button>
-            </div> */}
             <div className="overlay_bg">
               <Link
                 to={`/productitem/${each.product_url_title}`}
-                className="linkBtn secondaryBuynowBtn"
+                className="linkBtn cardButton"
               >
                 View Details
               </Link>
@@ -144,8 +119,6 @@ const ProductCard = ({ items, setUpdate }) => {
                     }`}
                     alt="wishlist"
                     className="hoverIcon"
-                    // onClick={handleWishlist}
-                    // disabled={productDetails.in_wishlist === 1}
                   />
                 </button>
                 {parseInt(each.is_varaints_aval) !== 1 && (

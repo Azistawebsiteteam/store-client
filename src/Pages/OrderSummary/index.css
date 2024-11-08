@@ -75,11 +75,18 @@ hr.contLine{
 }
 
 .orderSummaryBtn{
+    border: 1px solid var(--hover-bg-color);
     padding: 0.6rem 1.8rem !important;
     background-color: var(--hover-bg-color);
     width: max-content;
     border-radius: 4rem;
     color:#fff !important;
+}
+.orderSummaryBtn:hover{
+    background-color: transparent !important;
+    transition: 0.4s;
+    color:#000 !important;
+    border: 1px solid #dee2e6;
 }
 
 @media screen and (max-width: 768px) {

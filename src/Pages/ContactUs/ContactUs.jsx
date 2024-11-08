@@ -148,11 +148,7 @@ const ContactUs = () => {
                         placeholder="Enter your Message or Comment"
                       />
                     </div>
-                    <button
-                      type="submit"
-                      className="customBtn"
-                      style={{ padding: "0.8rem 2.8rem" }}
-                    >
+                    <button type="submit" className="contactUsButton">
                       Submit
                     </button>
                   </form>

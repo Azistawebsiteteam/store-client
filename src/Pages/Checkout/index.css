@@ -61,7 +61,9 @@
         display: flex;
         justify-content: space-evenly;
     }
-   
+    .reviewImgsContSec {
+        display: flex;
+    }
     .reviewImgsCont{
         display: flex;
         overflow-x: auto;

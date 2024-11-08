@@ -54,11 +54,9 @@ const WishList = () => {
         : getProductDiscount(each.compare_at_price, each.offer_price);
 
     return discount > 0 ? (
-      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}>
-        Save {discount}%
-      </p>
+      <p className="productCardDiscount mb-0">Save {discount}%</p>
     ) : (
-      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}></p>
+      <p className="productCardDiscount mb-0"></p>
     );
   };
 
@@ -88,13 +86,10 @@ const WishList = () => {
             {wishList.length >= 1 ? (
               <div className="d-flex flex-wrap">
                 {wishList.map((each, i) => (
-                  <div className="wishlistItem" key={i}>
-                    <div
-                      className="bestSelledProduct"
-                      style={{ minHeight: "49vh", maxHeight: "49vh" }}
-                    >
+                  <div className="col-6 col-md-4" key={i}>
+                    <div className="productsCardCont commonProductCard">
                       <div className="productCard">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="productCardContTopSec">
                           {getDicountPercentage(each)}
                           <div>
                             <img
@@ -104,7 +99,6 @@ const WishList = () => {
                             />
                           </div>
                         </div>
-
                         <div className="productContent">
                           <p className="truncate">{each.product_main_title}</p>
                           <small
@@ -144,7 +138,7 @@ const WishList = () => {
                       <div className="overlay_bg">
                         <Link
                           to={`/productitem/${each.product_url_title}`}
-                          className="linkBtn secondaryBuynowBtn"
+                          className="linkBtn cardButton"
                         >
                           View Details
                         </Link>

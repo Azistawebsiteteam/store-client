@@ -5,7 +5,7 @@ import { useMediaQuery } from "@mui/material";
 
 const BannerImages = ({ productBanners }) => {
   const settings = {
-    dots: productBanners.lenght > 1,
+    dots: productBanners.length > 1,
     infinite: true,
     speed: 1000,
     slidesToShow: 1,

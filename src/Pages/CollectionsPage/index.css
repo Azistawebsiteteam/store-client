@@ -1,6 +1,9 @@
 .collectionPgBotSec{
     padding-top: 1rem;
 }
+.collectionProducts.row{
+    margin-top: 2rem;
+}
 .CollectionDetails{
     text-align: center;
     display: flex;

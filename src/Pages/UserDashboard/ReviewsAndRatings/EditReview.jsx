@@ -201,8 +201,11 @@ const EditReview = () => {
             <span style={{ color: "#787878", display: "block" }}>
               Photo or Video
             </span>
-            <div className="reviewImgsCont">
-              <div className="d-flex align-items-center">
+            <div className="reviewImgsContSec">
+              <div
+                className="d-flex align-items-center"
+                style={{ maxWidth: "100%" }}
+              >
                 <div className="reviewImgsCont mt-1 mb-2">
                   {review.reviewImgs.map((img, i) =>
                     typeof img === "string" ? (
@@ -267,7 +270,7 @@ const EditReview = () => {
                 </div>
               )}
             </div>
-            <button className="commonBtn mt-3" onClick={onSubmitReview}>
+            <button className="myAccSecBtn mt-3" onClick={onSubmitReview}>
               Submit
             </button>
           </div>

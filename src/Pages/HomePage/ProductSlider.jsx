@@ -47,7 +47,7 @@ const productSlider = ({ title, items, setUpdate }) => {
     lazyLoad: true,
     dots: false,
     infinite: items.length > 1, // Make infinite scrolling only if more than 1 item
-    slidesToShow: items.length > 4 ? 5 : items.length, // Default for desktop view, handle when only 1 item
+    slidesToShow: items.length > 4 ? 4 : items.length, // Default for desktop view, handle when only 1 item
     slidesToScroll: 1,
     autoplay: false, // Enable autoplay only if more than 1 item
     speed: 500, // Adjust this for faster slide transitions (lower value = faster)
@@ -108,14 +108,11 @@ const productSlider = ({ title, items, setUpdate }) => {
       <Slider {...settings}>
         {items.map((each, i) => (
           <div className="bestSellerCarouselItem" key={each.product_id}>
-            <div className="bestSelledProduct">
+            <div className="productsCardCont homePgProducts">
               <div className="productCard">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="productCardContTopSec">
                   {parseInt(each.is_varaints_aval) !== 1 && (
-                    <p
-                      className="mb-0"
-                      style={{ color: "#EC6B5B", fontWeight: "800" }}
-                    >
+                    <p className="productCardDiscount mb-0">
                       Save{" "}
                       {getProductDiscount(each.compare_at_price, each.price)}%
                     </p>
@@ -176,13 +173,9 @@ const productSlider = ({ title, items, setUpdate }) => {
                 )}
               </div>
               <div className="overlay_bg">
-                {/* <Link to="" className="linkBtn beforeHover">
-                Add to Cart
-              </Link> */}
-
                 <Link
                   to={`/productitem/${each.product_url_title}`}
-                  className="linkBtn secondaryBuynowBtn"
+                  className="linkBtn cardButton"
                 >
                   View Details
                 </Link>

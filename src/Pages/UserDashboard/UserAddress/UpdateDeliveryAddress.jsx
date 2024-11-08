@@ -137,7 +137,7 @@ const UpdateDeliveryAddress = () => {
             />
             <input
               type="button"
-              className="commonBtn mt-3"
+              className="myAccSecBtn mt-3"
               value="Save"
               onClick={handleUpdate}
             />

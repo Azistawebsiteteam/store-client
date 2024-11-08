@@ -498,7 +498,7 @@ const EditProfile = () => {
                 </div>
               </div>
               <div>
-                <input className="commonBtn" type="submit" value="Save" />
+                <input className="myAccSecBtn" type="submit" value="Save" />
               </div>
             </form>
           </div>

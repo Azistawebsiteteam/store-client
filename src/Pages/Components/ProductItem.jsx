@@ -481,6 +481,13 @@ const ProductItem = () => {
                           )}
                       %
                     </p>
+                    <p style={{ color: "red", marginLeft: "6px" }}>
+                      {!(
+                        parseInt(productDetails.product_qty) > 0 &&
+                        parseInt(productDetails.product_qty) >=
+                          parseInt(productDetails.min_cart_quantity)
+                      ) && "Out of Stock"}
+                    </p>
                   </div>
                   <div className="clickableElements">
                     <div className="d-flex justify-content-between">
@@ -493,31 +500,31 @@ const ProductItem = () => {
                           <FaPlus />
                         </span>
                       </div>
-                      {parseInt(productDetails.product_qty) > 0 &&
-                      parseInt(productDetails.product_qty) >=
-                        parseInt(productDetails.min_cart_quantity) ? (
-                        <button
-                          className="productPgBtn"
-                          type="button"
-                          onClick={() =>
-                            handleAddtoCart(
-                              userDetails.azst_customer_id,
-                              {
-                                productId: productDetails.id,
-                                variantId: output?.id ?? 0,
-                                quantity: quantityCounter,
-                              },
-                              updateCartData
-                            )
-                          }
-                        >
-                          Add to cart
-                        </button>
-                      ) : (
-                        <button className="outofStockBtn" type="button">
-                          Out Of Stock
-                        </button>
-                      )}
+                      <button
+                        className="productPgBtn"
+                        type="button"
+                        disabled={
+                          !(
+                            parseInt(productDetails.product_qty) > 0 &&
+                            parseInt(productDetails.product_qty) >=
+                              parseInt(productDetails.min_cart_quantity)
+                          )
+                        }
+                        onClick={() =>
+                          handleAddtoCart(
+                            userDetails.azst_customer_id,
+                            {
+                              productId: productDetails.id,
+                              variantId: output?.id ?? 0,
+                              quantity: quantityCounter,
+                            },
+                            updateCartData
+                          )
+                        }
+                      >
+                        Add to cart
+                      </button>
+
                       <img
                         src={`${process.env.PUBLIC_URL}/images/${
                           productDetails.in_wishlist === 1
@@ -756,7 +763,7 @@ const ProductItem = () => {
                 <div className="col-md-6 d-flex align-items-end justify-content-end">
                   <div className="d-flex align-items-end justify-content-end">
                     <button
-                      className="secondaryBuynowBtn"
+                      className="secProductPgBtn secondaryBuynowBtn me-3"
                       onClick={handleBuyNow}
                       disabled={
                         !(
@@ -772,7 +779,7 @@ const ProductItem = () => {
                     parseInt(productDetails.product_qty) >=
                       parseInt(productDetails.min_cart_quantity) ? (
                       <button
-                        className="secondaryAddtocartBtn"
+                        className="secProductPgBtn secondaryAddtocartBtn"
                         type="button"
                         onClick={() =>
                           handleAddtoCart(

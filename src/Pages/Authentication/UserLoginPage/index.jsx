@@ -145,7 +145,7 @@ const UserLoginPage = () => {
           </div>
           <span className="text-danger d-block">{error}</span>
           <input
-            className="signinBtn submitBtn mt-3"
+            className="authenticationBtn primaryAuthenticationBtn"
             type="submit"
             value="Sign In"
           />
@@ -159,7 +159,10 @@ const UserLoginPage = () => {
         >
           New to Azista Store
         </p>
-        <Link className="signinBtn secBtn" to="/registration">
+        <Link
+          className="authenticationBtn secAuthenticationBtn"
+          to="/registration"
+        >
           Sign Up
         </Link>
       </div>
