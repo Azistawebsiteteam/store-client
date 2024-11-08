@@ -96,11 +96,13 @@ const ProductCard = ({ items, setUpdate }) => {
                   {each.price}
                 </span>
               </div>
+              {(parseInt(each.product_qty) <= 0 ||
+                parseInt(each.product_qty) <
+                  parseInt(each.min_cart_quantity)) && (
+                <small style={{ color: "red" }}>Out of Stock</small>
+              )}
             </div>
-            <div className="overlay_bg">
-              {/* <Link to="" className="linkBtn beforeHover">
-                Add to Cart
-              </Link> */}
+            {/* <div className="overlay_bg">
               {parseInt(each.is_varaints_aval) !== 1 && (
                 <AddToCart
                   productId={each.product_id}
@@ -121,6 +123,40 @@ const ProductCard = ({ items, setUpdate }) => {
               >
                 Add to Favourite
               </button>
+            </div> */}
+            <div className="overlay_bg">
+              <Link
+                to={`/productitem/${each.product_url_title}`}
+                className="linkBtn beforeHover"
+              >
+                View Details
+              </Link>
+              <div className="hoveredCardButtonCont">
+                <button
+                  onClick={() => handleWishlist(each)}
+                  className="hoveredCardButton"
+                >
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/${
+                      each.in_wishlist === 1
+                        ? "cartActiveWishlistIcon.svg"
+                        : "cartWishlistIcon.svg"
+                    }`}
+                    alt="wishlist"
+                    className="hoverIcon"
+                    // onClick={handleWishlist}
+                    // disabled={productDetails.in_wishlist === 1}
+                  />
+                </button>
+                {parseInt(each.is_varaints_aval) !== 1 && (
+                  <AddToCart
+                    productId={each.product_id}
+                    variantId={each.variant_id}
+                    quantity={each.min_cart_quantity}
+                    productQty={each.product_qty}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

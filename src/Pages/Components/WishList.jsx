@@ -16,6 +16,7 @@ const WishList = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
+
   const getWishlist = useCallback(async () => {
     if (!jwtToken) return;
     try {
@@ -101,7 +102,10 @@ const WishList = () => {
               <div className="d-flex flex-wrap">
                 {wishList.map((each, i) => (
                   <div className="wishlistItem" key={i}>
-                    <div className="bestSelledProduct">
+                    <div
+                      className="bestSelledProduct"
+                      style={{ minHeight: "49vh", maxHeight: "49vh" }}
+                    >
                       <div className="productCard">
                         <div className="d-flex justify-content-between align-items-center">
                           {getDicountPercentage(each)}
@@ -133,7 +137,11 @@ const WishList = () => {
                         <div className="productPrice">
                           {getProductPrice(each)}
                         </div>
-
+                        {(parseInt(each.product_qty) <= 0 ||
+                          parseInt(each.product_qty) <
+                            parseInt(each.min_cart_quantity)) && (
+                          <small style={{ color: "red" }}>Out of Stock</small>
+                        )}
                         {/* <div className="productPrice">
                           <span
                             style={{
@@ -147,20 +155,34 @@ const WishList = () => {
                         </div> */}
                       </div>
                       <div className="overlay_bg">
-                        {parseInt(each.is_varaints_aval) !== 1 && (
-                          <AddToCart
-                            productId={each.product_id}
-                            variantId={each.variant_id}
-                            quantity={each.min_cart_quantity}
-                            productQty={each.product_qty}
-                          />
-                        )}
                         <Link
-                          className="linkBtn beforeHover"
                           to={`/productitem/${each.product_url_title}`}
+                          className="linkBtn beforeHover"
                         >
                           View Details
                         </Link>
+                        <div className="hoveredCardButtonCont">
+                          <button
+                            onClick={() => handleDelete(each.azst_wishlist_id)}
+                            className="hoveredCardButton"
+                          >
+                            <img
+                              src={`${process.env.PUBLIC_URL}/images/cartActiveWishlistIcon.svg`}
+                              alt="wishlist"
+                              className="hoverIcon"
+                            />
+                          </button>
+                          {parseInt(each.is_varaints_aval) !== 1 && (
+                            <AddToCart
+                              productId={each.product_id}
+                              variantId={each.variant_id}
+                              quantity={each.min_cart_quantity}
+                              productQty={each.product_qty}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      {/* <div className="overlay_bg">
                         <button
                           onClick={() => handleDelete(each.azst_wishlist_id)}
                           className="linkBtn tertiaryBtn"
@@ -168,7 +190,7 @@ const WishList = () => {
                         >
                           Remove Item
                         </button>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))}

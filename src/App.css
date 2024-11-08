@@ -218,12 +218,15 @@ a{
 }
 .hoveredCardButtonCont{
   display: flex;
-  justify-content: space-between;
-  width: 92%;
+  justify-content: center;
 }
 .hoveredCardButton{
   border: none;
   background-color: transparent;
+}
+.hoverIcon{
+  width: 3.4rem;
+  margin: 0.6rem;
 }
 .reviewBtn {
   background-color: transparent;

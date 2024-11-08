@@ -169,11 +169,23 @@ const productSlider = ({ title, items, setUpdate }) => {
                     {parseInt(each.is_varaints_aval) !== 1 && "Rs"} {each.price}
                   </span>
                 </div>
+                {(parseInt(each.product_qty) <= 0 ||
+                  parseInt(each.product_qty) <
+                    parseInt(each.min_cart_quantity)) && (
+                  <small style={{ color: "red" }}>Out of Stock</small>
+                )}
               </div>
               <div className="overlay_bg">
                 {/* <Link to="" className="linkBtn beforeHover">
                 Add to Cart
               </Link> */}
+
+                <Link
+                  to={`/productitem/${each.product_url_title}`}
+                  className="linkBtn beforeHover"
+                >
+                  View Details
+                </Link>
                 <div className="hoveredCardButtonCont">
                   <button
                     onClick={() => handleWishlist(each)}
@@ -182,11 +194,11 @@ const productSlider = ({ title, items, setUpdate }) => {
                     <img
                       src={`${process.env.PUBLIC_URL}/images/${
                         each.in_wishlist === 1
-                          ? "inWishist.svg"
-                          : "darkHeart.svg"
+                          ? "cartActiveWishlistIcon.svg"
+                          : "cartWishlistIcon.svg"
                       }`}
                       alt="wishlist"
-                      className="wishListBtn"
+                      className="hoverIcon"
                       onClick={handleWishlist}
                       // disabled={productDetails.in_wishlist === 1}
                     />
@@ -200,12 +212,6 @@ const productSlider = ({ title, items, setUpdate }) => {
                     />
                   )}
                 </div>
-                <Link
-                  to={`/productitem/${each.product_url_title}`}
-                  className="linkBtn beforeHover"
-                >
-                  View Details
-                </Link>
               </div>
             </div>
           </div>
