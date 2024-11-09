@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import "../Components/Customer.css";
 import AddToCart from "../../Utils/AddToCart";
 import { getProductDiscount } from "../../Utils/DiscountPrcentage";
-import { AddToWishlist } from "../../Utils/AddToWishlist";
+import { AddToWishlist, removeFromWishlist } from "../../Utils/AddToWishlist";
 import ErrorHandler from "../Components/ErrorHandler";
 
 function SampleNextArrow(props) {
@@ -102,6 +102,21 @@ const productSlider = ({ title, items, setUpdate }) => {
     }
   };
 
+  const handleWishlistRemove = async (produtId, id) => {
+    const result = await removeFromWishlist(id);
+
+    if (result) {
+      const updateData = items.map((p) => {
+        if (p.product_id === produtId) {
+          return { ...p, in_wishlist: 0 };
+        } else {
+          return p;
+        }
+      });
+      setUpdate(updateData);
+    }
+  };
+
   return (
     <div className="slider-container">
       <h4>{title}</h4>
@@ -119,7 +134,7 @@ const productSlider = ({ title, items, setUpdate }) => {
                   )}
 
                   <div>
-                    {each.in_wishlist === 1 ? (
+                    {parseInt(each.in_wishlist) > 0 ? (
                       <img
                         src={`${process.env.PUBLIC_URL}/images/coloredIcon.svg`}
                         alt="heartIcon"
@@ -180,22 +195,31 @@ const productSlider = ({ title, items, setUpdate }) => {
                   View Details
                 </Link>
                 <div className="hoveredCardButtonCont">
-                  <button
-                    onClick={() => handleWishlist(each)}
-                    className="hoveredCardButton"
-                  >
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/${
-                        each.in_wishlist === 1
-                          ? "cartActiveWishlistIcon.svg"
-                          : "cartWishlistIcon.svg"
-                      }`}
-                      alt="wishlist"
-                      className="hoverIcon"
-                      onClick={handleWishlist}
-                      // disabled={productDetails.in_wishlist === 1}
-                    />
-                  </button>
+                  {parseInt(each.in_wishlist) > 0 ? (
+                    <button
+                      onClick={() =>
+                        handleWishlistRemove(each.product_id, each.in_wishlist)
+                      }
+                      className="hoveredCardButton"
+                    >
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/cartActiveWishlistIcon.svg`}
+                        alt="wishlist"
+                        className="hoverIcon"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleWishlist(each)}
+                      className="hoveredCardButton"
+                    >
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/cartWishlistIcon.svg`}
+                        alt="wishlist"
+                        className="hoverIcon"
+                      />
+                    </button>
+                  )}
                   {parseInt(each.is_varaints_aval) !== 1 && (
                     <AddToCart
                       productId={each.product_id}

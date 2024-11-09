@@ -19,7 +19,7 @@ import { GrShareOption } from "react-icons/gr";
 import { RxCaretRight, RxCaretLeft } from "react-icons/rx";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import { handleAddtoCart } from "../Cart/Functions";
-import { AddToWishlist } from "../../Utils/AddToWishlist";
+import { AddToWishlist, removeFromWishlist } from "../../Utils/AddToWishlist";
 import { searchResultContext } from "../../ReactContext/SearchResults";
 import { TiArrowRight } from "react-icons/ti";
 import Faqs from "./Faqs";
@@ -233,6 +233,13 @@ const ProductItem = () => {
       }
     } catch (error) {
       ErrorHandler.onError(error);
+    }
+  };
+
+  const handleWishlistRemove = async () => {
+    const result = await removeFromWishlist(productDetails.id);
+    if (result) {
+      setProductDetails({ ...productDetails, in_wishlist: 0 });
     }
   };
 
@@ -491,65 +498,88 @@ const ProductItem = () => {
                   </div>
                   <div className="clickableElements">
                     <div className="d-flex justify-content-between">
-                      <div className="quantityCont">
-                        <span onClick={decreaseQuantity}>
-                          <FaMinus />
-                        </span>
-                        <span className="quantityVal">{quantityCounter}</span>
-                        <span onClick={increaseQuantity}>
-                          <FaPlus />
-                        </span>
-                      </div>
-                      <button
-                        className="productPgBtn"
-                        type="button"
-                        disabled={
-                          !(
-                            parseInt(productDetails.product_qty) > 0 &&
-                            parseInt(productDetails.product_qty) >=
-                              parseInt(productDetails.min_cart_quantity)
-                          )
-                        }
-                        onClick={() =>
-                          handleAddtoCart(
-                            userDetails.azst_customer_id,
-                            {
-                              productId: productDetails.id,
-                              variantId: output?.id ?? 0,
-                              quantity: quantityCounter,
-                            },
-                            updateCartData
-                          )
-                        }
-                      >
-                        Add to cart
-                      </button>
-
-                      <img
-                        src={`${process.env.PUBLIC_URL}/images/${
-                          productDetails.in_wishlist === 1
-                            ? "inWishist.svg"
-                            : "darkHeart.svg"
-                        }`}
-                        alt="wishlist"
-                        className="wishListBtn"
-                        onClick={handleWishlist}
-                        // disabled={productDetails.in_wishlist === 1}
-                      />
+                      {parseInt(productDetails.product_qty) > 0 &&
+                        parseInt(productDetails.product_qty) >=
+                          parseInt(productDetails.min_cart_quantity) && (
+                          <>
+                            <div className="quantityCont">
+                              <span onClick={decreaseQuantity}>
+                                <FaMinus />
+                              </span>
+                              <span className="quantityVal">
+                                {quantityCounter}
+                              </span>
+                              <span onClick={increaseQuantity}>
+                                <FaPlus />
+                              </span>
+                            </div>
+                            <button
+                              className="productPgBtn"
+                              type="button"
+                              disabled={
+                                !(
+                                  parseInt(productDetails.product_qty) > 0 &&
+                                  parseInt(productDetails.product_qty) >=
+                                    parseInt(productDetails.min_cart_quantity)
+                                )
+                              }
+                              onClick={() =>
+                                handleAddtoCart(
+                                  userDetails.azst_customer_id,
+                                  {
+                                    productId: productDetails.id,
+                                    variantId: output?.id ?? 0,
+                                    quantity: quantityCounter,
+                                  },
+                                  updateCartData
+                                )
+                              }
+                            >
+                              Add to cart
+                            </button>
+                          </>
+                        )}
+                      {parseInt(productDetails.in_wishlist) > 0 ? (
+                        <button
+                          onClick={handleWishlistRemove}
+                          className="hoveredCardButton"
+                        >
+                          <img
+                            src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
+                            alt="wishlist"
+                            className="wishListBtn"
+                          />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleWishlist}
+                          className="hoveredCardButton"
+                        >
+                          <img
+                            src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
+                            alt="wishlist"
+                            className="wishListBtn"
+                          />
+                        </button>
+                      )}
                     </div>
-                    <button
-                      className="buyNowBtn"
-                      onClick={handleBuyNow}
-                      disabled={
-                        !(
-                          parseInt(productDetails.product_qty) > 0 &&
-                          parseInt(productDetails.product_qty) >=
-                            parseInt(productDetails.min_cart_quantity)
-                        )
-                      }
-                    >
-                      Buy it Now
-                    </button>
+                    {parseInt(productDetails.product_qty) > 0 &&
+                      parseInt(productDetails.product_qty) >=
+                        parseInt(productDetails.min_cart_quantity) && (
+                        <button
+                          className="buyNowBtn"
+                          onClick={handleBuyNow}
+                          disabled={
+                            !(
+                              parseInt(productDetails.product_qty) > 0 &&
+                              parseInt(productDetails.product_qty) >=
+                                parseInt(productDetails.min_cart_quantity)
+                            )
+                          }
+                        >
+                          Buy it Now
+                        </button>
+                      )}
 
                     <div className="variants">
                       {variants.length > 0 && (
@@ -762,45 +792,43 @@ const ProductItem = () => {
                 </div>
                 <div className="col-md-6 d-flex align-items-end justify-content-end">
                   <div className="d-flex align-items-end justify-content-end">
-                    <button
-                      className="secProductPgBtn secondaryBuynowBtn me-3"
-                      onClick={handleBuyNow}
-                      disabled={
-                        !(
-                          parseInt(productDetails.product_qty) > 0 &&
-                          parseInt(productDetails.product_qty) >=
-                            parseInt(productDetails.min_cart_quantity)
-                        )
-                      }
-                    >
-                      Buy it Now
-                    </button>
                     {parseInt(productDetails.product_qty) > 0 &&
-                    parseInt(productDetails.product_qty) >=
-                      parseInt(productDetails.min_cart_quantity) ? (
-                      <button
-                        className="secProductPgBtn secondaryAddtocartBtn"
-                        type="button"
-                        onClick={() =>
-                          handleAddtoCart(
-                            userDetails.azst_customer_id,
-                            {
-                              productId: productDetails.id,
-                              variantId: output?.id ?? 0,
-                              quantity: quantityCounter,
-                            },
-                            updateCartData
-                          )
-                        }
-                      >
-                        Add to cart
-                      </button>
-                    ) : (
-                      <button className="secondaryOutofStockBtn" type="button">
-                        Out Of Stock
-                      </button>
-                    )}
-                    <img
+                      parseInt(productDetails.product_qty) >=
+                        parseInt(productDetails.min_cart_quantity) && (
+                        <>
+                          <button
+                            className="secProductPgBtn secondaryBuynowBtn me-3"
+                            onClick={handleBuyNow}
+                            disabled={
+                              !(
+                                parseInt(productDetails.product_qty) > 0 &&
+                                parseInt(productDetails.product_qty) >=
+                                  parseInt(productDetails.min_cart_quantity)
+                              )
+                            }
+                          >
+                            Buy it Now
+                          </button>
+                          <button
+                            className="secProductPgBtn secondaryAddtocartBtn"
+                            type="button"
+                            onClick={() =>
+                              handleAddtoCart(
+                                userDetails.azst_customer_id,
+                                {
+                                  productId: productDetails.id,
+                                  variantId: output?.id ?? 0,
+                                  quantity: quantityCounter,
+                                },
+                                updateCartData
+                              )
+                            }
+                          >
+                            Add to cart
+                          </button>
+                        </>
+                      )}
+                    {/* <img
                       src={`${process.env.PUBLIC_URL}/images/${
                         productDetails.in_wishlist === 1
                           ? "inWishist.svg"
@@ -810,7 +838,30 @@ const ProductItem = () => {
                       className="wishListBtn"
                       onClick={handleWishlist}
                       // disabled={productDetails.in_wishlist === 1}
-                    />
+                    /> */}
+                    {parseInt(productDetails.in_wishlist) > 0 ? (
+                      <button
+                        onClick={handleWishlistRemove}
+                        className="hoveredCardButton"
+                      >
+                        <img
+                          src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
+                          alt="wishlist"
+                          className="wishListBtn"
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleWishlist}
+                        className="hoveredCardButton"
+                      >
+                        <img
+                          src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
+                          alt="wishlist"
+                          className="wishListBtn"
+                        />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

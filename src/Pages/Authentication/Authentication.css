@@ -26,6 +26,10 @@
     opacity: 0.1 !important;
     width: 90% !important;
   }
+  .googleSigninBtn{
+    border: 1px solid rgba(157, 157, 157, 1);
+    background-color: transparent;
+  }
 .authenticationBtn{
     width: 100%;
     border-radius: 25rem;

@@ -113,9 +113,11 @@ const AddressCard = (props) => {
                   <li onClick={(e) => deleteAddress(address.address_id)}>
                     <span className="AddDropdownBtn">Delete</span>
                   </li>
-                  <li onClick={(event) => makeDefault(address.address_id)}>
-                    <span className="AddDropdownBtn">Make as default</span>
-                  </li>
+                  {address.address_defaultStatus !== 1 && (
+                    <li onClick={(event) => makeDefault(address.address_id)}>
+                      <span className="AddDropdownBtn">Make as default</span>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

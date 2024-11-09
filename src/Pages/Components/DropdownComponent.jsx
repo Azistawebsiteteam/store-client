@@ -19,17 +19,22 @@ const DropdownComponent = () => {
       <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
         <li>
           <Link className="dropdown-item" to="Action">
-            Action
+            All Orders
           </Link>
         </li>
         <li>
           <Link className="dropdown-item" to="Action">
-            Another action
+            Placed Orders
           </Link>
         </li>
         <li>
           <Link className="dropdown-item" to="Action">
-            Something else here
+            Returned Orders
+          </Link>
+        </li>
+        <li>
+          <Link className="dropdown-item" to="Action">
+            Cancelled Orders
           </Link>
         </li>
       </ul>
