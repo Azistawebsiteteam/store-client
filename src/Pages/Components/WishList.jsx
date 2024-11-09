@@ -74,7 +74,6 @@ const WishList = () => {
       </>
     );
   };
-
   return (
     <>
       <ScrollToTop />

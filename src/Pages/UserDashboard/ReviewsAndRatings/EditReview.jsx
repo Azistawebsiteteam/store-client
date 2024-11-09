@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import SideBar from "../UserProfile/SideBar";
 import Cookies from "js-cookie";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ErrorHandler from "../../Components/ErrorHandler";
 import axios from "axios";
 import BackBtn from "../../Components/BackBtn";
@@ -29,6 +29,7 @@ const EditReview = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
   const { id } = location.state || 0;
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       const fetchReview = async () => {
@@ -112,6 +113,7 @@ const EditReview = () => {
       ErrorHandler.onLoading();
       await axios.post(url, formdata, { headers });
       ErrorHandler.onSuccess();
+      navigate(-1);
     } catch (error) {
       ErrorHandler.onLoadingClose();
       ErrorHandler.onError(error);
