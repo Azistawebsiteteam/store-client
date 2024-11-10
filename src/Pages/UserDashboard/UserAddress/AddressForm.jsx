@@ -30,9 +30,9 @@ const AddressForm = (props) => {
     setErrors({ ...errors, [id]: "" });
   };
 
-  const onChangeDefault = (e) => {
-    setInputValue({ ...inputValues, [e.target.id]: e.target.checked });
-  };
+  // const onChangeDefault = (e) => {
+  //   setInputValue({ ...inputValues, [e.target.id]: e.target.checked });
+  // };
 
   return (
     <form autoComplete="off" className="row g-3">
@@ -304,7 +304,7 @@ const AddressForm = (props) => {
           Available From Time
         </label>
       </div>
-      <div className="row mt-3">
+      {/* <div className="row mt-3">
         <div className="form-check col-md-6">
           <input
             autoComplete="off"
@@ -318,7 +318,7 @@ const AddressForm = (props) => {
             Default Address
           </label>
         </div>
-      </div>
+      </div> */}
     </form>
   );
 };

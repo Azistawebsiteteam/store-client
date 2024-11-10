@@ -21,6 +21,7 @@ function SampleNextArrow(props) {
       <img
         src={`${process.env.PUBLIC_URL}/images/right-arrow.svg`}
         alt="navigationArrows"
+        className="navigationArrows"
       />
     </div>
   );
@@ -37,6 +38,7 @@ function SamplePrevArrow(props) {
       <img
         src={`${process.env.PUBLIC_URL}/images/left-arrow.svg`}
         alt="navigationArrows"
+        className="navigationArrows"
       />
     </div>
   );

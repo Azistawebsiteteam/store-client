@@ -88,4 +88,7 @@
     .collectionPgBotSec{
         padding-top: 4rem;
     }
+    .collectionDescription{
+        width: 100%;
+    }
 }

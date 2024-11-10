@@ -117,7 +117,7 @@ const Home = () => {
             </div>
           )}
           {bestSellers.length > 0 && (
-            <div className="container bestSellers d-none d-md-block mt-md-5">
+            <div className="container bestSellers mt-md-5">
               <ProductSlider
                 title={"Best Sellers"}
                 type={"bestSellers"}
@@ -159,7 +159,7 @@ const Home = () => {
           )}
 
           {shop99Data.length > 0 && (
-            <div className="container shop99 d-none d-md-block mt-md-5">
+            <div className="container shop99 mt-md-5">
               <div className="ctn">
                 <a href="" id="shop99">
                   &nbsp;
@@ -173,7 +173,6 @@ const Home = () => {
               />
             </div>
           )}
-
           <div className="custSatisfiedSecTop mt-md-5">
             <div className="container">
               <h4 className="text-center mb-5">
@@ -183,7 +182,7 @@ const Home = () => {
                 <div className="col-md-4">
                   <div
                     className="card custSatisfiedCard"
-                    style={{ width: "21rem" }}
+                    style={{ width: "23rem" }}
                   >
                     <img
                       src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
@@ -211,8 +210,26 @@ const Home = () => {
                           alt="satisfiedCust"
                           className="satisfiedProductImg"
                         />
-                        <small>kwikmint mouth fresheners</small>
-                        <Link className="linkBtn activeBtn">Add to cart</Link>
+                        <div className="">
+                          <small className="truncate">
+                            Sparkel - Hydrating - Skin Lightening Face.....
+                          </small>
+                          <div className="">
+                            <small
+                              className="me-2"
+                              style={{
+                                textDecoration: "line-through",
+                                color: "rgba(40, 40, 40, 0.7)",
+                              }}
+                            >
+                              Rs. 280.00
+                            </small>
+                            <small style={{ color: "rgba(40, 40, 40, 0.7)" }}>
+                              Rs 200
+                            </small>
+                          </div>
+                        </div>
+                        <Link className="satisfiedCustBtn">Add to cart</Link>
                       </div>
                     </div>
                   </div>
@@ -278,7 +295,7 @@ const Home = () => {
           <div className="container blogs d-none d-md-block">
             <BlogsSection />
           </div>
-          <div className="bottomStrip"></div>
+          {/* <div className="bottomStrip"></div> */}
         </div>
       </div>
     </>

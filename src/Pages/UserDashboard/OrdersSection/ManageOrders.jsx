@@ -280,21 +280,22 @@ const ManageOrders = () => {
                       {order.azst_orders_delivery_status === 2 ? (
                         <button className="orderedProductBtn">Reorder</button>
                       ) : (
-                        <button
-                          type="button"
-                          data-bs-toggle="modal"
-                          data-bs-target={`#cancelOrder${order.azst_order_id}`}
-                          className={
-                            order.azst_orders_status !== 0
-                              ? "orderedProductBtn"
-                              : "cancelledBtn"
-                          }
-                          disabled={order.azst_orders_status === 0}
-                        >
-                          {order.azst_orders_status !== 0
-                            ? "Cancel order"
-                            : "Order Cancelled"}
-                        </button>
+                        order.azst_orders_status !== 0 && (
+                          <button
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#cancelOrder${order.azst_order_id}`}
+                            className={
+                              order.azst_orders_status !== 0
+                                ? "orderedProductBtn"
+                                : "cancelledBtn"
+                            }
+                          >
+                            {order.azst_orders_status !== 0
+                              ? "Cancel order"
+                              : "Order Cancelled"}
+                          </button>
+                        )
                       )}
                       {order.azst_orders_delivery_status === 2 && (
                         <Link

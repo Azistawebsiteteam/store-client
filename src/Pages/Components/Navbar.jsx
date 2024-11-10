@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import ErrorHandler from "./ErrorHandler";
 import axios from "axios";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 const Navbar = () => {
   // const [showSearchBar, setShowSearchBar] = useState(false);
@@ -35,8 +36,8 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const headerTop = document.querySelector(".stickyHeader").offsetTop;
-      if (window.scrollY > headerTop) {
+      // const headerTop = document.querySelector(".stickyHeader");
+      if (window.scrollY > 46) {
         setIsSticky(true);
       } else {
         setIsSticky(false);
@@ -201,6 +202,7 @@ const Navbar = () => {
                         Home
                       </Link>
                     </li>
+
                     <li className="nav-item">
                       <Link
                         className="nav-link"
@@ -231,7 +233,7 @@ const Navbar = () => {
                         Categories
                       </a>
                     </li>
-                    <li className="nav-item dropdown">
+                    {/* <li className="nav-item dropdown">
                       <a
                         className="nav-link dropdown-toggle"
                         href="shobby"
@@ -275,6 +277,26 @@ const Navbar = () => {
                           </Link>
                         </li>
                       </ul>
+                    </li> */}
+                    <li className="nav-item">
+                      <NavDropdown
+                        title={
+                          <>
+                            Shop by <MdOutlineKeyboardArrowDown size={20} />
+                          </>
+                        }
+                        id="basic-nav-dropdown"
+                      >
+                        <NavDropdown.Item href="/#categories">
+                          Categories
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">
+                          collections
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.3">
+                          Brands
+                        </NavDropdown.Item>
+                      </NavDropdown>
                     </li>
                     <li className="nav-item">
                       <Link
@@ -305,73 +327,125 @@ const Navbar = () => {
                       </a>
                     </li>
                     {jwtToken && (
-                      <li className="nav-item dropdown d-md-none">
-                        <a
-                          className="nav-link dropdown-toggle"
-                          href="shobby"
+                      <li className="nav-item">
+                        <NavDropdown
+                          title={
+                            <>
+                              My Account{" "}
+                              <MdOutlineKeyboardArrowDown
+                                style={{ marginTop: "-3px" }}
+                                size={20}
+                              />
+                            </>
+                          }
                           id="navbarDropdown"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
+                          className="d-md-none"
                         >
-                          My Account{" "}
-                          <MdOutlineKeyboardArrowDown
-                            style={{ marginTop: "-3px" }}
-                            size={20}
-                          />
-                        </a>
-                        <ul
-                          className="dropdown-menu dropdown-menu2"
-                          aria-labelledby="navbarDropdown"
-                        >
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/profile-management"
-                              onClick={handleSideNavbar}
-                            >
-                              Profile
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/manage-orders"
-                              onClick={handleSideNavbar}
-                            >
-                              Orders
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/wishlist"
-                              onClick={handleSideNavbar}
-                            >
-                              WishList
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/reviews-ratings"
-                              onClick={handleSideNavbar}
-                            >
-                              Reviews & Ratings
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item"
-                              to="/manage-address"
-                              onClick={handleSideNavbar}
-                            >
-                              Delivery Address Book
-                            </Link>
-                          </li>
-                        </ul>
+                          <NavDropdown.Item
+                            as={Link}
+                            to="/profile-management"
+                            onClick={handleSideNavbar}
+                          >
+                            Profile
+                          </NavDropdown.Item>
+                          <NavDropdown.Item
+                            as={Link}
+                            to="/manage-orders"
+                            onClick={handleSideNavbar}
+                          >
+                            Orders
+                          </NavDropdown.Item>
+                          <NavDropdown.Item
+                            as={Link}
+                            to="/wishlist"
+                            onClick={handleSideNavbar}
+                          >
+                            WishList
+                          </NavDropdown.Item>
+                          <NavDropdown.Item
+                            as={Link}
+                            to="/reviews-ratings"
+                            onClick={handleSideNavbar}
+                          >
+                            Reviews & Ratings
+                          </NavDropdown.Item>
+                          <NavDropdown.Item
+                            as={Link}
+                            to="/manage-address"
+                            onClick={handleSideNavbar}
+                          >
+                            Delivery Address Book
+                          </NavDropdown.Item>
+                        </NavDropdown>
                       </li>
                     )}
+                    {/* <li className="nav-item dropdown d-md-none">
+                      <a
+                        className="nav-link dropdown-toggle"
+                        href="shobby"
+                        id="navbarDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        My Account{" "}
+                        <MdOutlineKeyboardArrowDown
+                          style={{ marginTop: "-3px" }}
+                          size={20}
+                        />
+                      </a>
+                      <ul
+                        className="dropdown-menu dropdown-menu2"
+                        aria-labelledby="navbarDropdown"
+                      >
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/profile-management"
+                            onClick={handleSideNavbar}
+                          >
+                            Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/manage-orders"
+                            onClick={handleSideNavbar}
+                          >
+                            Orders
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/wishlist"
+                            onClick={handleSideNavbar}
+                          >
+                            WishList
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/reviews-ratings"
+                            onClick={handleSideNavbar}
+                          >
+                            Reviews & Ratings
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/manage-address"
+                            onClick={handleSideNavbar}
+                          >
+                            Delivery Address Book
+                          </Link>
+                        </li>
+                      </ul>
+                    </li> */}
+
                     <li className="nav-item d-md-none">
                       <button className="nav-link" onClick={handleLogout}>
                         {jwtToken ? "Logout" : "Login"}

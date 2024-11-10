@@ -3,8 +3,8 @@ import axios from "axios";
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useLayoutEffect,
+  useEffect,
   useState,
 } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -38,8 +38,7 @@ const ProductItem = () => {
   const [contArray, setContArray] = useState();
   const [reqVariantId, setReqVariantId] = useState(0);
   const [output, setOutput] = useState();
-  // const [chooseCondn, setChooseCondn] = useState("oilySkin");
-
+  const [isFixed, setIsFixed] = useState(false);
   const [productImagesArr, setProductImagesArr] = useState([]);
   const [imgCount, setImgCount] = useState(0);
   const [readMoreContent, setReadMoreContent] = useState(false);
@@ -51,11 +50,28 @@ const ProductItem = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   let { id } = useParams();
-  const { userDetails, updateCartData, showSearchBar, showCart } =
-    useContext(searchResultContext);
-  //  const location = useLocation();
-  // const { productId = 0 } = location.state;
+  const { userDetails, updateCartData } = useContext(searchResultContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const renderSection = document.getElementById("productBuyNowSection");
+      const scrollPosition = window.scrollY;
+
+      if (renderSection) {
+        if (scrollPosition <= 420) {
+          setIsFixed(false);
+          renderSection.style.display = "none";
+        } else {
+          setIsFixed(true);
+          renderSection.style.display = "block";
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const getFaqs = useCallback(
     async (productId) => {
@@ -66,20 +82,18 @@ const ProductItem = () => {
     [baseUrl]
   );
 
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  // useEffect(() => {
+  //   if (showSearchBar === false && showCart === false) {
+  //     const timer = setTimeout(() => {
+  //       setIsButtonVisible(true);
+  //     }, 1500);
 
-  useEffect(() => {
-    if (showSearchBar === false && showCart === false) {
-      const timer = setTimeout(() => {
-        setIsButtonVisible(true);
-      }, 1500);
-
-      // Clear timeout if the component unmounts before the delay
-      return () => clearTimeout(timer);
-    } else {
-      setIsButtonVisible(false);
-    }
-  }, [showSearchBar, showCart]);
+  //     // Clear timeout if the component unmounts before the delay
+  //     return () => clearTimeout(timer);
+  //   } else {
+  //     setIsButtonVisible(false);
+  //   }
+  // }, [showSearchBar, showCart]);
 
   useLayoutEffect(() => {
     const productDetails = async () => {
@@ -183,24 +197,6 @@ const ProductItem = () => {
   if (Object.keys(productDetails).length === 0) {
     return null;
   }
-
-  const scrollHeight = 300;
-  const maxScrollHeight = 596;
-
-  window.onscroll = () => {
-    const myDiv = document.getElementById("productBuyNowSection");
-    if (!myDiv) return;
-    if (window.scrollY >= scrollHeight && window.scrollY <= maxScrollHeight) {
-      myDiv.style.display = "block";
-      myDiv.style.position = "relative";
-    } else if (window.scrollY > maxScrollHeight) {
-      myDiv.style.display = "block";
-      myDiv.style.position = "fixed";
-      myDiv.style.top = "0";
-    } else {
-      myDiv.style.display = "none";
-    }
-  };
 
   const decreaseQuantity = () => {
     if (quantityCounter > 1) {
@@ -762,112 +758,6 @@ const ProductItem = () => {
             </div>
           </div>
         </div>
-        {isButtonVisible && (
-          <div className="productBuyNowSection" id="productBuyNowSection">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-6">
-                  <nav aria-label="breadcrumb mb-4">
-                    <ol className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <Link className="breadcrumbCust-icon" to="/">
-                          Home
-                        </Link>
-                      </li>
-
-                      <li
-                        className="breadcrumb-item active"
-                        aria-current="page"
-                      >
-                        {productDetails.product_title}
-                      </li>
-                    </ol>
-                  </nav>
-                  <h5 className="productName">
-                    {productDetails.product_title}
-                    {selectedVariant1 && `-${selectedVariant1}`}
-                    {selectedVariant2 && `-${selectedVariant2}`}
-                    {selectedVariant3 && `-${selectedVariant3}`}
-                  </h5>
-                </div>
-                <div className="col-md-6 d-flex align-items-end justify-content-end">
-                  <div className="d-flex align-items-end justify-content-end">
-                    {parseInt(productDetails.product_qty) > 0 &&
-                      parseInt(productDetails.product_qty) >=
-                        parseInt(productDetails.min_cart_quantity) && (
-                        <>
-                          <button
-                            className="secProductPgBtn secondaryBuynowBtn me-3"
-                            onClick={handleBuyNow}
-                            disabled={
-                              !(
-                                parseInt(productDetails.product_qty) > 0 &&
-                                parseInt(productDetails.product_qty) >=
-                                  parseInt(productDetails.min_cart_quantity)
-                              )
-                            }
-                          >
-                            Buy it Now
-                          </button>
-                          <button
-                            className="secProductPgBtn secondaryAddtocartBtn"
-                            type="button"
-                            onClick={() =>
-                              handleAddtoCart(
-                                userDetails.azst_customer_id,
-                                {
-                                  productId: productDetails.id,
-                                  variantId: output?.id ?? 0,
-                                  quantity: quantityCounter,
-                                },
-                                updateCartData
-                              )
-                            }
-                          >
-                            Add to cart
-                          </button>
-                        </>
-                      )}
-                    {/* <img
-                      src={`${process.env.PUBLIC_URL}/images/${
-                        productDetails.in_wishlist === 1
-                          ? "inWishist.svg"
-                          : "darkHeart.svg"
-                      }`}
-                      alt="wishlist"
-                      className="wishListBtn"
-                      onClick={handleWishlist}
-                      // disabled={productDetails.in_wishlist === 1}
-                    /> */}
-                    {parseInt(productDetails.in_wishlist) > 0 ? (
-                      <button
-                        onClick={handleWishlistRemove}
-                        className="hoveredCardButton"
-                      >
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
-                          alt="wishlist"
-                          className="wishListBtn"
-                        />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleWishlist}
-                        className="hoveredCardButton"
-                      >
-                        <img
-                          src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
-                          alt="wishlist"
-                          className="wishListBtn"
-                        />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
         <div className="ingredientsCont">
           <div className="container">
             <div className="row">
@@ -886,15 +776,14 @@ const ProductItem = () => {
                               src={ingredient.image}
                               alt={ingredient.title}
                               className="ingredientImg"
-                              style={{ width: "8rem" }}
                             />
-                            <p>
-                              <strong>{ingredient.title}</strong>
+                            <p className="ingredientTitle">
+                              {ingredient.title}
                             </p>
                           </div>
-                          <small className="ingredientHoverCont">
+                          <span className="ingredientHoverCont">
                             {ingredient.description}
-                          </small>
+                          </span>
                         </div>
                       )
                     )}
@@ -979,6 +868,99 @@ const ProductItem = () => {
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`productBuyNowSection  ${isFixed ? "fixed-top" : ""}`}
+          id="productBuyNowSection"
+        >
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <nav aria-label="breadcrumb mb-4">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <Link className="breadcrumbCust-icon" to="/">
+                        Home
+                      </Link>
+                    </li>
+
+                    <li className="breadcrumb-item active" aria-current="page">
+                      {productDetails.product_title}
+                    </li>
+                  </ol>
+                </nav>
+                <h5 className="productName">
+                  {productDetails.product_title}
+                  {selectedVariant1 && `-${selectedVariant1}`}
+                  {selectedVariant2 && `-${selectedVariant2}`}
+                  {selectedVariant3 && `-${selectedVariant3}`}
+                </h5>
+              </div>
+              <div className="col-md-6 d-flex align-items-md-end justify-content-md-end">
+                <div className="d-flex align-items-end justify-content-end">
+                  {parseInt(productDetails.product_qty) > 0 &&
+                    parseInt(productDetails.product_qty) >=
+                      parseInt(productDetails.min_cart_quantity) && (
+                      <>
+                        <button
+                          className="secProductPgBtn secondaryBuynowBtn me-3"
+                          onClick={handleBuyNow}
+                          disabled={
+                            !(
+                              parseInt(productDetails.product_qty) > 0 &&
+                              parseInt(productDetails.product_qty) >=
+                                parseInt(productDetails.min_cart_quantity)
+                            )
+                          }
+                        >
+                          Buy it Now
+                        </button>
+                        <button
+                          className="secProductPgBtn secondaryAddtocartBtn"
+                          type="button"
+                          onClick={() =>
+                            handleAddtoCart(
+                              userDetails.azst_customer_id,
+                              {
+                                productId: productDetails.id,
+                                variantId: output?.id ?? 0,
+                                quantity: quantityCounter,
+                              },
+                              updateCartData
+                            )
+                          }
+                        >
+                          Add to cart
+                        </button>
+                      </>
+                    )}
+                  {parseInt(productDetails.in_wishlist) > 0 ? (
+                    <button
+                      onClick={handleWishlistRemove}
+                      className="hoveredCardButton"
+                    >
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
+                        alt="wishlist"
+                        className="wishListBtn"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleWishlist}
+                      className="hoveredCardButton"
+                    >
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
+                        alt="wishlist"
+                        className="wishListBtn"
+                      />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

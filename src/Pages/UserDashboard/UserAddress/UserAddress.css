@@ -21,15 +21,27 @@
     flex-direction: column;
     justify-content: space-around;
 }
+.adressCardButton{
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.54);
+    border-radius: 50%;
+}
+.adressCardButton:hover{
+    background-color: rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease-in-out;
+}
 .AddDropdownBtn {
     text-decoration: none;
     color: #303030;
     font-weight: 400;
     font-size: 0.9rem;
     cursor: pointer;
+    display: block;
+    padding: 0.2rem 0.6rem;
+    margin: 0.4rem 0;
 }
 .AddDropdownBtn:hover{
-    color: #171717;
+    background-color: rgba(0, 0, 0, 0.04);
 }
 .addressCont{
     display: flex;
@@ -46,7 +58,7 @@
     justify-content: space-between;
 }
 .addressDropdownMenu{
-    padding: 0.4rem 1rem !important;
+    padding: 0 !important;
 }
 .addressDltBtn{
     background-color: transparent;

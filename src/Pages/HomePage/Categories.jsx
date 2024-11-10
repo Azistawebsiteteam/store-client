@@ -26,33 +26,43 @@ const Categories = ({ categories, type, closeCategories, breakpoint }) => {
             >
               <div className="categoryBox">
                 <div className="category">
-                  <img
-                    src={eachCategory.azst_category_img}
-                    alt={eachCategory.azst_category_name}
-                    className="categoryImg"
-                  />
-                  <strong className="categoryTxt">
-                    {eachCategory.azst_category_name}
-                  </strong>
-                </div>
-                <div className="category_overlay">
-                  <small className="productCount">{`${eachCategory.no_products} Products`}</small>
-                  {eachCategory.no_products > 0 && (
-                    <Link
-                      to={`/collection/${eachCategory.azst_category_name.replace(
-                        / /g,
-                        "-"
-                      )}`}
-                      state={{
-                        categoryId: eachCategory.azst_category_id,
-                        collectionName: eachCategory.azst_category_name,
-                      }}
-                      onClick={handleSearchbarClose}
-                      className="viewAllBtn"
-                    >
-                      View All
-                    </Link>
-                  )}
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={eachCategory.azst_category_img}
+                      alt={eachCategory.azst_category_name}
+                      className="categoryImg"
+                    />
+                    <div className="category_overlay">
+                      <>
+                        <small
+                          className="productCount"
+                          style={{ color: "#fff" }}
+                        >{`${eachCategory.no_products} Products`}</small>
+                        {eachCategory.no_products > 0 && (
+                          <Link
+                            to={`/collection/${eachCategory.azst_category_name.replace(
+                              / /g,
+                              "-"
+                            )}`}
+                            state={{
+                              categoryId: eachCategory.azst_category_id,
+                              collectionName: eachCategory.azst_category_name,
+                            }}
+                            onClick={handleSearchbarClose}
+                            className="viewAllBtn"
+                            style={{ color: "#fff" }}
+                          >
+                            <small>View All</small>
+                          </Link>
+                        )}
+                      </>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <strong className="categoryTxt">
+                      {eachCategory.azst_category_name}
+                    </strong>
+                  </div>
                 </div>
               </div>
             </div>

@@ -96,6 +96,7 @@ hr.contLine{
     .summaryCard{
         width: 90%;
         position: relative;
+        margin-top: 3rem;
     }
     
     .orderSummaryInfoCard {

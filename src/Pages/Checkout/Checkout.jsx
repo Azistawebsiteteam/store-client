@@ -20,7 +20,7 @@ const Checkout = () => {
   const [isDiscountCodeAppliedMsg, setIsDiscountCodeAppliedMsg] =
     useState(false);
   const [shippingAddress, setShippingAddress] = useState([]);
-  const [selectedAccordian, setSelectedAccordian] = useState(null);
+  const [selectedAccordian, setSelectedAccordian] = useState("1");
   const [addShippingAddress, setAddShippingAddress] = useState(false);
   const [selectedShippingAddress, setSelectedShippingAddress] = useState("");
   const [isBillingAdressSame, setIsBillingAdressSame] = useState(true);
@@ -28,6 +28,8 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState("RazorPay");
   const [discountCode, setDiscountCode] = useState("");
   const [discountCodeError, setDiscountCodeError] = useState("");
+  const [checkedStatus, setCheckedStatus] = useState({});
+  const [disable, setDisable] = useState(false);
 
   const {
     cartList,
@@ -137,6 +139,15 @@ const Checkout = () => {
 
     getAddressBook();
   }, [baseUrl, jwtToken]);
+
+  useEffect(() => {
+    const requiredValues = ["step1", "step2", "step3", "step4"];
+
+    const containsAllValues = requiredValues.every((value) =>
+      Object.values(checkedStatus).includes(value)
+    );
+    setDisable(containsAllValues);
+  }, [checkedStatus]);
 
   const handleAccTab = (i) => {
     if (selectedAccordian === i) {
@@ -387,8 +398,9 @@ const Checkout = () => {
     }
   };
 
-  const handleCartStatus = (val) => {
+  const handleCartStatus = (val, status) => {
     setSelectedAccordian(val);
+    setCheckedStatus({ ...checkedStatus, [val]: status });
   };
 
   return (
@@ -455,7 +467,7 @@ const Checkout = () => {
                       <button
                         className="buyNowBtn"
                         style={{ width: "max-content", padding: "0.6rem 1rem" }}
-                        onClick={() => handleCartStatus("2")}
+                        onClick={() => handleCartStatus("2", "step1")}
                       >
                         Continue Check Out
                       </button>
@@ -526,7 +538,7 @@ const Checkout = () => {
                                   width: "max-content",
                                   padding: "0.6rem 1rem",
                                 }}
-                                onClick={() => handleCartStatus("3")}
+                                onClick={() => handleCartStatus("3", "step2")}
                               >
                                 Deliver here
                               </button>
@@ -552,7 +564,7 @@ const Checkout = () => {
                           style={{ fontSize: "18px", marginRight: "4px" }}
                         />
                         {addShippingAddress
-                          ? "Use current location"
+                          ? "Use saved address"
                           : "Add New Address"}
                       </button>
                       {addShippingAddress && (
@@ -565,14 +577,13 @@ const Checkout = () => {
                           setSelectedAccordian={setSelectedAccordian}
                         />
                       )}
-                      {/* <h6>Billing Address</h6> */}
                       <div className="custom-control custom-checkbox">
                         <input
                           type="checkbox"
                           className="custom-control-input"
                           id="isBillingAndShippingAddressSame"
                           checked={isBillingAdressSame}
-                          onClick={() =>
+                          onChange={() =>
                             setIsBillingAdressSame(!isBillingAdressSame)
                           }
                         />
@@ -664,7 +675,7 @@ const Checkout = () => {
                               width: "max-content",
                               padding: "0.6rem 1rem",
                             }}
-                            onClick={() => handleCartStatus("4")}
+                            onClick={() => handleCartStatus("4", "step3")}
                           >
                             Continue
                           </button>
@@ -726,7 +737,7 @@ const Checkout = () => {
                           width: "max-content",
                           padding: "0.6rem 1rem",
                         }}
-                        onClick={() => handleCartStatus("")}
+                        onClick={() => handleCartStatus("", "step4")}
                       >
                         Continue
                       </button>
@@ -800,7 +811,9 @@ const Checkout = () => {
                       <small style={{ fontWeight: "500" }}>
                         Rs.{shippingCharges}
                       </small>
-                      <small>Free shipping for orders over Rs. 150.00!</small>
+                      <small style={{ textAlign: "justify" }}>
+                        Free shipping for orders over Rs. 150.00!
+                      </small>
                     </div>
                   </div>
                   <div className="d-flex justify-content-between mt-1 mb-1">
@@ -828,12 +841,13 @@ const Checkout = () => {
                   style={{ padding: "1rem 0 1rem 1rem" }}
                 >
                   <button
-                    className="buyNowBtn"
+                    className={`${disable ? "buyNowBtn" : "disabledBtn"}`}
                     style={{
                       width: "max-content",
                       padding: "0.6rem 1rem",
                     }}
                     onClick={handleTypeOfPayment}
+                    disabled={!disable}
                   >
                     Proceed to Pay - Rs.
                     {(cartTotal + shippingCharges - discountAmount).toFixed(2)}

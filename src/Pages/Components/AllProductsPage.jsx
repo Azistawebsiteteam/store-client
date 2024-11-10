@@ -12,7 +12,7 @@ const AllProductsPage = () => {
       <div className="searchProductResults">
         <div className="row">
           {searchResults.map((product, i) => (
-            <div className="col-md-3" key={i}>
+            <div className="col-6 col-md-3" key={i}>
               <Link
                 className="linkBtn"
                 to={`/productitem/${product.product_url_title}`}

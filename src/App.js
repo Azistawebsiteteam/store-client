@@ -41,11 +41,13 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import RequestCb from "./Pages/RequestCallbackPage/RequestCb";
 import OrderDetails from "./Pages/UserDashboard/OrdersSection/OrderDetails";
 import OrderSummary from "./Pages/OrderSummary/OrderSummary";
-import "bootstrap/dist/css/bootstrap.css";
-import "./App.css";
 import useNetworkStatus from "./ProtectedRoute/usenetwork";
 import NoNetwork from "./Pages/Components/NoNetwork";
 import ReturnsAndReplace from "./Pages/UserDashboard/OrdersSection/ReturnsAndReplace";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import "./App.css";
 
 function App() {
   const isOnline = useNetworkStatus();
