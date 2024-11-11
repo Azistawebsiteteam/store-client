@@ -301,7 +301,7 @@ const Navbar = () => {
                     <li className="nav-item">
                       <Link
                         className="nav-link"
-                        to="combos"
+                        to="#"
                         onClick={handleSideNavbar}
                       >
                         Combos

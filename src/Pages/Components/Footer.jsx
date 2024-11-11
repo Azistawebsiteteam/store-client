@@ -69,7 +69,6 @@ const Footer = () => {
         setNewsletterMsg("You're now subscribed to our newsletter!");
         setError("");
       }
-      console.log(response);
       ErrorHandler.onLoadingClose();
     } catch (error) {
       setError("");
@@ -80,7 +79,6 @@ const Footer = () => {
       setNewsletterMsg(message);
     }
   };
-  console.log(newsletterMsg);
   const handleNewsletterEmail = (e) => {
     setNewsletterSubscription(e.target.value);
     if (e.target.value === "") {
