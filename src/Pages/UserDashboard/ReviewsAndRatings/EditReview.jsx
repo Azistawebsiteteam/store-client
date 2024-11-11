@@ -268,6 +268,7 @@ const EditReview = () => {
                     size={20}
                     className="d-block"
                     onClick={onDeleteImg}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
               )}

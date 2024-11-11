@@ -387,8 +387,8 @@ export const DisplayReview = ({ productId }) => {
                   parseInt(each.customer_id) && (
                   <ThreeDotsDropdown
                     reviewId={each.review_id}
-                    fetchReviews={fetchReviews}
-                    productId={productId}
+                    reviews={reviews}
+                    setReviews={setReviews}
                   />
                 )}
                 {/* <span>{each.created_on}</span> */}
@@ -400,14 +400,14 @@ export const DisplayReview = ({ productId }) => {
                 <p
                   style={{
                     fontSize: "1rem",
-                    lineHeight: "1",
+                    lineHeight: "1.3rem",
                     margin: "0.4rem 0",
                   }}
                 >
                   {each.review_content}
                 </p>
               </div>
-              <div className="displayIeviewImgsCont">
+              <div className="displayIeviewImgsCont my-3">
                 {each.review_images.map((img, i) => (
                   <img
                     key={i}

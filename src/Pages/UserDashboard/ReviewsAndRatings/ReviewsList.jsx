@@ -56,7 +56,11 @@ const ReviewsList = () => {
                         {review.created_on}
                       </small>
                       <div className="dropdownMenuCont">
-                        <ThreeDotsDropdown reviewId={review.review_id} />
+                        <ThreeDotsDropdown
+                          reviewId={review.review_id}
+                          reviews={reviews}
+                          setReviews={setReviews}
+                        />
                       </div>
                     </div>
                     <Rating

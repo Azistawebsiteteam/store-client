@@ -972,7 +972,7 @@ img.gif {
     transition: all 2s ease-in-out;
 }
 .mainImage:hover{
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
     cursor: pointer;
 }
 .productContImgSec{

@@ -222,9 +222,10 @@ const ProductItem = () => {
         availableVariants[0]?.id ?? 0
       );
       if (response?.status === 200) {
+        const { wishlist_id } = response.data;
         setProductDetails({
           ...productDetails,
-          in_wishlist: 1,
+          in_wishlist: wishlist_id,
         });
       }
     } catch (error) {
@@ -232,8 +233,8 @@ const ProductItem = () => {
     }
   };
 
-  const handleWishlistRemove = async () => {
-    const result = await removeFromWishlist(productDetails.id);
+  const handleWishlistRemove = async (id) => {
+    const result = await removeFromWishlist(id);
     if (result) {
       setProductDetails({ ...productDetails, in_wishlist: 0 });
     }
@@ -537,11 +538,13 @@ const ProductItem = () => {
                         )}
                       {parseInt(productDetails.in_wishlist) > 0 ? (
                         <button
-                          onClick={handleWishlistRemove}
+                          onClick={() =>
+                            handleWishlistRemove(productDetails.in_wishlist)
+                          }
                           className="hoveredCardButton"
                         >
                           <img
-                            src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
+                            src={`${process.env.PUBLIC_URL}/images/coloredIcon.svg`}
                             alt="wishlist"
                             className="wishListBtn"
                           />
@@ -552,7 +555,7 @@ const ProductItem = () => {
                           className="hoveredCardButton"
                         >
                           <img
-                            src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
+                            src={`${process.env.PUBLIC_URL}/images/blackIcon.svg`}
                             alt="wishlist"
                             className="wishListBtn"
                           />
@@ -940,11 +943,13 @@ const ProductItem = () => {
                     )}
                   {parseInt(productDetails.in_wishlist) > 0 ? (
                     <button
-                      onClick={handleWishlistRemove}
+                      onClick={() =>
+                        handleWishlistRemove(productDetails.in_wishlist)
+                      }
                       className="hoveredCardButton"
                     >
                       <img
-                        src={`${process.env.PUBLIC_URL}/images/inWishist.svg`}
+                        src={`${process.env.PUBLIC_URL}/images/coloredIcon.svg`}
                         alt="wishlist"
                         className="wishListBtn"
                       />
@@ -955,7 +960,7 @@ const ProductItem = () => {
                       className="hoveredCardButton"
                     >
                       <img
-                        src={`${process.env.PUBLIC_URL}/images/darkHeart.svg`}
+                        src={`${process.env.PUBLIC_URL}/images/blackIcon.svg`}
                         alt="wishlist"
                         className="wishListBtn"
                       />
