@@ -52,7 +52,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const handleSearchProducts = (value) => {
     setTimeout(() => {
       getProducts(value);
-    }, 2000);
+    }, 1000);
   };
 
   const onChangeSearchText = (e) => {

@@ -63,13 +63,19 @@ const EditReview = () => {
   const handleReviewForm = (e) => {
     const { id, value, files } = e.target;
     if (files && files.length > 0) {
-      const newFiles = Array.from(files);
-      setReview({
-        ...review,
-        reviewImgs: [...review.reviewImgs, ...newFiles],
-      });
-    } else {
-      setReview({ ...review, [id]: value });
+      const remainingSlots = 5 - review.reviewImgs.length;
+      if (remainingSlots === 0) {
+        return alert("Cannot add more images. Maximum of 5 images allowed.");
+      }
+      if (remainingSlots > 0) {
+        const newFiles = Array.from(files);
+        setReview({
+          ...review,
+          reviewImgs: [...review.reviewImgs, ...newFiles],
+        });
+      } else {
+        setReview({ ...review, [id]: value });
+      }
     }
   };
 

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import { HashLink } from "react-router-hash-link";
 import Cookies from "js-cookie";
 import Announcement from "./Announcement";
 import SocialIcons from "./SocialIcons";
@@ -213,25 +214,13 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <a
+                      <HashLink
                         className="nav-link"
-                        href="/#categories"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (window.location.pathname === "/") {
-                            document
-                              .getElementById("categories")
-                              ?.scrollIntoView({
-                                behavior: "smooth",
-                              });
-                            handleSideNavbar();
-                          } else {
-                            navigate("/#categories");
-                          }
-                        }}
+                        to="/#categories"
+                        onClick={handleSideNavbar}
                       >
                         Categories
-                      </a>
+                      </HashLink>
                     </li>
                     {/* <li className="nav-item dropdown">
                       <a
@@ -308,23 +297,13 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <a
+                      <HashLink
                         className="nav-link"
-                        href="/#shop99"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (window.location.pathname === "/") {
-                            document.getElementById("shop99")?.scrollIntoView({
-                              behavior: "smooth",
-                            });
-                            handleSideNavbar();
-                          } else {
-                            navigate("/#shop99");
-                          }
-                        }}
+                        to="/#shop99"
+                        onClick={handleSideNavbar}
                       >
                         Shop @99
-                      </a>
+                      </HashLink>
                     </li>
                     {jwtToken && (
                       <li className="nav-item">

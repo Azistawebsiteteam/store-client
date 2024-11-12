@@ -239,7 +239,6 @@ const ProductItem = () => {
       setProductDetails({ ...productDetails, in_wishlist: 0 });
     }
   };
-
   const handleVariantOpt1 = (v) => {
     if (!selectedVariant1.includes(v)) {
       setSelectedVariant1(v);

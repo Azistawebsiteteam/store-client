@@ -27,11 +27,17 @@ export const CreateReview = (props) => {
     const { id, value, files } = e.target;
 
     if (files && files.length > 0) {
-      const newFiles = Array.from(files);
-      setReviewData({
-        ...reviewData,
-        reviewImg: [...reviewData.reviewImg, ...newFiles],
-      });
+      const remainingSlots = 5 - reviewData.reviewImg.length;
+      if (remainingSlots === 0) {
+        return alert("Cannot add more images. Maximum of 5 images allowed.");
+      }
+      if (remainingSlots > 0) {
+        const newFiles = Array.from(files).slice(0, remainingSlots);
+        setReviewData({
+          ...reviewData,
+          reviewImg: [...reviewData.reviewImg, ...newFiles],
+        });
+      }
     } else {
       setReviewData({ ...reviewData, [id]: value });
     }
@@ -109,7 +115,7 @@ export const CreateReview = (props) => {
     }
   };
   const deleteReviewImg = () => {
-    let filteredReviewImgs = reviewData.reviewImg.filter(
+    const filteredReviewImgs = reviewData.reviewImg.filter(
       (img, i) => !reviewImgFile.includes(i)
     );
 
@@ -163,7 +169,7 @@ export const CreateReview = (props) => {
             rows={4}
             cols={50}
             minLength={10}
-            maxLength={200}
+            maxLength={400}
             onChange={handleReviewForm}
             value={reviewData.reviewContent}
           ></textarea>

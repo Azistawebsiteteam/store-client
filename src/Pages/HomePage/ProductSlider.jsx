@@ -85,13 +85,18 @@ const productSlider = ({ title, items, setUpdate }) => {
     try {
       const productId = product.product_id;
       //const variantid = product.availableVariants[0]?.id ?? 0;
+      // const response = await AddToWishlist(
+      //   productDetails.id,
+      //   availableVariants[0]?.id ?? 0
+      // );
       const response = await AddToWishlist(productId, 0);
       if (response?.status === 200) {
+        const wishlist_id = response.data.wishlist_id;
         const updatedItem = items.map((item) => {
           if (item.product_id === product.product_id) {
             return {
               ...item,
-              in_wishlist: 1,
+              in_wishlist: wishlist_id,
             };
           } else {
             return item;
@@ -104,12 +109,12 @@ const productSlider = ({ title, items, setUpdate }) => {
     }
   };
 
-  const handleWishlistRemove = async (produtId, id) => {
+  const handleWishlistRemove = async (id) => {
     const result = await removeFromWishlist(id);
 
     if (result) {
       const updateData = items.map((p) => {
-        if (p.product_id === produtId) {
+        if (p.in_wishlist === id) {
           return { ...p, in_wishlist: 0 };
         } else {
           return p;
@@ -199,9 +204,7 @@ const productSlider = ({ title, items, setUpdate }) => {
                 <div className="hoveredCardButtonCont">
                   {parseInt(each.in_wishlist) > 0 ? (
                     <button
-                      onClick={() =>
-                        handleWishlistRemove(each.product_id, each.in_wishlist)
-                      }
+                      onClick={() => handleWishlistRemove(each.in_wishlist)}
                       className="hoveredCardButton"
                     >
                       <img
