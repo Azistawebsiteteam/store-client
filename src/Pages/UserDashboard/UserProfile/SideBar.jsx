@@ -97,7 +97,9 @@ const SideBar = () => {
           <img
             className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
-              isActiveTab("/profile-management") || isActiveTab("/edit-profile")
+              isActiveTab("/profile-management") ||
+              isActiveTab("/edit-profile") ||
+              isActiveTab("/Update-billing-address")
                 ? "profileActive.svg"
                 : "profile.svg"
             }`}
@@ -106,7 +108,9 @@ const SideBar = () => {
           <Link
             to="/profile-management"
             className={`nav-link sideNavlink ${
-              isActiveTab("/profile-management") || isActiveTab("/edit-profile")
+              isActiveTab("/profile-management") ||
+              isActiveTab("/edit-profile") ||
+              isActiveTab("/Update-billing-address")
                 ? "activeBar"
                 : ""
             }`}

@@ -121,6 +121,7 @@ const ProductCard = ({ items, setUpdate }) => {
               >
                 View Details
               </Link>
+
               <div className="hoveredCardButtonCont">
                 {parseInt(each.in_wishlist) > 0 ? (
                   <button

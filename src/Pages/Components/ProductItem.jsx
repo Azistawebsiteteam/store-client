@@ -52,7 +52,6 @@ const ProductItem = () => {
   let { id } = useParams();
   const { userDetails, updateCartData } = useContext(searchResultContext);
   const navigate = useNavigate();
-
   useEffect(() => {
     const handleScroll = () => {
       const renderSection = document.getElementById("productBuyNowSection");
@@ -99,13 +98,14 @@ const ProductItem = () => {
     const productDetails = async () => {
       try {
         const url = `${baseUrl}/product/details`;
-
         const productResponse = await axios.post(url, {
           productId: id,
           customerId:
             userDetails.azst_customer_id ??
             localStorage.getItem(process.env.REACT_APP_CART_KEY),
         });
+
+        console.log(productResponse.data);
 
         const { avalaibleVariants, productDetails, variants } =
           productResponse.data;
@@ -178,21 +178,38 @@ const ProductItem = () => {
     variantGroupId();
   }, [availableVariants, selectedVariant1, selectedVariant2, selectedVariant3]);
 
+  // useEffect(() => {
+  //   const variantDetails = async () => {
+  //     try {
+  //       const url = `${baseUrl}/product/variants`;
+  //       const variantId = reqVariantId ? reqVariantId : "0";
+  //       let response = await axios.post(url, { variantId });
+  //       setOutput(response.data.variant);
+  //     } catch (error) {
+  //       ErrorHandler.onError(error);
+  //     }
+  //   };
+  //   if (reqVariantId) {
+  //     variantDetails();
+  //   }
+  // }, [baseUrl, reqVariantId]);
+
+  const variantDetails = useCallback(async () => {
+    try {
+      const url = `${baseUrl}/product/variants`;
+      const variantId = reqVariantId ? reqVariantId : "0";
+      let response = await axios.post(url, { variantId });
+      setOutput(response.data.variant);
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
+  }, [baseUrl, reqVariantId]);
+
   useEffect(() => {
-    const variantDetails = async () => {
-      try {
-        const url = `${baseUrl}/product/variants`;
-        const variantId = reqVariantId ? reqVariantId : "0";
-        let response = await axios.post(url, { variantId });
-        setOutput(response.data.variant);
-      } catch (error) {
-        ErrorHandler.onError(error);
-      }
-    };
     if (reqVariantId) {
       variantDetails();
     }
-  }, [baseUrl, reqVariantId]);
+  }, [variantDetails]);
 
   if (Object.keys(productDetails).length === 0) {
     return null;
@@ -219,7 +236,7 @@ const ProductItem = () => {
       if (!jwtToken) return navigate("/login");
       const response = await AddToWishlist(
         productDetails.id,
-        availableVariants[0]?.id ?? 0
+        reqVariantId || 0
       );
       if (response?.status === 200) {
         const { wishlist_id } = response.data;
@@ -317,6 +334,8 @@ const ProductItem = () => {
     }
   };
 
+  console.log(output, "productDetails");
+  console.log(productDetails, "productDetails");
   return (
     <>
       <ScrollToTop />
@@ -499,13 +518,19 @@ const ProductItem = () => {
                           parseInt(productDetails.min_cart_quantity) && (
                           <>
                             <div className="quantityCont">
-                              <span onClick={decreaseQuantity}>
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={decreaseQuantity}
+                              >
                                 <FaMinus />
                               </span>
                               <span className="quantityVal">
                                 {quantityCounter}
                               </span>
-                              <span onClick={increaseQuantity}>
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={increaseQuantity}
+                              >
                                 <FaPlus />
                               </span>
                             </div>
@@ -535,6 +560,10 @@ const ProductItem = () => {
                             </button>
                           </>
                         )}
+                      {/* {parseInt(productDetails.is_varaints_aval === 1)
+                        ? output.in_wishlist
+                        : productDetails.in_wishlist} */}
+
                       {parseInt(productDetails.in_wishlist) > 0 ? (
                         <button
                           onClick={() =>

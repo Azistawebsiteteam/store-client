@@ -48,6 +48,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./App.css";
+import UpdateBillingAddress from "./Pages/UserDashboard/UserProfile/UpdateBillingAddress";
 
 function App() {
   const isOnline = useNetworkStatus();
@@ -108,6 +109,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ManageAddress />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Update-billing-address"
+              element={
+                <ProtectedRoute>
+                  <UpdateBillingAddress />
                 </ProtectedRoute>
               }
             />

@@ -13,60 +13,48 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
     try {
       const url = `${baseUrl}/cart`;
       body = { ...body, customerId: userDetails.azst_customer_id ?? 0 };
-      await axios.put(url, body);
-      updateCartData();
+      await axios.put(url, body); // Wait for this call to finish
+      await updateCartData(); // Fetch updated cart data once the update is complete
     } catch (error) {
       ErrorHandler.onError(error);
     }
   };
+
+  // Increase quantity counter for a specific cart item
   const increaseQuantityCounter = (cartId) => {
     const product = cartList.find((c) => c.azst_cart_id === cartId);
-    let quantity = product.azst_cart_quantity ?? 1;
-    if (product) {
-      const updatedCart = cartList.map((eachProduct) => {
-        if (eachProduct.azst_cart_id === cartId) {
-          if (eachProduct.azst_cart_quantity < eachProduct.max_cart_quantity) {
-            quantity = parseInt(eachProduct.azst_cart_quantity) + 1;
-            return {
-              ...eachProduct,
-              azst_cart_quantity: quantity,
-            };
-          }
-          return eachProduct;
-        } else {
-          return eachProduct;
-        }
-      });
+
+    if (product && product.azst_cart_quantity < product.max_cart_quantity) {
+      const updatedQuantity = parseInt(product.azst_cart_quantity) + 1;
+
+      const updatedCart = cartList.map((eachProduct) =>
+        eachProduct.azst_cart_id === cartId
+          ? { ...eachProduct, azst_cart_quantity: updatedQuantity }
+          : eachProduct
+      );
+
       setCartList(updatedCart);
-      const body = { cartId, quantity };
-      updateQuantity(body);
+      updateQuantity({ cartId, quantity: updatedQuantity });
     }
   };
 
+  // Decrease quantity counter for a specific cart item
   const decreaseQuantityCounter = (cartId) => {
     const product = cartList.find((c) => c.azst_cart_id === cartId);
-    let quantity = 0;
-    if (product) {
-      const updatedCart = cartList.map((eachProduct) => {
-        if (eachProduct.azst_cart_id === cartId) {
-          if (eachProduct.azst_cart_quantity > eachProduct.min_cart_quantity) {
-            quantity = parseInt(eachProduct.azst_cart_quantity) - 1;
-            return {
-              ...eachProduct,
-              azst_cart_quantity: quantity,
-            };
-          }
-          return eachProduct;
-        } else {
-          return eachProduct;
-        }
-      });
+
+    if (product && product.azst_cart_quantity > product.min_cart_quantity) {
+      const updatedQuantity = parseInt(product.azst_cart_quantity) - 1;
+
+      const updatedCart = cartList.map((eachProduct) =>
+        eachProduct.azst_cart_id === cartId
+          ? { ...eachProduct, azst_cart_quantity: updatedQuantity }
+          : eachProduct
+      );
+
       setCartList(updatedCart);
-      const body = { cartId, quantity };
-      updateQuantity(body);
+      updateQuantity({ cartId, quantity: updatedQuantity });
     }
   };
-
   return (
     <div
       style={{
