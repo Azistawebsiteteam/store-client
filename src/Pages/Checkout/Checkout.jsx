@@ -85,7 +85,6 @@ const Checkout = () => {
       }
     } catch (error) {
       ErrorHandler.onLoadingClose();
-      ErrorHandler.onError(error);
       const message = error.response
         ? error.response.data?.message
         : "Opps something went wrong";
@@ -755,7 +754,7 @@ const Checkout = () => {
                   <h5>Discounts and Coupon</h5>
                   <div className="d-flex justify-content-between mt-1 mb-1">
                     <input
-                      className="form-control"
+                      className="form-control discountInput"
                       type="text"
                       placeholder="Discount Code or Coupon Code"
                       onChange={handleDiscountChange}
@@ -763,6 +762,7 @@ const Checkout = () => {
                       style={{
                         border: "1px solid rgba(176, 176, 176, 1)",
                         width: "70%",
+                        textTransform: "uppercase",
                       }}
                     />
                     <button

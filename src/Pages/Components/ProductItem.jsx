@@ -105,8 +105,6 @@ const ProductItem = () => {
             localStorage.getItem(process.env.REACT_APP_CART_KEY),
         });
 
-        console.log(productResponse.data);
-
         const { avalaibleVariants, productDetails, variants } =
           productResponse.data;
         getFaqs(productDetails.id);
@@ -334,8 +332,6 @@ const ProductItem = () => {
     }
   };
 
-  console.log(output, "productDetails");
-  console.log(productDetails, "productDetails");
   return (
     <>
       <ScrollToTop />

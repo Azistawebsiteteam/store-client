@@ -67,13 +67,21 @@ const QntyBtn = ({ cartQuantity, cartId }) => {
       }}
     >
       <span className="me-2">
-        <FaMinus fill="grey" onClick={() => decreaseQuantityCounter(cartId)} />
+        <FaMinus
+          fill="grey"
+          style={{ cursor: "pointer" }}
+          onClick={() => decreaseQuantityCounter(cartId)}
+        />
       </span>
       <span style={{ fontWeight: "600", fontSize: "16px", padding: "0 8px" }}>
         {cartQuantity}
       </span>
       <span className="ms-2">
-        <FaPlus fill="grey" onClick={() => increaseQuantityCounter(cartId)} />
+        <FaPlus
+          style={{ cursor: "pointer" }}
+          fill="grey"
+          onClick={() => increaseQuantityCounter(cartId)}
+        />
       </span>
     </div>
   );

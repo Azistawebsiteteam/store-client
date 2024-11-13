@@ -1,5 +1,7 @@
  /* checkout */
-
+    .discountInput::placeholder {
+        font-size: 16px !important;
+    }
     .checkoutAcc{
         border-bottom: 1px solid rgba(176, 176, 176, 1) !important;
         padding: 1rem;

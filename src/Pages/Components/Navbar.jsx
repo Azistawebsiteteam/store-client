@@ -19,6 +19,8 @@ const Navbar = () => {
   // const [showSearchBar, setShowSearchBar] = useState(false);
   // const [showCart, setShowCart] = useState(false);
   const [showSideNavbar, setShowSideNavbar] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
+
   const {
     cartTotal,
     cartCount,
@@ -34,6 +36,19 @@ const Navbar = () => {
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAnnouncementText = async () => {
+      try {
+        const url = `${baseUrl}/announcement/data`;
+        const response = await axios.get(url);
+        setAnnouncements(response.data);
+      } catch (error) {
+        ErrorHandler.onError(error);
+      }
+    };
+    getAnnouncementText();
+  }, [baseUrl]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,7 +136,10 @@ const Navbar = () => {
           showSearchBar={showSearchBar}
         />
         <Cart handleCart={handleCart} showCart={showCart} />
-        <div className="freeShippingBar">
+        <div
+          className="freeShippingBar"
+          style={announcements.length ? {} : { minHeight: "4.6rem" }}
+        >
           <div className="socialIconsCont d-none d-md-block">
             <SocialIcons width={1.3} />
           </div>
@@ -155,10 +173,15 @@ const Navbar = () => {
           </div>
         </div>
         <section className={`stickyHeader ${isSticky ? "fixed" : ""}`}>
-          <Announcement />
+          <Announcement announcements={announcements} />
           <nav
             className="navbar navbar-expand-lg navbar-light bg-light"
             id="navbar"
+            style={
+              announcements.length
+                ? { padding: "0.6rem 0" }
+                : { padding: "1.4rem 0" }
+            }
           >
             <div className="container">
               <div className="navbarInnerSection">

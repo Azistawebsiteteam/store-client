@@ -206,7 +206,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     border-top-left-radius: 36px;
     border-top-right-radius: 36px;
     top: -1.6rem;
-    padding: 0.6rem 0;
 }
 .dropdown-toggle::after {
     display: none !important;
@@ -1781,6 +1780,7 @@ img.navigateArrowCircle {
 @media screen and (max-width:768px) {
     .freeShippingBar {
         justify-content: center;
+        padding: 1.6rem 2rem !important;
     }
     span.announcement-text {
         font-size: 0.9rem;
