@@ -15,6 +15,8 @@ import "./index.css";
 import QntyBtn from "../Cart/QntyBtn";
 import ErrorHandler from "../Components/ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
+import { CiCircleRemove } from "react-icons/ci";
+import { RxCrossCircled } from "react-icons/rx";
 
 const Checkout = () => {
   const [isDiscountCodeAppliedMsg, setIsDiscountCodeAppliedMsg] =
@@ -30,6 +32,8 @@ const Checkout = () => {
   const [discountCodeError, setDiscountCodeError] = useState("");
   const [checkedStatus, setCheckedStatus] = useState({});
   const [disable, setDisable] = useState(false);
+  const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+  const [codeDiscountAmount, setCodeDiscountAmount] = useState(0);
 
   const {
     cartList,
@@ -39,6 +43,7 @@ const Checkout = () => {
     discountAmount,
     discountCodes,
     cartTotal,
+    setCartTotal,
     setDiscountAmount,
     setDiscountCodes,
   } = useContext(searchResultContext);
@@ -56,11 +61,12 @@ const Checkout = () => {
   };
 
   const handleDiscountChange = (e) => {
-    setDiscountCode(e.target.value);
+    setDiscountCode(e.target.value.toUpperCase());
   };
 
-  const isDiscountApplied = async () => {
+  const applyDiscount = async () => {
     try {
+      setIsDiscountApplied(false);
       const url = `${baseUrl}/customer/discount/apply`;
       const headers = {
         Authorization: `Bearer ${jwtToken} `,
@@ -69,17 +75,26 @@ const Checkout = () => {
       const response = await axios.post(url, { discountCode }, { headers });
       ErrorHandler.onLoadingClose();
       if (response.status === 200) {
-        const { discountAmount, message } = response.data;
-
+        const {
+          cart_products,
+          cart_total,
+          discountCodes,
+          discountAmount,
+          message,
+        } = response.data;
+        console.log(response.data);
+        setIsDiscountApplied(true);
+        setCartTotal(cart_total);
+        setCartList(cart_products);
         message !== ""
           ? setIsDiscountCodeAppliedMsg(message)
-          : setIsDiscountCodeAppliedMsg(`${discountCode} is applied`);
+          : setIsDiscountCodeAppliedMsg(`${discountCodes[0]} is applied`);
 
-        setDiscountCodes((pre) => [...pre, discountCode]);
+        setDiscountCodes((pre) => [...pre, ...discountCodes]);
         setDiscountAmount(
-          (prev) => parseFloat(prev) + parseFloat(discountAmount)
+          (pre) => parseFloat(pre) + parseFloat(discountAmount)
         );
-        ErrorHandler.onSuccess("Discount applied");
+        setCodeDiscountAmount(discountAmount);
         setDiscountCode("");
         setDiscountCodeError("");
       }
@@ -91,6 +106,15 @@ const Checkout = () => {
       setDiscountCodeError(message);
       setDiscountCode("");
     }
+  };
+
+  const removeDiscount = () => {
+    setDiscountAmount(
+      (pre) => parseFloat(pre) - parseFloat(codeDiscountAmount)
+    );
+    setIsDiscountApplied(false);
+    setDiscountCode("");
+    setDiscountCodeError("");
   };
 
   const {
@@ -752,36 +776,53 @@ const Checkout = () => {
                   }}
                 >
                   <h5>Discounts and Coupon</h5>
-                  <div className="d-flex justify-content-between mt-1 mb-1">
-                    <input
-                      className="form-control discountInput"
-                      type="text"
-                      placeholder="Discount Code or Coupon Code"
-                      onChange={handleDiscountChange}
-                      value={discountCode}
-                      style={{
-                        border: "1px solid rgba(176, 176, 176, 1)",
-                        width: "70%",
-                        textTransform: "uppercase",
-                      }}
-                    />
-                    <button
-                      style={{
-                        backgroundColor: "transparent",
-                        border: "none",
-                        color: "#008060",
-                        fontWeight: "600",
-                      }}
-                      onClick={isDiscountApplied}
-                      disabled={discountCode.length > 1 ? false : true}
+                  {isDiscountApplied ? (
+                    <div
+                      className="d-flex align-items-center  mt-1 mb-1"
+                      style={{ minHeight: "2.4rem" }}
                     >
-                      Apply
-                    </button>
-                  </div>
-                  <small style={{ color: "darkred" }}>
-                    {discountCodeError}
-                  </small>
-                  <small>{isDiscountCodeAppliedMsg}</small>
+                      <span style={{ color: "rgb(0, 128, 96)" }}>
+                        {isDiscountCodeAppliedMsg}
+                      </span>
+                      <RxCrossCircled
+                        className="ms-2 mt-1"
+                        onClick={removeDiscount}
+                        style={{
+                          cursor: "pointer",
+                          fontSize: "16px",
+                          color: "red",
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-between mt-1 mb-1">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Discount Code or Coupon Code"
+                        onChange={handleDiscountChange}
+                        value={discountCode}
+                        style={{
+                          border: "1px solid rgba(176, 176, 176, 1)",
+                          width: "70%",
+                        }}
+                      />
+                      <button
+                        style={{
+                          backgroundColor: "transparent",
+                          border: "none",
+                          color: "#008060",
+                          fontWeight: "600",
+                        }}
+                        onClick={applyDiscount}
+                        disabled={discountCode.length > 1 ? false : true}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  )}
+                  <small style={{ color: "red" }}>{discountCodeError}</small>
+                  {/* <small>{discountCodeError}</small> */}
                 </div>
                 <div
                   style={{
