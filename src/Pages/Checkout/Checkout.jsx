@@ -15,7 +15,6 @@ import "./index.css";
 import QntyBtn from "../Cart/QntyBtn";
 import ErrorHandler from "../Components/ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
-import { CiCircleRemove } from "react-icons/ci";
 import { RxCrossCircled } from "react-icons/rx";
 
 const Checkout = () => {
