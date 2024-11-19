@@ -31,6 +31,7 @@ const Categories = ({ categories, type, closeCategories, breakpoint }) => {
                       src={eachCategory.azst_category_img}
                       alt={eachCategory.azst_category_name}
                       className="categoryImg"
+                      loading="lazy"
                     />
                     <div className="category_overlay">
                       <>

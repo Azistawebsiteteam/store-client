@@ -9,6 +9,7 @@ import BackBtn from "../../Components/BackBtn";
 import { BsPlus } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import ScrollToTop from "../../../Utils/ScrollToTop";
+import { handleValidationErrors } from "../../Components/ReviewsValidation";
 
 const EditReview = () => {
   const [review, setReview] = useState({
@@ -24,12 +25,13 @@ const EditReview = () => {
   });
 
   const [reviewImgFile, setReviewImgFile] = useState([]);
-
+  const [errors, setErrors] = useState({});
   const location = useLocation();
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
   const { id } = location.state || 0;
   const navigate = useNavigate();
+
   useEffect(() => {
     try {
       const fetchReview = async () => {
@@ -75,6 +77,7 @@ const EditReview = () => {
         });
       } else {
         setReview({ ...review, [id]: value });
+        setErrors({ ...errors, [id]: value });
       }
     }
   };
@@ -97,6 +100,16 @@ const EditReview = () => {
   };
 
   const onSubmitReview = async () => {
+    const inputValues = {
+      reviewTitle: review.reviewTitle,
+      reviewContent: review.reviewContent,
+    };
+    const validationErrors = handleValidationErrors(inputValues);
+    if (Object.keys(validationErrors).length > 0) {
+      window.scrollTo(0, 0);
+      setErrors(validationErrors);
+      return;
+    }
     try {
       const url = `${baseUrl}/reviews/update/review`;
       const headers = {
@@ -194,6 +207,9 @@ const EditReview = () => {
                 onChange={handleReviewFormChange}
               />
               <label htmlFor="headlineInput">Headline</label>
+              {errors.reviewTitle && (
+                <span className="error">{errors.reviewTitle}</span>
+              )}
             </div>
             <div className="form-floating">
               <input
@@ -205,6 +221,9 @@ const EditReview = () => {
                 onChange={handleReviewFormChange}
               />
               <label htmlFor="reviewTextInput">Write a Review</label>
+              {errors.reviewContent && (
+                <span className="error">{errors.reviewContent}</span>
+              )}
             </div>
             <span style={{ color: "#787878", display: "block" }}>
               Photo or Video

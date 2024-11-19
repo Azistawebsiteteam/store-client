@@ -50,7 +50,7 @@ const ManageOrders = () => {
       const filtered = orders
         .map((order) => ({
           ...order,
-          products_details: order.products_details.filter((each) =>
+          products_details: order?.products_details.filter((each) =>
             each.product_title.toLowerCase().includes(searchTerm.toLowerCase())
           ),
         }))

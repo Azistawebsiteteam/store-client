@@ -26,6 +26,7 @@ const BannerImages = ({ productBanners }) => {
                     ? productBanners[0].azst_mobile_image
                     : productBanners[0].azst_web_image
                 }
+                loading="lazy"
                 alt="banner-img"
                 className="carousel-image carouselImgOverlay"
               />
@@ -44,6 +45,7 @@ const BannerImages = ({ productBanners }) => {
                       src={
                         isMobile ? each.azst_mobile_image : each.azst_web_image
                       }
+                      loading="lazy"
                       alt={each.banner_id}
                       className="carousel-image carouselImgOverlay"
                     />

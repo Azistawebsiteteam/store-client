@@ -50,6 +50,7 @@ const Popup = ({ popupData }) => {
                 src={popupData.popup_image}
                 alt={popupData.popup_name}
                 style={{ cursor: "pointer" }}
+                loading="lazy"
               />
             </a>
           </div>

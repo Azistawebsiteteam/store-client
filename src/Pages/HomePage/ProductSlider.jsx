@@ -170,6 +170,7 @@ const productSlider = ({ title, items, setUpdate }) => {
                     src={each.image_src}
                     alt={each.image_alt_text}
                     className="bestSelledImg"
+                    loading="lazy"
                   />
                 </div>
                 <div className="productPrice">

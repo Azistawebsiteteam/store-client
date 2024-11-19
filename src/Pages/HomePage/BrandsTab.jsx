@@ -22,6 +22,7 @@ const BrandsTab = (props) => {
                 src={eachBrand.azst_brand_logo}
                 alt={eachBrand.azst_brand_name}
                 className="brandImg"
+                loading="lazy"
               />
             </Link>
           </div>

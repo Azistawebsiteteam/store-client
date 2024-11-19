@@ -24,6 +24,7 @@ import { searchResultContext } from "../../ReactContext/SearchResults";
 import { TiArrowRight } from "react-icons/ti";
 import Faqs from "./Faqs";
 import ErrorHandler from "./ErrorHandler";
+import ImageMagnifier from "./ImageMagnifier";
 
 const ProductItem = () => {
   const [productDetails, setProductDetails] = useState({});
@@ -366,11 +367,17 @@ const ProductItem = () => {
                     ))}
                   </div>
                   <div className="mainImageCont">
-                    <img
+                    <ImageMagnifier
+                      src={productMainImg}
+                      className="mainImage"
+                      width={400}
+                      height={400}
+                    />
+                    {/* <img
                       src={productMainImg}
                       className="mainImage"
                       alt="mainImage"
-                    />
+                    /> */}
                     <div className="navigatingBtns">
                       <RxCaretLeft
                         className="playIcon prevIcon"
@@ -382,6 +389,7 @@ const ProductItem = () => {
                       />
                     </div>
                   </div>
+                  <div className="lens"></div>
                 </div>
               </div>
               <div className="col-md-6">

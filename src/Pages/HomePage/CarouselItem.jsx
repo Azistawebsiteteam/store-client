@@ -42,7 +42,7 @@ const CarouselItem = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     centerMode: true,
-    centerPadding: "40px",
+    centerPadding: "3%",
     nextArrow: <GoArrowRight />,
     prevArrow: <GoArrowLeft />,
   };
@@ -59,6 +59,7 @@ const CarouselItem = () => {
                     ? banners[0].azst_mobile_image
                     : banners[0].azst_web_image
                 }
+                loading="lazy"
                 alt="banner-img"
                 className="carousel-image carouselImgOverlay"
               />
@@ -77,6 +78,7 @@ const CarouselItem = () => {
                       src={
                         isMobile ? each.azst_mobile_image : each.azst_web_image
                       }
+                      loading="lazy"
                       alt={each.banner_id}
                       className="carousel-image carouselImgOverlay"
                     />

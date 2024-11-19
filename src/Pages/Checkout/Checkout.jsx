@@ -81,7 +81,6 @@ const Checkout = () => {
           discountAmount,
           message,
         } = response.data;
-        console.log(response.data);
         setIsDiscountApplied(true);
         setCartTotal(cart_total);
         setCartList(cart_products);

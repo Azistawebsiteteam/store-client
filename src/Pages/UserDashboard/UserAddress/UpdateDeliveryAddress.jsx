@@ -26,10 +26,10 @@ const UpdateDeliveryAddress = () => {
     address2: "",
     isDefault: false,
     acceeptEmailMarketing: false,
-    marketingSmsAccept: false,
     availableFromTime: "",
     availableToTime: "",
   });
+
   const [errors, setErrors] = useState({});
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
@@ -112,6 +112,7 @@ const UpdateDeliveryAddress = () => {
       swalHandle.onError(error);
     }
   };
+
   return (
     <div className="UserAddressSec">
       <div className="d-flex">
