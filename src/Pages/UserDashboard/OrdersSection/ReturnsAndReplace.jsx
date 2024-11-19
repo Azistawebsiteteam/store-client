@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 import SideBar from "../UserProfile/SideBar";
@@ -26,6 +26,7 @@ const ReturnsAndReplace = () => {
   const { orderId } = location.state || {};
   const baseUrl = `${process.env.REACT_APP_API_URL}`;
   const jwtToken = Cookies.get(`${process.env.REACT_APP_JWT_TOKEN}`);
+  const navigate = useNavigate();
 
   const reasons = [
     "Item Arrived Damaged or Defective",
@@ -68,7 +69,7 @@ const ReturnsAndReplace = () => {
       e.preventDefault();
       const validationErrorMessage = validations(bankDetails);
 
-      if (Object.keys(validationErrorMessage).length > 0) {
+      if (Object.keys(validationErrorMessage).length > 0 && !sameBankAccount) {
         return setErrors(validationErrorMessage);
       }
       const url = `${baseUrl}/orders/customer/return-order`;
@@ -106,7 +107,11 @@ const ReturnsAndReplace = () => {
         body = formData;
       }
 
-      await axios.post(url, body, { headers });
+      const response = await axios.post(url, body, { headers });
+      if (response.status === 200) {
+        navigate(-1);
+      }
+      console.log(response);
     } catch (error) {
       ErrorHandler.onError(error);
     }

@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Cookies from 'js-cookie';
-import SideBar from '../UserProfile/SideBar';
-import axios from 'axios';
-import { IoSearchOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import DropdownComponent from '../../Components/DropdownComponent';
-import '../index.css';
-import ScrollToTop from '../../../Utils/ScrollToTop';
-import moment from 'moment';
-import ErrorHandler from '../../Components/ErrorHandler';
+import React, { useState, useEffect, useRef } from "react";
+import Cookies from "js-cookie";
+import SideBar from "../UserProfile/SideBar";
+import axios from "axios";
+import { IoSearchOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import DropdownComponent from "../../Components/DropdownComponent";
+import "../index.css";
+import ScrollToTop from "../../../Utils/ScrollToTop";
+import moment from "moment";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const ManageOrders = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [cancelOrderReason, setCancelOrderReason] = useState('0');
-  const [otherReason, setOtherReason] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [cancelOrderReason, setCancelOrderReason] = useState("0");
+  const [otherReason, setOtherReason] = useState("");
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [cancellationReason, setCancellationReason] = useState('');
+  const [cancellationReason, setCancellationReason] = useState("");
 
   const debounceRef = useRef(null);
   const baseUrl = process.env.REACT_APP_API_URL;
@@ -30,7 +30,7 @@ const ManageOrders = () => {
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(url, { headers });
-        if (searchTerm === '') {
+        if (searchTerm === "") {
           setOrders(response.data);
           return;
         }
@@ -67,11 +67,11 @@ const ManageOrders = () => {
   const orderStatusValue = (val, del) => {
     switch (val) {
       case 0:
-        return 'Order Placed';
+        return "Order Placed";
       case 1:
         return orderShipmentStatus(del);
       case 2:
-        return 'Rejected';
+        return "Rejected";
       default:
         return null;
     }
@@ -80,18 +80,18 @@ const ManageOrders = () => {
   const orderShipmentStatus = (val) => {
     switch (val) {
       case 0:
-        return 'Order Shipped';
+        return "Order Shipped";
       case 1:
-        return 'Out for Delivery';
+        return "Out htmlFor Delivery";
       case 2:
-        return 'Delivered';
+        return "Delivered";
       default:
         return null;
     }
   };
 
   const closeModal = () => {
-    const btn = document.getElementById('modalCloseBtn');
+    const btn = document.getElementById("modalCloseBtn");
     btn.click();
   };
 
@@ -100,8 +100,10 @@ const ManageOrders = () => {
   };
 
   const submitCancelOrder = async (e, orderId) => {
-    if (cancelOrderReason === '0') {
-      setCancellationReason('Please select a reason for cancelling the order.');
+    if (cancelOrderReason === "0") {
+      setCancellationReason(
+        "Please select a reason htmlFor cancelling the order."
+      );
       return;
     }
     try {
@@ -111,7 +113,7 @@ const ManageOrders = () => {
       };
       const data = {
         orderId,
-        reason: cancelOrderReason === '7' ? otherReason : cancelOrderReason,
+        reason: cancelOrderReason === "7" ? otherReason : cancelOrderReason,
       };
       ErrorHandler.onLoading();
       const response = await axios.post(url, data, { headers });
@@ -123,8 +125,8 @@ const ManageOrders = () => {
           return each;
         });
         ErrorHandler.onLoadingClose();
-        setCancelOrderReason('0');
-        setOtherReason('');
+        setCancelOrderReason("0");
+        setOtherReason("");
         closeModal();
         setFilteredOrders(updatedOrders);
       }
@@ -145,121 +147,124 @@ const ManageOrders = () => {
   return (
     <>
       <ScrollToTop />
-      <div className='userProfileSec'>
-        <div className='d-flex'>
+      <div className="userProfileSec">
+        <div className="d-flex">
           <SideBar />
-          <div className='ordersCont'>
-            <h5 style={{ fontFamily: 'outFit' }}>Orders</h5>
+          <div className="ordersCont">
+            <h5 style={{ fontFamily: "outFit" }}>Orders</h5>
             <div
-              className='d-flex justify-content-md-between align-items-center'
+              className="d-flex justify-content-md-between align-items-center"
               style={{
-                borderBottom: '1px solid #D6D6D6',
-                paddingBottom: '1%',
-              }}>
-              <div className=''>
+                borderBottom: "1px solid #D6D6D6",
+                paddingBottom: "1%",
+              }}
+            >
+              <div className="">
                 <small>View by</small>
                 <DropdownComponent />
               </div>
-              <div style={{ position: 'relative', borderRadius: '4px' }}>
+              <div style={{ position: "relative", borderRadius: "4px" }}>
                 <input
-                  type='search'
-                  placeholder='Search your orders here'
-                  className='orderPgSearchBox'
+                  type="search"
+                  placeholder="Search your orders here"
+                  className="orderPgSearchBox"
                   style={{
-                    width: '100%',
-                    padding: '6px 40px 6px 10px',
-                    borderRadius: '6px',
-                    border: '1px solid #ccc',
-                    fontSize: '16px',
-                    outline: 'transparent',
+                    width: "100%",
+                    padding: "6px 40px 6px 10px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    fontSize: "16px",
+                    outline: "transparent",
                   }}
                   onChange={handleSearchOrder}
                 />
                 <div
-                  className='orderPgSearchIcon'
+                  className="orderPgSearchIcon"
                   style={{
-                    position: 'absolute',
-                    top: '0',
-                    right: '0',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '6px',
-                  }}>
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "6px",
+                  }}
+                >
                   <IoSearchOutline size={20} />
                 </div>
               </div>
             </div>
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order, i) => (
-                <div key={i} className='orderDetails'>
-                  <div className='orderDetailsTopSec d-flex flex-wrap justify-content-md-between'>
-                    <div className='detailHeading col-8 col-md-3'>
-                      <span className='d-block' style={{ color: '#858585' }}>
+                <div key={i} className="orderDetails">
+                  <div className="orderDetailsTopSec d-flex flex-wrap justify-content-md-between">
+                    <div className="detailHeading col-8 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
                         Order Placed on
                       </span>
-                      <span className='value'>
+                      <span className="value">
                         {moment(order.azst_orders_created_on).format(
-                          'DD MMM, YYYY'
+                          "DD MMM, YYYY"
                         )}
                       </span>
                     </div>
-                    <div className='detailHeading col-4 col-md-3'>
-                      <span className='d-block' style={{ color: '#858585' }}>
+                    <div className="detailHeading col-4 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
                         Status
                       </span>
-                      <span className='value'>
+                      <span className="value">
                         {order.azst_orders_status === 0
-                          ? 'Cancelled'
+                          ? "Cancelled"
                           : orderStatusValue(
                               order.azst_orders_confirm_status,
                               order.azst_orders_delivery_status
                             )}
                       </span>
                     </div>
-                    <div className='detailHeading col-8 col-md-3'>
-                      <span className='d-block' style={{ color: '#858585' }}>
+                    <div className="detailHeading col-8 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
                         Order ID
                       </span>
-                      <span className='value'>{order.azst_order_id}</span>
+                      <span className="value">{order.azst_order_id}</span>
                     </div>
-                    <div className='detailHeading col-4 col-md-3'>
-                      <span className='d-block' style={{ color: '#858585' }}>
+                    <div className="detailHeading col-4 col-md-3">
+                      <span className="d-block" style={{ color: "#858585" }}>
                         Order Value
                       </span>
-                      <span className='value'>
+                      <span className="value">
                         Rs.{order.azst_orders_total}
                       </span>
                     </div>
                   </div>
-                  <div className='orderDetailsBotSec'>
-                    <div className='orderedProducts'>
+                  <div className="orderDetailsBotSec">
+                    <div className="orderedProducts">
                       {order.products_details.map((each, i) => (
                         <div
-                          className='d-flex align-items-md-center mb-3'
-                          key={i}>
+                          className="d-flex align-items-md-center mb-3"
+                          key={i}
+                        >
                           <img
                             src={each.product_image}
-                            alt='orderImage'
-                            className='orderedProductImg'
+                            alt="orderImage"
+                            className="orderedProductImg"
                           />
-                          <div className='ms-2 orderedProductInfo'>
-                            <span className='d-block'>
+                          <div className="ms-2 orderedProductInfo">
+                            <span className="d-block">
                               {each.product_title}
                             </span>
                             {each.option1 !== 0 && (
-                              <span style={{ color: '#858585' }}>
+                              <span style={{ color: "#858585" }}>
                                 {each.option1}
                               </span>
                             )}
                             {each.option2 && (
-                              <span style={{ color: '#858585' }}>
+                              <span style={{ color: "#858585" }}>
                                 {each.option2}
                               </span>
                             )}
                             {each.option3 && (
-                              <span style={{ color: '#858585' }}>
+                              <span style={{ color: "#858585" }}>
                                 {each.option3}
                               </span>
                             )}
@@ -267,116 +272,181 @@ const ManageOrders = () => {
                         </div>
                       ))}
                     </div>
-                    <div className='d-flex flex-column orderedProductBtns'>
+                    <div className="d-flex flex-column orderedProductBtns">
                       <Link
                         to={`/order-details/${order.azst_order_id}`}
-                        className='orderedProductBtn'>
+                        className="orderedProductBtn"
+                      >
                         Order Details
                       </Link>
                       {order.azst_orders_delivery_status === 2 && (
-                        <Link className='orderedProductBtn'>
+                        <button
+                          type="button"
+                          className="orderedProductBtn"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#writeReviewOnOrder${order.azst_order_id}`}
+                        >
                           Write a Review
-                        </Link>
+                        </button>
                       )}
+                      <div
+                        className="modal fade"
+                        id={`writeReviewOnOrder${order.azst_order_id}`}
+                        tabIndex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div className="modal-dialog">
+                          <div className="modal-content  orderReviewCont">
+                            <div className="modal-header">
+                              <h1
+                                className="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                Write a Review
+                              </h1>
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div className="modal-body">
+                              <div class="form-floating">
+                                <textarea
+                                  class="form-control"
+                                  placeholder="Leave a comment here"
+                                  id="floatingTextarea2"
+                                  style={{ height: "100px" }}
+                                ></textarea>
+                                <label htmlFor="floatingTextarea2">
+                                  Comments
+                                </label>
+                              </div>
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                              <button type="button" className="btn btn-primary">
+                                Save changes
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       {order.azst_orders_delivery_status === 2 ? (
-                        <button className='orderedProductBtn'>Reorder</button>
+                        <button className="orderedProductBtn">Reorder</button>
                       ) : (
                         order.azst_orders_status !== 0 && (
                           <button
-                            type='button'
-                            data-bs-toggle='modal'
+                            type="button"
+                            data-bs-toggle="modal"
                             data-bs-target={`#cancelOrder${order.azst_order_id}`}
                             className={
                               order.azst_orders_status !== 0
-                                ? 'orderedProductBtn'
-                                : 'cancelledBtn'
-                            }>
+                                ? "orderedProductBtn"
+                                : "cancelledBtn"
+                            }
+                          >
                             {order.azst_orders_status !== 0
-                              ? 'Cancel order'
-                              : 'Order Cancelled'}
+                              ? "Cancel order"
+                              : "Order Cancelled"}
                           </button>
                         )
                       )}
                       {order.azst_orders_delivery_status === 2 && (
                         <Link
-                          to='/azst/orders/return'
+                          to="/azst/orders/return"
                           state={{ orderId: order.azst_order_id }}
-                          className='orderedProductBtn'>
+                          className="orderedProductBtn"
+                        >
                           Return
                         </Link>
                       )}
                     </div>
                     <div
-                      className='modal fade'
+                      className="modal fade"
                       id={`cancelOrder${order.azst_order_id}`}
-                      tabIndex='-1'
-                      aria-labelledby='exampleModalLabel'
-                      aria-hidden='true'>
-                      <div className='modal-dialog modal-dialog-centered'>
-                        <div className='modal-content reviewModalContent'>
-                          <div className='modal-header'>
-                            <h5 className='modal-title' id='exampleModalLabel'>
+                      tabIndex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content reviewModalContent">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">
                               Request cancellation
                             </h5>
                             <button
-                              type='button'
-                              className='btn-close'
-                              data-bs-dismiss='modal'
-                              aria-label='Close'></button>
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
                           </div>
-                          <div className='modal-body'>
+                          <div className="modal-body">
                             <select
-                              className='form-select'
-                              aria-label='Default select example'
+                              className="form-select"
+                              aria-label="Default select example"
                               onChange={handleCancelOrderReason}
-                              value={cancelOrderReason}>
-                              <option value='0'>Cancellation reason</option>
-                              <option value='1'>
+                              value={cancelOrderReason}
+                            >
+                              <option value="0">Cancellation reason</option>
+                              <option value="1">
                                 Order Created by Mistake
                               </option>
-                              <option value='2'>
+                              <option value="2">
                                 Item(s) Would Not Arrive on Time
                               </option>
-                              <option value='3'>Shipping Cost Too High</option>
-                              <option value='4'>
+                              <option value="3">Shipping Cost Too High</option>
+                              <option value="4">
                                 Found Cheaper Somewhere Else
                               </option>
-                              <option value='4'>
+                              <option value="4">
                                 Need to Change Shipping Address
                               </option>
-                              <option value='5'>
+                              <option value="5">
                                 Need to Change Billing Address
                               </option>
-                              <option value='6'>
+                              <option value="6">
                                 Need to Change Payment Method
                               </option>
-                              <option value='7'>Other Reason</option>
+                              <option value="7">Other Reason</option>
                             </select>
-                            {cancelOrderReason === '7' ? (
+                            {cancelOrderReason === "7" ? (
                               <textarea
-                                className='form-control  mt-2'
-                                id='otherReason'
-                                rows='3'
+                                className="form-control  mt-2"
+                                id="otherReason"
+                                rows="3"
                                 onChange={handleOtherReason}
                                 value={otherReason}
-                                placeholder='Enter your reason...'></textarea>
+                                placeholder="Enter your reason..."
+                              ></textarea>
                             ) : null}
                             <small>{cancellationReason}</small>
                           </div>
-                          <div className='modal-footer'>
+                          <div className="modal-footer">
                             <button
-                              id='modalCloseBtn'
-                              type='button'
-                              className='btn btn-secondary'
-                              data-bs-dismiss='modal'>
+                              id="modalCloseBtn"
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
                               Close
                             </button>
                             <button
-                              type='button'
+                              type="button"
                               onClick={(e) =>
                                 submitCancelOrder(e, order.azst_order_id)
                               }
-                              className='btn btn-danger'>
+                              className="btn btn-danger"
+                            >
                               Proceed
                             </button>
                           </div>
@@ -387,7 +457,7 @@ const ManageOrders = () => {
                 </div>
               ))
             ) : (
-              <div className='d-flex align-items-center justify-content-center h-75'>
+              <div className="d-flex align-items-center justify-content-center h-75">
                 <h6>No orders found</h6>
               </div>
             )}

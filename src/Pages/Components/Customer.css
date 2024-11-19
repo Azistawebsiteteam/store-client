@@ -155,6 +155,9 @@ small, .small {
     background-color: #fff !important;
     border: initial !important;
 }
+.modal-content.orderReviewCont {
+    background-color: #fff !important;
+}
 
 /* announcementBar */
 
