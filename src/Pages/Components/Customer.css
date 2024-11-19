@@ -105,7 +105,6 @@ small, .small {
     left: 0;
     width: 100%;
     z-index: 5; /* Adjust z-index as needed */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 .content small{
     color: #fff;
@@ -206,6 +205,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     border-top-left-radius: 36px;
     border-top-right-radius: 36px;
     top: -1.6rem;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
 }
 .dropdown-toggle::after {
     display: none !important;
@@ -968,12 +968,12 @@ img.gif {
 .mainImage{
     width: 70%;
     border-radius: 8px;
+    object-fit: cover;
+    object-position: 0 0;
     transition: all 2s ease-in-out;
-}
-.mainImage:hover{
-    /* transform: scale(1.1); */
     cursor: pointer;
 }
+
 .productContImgSec{
     display: flex; 
     flex-direction: column-reverse;

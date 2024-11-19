@@ -27,7 +27,8 @@
     border: none !important;
     font-weight: 500 !important;
     background-color: transparent !important;
-    font-size: 0.9rem !important
+    font-size: 0.9rem !important;
+    cursor: pointer !important;
 }
 .CollectionsTabCont {
     margin: 1% 0 4% 0 !important;
@@ -47,7 +48,9 @@
     background-color: transparent !important;
 }
 .css-19eo3mx-control{
-    background-color: #f9f9fc !important;
+    background-color: transparent !important;
+    width: 10rem !important;
+
 }
 
 .formSelect .css-1s2u09g-control:focus {
@@ -56,9 +59,6 @@
 }
 .css-1u9des2-indicatorSeparator{
     display: none !important;
-}
-.css-19eo3mx-control{
-    width: 8rem !important;
 }
 .css-1a9d28t-control{
     background-color: #f9f9fc !important;

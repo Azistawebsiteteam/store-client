@@ -188,6 +188,7 @@ const Home = () => {
                       src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
                       alt="satisfiedCust"
                       className="satisfiedCustImg"
+                      loading="lazy"
                     />
                     <div className="card-body custSatisfiedCardbody">
                       <p className="card-title">
@@ -209,6 +210,7 @@ const Home = () => {
                           src={`${process.env.PUBLIC_URL}/images/kwikmint.png`}
                           alt="satisfiedCust"
                           className="satisfiedProductImg"
+                          loading="lazy"
                         />
                         <div className="">
                           <small className="truncate">
@@ -248,6 +250,7 @@ const Home = () => {
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/free-delivery.gif`}
                     alt="Free Delivery"
+                    loading="lazy"
                   />
                   <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">Free Shipping</p>

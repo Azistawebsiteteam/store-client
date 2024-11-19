@@ -344,7 +344,7 @@ const Checkout = () => {
       },
       theme: { color: '#3399cc' },
     };
-  
+
     const rzp1 = new window.Razorpay(options);
     rzp1.on('payment.failed', (response) =>
       alert(`Payment failed! Error: ${response.error.description}`)
@@ -381,6 +381,7 @@ const Checkout = () => {
   // Create the place order request
   const createPlaceOrder = async (response) => {
     try {
+      ErrorHandler.onLoading();
       const requiredCartList = cartList.map((product) => product.azst_cart_id);
       const orderData = {
         paymentMethod,

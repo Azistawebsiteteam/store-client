@@ -50,8 +50,10 @@ const ManageOrders = () => {
       const filtered = orders
         .map((order) => ({
           ...order,
-          products_details: order.products_details?.filter((each) =>
-            each.product_title?.toLowerCase().includes(searchTerm.toLowerCase())
+          products_details: order?.products_details.filter((each) =>
+            each.product_title
+              ?.toLowerCase()
+              .includes(searchTerm?.toLowerCase())
           ),
         }))
         .filter((order) => order.products_details.length > 0); // Only include orders with matching products
