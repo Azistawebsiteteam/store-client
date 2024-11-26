@@ -64,11 +64,11 @@ const UpdateDeliveryAddress = () => {
             address2: address.address_address2,
             isDefault: false,
             availableFromTime: address.address_available_time
-              ?.split("-")[0]
-              .trim(),
+              ? address.address_available_time.split("-")[0].trim()
+              : "",
             availableToTime: address.address_available_time
-              ?.split("-")[1]
-              .trim(),
+              ? address.address_available_time.split("-")[1].trim()
+              : "",
           });
         }
         swalHandle.onLoadingClose();

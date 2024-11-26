@@ -153,7 +153,7 @@ function App() {
               }
             />
             <Route path="/collection/:id" element={<CollectionsDetails />} />
-            <Route path="/productitem/:id" element={<ProductItem />} />
+            <Route path="/product/:id" element={<ProductItem />} />
             <Route path="/search/products" element={<AllProductsPage />} />
             <Route path="/popup" element={<Popup />} />
             <Route path="/wishList" element={<WishList />} />

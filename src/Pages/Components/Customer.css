@@ -969,7 +969,7 @@ img.gif {
     border-radius: 6px;
 }
 .mainImage{
-    width: 70%;
+    max-width: 100%;
     border-radius: 8px;
     object-fit: cover;
     object-position: 0 0;
@@ -1106,24 +1106,23 @@ svg.productPgIcon {
     position: relative;
     display: flex;
     justify-content: center;
-    min-width: 98%;
-    min-height: 26rem;
-    max-width: 98%;
-    max-height: 26rem;
-    background-color: #fff;
+    min-width: 90%;
+    min-height: 32rem;
+    max-width: 90%;
+    max-height: 32rem;
     border-radius: 6px;
 }
 .navigatingBtns {
     position: absolute;
-    width: 90%;
+    width: 86%;
     display: flex;
     justify-content: space-between;
     top: 50%;
     /* transform: translate(6%, -10%); */
 }
 svg.playIcon {
-    font-size: 40px;
-    padding: 8px;
+    font-size: 2.8rem;
+    padding: 10px;
     border-radius: 50%;
     border: 1px solid grey;
     color: #fff;
@@ -1620,7 +1619,7 @@ img.cartProductImg {
 }
 .cartPgbotSec{
     background-color: #F3F4F5;
-    padding: 2rem 1rem;
+    padding: 1.2rem 1rem;
     position: absolute;
     bottom: 0;
     right: 0;

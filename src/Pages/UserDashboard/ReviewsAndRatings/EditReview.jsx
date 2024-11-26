@@ -205,6 +205,7 @@ const EditReview = () => {
                 placeholder="headline"
                 value={review.reviewTitle}
                 onChange={handleReviewFormChange}
+                maxLength="80"
               />
               <label htmlFor="headlineInput">Headline</label>
               {errors.reviewTitle && (
@@ -212,14 +213,16 @@ const EditReview = () => {
               )}
             </div>
             <div className="form-floating">
-              <input
+              <textarea
                 type="text"
                 className="form-control reviewTxt"
                 id="reviewContent"
                 placeholder="Write a Review"
                 value={review.reviewContent}
                 onChange={handleReviewFormChange}
-              />
+                maxLength="500"
+                rows="6"
+              ></textarea>
               <label htmlFor="reviewTextInput">Write a Review</label>
               {errors.reviewContent && (
                 <span className="error">{errors.reviewContent}</span>

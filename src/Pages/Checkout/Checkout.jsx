@@ -289,9 +289,12 @@ const Checkout = () => {
   // Create Razorpay order
   const createRazorPayOrder = async () => {
     try {
+      const requiredCartList = cartList.map((product) => product.azst_cart_id);
       const data = {
         amount: (cartTotal + shippingCharges - discountAmount).toFixed(2),
         currency: "INR",
+        cartList: requiredCartList,
+        addressId: selectedShippingAddress,
       };
       const response = await sendRequestToServer(
         "/orders/customer/creat-payment",
