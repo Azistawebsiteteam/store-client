@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import AddressForm from "./AddressForm";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import SideBar from "../UserProfile/SideBar";
-import swalHandle from "../../Components/ErrorHandler";
-import { FaArrowLeft } from "react-icons/fa6";
-import { handleValidationError } from "./Validation";
-import "./UserAddress.css";
+import React, { useEffect, useState } from 'react';
+import AddressForm from './AddressForm';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import SideBar from '../UserProfile/SideBar';
+import swalHandle from '../../Components/ErrorHandler';
+import { FaArrowLeft } from 'react-icons/fa6';
+import { handleValidationError } from './Validation';
+import './UserAddress.css';
 
 const UpdateDeliveryAddress = () => {
   const [inputValues, setInputValue] = useState({
-    customerFirstName: "",
-    customerLastName: "",
-    customerMobileNum: "",
-    customerEmail: "",
-    housenumber: "",
-    district: "",
-    state: "",
-    country: "",
-    zipCode: "",
-    landmark: "",
-    homeOrCompany: "",
-    address1: "",
-    address2: "",
+    customerFirstName: '',
+    customerLastName: '',
+    customerMobileNum: '',
+    customerEmail: '',
+    housenumber: '',
+    district: '',
+    state: '',
+    country: '',
+    zipCode: '',
+    landmark: '',
+    homeOrCompany: '',
+    address1: '',
+    address2: '',
     isDefault: false,
     acceeptEmailMarketing: false,
-    availableFromTime: "",
-    availableToTime: "",
+    availableFromTime: '',
+    availableToTime: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -64,11 +64,11 @@ const UpdateDeliveryAddress = () => {
             address2: address.address_address2,
             isDefault: false,
             availableFromTime: address.address_available_time
-              ?.split("-")[0]
-              .trim(),
+              ?.split('-')[0]
+              ?.trim(),
             availableToTime: address.address_available_time
-              ?.split("-")[1]
-              .trim(),
+              ?.split('-')[1]
+              ?.trim(),
           });
         }
         swalHandle.onLoadingClose();
@@ -92,18 +92,14 @@ const UpdateDeliveryAddress = () => {
       const headers = {
         Authorization: `Bearer ${jwtToken} `,
       };
-      const avalableTime = `${inputValues.availableFromTime}-${inputValues.availableToTime} `;
-      delete inputValues.availableFromTime;
-      delete inputValues.availableToTime;
       const body = {
         addressId: id,
         ...inputValues,
-        avalableTime,
       };
 
       const response = await axios.put(url, body, { headers });
       if (response.status === 200) {
-        navigate("/manage-address");
+        navigate('/manage-address');
       }
       swalHandle.onLoadingClose();
       swalHandle.onSuccess();
@@ -114,20 +110,20 @@ const UpdateDeliveryAddress = () => {
   };
 
   return (
-    <div className="UserAddressSec">
-      <div className="d-flex">
+    <div className='UserAddressSec'>
+      <div className='d-flex'>
         <SideBar />
-        <div className="myAccUserAdd">
-          <div className="myAccUserInnerSec">
-            <div style={{ margin: "0 0 2% 0" }}>
+        <div className='myAccUserAdd'>
+          <div className='myAccUserInnerSec'>
+            <div style={{ margin: '0 0 2% 0' }}>
               <FaArrowLeft
                 onClick={() => navigate(-1)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               />
-              <h5 style={{ marginBottom: "0" }}>Delivery Address</h5>
+              <h5 style={{ marginBottom: '0' }}>Delivery Address</h5>
               <small>
-                Delivery Address Book &gt;{" "}
-                <strong style={{ fontWeight: "500" }}>Edit Address</strong>
+                Delivery Address Book &gt;{' '}
+                <strong style={{ fontWeight: '500' }}>Edit Address</strong>
               </small>
             </div>
             <AddressForm
@@ -137,9 +133,9 @@ const UpdateDeliveryAddress = () => {
               setErrors={setErrors}
             />
             <input
-              type="button"
-              className="myAccSecBtn mt-3"
-              value="Save"
+              type='button'
+              className='myAccSecBtn mt-3'
+              value='Save'
               onClick={handleUpdate}
             />
           </div>
