@@ -116,7 +116,7 @@ const ProductCard = ({ items, setUpdate }) => {
             </div>
             <div className="overlay_bg">
               <Link
-                to={`/productitem/${each.product_url_title}`}
+                to={`/product/${each.product_url_title}`}
                 className="linkBtn cardButton"
               >
                 View Details

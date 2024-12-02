@@ -1,5 +1,4 @@
 export const handleValidationError = (inputValues) => {
-  console.log(inputValues);
   const validationErrorMessage = {};
   if (!inputValues.customerFirstName) {
     validationErrorMessage['customerFirstName'] = 'First name is required';

@@ -4,7 +4,7 @@ import ErrorHandler from '../../Components/ErrorHandler';
 
 const AddressForm = (props) => {
   const { setInputValue, inputValues, errors, setErrors } = props;
-  console.log('inputValues', inputValues);
+
   const [states, setStates] = useState([]);
 
   useEffect(() => {

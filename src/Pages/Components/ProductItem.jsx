@@ -356,15 +356,22 @@ const ProductItem = () => {
               <div className="col-md-6">
                 <div className="productContImgSec">
                   <div className="subImagesCont">
-                    {productDetails.product_images.map((imgUrl, i) => (
-                      <img
-                        src={imgUrl}
-                        key={i}
-                        className="subImages"
-                        alt="yyu"
-                        onMouseOver={() => setImgCount(i)}
-                      />
-                    ))}
+                    <div className="productThumbnails">
+                      {productDetails.product_images.map((imgUrl, i) => (
+                        <img
+                          src={imgUrl}
+                          key={i}
+                          className="subImages"
+                          style={
+                            i === imgCount
+                              ? { border: "1px solid rgb(9 9 9)" }
+                              : {}
+                          }
+                          alt="yyu"
+                          onMouseOver={() => setImgCount(i)}
+                        />
+                      ))}
+                    </div>
                   </div>
                   <div className="mainImageCont">
                     <ImageMagnifier
