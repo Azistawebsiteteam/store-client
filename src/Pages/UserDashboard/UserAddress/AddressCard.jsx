@@ -86,7 +86,7 @@ const AddressCard = (props) => {
           <div className="addressBook">
             <div className="topAddressSec d-flex justify-content-between align-items-center">
               <small className="addHeadingTxt">
-                {address.address_first_name}
+                {address.address_first_name} {address.address_last_name}
               </small>
               {/* <div className="dropdown">
                 <button

@@ -581,7 +581,7 @@ const Checkout = () => {
                       <div className='custom-control custom-checkbox'>
                         <input
                           type='checkbox'
-                          className='custom-control-input'
+                          className='custom-control-input me-2'
                           id='isBillingAndShippingAddressSame'
                           checked={isBillingAdressSame}
                           onChange={() =>

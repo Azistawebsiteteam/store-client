@@ -77,7 +77,7 @@ const ReviewsList = () => {
                         },
                       }}
                     />
-                    <span style={{ fontWeight: "500" }}>
+                    <span className="truncate" style={{ fontWeight: "500" }}>
                       {review.review_title}
                     </span>
                     <small className="truncate">{review.review_content}</small>

@@ -14,6 +14,7 @@ const AddShippingAddress = ({
     customerLastName: "",
     customerMobileNum: "",
     address1: "",
+    country: "",
     zipCode: "",
     district: "",
     state: "",
@@ -33,6 +34,9 @@ const AddShippingAddress = ({
     }
     if (!addressForm.customerLastName) {
       validationErrorMessage.customerLastName = "Last name is required";
+    }
+    if (!addressForm.country) {
+      validationErrorMessage.country = "Country is required";
     }
     if (!addressForm.customerEmail) {
       validationErrorMessage.customerEmail = "Email is required";
@@ -275,6 +279,24 @@ const AddShippingAddress = ({
             {errors.state && <span className="error">{errors.state}</span>}
           </div>
         </div>
+        <div className="col-sm-6">
+          <div className="form-floating">
+            <input
+              autoComplete="off"
+              maxLength={20}
+              type="text"
+              value={addressForm.country}
+              className="form-control"
+              id="country"
+              onChange={handleAddressForm}
+              placeholder="Country"
+            />
+            <label htmlFor="country" className="ms-1">
+              Country
+            </label>
+            {errors.country && <span className="error">{errors.country}</span>}
+          </div>
+        </div>
         <div className="col-md-6">
           <div className="form-floating mb-3">
             <input
@@ -306,7 +328,7 @@ const AddShippingAddress = ({
             <label htmlFor="homeOrCompany">Address Type</label>
           </div>
         </div>
-        <div className="col-sm-12">
+        <div className="col-sm-6">
           <form className="form-floating">
             <input
               type="email"
