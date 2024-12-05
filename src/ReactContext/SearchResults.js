@@ -1,8 +1,8 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
-import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
-import { cartItems } from "../Pages/Cart/Functions";
+import { getProfileDetails } from '../Pages/UserDashboard/UserProfile/GetUseDetails';
+import { cartItems } from '../Pages/Cart/Functions';
 
 export const searchResultContext = createContext();
 
@@ -15,6 +15,8 @@ const SearchResultsProvider = (props) => {
   const [discountAmount, setDiscountAmount] = useState(0.0);
   const [discountCodes, setDiscountCodes] = useState([]);
   const [userDetails, setUserDetails] = useState({});
+  const [shippingCharges, setShippingCharges] = useState(0);
+  const [freeShipMsg, setFreeShipMsg] = useState('');
   const [cartCount, setCartCount] = useState();
   const [productDetails, setProductDetails] = useState({});
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -24,11 +26,11 @@ const SearchResultsProvider = (props) => {
 
   const fetchIPAddress = async () => {
     try {
-      const response = await fetch("https://api.ipify.org?format=json");
+      const response = await fetch('https://api.ipify.org?format=json');
       const data = await response.json();
       return data.ip;
     } catch (error) {
-      console.error("Failed to fetch IP address:", error);
+      console.error('Failed to fetch IP address:', error);
       return null;
     }
   };
@@ -49,6 +51,8 @@ const SearchResultsProvider = (props) => {
           discountAmount,
           discountCodes,
           similarProducts,
+          shippingCharges,
+          freeShipMsg,
         } = data;
         setCartList(cart_products);
         setCartCount(cart_products.length);
@@ -56,6 +60,8 @@ const SearchResultsProvider = (props) => {
         setDiscountAmount(discountAmount);
         setDiscountCodes(discountCodes);
         setSimilarProducts(similarProducts);
+        setShippingCharges(shippingCharges);
+        setFreeShipMsg(freeShipMsg);
       }
     });
   }, [userDetails.azst_customer_id]);
@@ -120,8 +126,11 @@ const SearchResultsProvider = (props) => {
         setShowSearchBar,
         showCart,
         setShowCart,
-      }}
-    >
+        setShippingCharges,
+        shippingCharges,
+        freeShipMsg,
+        setFreeShipMsg,
+      }}>
       {children}
     </searchResultContext.Provider>
   );

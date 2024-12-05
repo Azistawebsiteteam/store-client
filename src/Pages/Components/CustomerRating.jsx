@@ -9,6 +9,7 @@ import { searchResultContext } from "../../ReactContext/SearchResults";
 import { MdDelete } from "react-icons/md";
 import ErrorHandler from "./ErrorHandler";
 import { BsPlus } from "react-icons/bs";
+import { handleValidationErrors } from "./ReviewsValidation";
 
 const baseUrl = `${process.env.REACT_APP_API_URL}/reviews`;
 const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
@@ -22,20 +23,7 @@ export const CreateReview = (props) => {
     reviewImg: [],
   });
   const [reviewImgFile, setReviewImgFile] = useState([]);
-
-  const handleReviewForm = (e) => {
-    const { id, value, files } = e.target;
-
-    if (files && files.length > 0) {
-      const newFiles = Array.from(files);
-      setReviewData({
-        ...reviewData,
-        reviewImg: [...reviewData.reviewImg, ...newFiles],
-      });
-    } else {
-      setReviewData({ ...reviewData, [id]: value });
-    }
-  };
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!reviewDetails) return;
@@ -55,12 +43,17 @@ export const CreateReview = (props) => {
   };
 
   const onSubmitReview = async (url, reviewId) => {
-    if (
-      reviewData.reviewContent === "" ||
-      reviewData.reviewContent.length <= 10
-    ) {
-      return alert("Review content should be at least 10 characters long.");
+    const inputValues = {
+      reviewTitle: reviewData.reviewTitle,
+      reviewContent: reviewData.reviewContent,
+    };
+    const validationErrors = handleValidationErrors(inputValues);
+    if (Object.keys(validationErrors).length > 0) {
+      window.scrollTo(0, 0);
+      setErrors(validationErrors);
+      return;
     }
+
     try {
       const jwtToken = Cookies.get(process.env.REACT_APP_JWT_TOKEN);
       const headers = {
@@ -109,7 +102,7 @@ export const CreateReview = (props) => {
     }
   };
   const deleteReviewImg = () => {
-    let filteredReviewImgs = reviewData.reviewImg.filter(
+    const filteredReviewImgs = reviewData.reviewImg.filter(
       (img, i) => !reviewImgFile.includes(i)
     );
 
@@ -117,6 +110,27 @@ export const CreateReview = (props) => {
       ...reviewData,
       reviewImg: filteredReviewImgs,
     });
+  };
+
+  const handleReviewForm = (e) => {
+    const { id, value, files } = e.target;
+
+    if (files && files.length > 0) {
+      const remainingSlots = 5 - reviewData.reviewImg.length;
+      if (remainingSlots === 0) {
+        return alert("Cannot add more images. Maximum of 5 images allowed.");
+      }
+      if (remainingSlots > 0) {
+        const newFiles = Array.from(files).slice(0, remainingSlots);
+        setReviewData({
+          ...reviewData,
+          reviewImg: [...reviewData.reviewImg, ...newFiles],
+        });
+      }
+    } else {
+      setReviewData({ ...reviewData, [id]: value });
+      setErrors({ ...errors, [id]: "" });
+    }
   };
 
   return (
@@ -152,6 +166,9 @@ export const CreateReview = (props) => {
             value={reviewData.reviewTitle}
             onChange={handleReviewForm}
           />
+          {errors.reviewTitle && (
+            <span className="error">{errors.reviewTitle}</span>
+          )}
         </div>
         <div className="reviewSec mt-2">
           <label className="form-label" htmlFor="review">
@@ -163,10 +180,13 @@ export const CreateReview = (props) => {
             rows={4}
             cols={50}
             minLength={10}
-            maxLength={200}
+            maxLength={400}
             onChange={handleReviewForm}
             value={reviewData.reviewContent}
           ></textarea>
+          {errors.reviewContent && (
+            <span className="error">{errors.reviewContent}</span>
+          )}
         </div>
         <div className="reviewImgsSection">
           <div className="dltReviewImgBtn">
@@ -387,8 +407,8 @@ export const DisplayReview = ({ productId }) => {
                   parseInt(each.customer_id) && (
                   <ThreeDotsDropdown
                     reviewId={each.review_id}
-                    fetchReviews={fetchReviews}
-                    productId={productId}
+                    reviews={reviews}
+                    setReviews={setReviews}
                   />
                 )}
                 {/* <span>{each.created_on}</span> */}
@@ -400,14 +420,14 @@ export const DisplayReview = ({ productId }) => {
                 <p
                   style={{
                     fontSize: "1rem",
-                    lineHeight: "1",
+                    lineHeight: "1.3rem",
                     margin: "0.4rem 0",
                   }}
                 >
                   {each.review_content}
                 </p>
               </div>
-              <div className="displayIeviewImgsCont">
+              <div className="displayIeviewImgsCont my-3">
                 {each.review_images.map((img, i) => (
                   <img
                     key={i}

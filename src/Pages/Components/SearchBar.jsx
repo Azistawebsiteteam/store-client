@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorHandler from "./ErrorHandler";
 import { searchResultContext } from "../../ReactContext/SearchResults";
+import { TiArrowRight } from "react-icons/ti";
 
 const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const [categories, setCategories] = useState([]);
@@ -51,7 +52,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
   const handleSearchProducts = (value) => {
     setTimeout(() => {
       getProducts(value);
-    }, 2000);
+    }, 1000);
   };
 
   const onChangeSearchText = (e) => {
@@ -88,12 +89,12 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
                         <p className="truncate">
                           {product.product_main_title}{" "}
                         </p>
-                        <small
+                        <span
                           className="product_subTitle truncate"
                           style={{ color: "rgba(40, 40, 40, 0.8)" }}
                         >
                           {product.product_title}
-                        </small>
+                        </span>
                       </div>
                       <div className="text-center">
                         <img
@@ -125,11 +126,15 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
               <div>
                 {searchResults.length > 3 && (
                   <p
-                    className="linkBtn"
-                    style={{ cursor: "pointer", fontWeight: "500" }}
+                    className="mt-3"
+                    style={{
+                      cursor: "pointer",
+                      fontWeight: "500",
+                      color: "rgb(0, 128, 96)",
+                    }}
                     onClick={goToSearchResultPage}
                   >
-                    View all products
+                    View all products <TiArrowRight />
                   </p>
                 )}
               </div>

@@ -12,7 +12,8 @@ const options = ["Edit", "Delete"];
 
 const ITEM_HEIGHT = 48;
 
-const ThreeDotsDropdown = ({ reviewId, fetchReviews, productId }) => {
+const ThreeDotsDropdown = (props) => {
+  const { reviewId, reviews, setReviews } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   // const [modalShow, setModalShow] = useState(false);
   const open = Boolean(anchorEl);
@@ -43,7 +44,8 @@ const ThreeDotsDropdown = ({ reviewId, fetchReviews, productId }) => {
       };
       const response = await axios.post(url, { reviewId }, { headers });
       if (response.status === 200) {
-        fetchReviews(productId);
+        const updateR = reviews.filter((r) => r.review_id !== reviewId);
+        setReviews(updateR);
       }
     } catch (error) {
       ErrorHandler.onError(error);

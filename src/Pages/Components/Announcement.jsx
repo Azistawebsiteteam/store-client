@@ -1,28 +1,9 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import "./Customer.css";
-import ErrorHandler from "./ErrorHandler";
 
-const Announcement = () => {
-  const [announcements, setAnnouncements] = useState([]);
-
-  const baseUrl = process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    const getAnnouncementText = async () => {
-      try {
-        const url = `${baseUrl}/announcement/data`;
-        const response = await axios.get(url);
-        setAnnouncements(response.data);
-      } catch (error) {
-        ErrorHandler.onError(error);
-      }
-    };
-    getAnnouncementText();
-  }, [baseUrl]);
-
+const Announcement = ({ announcements }) => {
   return (
     <div className="announcements">
       <div

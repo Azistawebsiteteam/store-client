@@ -83,7 +83,7 @@ const ProfileManagement = () => {
                         {userDetails.azst_customer_name}
                       </span>
                       <div>
-                        <Link to="/edit-profile">
+                        <Link to="/Update-billing-address">
                           <button
                             style={{
                               border: "none",

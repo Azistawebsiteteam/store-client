@@ -56,7 +56,11 @@ const ReviewsList = () => {
                         {review.created_on}
                       </small>
                       <div className="dropdownMenuCont">
-                        <ThreeDotsDropdown reviewId={review.review_id} />
+                        <ThreeDotsDropdown
+                          reviewId={review.review_id}
+                          reviews={reviews}
+                          setReviews={setReviews}
+                        />
                       </div>
                     </div>
                     <Rating
@@ -73,7 +77,7 @@ const ReviewsList = () => {
                         },
                       }}
                     />
-                    <span style={{ fontWeight: "500" }}>
+                    <span className="truncate" style={{ fontWeight: "500" }}>
                       {review.review_title}
                     </span>
                     <small className="truncate">{review.review_content}</small>

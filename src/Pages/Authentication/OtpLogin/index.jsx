@@ -117,7 +117,7 @@ const OtpLogin = () => {
               <input
                 type="submit"
                 value="Sign In"
-                className="signinBtn submitBtn mt-3"
+                className="authenticationBtn primaryAuthenticationBtn"
               />
             )}
           </div>
@@ -162,7 +162,7 @@ const OtpLogin = () => {
             </div>
             <span className="text-danger d-block">{error}</span>
             <input
-              className="signinBtn submitBtn mt-3"
+              className="authenticationBtn primaryAuthenticationBtn"
               type="submit"
               value="Sign In"
             />
@@ -172,7 +172,10 @@ const OtpLogin = () => {
         <p className="text-center" style={{ color: "#858585" }}>
           New to Azista Store
         </p>
-        <Link className="signinBtn secBtn linkBtn" to="/registration">
+        <Link
+          className="authenticationBtn secAuthenticationBtn"
+          to="/registration"
+        >
           Sign Up
         </Link>
       </div>

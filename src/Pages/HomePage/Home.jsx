@@ -117,7 +117,7 @@ const Home = () => {
             </div>
           )}
           {bestSellers.length > 0 && (
-            <div className="container bestSellers d-none d-md-block mt-md-5">
+            <div className="container bestSellers mt-md-5">
               <ProductSlider
                 title={"Best Sellers"}
                 type={"bestSellers"}
@@ -159,7 +159,7 @@ const Home = () => {
           )}
 
           {shop99Data.length > 0 && (
-            <div className="container shop99 d-none d-md-block mt-md-5">
+            <div className="container shop99 mt-md-5">
               <div className="ctn">
                 <a href="" id="shop99">
                   &nbsp;
@@ -173,44 +173,67 @@ const Home = () => {
               />
             </div>
           )}
-
           <div className="custSatisfiedSecTop mt-md-5">
             <div className="container">
               <h4 className="text-center mb-5">
                 Satisfied customers, happy shopping!
               </h4>
-              <div
-                className="card custSatisfiedCard"
-                style={{ width: "21rem" }}
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
-                  alt="satisfiedCust"
-                  className="satisfiedCustImg"
-                />
-                <div className="card-body custSatisfiedCardbody">
-                  <p className="card-title">
-                    <strong>Card title</strong>
-                  </p>
-                  <Rating
-                    name="read-only"
-                    value={value}
-                    precision={0.5}
-                    readOnly
-                    className="gold-stars"
-                  />
-                  <small className="card-text d-block">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </small>
-                  <div className="productBox">
+              <div className="row">
+                <div className="col-md-4">
+                  <div
+                    className="card custSatisfiedCard"
+                    style={{ width: "23rem" }}
+                  >
                     <img
-                      src={`${process.env.PUBLIC_URL}/images/kwikmint.png`}
+                      src={`${process.env.PUBLIC_URL}/images/satisfiedCust.png`}
                       alt="satisfiedCust"
-                      className="satisfiedProductImg"
+                      className="satisfiedCustImg"
+                      loading="lazy"
                     />
-                    <small>kwikmint mouth fresheners</small>
-                    <Link className="linkBtn activeBtn">Add to cart</Link>
+                    <div className="card-body custSatisfiedCardbody">
+                      <p className="card-title">
+                        <strong>Card title</strong>
+                      </p>
+                      <Rating
+                        name="read-only"
+                        value={value}
+                        precision={0.5}
+                        readOnly
+                        className="gold-stars"
+                      />
+                      <small className="card-text d-block mb-1">
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card's content.
+                      </small>
+                      <div className="productBox">
+                        <img
+                          src={`${process.env.PUBLIC_URL}/images/kwikmint.png`}
+                          alt="satisfiedCust"
+                          className="satisfiedProductImg"
+                          loading="lazy"
+                        />
+                        <div className="">
+                          <small className="truncate">
+                            Sparkel - Hydrating - Skin Lightening Face.....
+                          </small>
+                          <div className="">
+                            <small
+                              className="me-2"
+                              style={{
+                                textDecoration: "line-through",
+                                color: "rgba(40, 40, 40, 0.7)",
+                              }}
+                            >
+                              Rs. 280.00
+                            </small>
+                            <small style={{ color: "rgba(40, 40, 40, 0.7)" }}>
+                              Rs 200
+                            </small>
+                          </div>
+                        </div>
+                        <Link className="satisfiedCustBtn">Add to cart</Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -227,6 +250,7 @@ const Home = () => {
                     className="gif"
                     src={`${process.env.PUBLIC_URL}/images/free-delivery.gif`}
                     alt="Free Delivery"
+                    loading="lazy"
                   />
                   <div className="ps-2 gifInfo">
                     <p className="text-light mb-0">Free Shipping</p>
@@ -274,7 +298,7 @@ const Home = () => {
           <div className="container blogs d-none d-md-block">
             <BlogsSection />
           </div>
-          <div className="bottomStrip"></div>
+          {/* <div className="bottomStrip"></div> */}
         </div>
       </div>
     </>

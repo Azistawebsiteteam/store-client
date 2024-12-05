@@ -16,21 +16,12 @@ const EditProfile = () => {
     lastName: "",
     mobileNum: "",
     email: "",
-    houseNumber: "",
-    district: "",
-    state: "",
-    country: "",
-    zipCode: "",
-    landmark: "",
     acceeptEmailMarketing: true,
-    company: "Home",
-    address1: "",
-    address2: "",
     marketingSmsAccept: true,
     dob: "",
     gender: "Male",
   });
-  const [states, setStates] = useState([]);
+  // const [states, setStates] = useState([]);
 
   const Navigate = useNavigate();
 
@@ -50,17 +41,8 @@ const EditProfile = () => {
       lastName: userDetails.azst_customer_lname,
       mobileNum: userDetails.azst_customer_mobile,
       email: userDetails.azst_customer_email,
-      houseNumber: userDetails.azst_customer_hno || "",
-      district: userDetails.azst_customer_district,
-      state: userDetails.azst_customer_state,
-      country: userDetails.azst_customer_country,
-      zipCode: userDetails.azst_customer_zip,
-      landmark: userDetails.azst_customer_landmark,
       acceeptEmailMarketing:
         userDetails.azst_customer_acceptemail_marketing === "0" ? false : true,
-      company: userDetails.azst_customer_company || "Home",
-      address1: userDetails.azst_customer_address1,
-      address2: userDetails.azst_customer_address2 || "",
       marketingSmsAccept:
         userDetails.azst_customer_acceptsms_marketing === "0" ? false : true,
       dob: userDetails.azst_customer_dob
@@ -70,20 +52,10 @@ const EditProfile = () => {
     });
   }, [userDetails]);
 
-  useEffect(() => {
-    const stateApi = async () => {
-      try {
-        const statesUrl =
-          "https://countriesnow.space/api/v0.1/countries/states";
-        const response = await axios.post(statesUrl, { country: "India" });
-        setStates(response.data.data.states);
-      } catch (error) {}
-    };
-    stateApi();
-  }, []);
-
   const handleValidationError = (profileDetails) => {
     const validationErrorMessage = {};
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // console.log(emailRegex.test(profileDetails.email));
     if (!profileDetails.firstName) {
       validationErrorMessage["firstName"] = "First name is required";
     }
@@ -98,31 +70,11 @@ const EditProfile = () => {
     if (!profileDetails.email) {
       validationErrorMessage.email = "Email is required";
     }
-    if (!profileDetails.houseNumber) {
-      validationErrorMessage.houseNumber = "House number is required";
-    }
-    if (!profileDetails.district) {
-      validationErrorMessage.district = "District is required";
-    }
-    if (!profileDetails.state) {
-      validationErrorMessage.state = "State is required";
-    }
-    if (!profileDetails.country) {
-      validationErrorMessage.country = "Country is required";
-    }
-    if (!profileDetails.zipCode) {
-      validationErrorMessage.zipCode = "Zip code is required";
-    } else if (profileDetails.zipCode && profileDetails.zipCode.length < 6) {
-      validationErrorMessage.zipCode = "Invalid zip code";
-    }
     if (!profileDetails.dob) {
       validationErrorMessage.dob = "Date of birth is required";
     }
     if (!profileDetails.gender) {
       validationErrorMessage.gender = "Gender is required";
-    }
-    if (!profileDetails.address1) {
-      validationErrorMessage.address1 = "Address is required";
     }
     return validationErrorMessage;
   };
@@ -156,7 +108,7 @@ const EditProfile = () => {
 
   const handleInputValue = (e) => {
     let { id, value } = e.target;
-    if (id === "mobileNum" || id === "zipCode") {
+    if (id === "mobileNum") {
       value = value.replace(/[^0-9]/g, "");
     }
     setProfileDetails({ ...profileDetails, [id]: value });
@@ -174,9 +126,9 @@ const EditProfile = () => {
         <div className="myAccount_right_sec">
           <div className="mb-4">
             <BackBtn className="me-3" />
-            <h5 className="mb-0">Billing Address</h5>
+            <h5 className="mb-0">Profile Details</h5>
             <small style={{ color: "#747474", fontWeight: "600" }}>
-              Profile &lt; Billing Address
+              Profile &lt; Profile Details
             </small>
           </div>
           <div className="myAccInnerSec">
@@ -285,45 +237,6 @@ const EditProfile = () => {
                 <input
                   autoComplete="off"
                   type="text"
-                  value={profileDetails.houseNumber}
-                  className="form-control"
-                  id="houseNumber"
-                  style={
-                    errors.houseNumber ? { border: "1px solid #f14848" } : {}
-                  }
-                  onChange={handleInputValue}
-                  placeholder="House Number"
-                />
-                {errors.houseNumber && (
-                  <span className="error">{errors.houseNumber}</span>
-                )}
-                <label htmlFor="houseNumber" className="ms-1">
-                  House Number
-                </label>
-              </div>
-              <div className="form-floating col-md-6">
-                <input
-                  autoComplete="off"
-                  type="text"
-                  value={profileDetails.zipCode}
-                  className="form-control"
-                  id="zipCode"
-                  style={errors.zipCode ? { border: "1px solid #f14848" } : {}}
-                  onChange={handleInputValue}
-                  placeholder="Pincode"
-                  maxLength={6}
-                />
-                {errors.zipCode && (
-                  <span className="error">{errors.zipCode}</span>
-                )}
-                <label htmlFor="zipCode" className="ms-1">
-                  Pincode
-                </label>
-              </div>
-              <div className="form-floating col-md-6">
-                <input
-                  autoComplete="off"
-                  type="email"
                   value={profileDetails.email}
                   className="form-control"
                   id="email"
@@ -336,7 +249,7 @@ const EditProfile = () => {
                   Email address
                 </label>
               </div>
-              <div className="form-floating col-md-6">
+              {/* <div className="form-floating col-md-6">
                 <input
                   autoComplete="off"
                   type="text"
@@ -454,7 +367,7 @@ const EditProfile = () => {
                 <label htmlFor="addressType" className="ms-1">
                   Address Type
                 </label>
-              </div>
+              </div> */}
               <div className="row mt-3">
                 <div className="form-check col-md-6">
                   <input
@@ -498,7 +411,7 @@ const EditProfile = () => {
                 </div>
               </div>
               <div>
-                <input className="commonBtn" type="submit" value="Save" />
+                <input className="myAccSecBtn" type="submit" value="Save" />
               </div>
             </form>
           </div>

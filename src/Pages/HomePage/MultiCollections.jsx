@@ -18,6 +18,7 @@ function SampleNextArrow(props) {
       <img
         src={`${process.env.PUBLIC_URL}/images/right-arrow.svg`}
         alt="navigationArrows"
+        loading="lazy"
       />
     </div>
   );

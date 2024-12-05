@@ -1,14 +1,6 @@
-/* .positionRelative{
-    position: absolute;
-} */
 .hideIcon {
     position: absolute;
     top: 2.8rem;
     right: 10px;
     cursor: pointer;
-}
-
-.secBtn{
-    color: #000;
-    font-weight: 600 !important;
 }

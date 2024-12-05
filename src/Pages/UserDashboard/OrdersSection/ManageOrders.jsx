@@ -10,6 +10,17 @@ import ScrollToTop from "../../../Utils/ScrollToTop";
 import moment from "moment";
 import ErrorHandler from "../../Components/ErrorHandler";
 
+const CancellationReasons = [
+  "Order Created by Mistake",
+  "Item(s) Would Not Arrive on Time",
+  "Shipping Cost Too High",
+  "Found Cheaper Somewhere Else",
+  "Need to Change Shipping Address",
+  "Need to Change Billing Address",
+  "Need to Change Payment Method",
+  "Other Reason",
+];
+
 const ManageOrders = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cancelOrderReason, setCancelOrderReason] = useState("0");
@@ -50,8 +61,10 @@ const ManageOrders = () => {
       const filtered = orders
         .map((order) => ({
           ...order,
-          products_details: order.products_details.filter((each) =>
-            each.product_title.toLowerCase().includes(searchTerm.toLowerCase())
+          products_details: order?.products_details.filter((each) =>
+            each.product_title
+              ?.toLowerCase()
+              .includes(searchTerm?.toLowerCase())
           ),
         }))
         .filter((order) => order.products_details.length > 0); // Only include orders with matching products
@@ -80,7 +93,7 @@ const ManageOrders = () => {
       case 0:
         return "Order Shipped";
       case 1:
-        return "Out for Delivery";
+        return "Out htmlFor Delivery";
       case 2:
         return "Delivered";
       default:
@@ -99,7 +112,9 @@ const ManageOrders = () => {
 
   const submitCancelOrder = async (e, orderId) => {
     if (cancelOrderReason === "0") {
-      setCancellationReason("Please select a reason for cancelling the order.");
+      setCancellationReason(
+        "Please select a reason htmlFor cancelling the order."
+      );
       return;
     }
     try {
@@ -150,7 +165,10 @@ const ManageOrders = () => {
             <h5 style={{ fontFamily: "outFit" }}>Orders</h5>
             <div
               className="d-flex justify-content-md-between align-items-center"
-              style={{ borderBottom: "1px solid #D6D6D6", paddingBottom: "1%" }}
+              style={{
+                borderBottom: "1px solid #D6D6D6",
+                paddingBottom: "1%",
+              }}
             >
               <div className="">
                 <small>View by</small>
@@ -246,21 +264,11 @@ const ManageOrders = () => {
                             <span className="d-block">
                               {each.product_title}
                             </span>
-                            {each.option1 !== 0 && (
-                              <span style={{ color: "#858585" }}>
-                                {each.option1}
-                              </span>
-                            )}
-                            {each.option2 && (
-                              <span style={{ color: "#858585" }}>
-                                {each.option2}
-                              </span>
-                            )}
-                            {each.option3 && (
-                              <span style={{ color: "#858585" }}>
-                                {each.option3}
-                              </span>
-                            )}
+                            <span style={{ color: "#858585" }}>
+                              {[each.option1, each.option2, each.option3]
+                                .filter(Boolean)
+                                .join("/ ")}
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -273,38 +281,96 @@ const ManageOrders = () => {
                         Order Details
                       </Link>
                       {order.azst_orders_delivery_status === 2 && (
-                        <Link className="orderedProductBtn">
+                        <button
+                          type="button"
+                          className="orderedProductBtn"
+                          data-bs-toggle="modal"
+                          data-bs-target={`#writeReviewOnOrder${order.azst_order_id}`}
+                        >
                           Write a Review
-                        </Link>
+                        </button>
                       )}
+                      <div
+                        className="modal fade"
+                        id={`writeReviewOnOrder${order.azst_order_id}`}
+                        tabIndex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div className="modal-dialog">
+                          <div className="modal-content  orderReviewCont">
+                            <div className="modal-header">
+                              <h1
+                                className="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                Write a Review
+                              </h1>
+                              <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div className="modal-body">
+                              <div className="form-floating">
+                                <textarea
+                                  className="form-control"
+                                  placeholder="Leave a comment here"
+                                  id="floatingTextarea2"
+                                  style={{ height: "100px" }}
+                                ></textarea>
+                                <label htmlFor="floatingTextarea2">
+                                  Comments
+                                </label>
+                              </div>
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                              <button type="button" className="btn btn-primary">
+                                Save changes
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       {order.azst_orders_delivery_status === 2 ? (
                         <button className="orderedProductBtn">Reorder</button>
                       ) : (
-                        <button
-                          type="button"
-                          data-bs-toggle="modal"
-                          data-bs-target={`#cancelOrder${order.azst_order_id}`}
-                          className={
-                            order.azst_orders_status !== 0
-                              ? "orderedProductBtn"
-                              : "cancelledBtn"
-                          }
-                          disabled={order.azst_orders_status === 0}
-                        >
-                          {order.azst_orders_status !== 0
-                            ? "Cancel order"
-                            : "Order Cancelled"}
-                        </button>
+                        order.azst_orders_status !== 0 && (
+                          <button
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target={`#cancelOrder${order.azst_order_id}`}
+                            className={
+                              order.azst_orders_status !== 0
+                                ? "orderedProductBtn"
+                                : "cancelledBtn"
+                            }
+                          >
+                            {order.azst_orders_status !== 0
+                              ? "Cancel order"
+                              : "Order Cancelled"}
+                          </button>
+                        )
                       )}
-                      {order.azst_orders_delivery_status === 2 && (
-                        <Link
-                          to="/azst/orders/return"
-                          state={{ orderId: order.azst_order_id }}
-                          className="orderedProductBtn"
-                        >
-                          Return
-                        </Link>
-                      )}
+                      {order.return_id === 0 &&
+                        order.azst_orders_delivery_status === 2 && (
+                          <Link
+                            to="/azst/orders/return"
+                            state={{ orderId: order.azst_order_id }}
+                            className="orderedProductBtn"
+                          >
+                            Return
+                          </Link>
+                        )}
                     </div>
                     <div
                       className="modal fade"
@@ -333,29 +399,13 @@ const ManageOrders = () => {
                               onChange={handleCancelOrderReason}
                               value={cancelOrderReason}
                             >
-                              <option value="0">Cancellation reason</option>
-                              <option value="1">
-                                Order Created by Mistake
-                              </option>
-                              <option value="2">
-                                Item(s) Would Not Arrive on Time
-                              </option>
-                              <option value="3">Shipping Cost Too High</option>
-                              <option value="4">
-                                Found Cheaper Somewhere Else
-                              </option>
-                              <option value="4">
-                                Need to Change Shipping Address
-                              </option>
-                              <option value="5">
-                                Need to Change Billing Address
-                              </option>
-                              <option value="6">
-                                Need to Change Payment Method
-                              </option>
-                              <option value="7">Other Reason</option>
+                              {CancellationReasons.map((reason, i) => (
+                                <option key={i} value={reason}>
+                                  {reason}
+                                </option>
+                              ))}
                             </select>
-                            {cancelOrderReason === "7" ? (
+                            {cancelOrderReason === "Other Reason" ? (
                               <textarea
                                 className="form-control  mt-2"
                                 id="otherReason"

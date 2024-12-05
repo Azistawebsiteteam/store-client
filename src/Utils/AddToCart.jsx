@@ -9,32 +9,24 @@ const AddToCart = (props) => {
   return (
     <>
       {parseInt(productQty) > 0 &&
-      parseInt(productQty) >= parseInt(quantity) ? (
-        <button
-          className="linkBtn beforeHover"
-          style={{
-            border: "none",
-            backgroundColor: "rgba(0, 128, 96, 1)",
-            color: "#fff",
-          }}
-          onClick={() =>
-            handleAddtoCart(userDetails.azst_customer_id, props, updateCartData)
-          }
-        >
-          Add to Cart
-        </button>
-      ) : (
-        <button
-          className="linkBtn beforeHover"
-          style={{
-            border: "1px solid red",
-            backgroundColor: "#fff",
-            color: "red",
-          }}
-        >
-          Out Of Stock
-        </button>
-      )}
+        parseInt(productQty) >= parseInt(quantity) && (
+          <button
+            className="hoveredCardButton"
+            onClick={() =>
+              handleAddtoCart(
+                userDetails.azst_customer_id,
+                props,
+                updateCartData
+              )
+            }
+          >
+            <img
+              src={`${process.env.PUBLIC_URL}/images/cardCartIcon.svg`}
+              alt="cartIcon"
+              className="hoverIcon"
+            />
+          </button>
+        )}
     </>
   );
 };

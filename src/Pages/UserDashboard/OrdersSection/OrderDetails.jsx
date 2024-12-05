@@ -75,6 +75,21 @@ const OrderDetails = () => {
   const totalSteps = 5;
   const percentage = (parseInt(steps - 1) / parseInt(totalSteps - 1)) * 100;
 
+  const OrderedProductsCount = () => {
+    return orderDetails.products_details?.reduce(
+      (acc, each) => acc + (parseInt(each.azst_order_qty) || 0),
+      0
+    );
+  };
+
+  const OrderedProductsCost = () => {
+    return orderDetails.products_details?.reduce(
+      (acc, each) =>
+        acc + (parseInt(each.azst_order_qty * each.azst_product_price) || 0),
+      0
+    );
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -347,32 +362,6 @@ const OrderDetails = () => {
                               Payment Summary
                             </span>
                             <div className="paymentDetails">
-                              {orderDetails.products_details.map((each, i) => (
-                                <div
-                                  className="d-flex justify-content-between mb-2"
-                                  key={i}
-                                >
-                                  <small
-                                    className="card-subtitle d-block"
-                                    style={{
-                                      fontWeight: "400",
-                                      lineHeight: "1.2rem",
-                                    }}
-                                  >
-                                    Total Products{" "}
-                                    {each.azst_order_qty > 1
-                                      ? ` (${each.azst_order_qty} products)`
-                                      : ` (${each.azst_order_qty} product)`}
-                                  </small>
-                                  <small style={{ fontWeight: "400" }}>
-                                    Rs.
-                                    {`${
-                                      each.azst_order_qty *
-                                      each.azst_product_price
-                                    }`}
-                                  </small>
-                                </div>
-                              ))}
                               <div className="d-flex justify-content-between mb-2">
                                 <small
                                   className="card-subtitle d-block"
@@ -381,7 +370,28 @@ const OrderDetails = () => {
                                     lineHeight: "1.2rem",
                                   }}
                                 >
-                                  Shipping Chareges
+                                  {}
+                                  Total Products {` `}(
+                                  {OrderedProductsCount() > 1
+                                    ? `${OrderedProductsCount()} products`
+                                    : `${OrderedProductsCount()} product`}
+                                  )
+                                </small>
+                                <small style={{ fontWeight: "400" }}>
+                                  Rs.
+                                  {OrderedProductsCost()}
+                                </small>
+                              </div>
+
+                              <div className="d-flex justify-content-between mb-2">
+                                <small
+                                  className="card-subtitle d-block"
+                                  style={{
+                                    fontWeight: "400",
+                                    lineHeight: "1.2rem",
+                                  }}
+                                >
+                                  Shipping Charges
                                 </small>
                                 <small style={{ fontWeight: "400" }}>
                                   {parseInt(
@@ -403,6 +413,20 @@ const OrderDetails = () => {
                                 </small>
                                 <small style={{ fontWeight: "400" }}>
                                   Rs.{orderDetails.azst_orders_discount_amount}
+                                </small>
+                              </div>
+                              <div className="d-flex justify-content-between mb-2">
+                                <small
+                                  className="card-subtitle d-block"
+                                  style={{
+                                    fontWeight: "400",
+                                    lineHeight: "1.2rem",
+                                  }}
+                                >
+                                  Taxes
+                                </small>
+                                <small style={{ fontWeight: "400" }}>
+                                  {`Rs.${orderDetails.azst_orders_taxes}`}
                                 </small>
                               </div>
                               <div className="d-flex justify-content-between mb-2">

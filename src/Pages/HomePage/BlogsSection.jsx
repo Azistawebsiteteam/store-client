@@ -48,6 +48,7 @@ const BlogsSection = () => {
                       src={firstElement.azst_blg_thumbnail_img}
                       alt={firstElement.azst_blg_title}
                       className="card-img-top blogImg mainImgOverlay"
+                      loading="lazy"
                     />
                     <p className="blogType mainBlog">
                       {firstElement.azst_blg_product}
@@ -83,6 +84,7 @@ const BlogsSection = () => {
                           src={each.azst_blg_thumbnail_img}
                           alt={each.azst_blg_title}
                           className="card-img-top "
+                          loading="lazy"
                         />
                         <p className="blogType subBlog">
                           {each.azst_blg_product}

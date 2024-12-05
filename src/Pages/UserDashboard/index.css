@@ -69,6 +69,7 @@ button.dropdown-toggle.custDropdown {
 .orderedProductBtn:hover{
     background-color: var(--hover-bg-color);
     color: #fff;
+    transition: 0.3s ease-in-out;
 }
 .cancelledBtn{
     text-decoration: none;

@@ -9,6 +9,7 @@ import swalHandle from "./ErrorHandler";
 import ScrollToTop from "../../Utils/ScrollToTop";
 import AddToCart from "../../Utils/AddToCart";
 import { Link } from "react-router-dom";
+import { removeFromWishlist } from "../../Utils/AddToWishlist";
 
 const WishList = () => {
   const [wishList, setWishlist] = useState([]);
@@ -16,16 +17,17 @@ const WishList = () => {
   const baseUrl = process.env.REACT_APP_API_URL;
   const token = process.env.REACT_APP_JWT_TOKEN;
   const jwtToken = Cookies.get(token);
+
   const getWishlist = useCallback(async () => {
     if (!jwtToken) return;
     try {
-      const url = `${baseUrl}/whish-list`;
+      const url = `${baseUrl}/wish-list`;
       const headers = {
         Authorization: `Bearer ${jwtToken}`,
       };
       swalHandle.onLoading();
       const response = await axios.post(url, {}, { headers });
-      setWishlist(response.data.whish_list);
+      setWishlist(response.data.wishlist);
       swalHandle.onLoadingClose();
     } catch (error) {
       swalHandle.onLoadingClose();
@@ -38,24 +40,10 @@ const WishList = () => {
   }, [getWishlist]);
 
   const handleDelete = async (id) => {
-    try {
-      const url = `${baseUrl}/whish-list/remove`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      swalHandle.onLoading();
-      await axios.post(
-        url,
-        {
-          whishlistId: id,
-        },
-        { headers }
-      );
-      swalHandle.onLoadingClose();
-      getWishlist();
-    } catch (error) {
-      swalHandle.onLoadingClose();
-      swalHandle.onError(error);
+    const result = await removeFromWishlist(id);
+    if (result) {
+      const updateData = wishList.filter((wl) => wl.azst_wishlist_id !== id);
+      setWishlist(updateData);
     }
   };
 
@@ -66,11 +54,9 @@ const WishList = () => {
         : getProductDiscount(each.compare_at_price, each.offer_price);
 
     return discount > 0 ? (
-      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}>
-        Save {discount}%
-      </p>
+      <p className="productCardDiscount mb-0">Save {discount}%</p>
     ) : (
-      <p className="mb-0" style={{ color: "#EC6B5B", fontWeight: "800" }}></p>
+      <p className="productCardDiscount mb-0"></p>
     );
   };
 
@@ -88,7 +74,6 @@ const WishList = () => {
       </>
     );
   };
-
   return (
     <>
       <ScrollToTop />
@@ -100,10 +85,10 @@ const WishList = () => {
             {wishList.length >= 1 ? (
               <div className="d-flex flex-wrap">
                 {wishList.map((each, i) => (
-                  <div className="wishlistItem" key={i}>
-                    <div className="bestSelledProduct">
+                  <div className="col-6 col-md-4" key={i}>
+                    <div className="productsCardCont commonProductCard">
                       <div className="productCard">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="productCardContTopSec">
                           {getDicountPercentage(each)}
                           <div>
                             <img
@@ -113,7 +98,6 @@ const WishList = () => {
                             />
                           </div>
                         </div>
-
                         <div className="productContent">
                           <p className="truncate">{each.product_main_title}</p>
                           <small
@@ -133,7 +117,11 @@ const WishList = () => {
                         <div className="productPrice">
                           {getProductPrice(each)}
                         </div>
-
+                        {(parseInt(each.product_qty) <= 0 ||
+                          parseInt(each.product_qty) <
+                            parseInt(each.min_cart_quantity)) && (
+                          <small style={{ color: "red" }}>Out of Stock</small>
+                        )}
                         {/* <div className="productPrice">
                           <span
                             style={{
@@ -147,27 +135,32 @@ const WishList = () => {
                         </div> */}
                       </div>
                       <div className="overlay_bg">
-                        {parseInt(each.is_varaints_aval) !== 1 && (
-                          <AddToCart
-                            productId={each.product_id}
-                            variantId={each.variant_id}
-                            quantity={each.min_cart_quantity}
-                            productQty={each.product_qty}
-                          />
-                        )}
                         <Link
-                          className="linkBtn beforeHover"
                           to={`/productitem/${each.product_url_title}`}
+                          className="linkBtn cardButton"
                         >
                           View Details
                         </Link>
-                        <button
-                          onClick={() => handleDelete(each.azst_wishlist_id)}
-                          className="linkBtn tertiaryBtn"
-                          style={{ border: "none", fontWeight: "500" }}
-                        >
-                          Remove Item
-                        </button>
+                        <div className="hoveredCardButtonCont">
+                          <button
+                            onClick={() => handleDelete(each.azst_wishlist_id)}
+                            className="hoveredCardButton"
+                          >
+                            <img
+                              src={`${process.env.PUBLIC_URL}/images/cartActiveWishlistIcon.svg`}
+                              alt="wishlist"
+                              className="hoverIcon"
+                            />
+                          </button>
+                          {parseInt(each.is_varaints_aval) !== 1 && (
+                            <AddToCart
+                              productId={each.product_id}
+                              variantId={each.variant_id}
+                              quantity={each.min_cart_quantity}
+                              productQty={each.product_qty}
+                            />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

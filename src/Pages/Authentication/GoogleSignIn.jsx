@@ -55,7 +55,10 @@ const GoogleSignIn = (props) => {
   });
 
   return (
-    <button className="signinBtn" onClick={() => login()}>
+    <button
+      className="authenticationBtn googleSigninBtn"
+      onClick={() => login()}
+    >
       <FcGoogle className="google_socialIcon" />
       {btnTxt}
     </button>

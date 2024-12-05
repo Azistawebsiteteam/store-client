@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import ScrollToTop from "../../../Utils/ScrollToTop";
 import SideBar from "../UserProfile/SideBar";
 import { FaUpload } from "react-icons/fa6";
 import "./../index.css";
 import "../UserProfile/UserProfile.css";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const ReturnsAndReplace = () => {
   const [sameBankAccount, setSameBankAccount] = useState(true);
   const [bankDetails, setBankDetails] = useState({
-    reason: "",
+    reason: "Found a Better Price",
     bankAcNo: "",
     ifscCode: "",
     branch: "",
@@ -25,6 +26,7 @@ const ReturnsAndReplace = () => {
   const { orderId } = location.state || {};
   const baseUrl = `${process.env.REACT_APP_API_URL}`;
   const jwtToken = Cookies.get(`${process.env.REACT_APP_JWT_TOKEN}`);
+  const navigate = useNavigate();
 
   const reasons = [
     "Item Arrived Damaged or Defective",
@@ -66,7 +68,8 @@ const ReturnsAndReplace = () => {
     try {
       e.preventDefault();
       const validationErrorMessage = validations(bankDetails);
-      if (Object.keys(validationErrorMessage).length > 0) {
+
+      if (Object.keys(validationErrorMessage).length > 0 && !sameBankAccount) {
         return setErrors(validationErrorMessage);
       }
       const url = `${baseUrl}/orders/customer/return-order`;
@@ -74,7 +77,6 @@ const ReturnsAndReplace = () => {
         Authorization: `Bearer ${jwtToken}`,
       };
       let body;
-
       if (sameBankAccount) {
         body = {
           orderId,
@@ -105,14 +107,20 @@ const ReturnsAndReplace = () => {
         body = formData;
       }
 
-      await axios.post(url, body, { headers });
-    } catch (error) {}
+      const response = await axios.post(url, body, { headers });
+      if (response.status === 200) {
+        navigate(-1);
+      }
+      console.log(response);
+    } catch (error) {
+      ErrorHandler.onError(error);
+    }
   };
 
   const handleBankDetails = (e) => {
     let { value, id } = e.target;
 
-    if (id === "bankAcNo" || id === "ifscCode") {
+    if (id === "bankAcNo") {
       value = value.replace(/[^0-9]/g, "");
     }
 
@@ -206,6 +214,7 @@ const ReturnsAndReplace = () => {
                         onChange={handleBankDetails}
                         placeholder="Bank Account Number"
                         autoComplete="off"
+                        maxLength={18}
                       />
                       <label htmlFor="bankAcNo">Bank Account Number</label>
                     </div>
@@ -234,6 +243,7 @@ const ReturnsAndReplace = () => {
                         onChange={handleBankDetails}
                         placeholder="Bank IFSC Number"
                         autoComplete="off"
+                        maxLength={11}
                       />
                       <label htmlFor="ifscCode">Bank IFSC Number</label>
                     </div>
@@ -317,7 +327,7 @@ const ReturnsAndReplace = () => {
               )}
               <div className="col-12">
                 <input
-                  type="subit"
+                  type="submit"
                   value="Submit"
                   className="commonBtn text-center"
                 />

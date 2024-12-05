@@ -124,7 +124,7 @@ const UserRegistrationPage = () => {
           )}
           {!inputValues.requestOtp && (
             <input
-              className="signinBtn submitBtn mt-3"
+              className="authenticationBtn primaryAuthenticationBtn"
               type="submit"
               value="Request OTP"
             />
@@ -148,7 +148,7 @@ const UserRegistrationPage = () => {
               )}
             </div>
             <input
-              className="signinBtn submitBtn mt-2"
+              className="authenticationBtn primaryAuthenticationBtn"
               type="button"
               onClick={verifyAndContinue}
               value="Verify and Continue"
@@ -164,7 +164,7 @@ const UserRegistrationPage = () => {
         >
           Already have an account?
         </p>
-        <Link className="signinBtn secBtn" to="/login">
+        <Link className="authenticationBtn secAuthenticationBtn" to="/login">
           Sign In
         </Link>
       </div>

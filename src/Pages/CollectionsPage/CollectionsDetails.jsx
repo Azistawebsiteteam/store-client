@@ -129,7 +129,7 @@ const CollectionsDetails = () => {
               setStarRating={setStarRating}
             />
           </div>
-          <div className="collectionProducts">
+          <div className="collectionProducts row">
             <ProductCard
               items={filteredProducts}
               setUpdate={setFilteredProducts}

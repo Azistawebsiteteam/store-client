@@ -89,7 +89,6 @@ const SideBar = () => {
   const isActiveTab = (path) => {
     return pathname.startsWith(path);
   };
-
   return (
     <div className="sideBar">
       <h4>My Account</h4>
@@ -98,7 +97,9 @@ const SideBar = () => {
           <img
             className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
-              isActiveTab("/profile-management")
+              isActiveTab("/profile-management") ||
+              isActiveTab("/edit-profile") ||
+              isActiveTab("/Update-billing-address")
                 ? "profileActive.svg"
                 : "profile.svg"
             }`}
@@ -107,7 +108,11 @@ const SideBar = () => {
           <Link
             to="/profile-management"
             className={`nav-link sideNavlink ${
-              isActiveTab("/profile-management") ? "activeBar" : ""
+              isActiveTab("/profile-management") ||
+              isActiveTab("/edit-profile") ||
+              isActiveTab("/Update-billing-address")
+                ? "activeBar"
+                : ""
             }`}
             style={{ marginTop: "0" }}
           >
@@ -136,7 +141,9 @@ const SideBar = () => {
           <img
             className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
-              isActiveTab("/manage-orders") ? "ordersActive.svg" : "orders.svg"
+              isActiveTab("/manage-orders") || isActiveTab("/order-details")
+                ? "ordersActive.svg"
+                : "orders.svg"
             }`}
             alt="orders"
             style={{ marginTop: "0" }}
@@ -144,7 +151,9 @@ const SideBar = () => {
           <Link
             to="/manage-orders"
             className={`nav-link sideNavlink ${
-              isActiveTab("/manage-orders") ? "activeBar" : ""
+              isActiveTab("/manage-orders") || isActiveTab("/order-details")
+                ? "activeBar"
+                : ""
             }`}
             style={{ marginTop: "0" }}
           >
@@ -174,7 +183,7 @@ const SideBar = () => {
           <img
             className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
-              isActiveTab("/reviews-ratings")
+              isActiveTab("/reviews-ratings") || isActiveTab("/edit-review")
                 ? "reviewsActive.svg"
                 : "reviews.svg"
             }`}
@@ -183,7 +192,9 @@ const SideBar = () => {
           <Link
             to="/reviews-ratings"
             className={`nav-link sideNavlink ${
-              isActiveTab("/reviews-ratings") ? "activeBar" : ""
+              isActiveTab("/reviews-ratings") || isActiveTab("/edit-review")
+                ? "activeBar"
+                : ""
             }`}
             style={{ marginTop: "0" }}
           >
@@ -194,7 +205,9 @@ const SideBar = () => {
           <img
             className="sidenav-img"
             src={`${process.env.PUBLIC_URL}/images/${
-              isActiveTab("/manage-address")
+              isActiveTab("/manage-address") ||
+              isActiveTab("/update-address") ||
+              isActiveTab("/new-address")
                 ? "locationActive.svg"
                 : "location.svg"
             }`}
@@ -203,7 +216,11 @@ const SideBar = () => {
           <Link
             to="/manage-address"
             className={`nav-link sideNavlink ${
-              isActiveTab("/manage-address") ? "activeBar" : ""
+              isActiveTab("/manage-address") ||
+              isActiveTab("/update-address") ||
+              isActiveTab("/new-address")
+                ? "activeBar"
+                : ""
             }`}
             style={{ marginTop: "0" }}
           >

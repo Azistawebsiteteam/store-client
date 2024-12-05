@@ -5,8 +5,9 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import swalErr from "../../Components/ErrorHandler";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Dropdown from "react-bootstrap/Dropdown";
 import "./UserAddress.css";
-import { grey } from "@mui/material/colors";
+import "../../Components/Customer.css";
 
 const AddressCard = (props) => {
   const { addressList, setAddressList } = props;
@@ -85,22 +86,22 @@ const AddressCard = (props) => {
           <div className="addressBook">
             <div className="topAddressSec d-flex justify-content-between align-items-center">
               <small className="addHeadingTxt">
-                {address.address_first_name}
+                {address.address_first_name} {address.address_last_name}
               </small>
-              <div className="dropdown">
+              {/* <div className="dropdown">
                 <button
-                  className="dropdown-toggle"
+                  className="dropdown-toggle adressCardButton"
                   type="button"
-                  id="dropdownMenuButton1"
+                  id="manageAddressDropdown"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  style={{ border: "none", backgroundColor: "transparent" }}
+                  style={{ border: "none" }}
                 >
-                  <MoreVertIcon fill={grey} />
+                  <MoreVertIcon />
                 </button>
                 <ul
                   className="dropdown-menu addressDropdownMenu"
-                  aria-labelledby="dropdownMenuButton1"
+                  aria-labelledby="manageAddressDropdown"
                 >
                   <li>
                     <Link
@@ -113,11 +114,45 @@ const AddressCard = (props) => {
                   <li onClick={(e) => deleteAddress(address.address_id)}>
                     <span className="AddDropdownBtn">Delete</span>
                   </li>
-                  <li onClick={(event) => makeDefault(address.address_id)}>
-                    <span className="AddDropdownBtn">Make as default</span>
-                  </li>
+                  {address.address_defaultStatus !== 1 && (
+                    <li onClick={(event) => makeDefault(address.address_id)}>
+                      <span className="AddDropdownBtn">Make as default</span>
+                    </li>
+                  )}
                 </ul>
-              </div>
+              </div> */}
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  className="dropdownStyling"
+                >
+                  <MoreVertIcon />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    className="dropdownItem"
+                    as={Link}
+                    to={`/update-address/${address.address_id}`}
+                  >
+                    Edit Address
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="dropdownItem"
+                    onClick={(e) => deleteAddress(address.address_id)}
+                  >
+                    Delete Address
+                  </Dropdown.Item>
+                  {address.address_defaultStatus !== 1 && (
+                    <Dropdown.Item
+                      className="dropdownItem"
+                      onClick={(event) => makeDefault(address.address_id)}
+                    >
+                      Make as Default
+                    </Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
             <div style={{ lineHeight: "16px" }}>
               <small>
