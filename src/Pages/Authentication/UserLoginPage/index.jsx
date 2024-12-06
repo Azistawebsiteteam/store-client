@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { IoMdEye } from "react-icons/io";
 import { IoIosEyeOff } from "react-icons/io";
@@ -20,6 +20,7 @@ const UserLoginPage = () => {
   const { updateCartData } = useContext(searchResultContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const baseUrl = process.env.REACT_APP_API_URL;
   const jwt_token = process.env.REACT_APP_JWT_TOKEN;
 
@@ -56,7 +57,8 @@ const UserLoginPage = () => {
   const onSubmitSuccess = (jwtToken) => {
     Cookies.set(jwt_token, jwtToken);
     addLocalCartToUser(jwtToken);
-    navigate("/", { replace: true });
+    const redirectTo = location.state?.from ?? "/";
+    navigate(redirectTo, { replace: true });
   };
 
   const handleLoginSubmit = async (e) => {
