@@ -7,6 +7,7 @@ import { searchResultContext } from "../../../ReactContext/SearchResults";
 import axios from "axios";
 import ThreeDotsDropdown from "../../Components/ThreeDotsDropdown";
 import "../index.css";
+import ErrorHandler from "../../Components/ErrorHandler";
 
 const ReviewsList = () => {
   const [reviews, setReviews] = useState([]);
@@ -16,12 +17,16 @@ const ReviewsList = () => {
 
   useEffect(() => {
     const userReviews = async () => {
-      const url = `${baseUrl}/reviews/my`;
-      const headers = {
-        Authorization: `Bearer ${jwtToken}`,
-      };
-      const response = await axios.get(url, { headers });
-      setReviews(response.data);
+      try {
+        const url = `${baseUrl}/reviews/my`;
+        const headers = {
+          Authorization: `Bearer ${jwtToken}`,
+        };
+        const response = await axios.get(url, { headers });
+        setReviews(response.data);
+      } catch (error) {
+        ErrorHandler.onError(error);
+      }
     };
     userReviews();
   }, [userDetails, baseUrl, jwtToken]);

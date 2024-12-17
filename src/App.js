@@ -157,7 +157,14 @@ function App() {
             <Route path="/search/products" element={<AllProductsPage />} />
             <Route path="/popup" element={<Popup />} />
             <Route path="/wishList" element={<WishList />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogsInner/:id" element={<BlogsInnerPage />} />
             <Route

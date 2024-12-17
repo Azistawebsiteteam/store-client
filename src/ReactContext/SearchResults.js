@@ -1,8 +1,8 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import React, { createContext, useCallback, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
-import { getProfileDetails } from '../Pages/UserDashboard/UserProfile/GetUseDetails';
-import { cartItems } from '../Pages/Cart/Functions';
+import { getProfileDetails } from "../Pages/UserDashboard/UserProfile/GetUseDetails";
+import { cartItems } from "../Pages/Cart/Functions";
 
 export const searchResultContext = createContext();
 
@@ -16,7 +16,7 @@ const SearchResultsProvider = (props) => {
   const [discountCodes, setDiscountCodes] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [shippingCharges, setShippingCharges] = useState(0);
-  const [freeShipMsg, setFreeShipMsg] = useState('');
+  const [freeShipMsg, setFreeShipMsg] = useState("");
   const [cartCount, setCartCount] = useState();
   const [productDetails, setProductDetails] = useState({});
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -26,11 +26,11 @@ const SearchResultsProvider = (props) => {
 
   const fetchIPAddress = async () => {
     try {
-      const response = await fetch('https://api.ipify.org?format=json');
+      const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
       return data.ip;
     } catch (error) {
-      console.error('Failed to fetch IP address:', error);
+      console.error("Failed to fetch IP address:", error);
       return null;
     }
   };
@@ -54,6 +54,7 @@ const SearchResultsProvider = (props) => {
           shippingCharges,
           freeShipMsg,
         } = data;
+        console.log(data, "data");
         setCartList(cart_products);
         setCartCount(cart_products.length);
         setCartTotal(cart_total);
@@ -130,7 +131,8 @@ const SearchResultsProvider = (props) => {
         shippingCharges,
         freeShipMsg,
         setFreeShipMsg,
-      }}>
+      }}
+    >
       {children}
     </searchResultContext.Provider>
   );
