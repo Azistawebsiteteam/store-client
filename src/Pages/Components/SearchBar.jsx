@@ -77,7 +77,7 @@ const SearchBar = ({ handleSearchBar, showSearchBar }) => {
                 {searchResults.slice(0, 3).map((product, i) => (
                   <Link
                     className="linkBtn"
-                    to={`/productitem/${product.product_url_title}`}
+                    to={`/product/${product.product_url_title}`}
                     key={i}
                   >
                     <div

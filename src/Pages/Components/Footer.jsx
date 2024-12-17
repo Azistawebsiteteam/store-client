@@ -2,11 +2,11 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./Customer.css";
 import SocialIcons from "./SocialIcons";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import ErrorHandler from "./ErrorHandler";
+import { HashLink } from "react-router-hash-link";
 
 const footerContent = [
   {
@@ -97,13 +97,13 @@ const Footer = () => {
               <h4 className="footerHeading">{eachObj.title}</h4>
               <div className="d-flex flex-column">
                 {eachObj.text.map((eachTxt, i) => (
-                  <Link
+                  <HashLink
                     key={i}
-                    to={`/${eachTxt.link}`}
                     className="footerAnchorEl"
+                    to={`/${eachTxt.link}`}
                   >
                     {eachTxt.text}
-                  </Link>
+                  </HashLink>
                 ))}
               </div>
             </div>

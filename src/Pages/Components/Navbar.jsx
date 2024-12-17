@@ -302,22 +302,22 @@ const Navbar = () => {
                         <NavDropdown.Item href="/#categories">
                           Categories
                         </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">
-                          collections
+                        <NavDropdown.Item href="/#collections">
+                          Collections
                         </NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">
+                        <NavDropdown.Item href="/#brands">
                           Brands
                         </NavDropdown.Item>
                       </NavDropdown>
                     </li>
                     <li className="nav-item">
-                      <Link
+                      <HashLink
                         className="nav-link"
-                        to="#"
+                        to="/#combos"
                         onClick={handleSideNavbar}
                       >
                         Combos
-                      </Link>
+                      </HashLink>
                     </li>
                     <li className="nav-item">
                       <HashLink

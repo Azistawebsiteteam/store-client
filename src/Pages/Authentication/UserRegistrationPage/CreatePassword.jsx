@@ -58,7 +58,7 @@ const CreatePassword = () => {
                 type="text"
                 autoComplete="off"
                 id="password"
-                value={passwordInput.newPassword}
+                value={passwordInput.password}
                 onChange={handlePassword}
               />
             </div>

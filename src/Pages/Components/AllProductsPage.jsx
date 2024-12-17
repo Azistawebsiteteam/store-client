@@ -15,7 +15,7 @@ const AllProductsPage = () => {
             <div className="col-6 col-md-3" key={i}>
               <Link
                 className="linkBtn"
-                to={`/productitem/${product.product_url_title}`}
+                to={`/product/${product.product_url_title}`}
               >
                 <div
                   className="searchProductResultsCard"

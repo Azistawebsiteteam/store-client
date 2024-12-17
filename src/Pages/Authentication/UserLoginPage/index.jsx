@@ -63,7 +63,6 @@ const UserLoginPage = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (inputValues.mailOrMobile === "" || inputValues.password === "") {
         return setError("Enter the required credentials");

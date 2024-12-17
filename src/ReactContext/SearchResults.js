@@ -54,7 +54,6 @@ const SearchResultsProvider = (props) => {
           shippingCharges,
           freeShipMsg,
         } = data;
-        console.log(data, "data");
         setCartList(cart_products);
         setCartCount(cart_products.length);
         setCartTotal(cart_total);

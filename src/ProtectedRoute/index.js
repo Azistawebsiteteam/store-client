@@ -17,7 +17,6 @@ export const ProtectedRoute = (props) => {
   if (jwtToken === undefined) {
     return null;
   }
-
   return props.children;
 };
 
